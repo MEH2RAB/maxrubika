@@ -51,6 +51,31 @@ async def start(bot, event):
 bot.run()
 ```
 
+## 📖 Full Documentation
+
+All public methods are fully documented with **detailed docstrings** including:
+
+- **Parameters** with types and descriptions
+- **Return values** 
+- **Usage examples**
+
+To view all available methods and their documentation, run:
+
+```python
+from maxrubika import Bot
+import inspect
+
+methods = [method for method in dir(Bot) 
+           if not method.startswith('_') 
+           and callable(getattr(Bot, method))]
+
+for method in methods:
+    func = getattr(Bot, method)
+    doc = inspect.getdoc(func)
+    print(f"→ {method}:\n   {doc}\n{'-'*50}")
+```
+
+For complete documentation with examples for every method, visit **[MAXRubi.ir](https://MAXRubi.ir)**.
 
 ## 📚 Basic Usage
 
@@ -186,10 +211,17 @@ await bot.send_message(
 ## 📋 Custom Keyboard
 
 ```python
-chat_keypad = [
-    ["Yes", "No"],
-    ["Maybe"]
-]
+chat_keypad = {
+    "rows": [
+        {
+            "buttons": [
+                {"id": "101", "type": "Simple", "button_text": "Yes"},
+                {"id": "102", "type": "Simple", "button_text": "No"},
+                {"id": "104", "type": "Simple", "button_text": "Maybe"}
+            ]
+        }
+    ]
+}
 
 await bot.send_message(
     chat_id="b0abc123...",
@@ -200,6 +232,26 @@ await bot.send_message(
 )
 ```
 
+```python
+inline_keypad = {
+    "rows": [
+        {
+            "buttons": [
+                {"id": "101", "type": "Simple", "button_text": "📊 View Report"},
+                {"id": "102", "type": "Simple", "button_text": "📥 Download"},
+                {"id": "103", "type": "Simple", "button_text": "🔔 Set Reminder"},
+                {"id": "104", "type": "Simple", "button_text": "❌ Close"},
+            ]
+        }
+    ]
+}
+
+await bot.send_message(
+    chat_id="b0abc123...",
+    text="**What would you like to do with this document?**",
+    inline_keypad=inline_keypad
+)
+```
 
 ## 🎯 Handle Callbacks
 
@@ -235,15 +287,15 @@ async def help_command(bot, event):
 ```python
 from maxrubika.filters import Text, ChatType, FromUser
 
-@bot.on_new_message(Text("hello") & ChatType("user"))
+@bot.on_message(Text("hello") & ChatType("user"))
 async def on_hello(bot, event):
     await event.reply("Hi there! 👋")
 
-@bot.on_new_message(FromUser("u0abc123..."))
+@bot.on_message(FromUser("u0abc123..."))
 async def on_specific_user(bot, event):
     await event.reply("I see you! 👀")
 
-@bot.on_new_message(IsImage() & FromUser("u0abc123..."))
+@bot.on_message(IsImage() & FromUser("u0abc123..."))
 async def on_image_from_user(bot, event):
     await event.reply("Nice image!")
 ```
@@ -400,10 +452,22 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **MEHRAB Farahmand**
 
-- Channel: [https://rubika.ir/MAXRubika](https://rubika.ir/MAXRubika)
-- Documentation: [https://MAXRubi.ir](https://MAXRubi.ir)
-- GitHub: [@MEHRAB](https://github.com/MEH2RAB)
+## Get in Touch
 
+| Platform | Link |
+|----------|------|
+| Rubika Channel | [@MAXRubika](https://rubika.ir/MAXRubika) |
+| Rubika Profile | [@Online_User](https://rubika.ir/Online_User) |
+| Telegram | [@MEH2RAB](https://t.me/MEH2RAB) |
+| Documentation | [MAXRubi.ir](https://MAXRubi.ir) |
+| GitHub | [@MEH2RAB](https://github.com/MEH2RAB) |
+| Email | [MEH2RABx@gmail.com](mailto:MEH2RABx@gmail.com) |
+
+> 💬 If you have any questions, issues, or suggestions, feel free to reach out to me on **Rubika** ([@Online_User](https://rubika.ir/Online_User)) or **Telegram** ([@MEH2RAB](https://t.me/MEH2RAB)). I'll be happy to help!
+
+---
+
+**Special thanks to the management team of MAX Server ([@The_MAXWare](https://t.me/The_MAXWare)) for their invaluable support and contributions to this project.**
 
 ## ⭐ Support
 
