@@ -67,7 +67,7 @@ class IsMessage(EventConstraint):
             and getattr(event, 'message', None) is not None
         )
 
-class IsEditedMessage(EventConstraint):
+class IsEdited(EventConstraint):
     """Accepts only events that are message edits."""
 
     async def evaluate(self, event: Any) -> bool:

@@ -33,7 +33,8 @@ class RequestSendFile:
         payload = {'type': file_type}
         result = await self._request('POST', 'requestSendFile', json = payload)
 
-        if result and "data" in result and "upload_url" in result["data"]:
+        try:
             return result["data"]["upload_url"]
-        else:
-            raise InvalidAccess("Failed to get upload URL from response.")
+
+        except KeyError:
+            raise InvalidAccess("Failed to get upload URL.")

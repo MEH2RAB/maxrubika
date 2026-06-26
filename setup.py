@@ -7,7 +7,7 @@ requirements = ['aiohttp', 'colorama']
 
 setup(
     name = 'maxrubika',
-    version = '1.0.0',
+    version = '1.0.2',
     author = 'MEHRAB Farahmand',
     author_email = 'MEH2RABx@gmail.com',
     description = 'Python async library for Rubika Messenger - Build bots and userbots effortlessly.',

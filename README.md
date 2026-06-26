@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/MAXRubika Logo.png" alt="MAXRubika Logo" width="200"/>
+</p>
+
 # 🤖 MAXRubika
 
 > Python async library for Rubika Messenger - Build bots and userbots effortlessly
@@ -12,6 +16,7 @@
 
 - ✅ **Full Rubika Bot API** - All methods supported
 - ✅ **Async/Await** - Built with `asyncio` for maximum performance
+- ✅ **Flexible API:** All methods support both `sync` and `async` usage.
 - ✅ **Type Hints** - Full typing support for better IDE integration
 - ✅ **Plugin System** - Easily extend your bot with plugins
 - ✅ **Middleware Support** - Intercept and process events

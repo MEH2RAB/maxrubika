@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Callable
 
-from .filters import EventConstraint, IsMessage, IsEditedMessage, IsDeleted
+from .filters import EventConstraint, IsMessage, IsEdited, IsDeleted
 from .registry import HandlerRegistry
 
 class MessageDecorators:
@@ -25,7 +25,7 @@ class MessageDecorators:
 
     def on_edit_message(self, *constraints: EventConstraint) -> Callable:
         """Handle edited messages."""
-        merged = (IsEditedMessage(),) + constraints
+        merged = (IsEdited(),) + constraints
 
         def deco(func: Callable) -> Callable:
             return self._registry.store(func, *merged)
