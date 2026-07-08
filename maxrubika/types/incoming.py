@@ -1,32 +1,46 @@
 """Unified envelope for all incoming bot events."""
+
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
+from ..data import Data
 
-@dataclass
-class IncomingEnvelope:
-    """
-    Wraps every event arriving from Rubika into a single consistent shape.
+class IncomingEnvelope(Data):
+    def __init__(self, data: dict, bot: Any = None, **kwargs):
+        super().__init__(data)
 
-    Regardless of whether the server sent a new message, an edited message,
-    a deletion notice, or an inline callback, handlers receive an instance
-    of this class and can access the relevant data through the same
-    properties every time.
-    """
-    update_type: str
-    chat_id: str
-    bot: Any = field(repr=False)
+        self.update_type = data.get('type', '')
+        self.chat_id = data.get('chat_id', '')
+        self.bot = bot
+        self.timestamp = data.get('update_time')
+        self._memo: Dict[str, Any] = {}
 
-    message: Optional[Any] = None
-    edited_message: Optional[Any] = None
-    deleted_message_id: Optional[str] = None
-    callback_payload: Optional[Dict[str, Any]] = None
-    timestamp: Optional[int] = None
-    original_data: Optional[Dict[str, Any]] = None
-
-    _memo: Dict[str, Any] = field(default_factory=dict, repr=False)
+        if self.update_type == 'NewMessage':
+            self.message = data.get('new_message')
+            self.edited_message = None
+            self.deleted_message_id = None
+            self.callback_payload = None
+        elif self.update_type == 'UpdatedMessage':
+            self.message = None
+            self.edited_message = data.get('updated_message')
+            self.deleted_message_id = None
+            self.callback_payload = None
+        elif self.update_type == 'RemovedMessage':
+            self.message = None
+            self.edited_message = None
+            self.deleted_message_id = str(data.get('removed_message_id', ''))
+            self.callback_payload = None
+        elif self.update_type == 'InlineMessage':
+            self.message = None
+            self.edited_message = None
+            self.deleted_message_id = None
+            self.callback_payload = data
+        else:
+            self.message = None
+            self.edited_message = None
+            self.deleted_message_id = None
+            self.callback_payload = None
 
     def _get_source(self) -> Optional[Any]:
         """Return the best source dict/object for this event."""
@@ -163,7 +177,6 @@ class IncomingEnvelope:
             '.ogg': 'voice',
             '.webm': 'sticker',
         }
-
         for ext, file_kind in ext_map.items():
             if name_lower.endswith(ext):
                 return file_kind
@@ -309,6 +322,18 @@ class IncomingEnvelope:
         """Regex match object stored by a regex-based filter, if any."""
         return self._memo.get('_regex_match')
 
+    async def ban_member(self, sender_id: str = None):
+        """Ban this member or another member by sender ID."""
+        target_sender_id = sender_id or self.author_id
+        if not target_sender_id:
+            return
+
+        if self.chat_id and self.bot:
+            return await self.bot.ban_member(
+                chat_id=self.chat_id,
+                sender_id=target_sender_id
+            )
+
     async def reply(self, content: str, **extras):
         """Send a threaded reply directly from this event."""
         if self.chat_id and self.bot:
@@ -319,12 +344,16 @@ class IncomingEnvelope:
                 **extras
             )
 
-    async def delete(self):
-        """Delete this message."""
-        if self.chat_id and self.bot and self.msg_id:
+    async def delete(self, message_id: str = None):
+        """Delete this message or another message by ID."""
+        msg_id = message_id or self.msg_id
+        if not msg_id:
+            return
+
+        if self.chat_id and self.bot:
             return await self.bot.delete_message(
                 chat_id=self.chat_id,
-                message_id=self.msg_id
+                message_id=msg_id
             )
 
     async def forward(self, to_chat_id: str = None):
@@ -341,6 +370,7 @@ class IncomingEnvelope:
         )
 
     async def copy(self, to_chat_id: str = None):
+        """Copy this message to another chat or the same chat."""
         if not self.bot:
             return
 
@@ -394,37 +424,3 @@ class IncomingEnvelope:
 
     def __repr__(self) -> str:
         return f"<IncomingEnvelope update_type={self.update_type!r} chat={self.chat_id!r}>"
-
-    def __str__(self) -> str:
-        import json
-        data = {
-            "update_type": self.update_type,
-            "chat_id": self.chat_id,
-            "msg_id": self.msg_id,
-            "text": self.text,
-            "author_id": self.author_id,
-            "sender_type": self.sender_type,
-            "is_edited": self.is_edited,
-            "message_time": self.message_time,
-            "timestamp": self.timestamp,
-            "button_id": self.button_id,
-            "aux_data": self.aux_data,
-            "file_id": self.file_id,
-            "file_name": self.file_name,
-            "file_size": self.file_size,
-            "file_type": self.file_type,
-            "reply_to_message_id": self.reply_to_message_id,
-            "is_forwarded": self.is_forwarded,
-            "forward_type": self.forward_type,
-            "forward_sender_id": self.forward_sender_id,
-            "forward_chat_id": self.forward_chat_id,
-            "forward_message_id": self.forward_message_id,
-            "forward_title": self.forward_title,
-            "forwarded_from": self.forwarded_from,
-            "forwarded_no_link": self.forwarded_no_link,
-            "metadata": self.metadata,
-            "metadata_types": self.metadata_types,
-            "metadata_parts": self.metadata_parts,
-            "original_data": self.original_data,
-        }
-        return json.dumps(data, indent=2, ensure_ascii=False, default=str)

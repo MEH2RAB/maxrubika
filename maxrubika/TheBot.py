@@ -2,6 +2,7 @@ import aiohttp
 import asyncio
 import json
 import re
+import logging
 from aiohttp import web
 from typing import Union, Any, Dict, Optional
 from .bot import Methods
@@ -14,60 +15,18 @@ from .bot.exceptions import (
     ServerError,
     InvalidInput,
     InvalidAccess,
-    TooRequests
+    TooRequests,
 )
 from .bot.registry import HandlerRegistry
 from .bot.bridge import DecoratorBridge
 from .types.incoming import IncomingEnvelope
 from .bot.plugin import PluginManager
+from .data import Data
 
-class Response:
-    def __init__(self, data: dict):
-        self._data = data
-        self.original_update = data
+logger = logging.getLogger(__name__)
 
-    def __str__(self) -> str:
-        return self.jsonify(indent=2)
-
-    def __getattr__(self, name):
-        if name in self._data:
-            value = self._data[name]
-            if isinstance(value, dict):
-                return Response(value)
-            elif isinstance(value, list):
-                return [Response(item) if isinstance(item, dict) else item for item in value]
-            return value
-
-        if 'data' in self._data and isinstance(self._data['data'], dict):
-            if name in self._data['data']:
-                value = self._data['data'][name]
-                if isinstance(value, dict):
-                    return Response(value)
-                elif isinstance(value, list):
-                    return [Response(item) if isinstance(item, dict) else item for item in value]
-                return value
-
-        raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
-
-    def __getitem__(self, key):
-        return self._data[key]
-
-    def __setitem__(self, key, value):
-        self._data[key] = value
-
-    def jsonify(self, indent: int = None) -> str:
-        return json.dumps(
-            self._data,
-            indent=indent,
-            ensure_ascii=False,
-            default=str
-        )
-
-    def get(self, key: str, default=None):
-        return self._data.get(key, default)
-
-    def to_dict(self) -> dict:
-        return self._data
+class Response(Data):
+    pass
 
 class Bot(Methods):
     TOKEN_PATTERN = re.compile(r'^[A-Z]{5}[0-9A-Z]{59}$')
@@ -75,7 +34,7 @@ class Bot(Methods):
     def __init__(
         self,
         token: Optional[str] = None,
-        timeout: Union[int, float] = 20,
+        timeout: Union[int, float] = 30,
         max_retries: Union[int, float] = 5
     ):
         """
@@ -114,7 +73,9 @@ class Bot(Methods):
             'on_start', 'on_shutdown'
         ):
             return getattr(self._bridge, name)
-        raise AttributeError(f"'{type(self).__name__}' object has no attribute '{name}'")
+        raise AttributeError(
+            f"'{type(self).__name__}' object has no attribute '{name}'"
+        )
 
     async def _request(self, method: str, endpoint: str, **kwargs) -> Response:
         url = f"{self.base_url}/{endpoint}"
@@ -131,7 +92,7 @@ class Bot(Methods):
                         text = (await resp.text()).strip()
 
                         if resp.status == 502:
-                            print(f"502 Bad Gateway attempt {attempt + 1}/{self.max_retries}")
+                            logger.warning(f"Bad Gateway (502) - Attempt {attempt + 1}/{self.max_retries}")
                             if attempt < self.max_retries - 1:
                                 await asyncio.sleep(2 ** attempt)
                                 continue
@@ -141,17 +102,17 @@ class Bot(Methods):
                                 )
 
                         if resp.status == 500:
-                            print(f"500 Internal Server Error attempt {attempt + 1}/{self.max_retries}")
+                            logger.warning(f"Internal Server Error (500) - Attempt {attempt + 1}/{self.max_retries}")
                             if attempt < self.max_retries - 1:
                                 await asyncio.sleep(2 ** attempt)
                                 continue
                             else:
                                 raise ServerError(
-                                    dev_message=f"Server returned 500 after {self.max_retries} attempts."
+                                    dev_message=f"Server returned error after {self.max_retries} attempts."
                                 )
 
                         if resp.status >= 400:
-                            print(f"HTTP {resp.status} attempt {attempt + 1}/{self.max_retries}")
+                            logger.warning(f"HTTP {resp.status} error - Attempt {attempt + 1}/{self.max_retries}")
                             if attempt < self.max_retries - 1 and resp.status in [429, 503, 504]:
                                 await asyncio.sleep(2 ** attempt)
                                 continue
@@ -164,7 +125,7 @@ class Bot(Methods):
                         try:
                             data = json.loads(text)
                         except json.JSONDecodeError as e:
-                            print(f"JSON Error attempt {attempt + 1}/{self.max_retries}")
+                            logger.warning(f"Invalid response (JSON) - Attempt {attempt + 1}/{self.max_retries}")
                             if attempt < self.max_retries - 1:
                                 await asyncio.sleep(2 ** attempt)
                                 continue
@@ -193,7 +154,7 @@ class Bot(Methods):
                                     )
                                 elif api_status == 'Timeout':
                                     if attempt < self.max_retries - 1:
-                                        print(f"API Timeout attempt {attempt + 1}/{self.max_retries}")
+                                        logger.warning(f"API Timeout - Attempt {attempt + 1}/{self.max_retries}")
                                         await asyncio.sleep(2 ** attempt)
                                         continue
                                     else:
@@ -215,7 +176,7 @@ class Bot(Methods):
             except asyncio.TimeoutError as e:
                 last_error = e
                 last_error_type = 'timeout'
-                print(f"Timeout attempt {attempt + 1}/{self.max_retries}")
+                logger.warning(f"Request timed out - Attempt {attempt + 1}/{self.max_retries}")
                 if attempt < self.max_retries - 1:
                     await asyncio.sleep(2 ** attempt)
                     continue
@@ -223,7 +184,7 @@ class Bot(Methods):
             except aiohttp.ClientConnectionError as e:
                 last_error = e
                 last_error_type = 'connection'
-                print(f"Connection error attempt {attempt + 1}/{self.max_retries}: {str(e)}")
+                logger.error(f"Connection lost - Attempt {attempt + 1}/{self.max_retries}: {str(e)}")
                 if attempt < self.max_retries - 1:
                     await asyncio.sleep(2 ** attempt)
                     continue
@@ -231,7 +192,7 @@ class Bot(Methods):
             except Exception as e:
                 last_error = e
                 last_error_type = 'unknown'
-                print(f"Unknown error attempt {attempt + 1}/{self.max_retries}: {str(e)}")
+                logger.error(f"Unknown error - Attempt {attempt + 1}/{self.max_retries}: {str(e)}")
                 if attempt < self.max_retries - 1:
                     await asyncio.sleep(2 ** attempt)
                     continue
@@ -262,13 +223,11 @@ class Bot(Methods):
         update_type = raw.get('type', '')
         chat_id = raw.get('chat_id', '')
 
-        envelope = IncomingEnvelope(
-            update_type=update_type,
-            chat_id=chat_id,
-            bot=self,
-            timestamp=raw.get('update_time'),
-            original_data=raw,
-        )
+        envelope = IncomingEnvelope(data=raw, bot=self)
+
+        envelope.update_type = update_type
+        envelope.chat_id = chat_id
+        envelope.timestamp = raw.get('update_time')
 
         if update_type == 'NewMessage':
             envelope.message = raw.get('new_message')
@@ -285,6 +244,7 @@ class Bot(Methods):
         try:
             data = await request.json()
         except json.JSONDecodeError:
+            logger.error("Invalid JSON received in webhook")
             return web.json_response({"status": "ERROR"}, status=400)
 
         if "inline_message" in data:

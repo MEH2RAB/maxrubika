@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/MAXRubika Logo.png" alt="MAXRubika Logo" width="200"/>
+  <img src="https://raw.githubusercontent.com/MEH2RAB/maxrubika/main/assets/MAXRubika%20Logo.png" alt="MAXRubika Logo" width="200"/>
 </p>
 
 # 🤖 MAXRubika
@@ -8,8 +8,8 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-maxrubi.ir-brightgreen.svg)](https://maxrubi.ir)
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/maxrubika)](https://github.com/yourusername/maxrubika/stargazers)
+[![Documentation](https://img.shields.io/badge/docs-MAXRubi.ir-brightgreen.svg)](https://maxrubi.ir/documents)
+[![GitHub stars](https://img.shields.io/github/stars/MEH2RAB/maxrubika)](https://github.com/MEH2RAB/maxrubika/stargazers)
 
 
 ## ✨ Features
@@ -80,7 +80,7 @@ for method in methods:
     print(f"→ {method}:\n   {doc}\n{'-'*50}")
 ```
 
-For complete documentation with examples for every method, visit **[MAXRubi.ir](https://MAXRubi.ir)**.
+For complete documentation with examples for every method, visit **[MAXRubi.ir/documents](https://MAXRubi.ir/documents)**.
 
 ## 📚 Basic Usage
 
@@ -400,8 +400,8 @@ print(a)
 
 ```
 maxrubika/
-├── TheBot.py                 # Main Bot class
-├── TheClient.py             # UserBot class (coming soon)
+├── TheBot.py              # Main Bot class
+├── TheClient.py           # UserBot class (coming soon)
 ├── bot/                   # All Bot modules (unified)
 │   ├── __init__.py
 │   ├── registry.py        # Handler registry
@@ -430,9 +430,9 @@ maxrubika/
 │   └── ......
 ├── types/                 # Type definitions
 │   ├── __init__.py
-│   ├── incoming.py
-│   └── update.py        # Coming soon
+│   └── incoming.py
 ├── hybrid.py              # Compatibility layer
+├── data.py                # wrapper for nested dicts
 └── __init__.py            # Package entry point
 ```
 
@@ -461,7 +461,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 | Platform | Link |
 |----------|------|
-| Rubika Channel | [@MAXRubika](https://rubika.ir/MAXRubika) |
+| Rubika Channel | [@TheMAXRubika](https://rubika.ir/TheMAXRubika) |
 | Rubika Profile | [@Online_User](https://rubika.ir/Online_User) |
 | Telegram | [@MEH2RAB](https://t.me/MEH2RAB) |
 | Documentation | [MAXRubi.ir](https://MAXRubi.ir) |

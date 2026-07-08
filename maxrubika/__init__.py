@@ -1,4 +1,5 @@
 from .TheBot import Bot
+from .data import Data
 from . import types, hybrid
 
 from colorama import init, Fore, Style
@@ -14,8 +15,7 @@ def print_with_color(text, color_style):
 print_with_color("Welcome to MAXRubika library for Rubika Messenger", Fore.MAGENTA + Style.BRIGHT)
 print_with_color(f"Copyright © {datetime.now().year} MEHRAB Farahmand - All rights reserved.", Fore.BLUE + Style.NORMAL)
 print_with_color("Github: https://github.com/MEH2RAB/maxrubika", Fore.CYAN + Style.NORMAL)
-print_with_color("Document: https://MAXRubi.ir\n", Fore.YELLOW + Style.NORMAL)
+print_with_color("Document: https://MAXRubi.ir/documents\n", Fore.YELLOW + Style.NORMAL)
 
 __author__ = 'MEHRAB Farahmand'
-__version__ = '1.0.0'
-__welcome__ = (f'Welcome to MAXRubika (version {__version__})\n')
+__version__ = '1.1.0'

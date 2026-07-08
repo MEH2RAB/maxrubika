@@ -3,9 +3,12 @@ import os
 import aiohttp
 import asyncio
 import datetime
+import logging
 import maxrubika
 from .file_extensions import FILE_EXTENSIONS
 from .exceptions import InvalidInput, InvalidAccess, Network
+
+logger = logging.getLogger(__name__)
 
 class DownloadFile:
     def _validate_filename(self, name: str) -> str:
@@ -42,7 +45,8 @@ class DownloadFile:
             size /= 1024.0
         return f"{size:.1f} TB"
 
-    async def _download_with_retry(self, download_url: str, max_retries: int = 5):
+    async def _download_with_retry(self, download_url: str):
+        max_retries = getattr(self, 'max_retries', 5)
         last_error = None
 
         for attempt in range(max_retries):
@@ -50,15 +54,15 @@ class DownloadFile:
                 async with aiohttp.ClientSession() as session:
                     async with session.get(download_url) as response:
                         if response.status == 502:
-                            print(f"502 Bad Gateway - Retry {attempt + 1}/{max_retries}")
+                            logger.warning(f"Bad Gateway (502) - Attempt {attempt + 1}/{max_retries}")
                             if attempt < max_retries - 1:
                                 await asyncio.sleep(2 ** attempt)
                                 continue
                             else:
-                                raise Network("Download failed after retries: 502 Bad Gateway")
+                                raise Network("Download failed: Server temporarily unavailable.")
 
                         if response.status != 200:
-                            message = f"Download failed: HTTP {response.status}"
+                            message = f"Download failed: Server error {response.status}"
                             raise Network(message)
 
                         return await response.read()
@@ -66,11 +70,11 @@ class DownloadFile:
             except aiohttp.ClientError as e:
                 last_error = e
                 if attempt < max_retries - 1:
-                    print(f"Connection error - Retry {attempt + 1}/{max_retries}: {e}")
+                    logger.warning(f"Connection issue - Attempt {attempt + 1}/{max_retries}: {e}")
                     await asyncio.sleep(2 ** attempt)
                     continue
                 else:
-                    message = f"Download failed after retries: {last_error}"
+                    message = f"Download failed after multiple attempts: {last_error}"
                     raise Network(message)
 
         if last_error:
@@ -96,8 +100,8 @@ class DownloadFile:
             callback (callable, optional): Progress callback function(downloaded, total, percent). Defaults to None.
 
         Returns:
-            If save_as = True: dict with status and file_path
-            If save_as = False: bytes of the file
+            If save_as = True: dict with status and file_path.
+            If save_as = False: bytes of the file.
         """
         file_response = await self.get_file(file_id)
 
@@ -107,11 +111,12 @@ class DownloadFile:
         download_url = file_response["data"]["download_url"]
 
         async with aiohttp.ClientSession() as session:
-            for attempt in range(5):
+            for attempt in range(self.max_retries):
                 try:
                     async with session.head(download_url, allow_redirects=True) as head_response:
                         if head_response.status == 502:
-                            if attempt < 4:
+                            if attempt < self.max_retries - 1:
+                                logger.warning(f"Getting file info (502) - Attempt {attempt + 1}/{self.max_retries}")
                                 await asyncio.sleep(2 ** attempt)
                                 continue
                             else:
@@ -121,8 +126,9 @@ class DownloadFile:
                             content_type = head_response.headers.get('Content-Type', '')
                             total_size = int(head_response.headers.get('Content-Length', 0))
                         break
-                except:
-                    if attempt < 4:
+                except Exception as e:
+                    if attempt < self.max_retries - 1:
+                        logger.warning(f"Cannot get file info - Attempt {attempt + 1}/{self.max_retries}: {e}")
                         await asyncio.sleep(2 ** attempt)
                         continue
                     else:
@@ -156,7 +162,7 @@ class DownloadFile:
                 full_path = os.path.join(save_path, filename)
                 os.makedirs(save_path, exist_ok=True)
 
-            file_data = await self._download_with_retry(download_url, max_retries=5)
+            file_data = await self._download_with_retry(download_url)
 
             if save_as:
                 with open(full_path, 'wb') as f:

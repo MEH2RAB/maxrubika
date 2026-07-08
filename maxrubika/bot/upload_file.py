@@ -1,9 +1,12 @@
 import aiohttp
 import asyncio
+import logging
 from pathlib import Path
 from typing import Optional, Union
 import maxrubika
 from .exceptions import APIException
+
+logger = logging.getLogger(__name__)
 
 class UploadFile:
     async def upload_file(
@@ -31,12 +34,12 @@ class UploadFile:
         if file_name is None:
             file_name = file_path.name
 
-        for attempt in range(1, 6):
+        for attempt in range(self.max_retries):
             try:
-                if attempt == 1:
-                    print(f"Uploading {file_name}...")
+                if attempt == 0:
+                    logger.info(f"Uploading {file_name}...")
                 else:
-                    print(f"Retry {attempt}/5: {file_name}")
+                    logger.warning(f"Retry {attempt + 1}/{self.max_retries}: {file_name}")
 
                 form = aiohttp.FormData()
                 form.add_field(
@@ -49,10 +52,21 @@ class UploadFile:
                 connector = aiohttp.TCPConnector(ssl=False)
                 async with aiohttp.ClientSession(connector=connector) as session:
                     async with session.post(url, data=form) as response:
+                        if response.status == 502:
+                            logger.warning(f"Bad Gateway (502) - Attempt {attempt + 1}/{self.max_retries}")
+                            if attempt < self.max_retries - 1:
+                                await asyncio.sleep(2 ** attempt)
+                                continue
+                            else:
+                                raise APIException(
+                                    status="BAD_GATEWAY",
+                                    dev_message="Upload failed: Server temporarily unavailable (502)."
+                                )
+
                         if response.status != 200:
-                            if response.status >= 500 and attempt < 5:
+                            if response.status >= 500 and attempt < self.max_retries - 1:
                                 wait = 2 ** attempt
-                                print(f"Server error {response.status}, retrying in {wait}s...")
+                                logger.warning(f"Upload server error {response.status} - Retry in {wait}s...")
                                 await asyncio.sleep(wait)
                                 continue
                             text = await response.text()
@@ -73,17 +87,17 @@ class UploadFile:
             except APIException:
                 raise
             except aiohttp.ClientResponseError as e:
-                if attempt == 5:
+                if attempt == self.max_retries - 1:
                     raise
                 if e.status >= 500:
-                    print(f"Error: {e}, retrying...")
+                    logger.warning(f"Upload error - Retry {attempt + 1}/{self.max_retries}: {e}")
                     await asyncio.sleep(2 ** attempt)
                 else:
                     raise
             except Exception as e:
-                if attempt == 5:
+                if attempt == self.max_retries - 1:
                     raise
-                print(f"Error: {e}, retrying...")
+                logger.warning(f"Upload error - Retry {attempt + 1}/{self.max_retries}: {e}")
                 await asyncio.sleep(2 ** attempt)
 
         return None
