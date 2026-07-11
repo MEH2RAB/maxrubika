@@ -2,16 +2,26 @@
 Data wrapper for easy access to nested dictionary data with JSON formatting.
 """
 import json
-from typing import Optional, Any
+from typing import Optional, Set, Any
 
 class Data:
+    _EXCLUDED_KEYS: Set[str] = {'_client', '_memo', '_regex_match', 'client'}
+
     def __init__(self, data: dict):
         self._data = data
+        self._memo = {}
 
     def __str__(self) -> str:
         return self.jsonify(indent=2)
 
     def __getattr__(self, name: str):
+
+        cls = type(self)
+        if hasattr(cls, name):
+            attr = getattr(cls, name)
+            if isinstance(attr, property):
+                return attr.fget(self)
+
         result = self._find_keys(name)
         if result is None:
             raise AttributeError(
@@ -70,6 +80,7 @@ class Data:
             return {
                 k: self._clean_data(v)
                 for k, v in data.items()
+                if k not in self._EXCLUDED_KEYS
             }
         elif isinstance(data, list):
             return [self._clean_data(item) for item in data]
