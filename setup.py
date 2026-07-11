@@ -3,11 +3,11 @@ from setuptools import setup, find_packages
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
-requirements = ['aiohttp', 'colorama']
+requirements = ['aiohttp', 'aiofiles', 'mutagen', 'pycryptodome', 'rich']
 
 setup(
     name = 'maxrubika',
-    version = '1.1.0',
+    version = '1.2.0',
     author = 'MEHRAB Farahmand',
     author_email = 'MEH2RABx@gmail.com',
     description = 'Python async library for Rubika Messenger - Build bots and userbots effortlessly.',
@@ -19,11 +19,17 @@ setup(
     project_urls={
         "Documentation": "https://maxrubi.ir",
         "Source": "https://github.com/MEH2RAB/maxrubika",
-        "Channel": "https://rubika.ir/TheMAXRubika",
+        "Channel": "https://rubika.ir/MAXRubikaLibrary",
     },
     packages = find_packages(),
     exclude_package_data = {'': ['*.pyc', '*__pycache__*']},
     install_requires = requirements,
+    extras_require = {
+        'cv': ['opencv-python'],
+        'movie': ['numpy', 'moviepy', 'pillow'],
+        'pil': ['pillow'],
+        'rtc': ['aiortc']
+    },
     classifiers = [
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.8',

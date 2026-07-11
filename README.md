@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/MEH2RAB/maxrubika/main/assets/MAXRubika%20Logo.png" alt="MAXRubika Logo" width="200"/>
 </p>
 
-# 🤖 MAXRubika
+# 📚 MAXRubika
 
 > Python async library for Rubika Messenger - Build bots and userbots effortlessly
 
@@ -14,17 +14,17 @@
 
 ## ✨ Features
 
+- ✅ **Complete, Simple & Fast** - The most complete, simplest and fastest Python library for Rubika
 - ✅ **Full Rubika Bot API** - All methods supported
 - ✅ **Async/Await** - Built with `asyncio` for maximum performance
 - ✅ **Flexible API:** All methods support both `sync` and `async` usage.
+- ✅ **Sync-Friendly** - No need to write async code. The library handles all async operations for you.
 - ✅ **Type Hints** - Full typing support for better IDE integration
 - ✅ **Plugin System** - Easily extend your bot with plugins
 - ✅ **Middleware Support** - Intercept and process events
 - ✅ **Webhook & Polling** - Both modes supported
 - ✅ **Rich Filter System** - Powerful event filtering
 - ✅ **Decorator-based Handlers** - Clean and intuitive syntax
-- ✅ **Zero Dependencies** - Only `aiohttp` required
-- 🚧 **UserBot Support** - Coming soon! (Personal account automation)
 
 
 ## 📦 Installation
@@ -42,20 +42,6 @@ pip install -e .
 ```
 
 
-## 🚀 Quick Start
-
-```python
-from maxrubika import Bot
-
-bot = Bot("TOKEN")
-
-@bot.on_command("start")
-async def start(bot, event):
-    await event.reply("سلام! به ربات خوش آمدید 👋")
-
-bot.run()
-```
-
 ## 📖 Full Documentation
 
 All public methods are fully documented with **detailed docstrings** including:
@@ -65,6 +51,8 @@ All public methods are fully documented with **detailed docstrings** including:
 - **Usage examples**
 
 To view all available methods and their documentation, run:
+
+### For Bot:
 
 ```python
 from maxrubika import Bot
@@ -80,9 +68,42 @@ for method in methods:
     print(f"→ {method}:\n   {doc}\n{'-'*50}")
 ```
 
+### For Client (Userbot):
+
+```python
+from maxrubika import Client
+import inspect
+
+methods = [method for method in dir(Client) 
+           if not method.startswith('_') 
+           and callable(getattr(Client, method))]
+
+for method in methods:
+    func = getattr(Client, method)
+    doc = inspect.getdoc(func)
+    print(f"→ {method}: {doc}\n{'-'*50}")
+```
+    
 For complete documentation with examples for every method, visit **[MAXRubi.ir/documents](https://MAXRubi.ir/documents)**.
 
+
 ## 📚 Basic Usage
+
+## ● For Bot:
+
+### 🚀 Quick Start
+
+```python
+from maxrubika import Bot
+
+bot = Bot("TOKEN")
+
+@bot.on_command("start")
+async def start(bot, event):
+    await event.reply("سلام! به ربات خوش آمدید 👋")
+
+bot.run()
+``` 
 
 ### Send a Message
 
@@ -101,56 +122,6 @@ await bot.send_file(
     file="path/to/image.jpg",
     file_type="File",
     text="Check this out!"
-)
-```
-
-### Send a Photo
-
-```python
-await bot.send_image(
-    chat_id="b0abc123...",
-    image="photo.jpg",
-    text="Nice photo!"
-)
-```
-
-### Send a Video
-
-```python
-await bot.send_video(
-    chat_id="b0abc123...",
-    video="video.mp4",
-    text="Watch this!"
-)
-```
-
-### Send a Voice Message
-
-```python
-await bot.send_voice(
-    chat_id="b0abc123...",
-    voice="voice.mp3",
-    text="Listen to this!"
-)
-```
-
-### Send a Music File
-
-```python
-await bot.send_music(
-    chat_id="b0abc123...",
-    music="song.mp3",
-    text="Enjoy the music!"
-)
-```
-
-### Send a GIF
-
-```python
-await bot.send_gif(
-    chat_id="b0abc123...",
-    gif="animation.gif",
-    text="Funny GIF!"
 )
 ```
 
@@ -175,29 +146,7 @@ await bot.send_quiz(
 )
 ```
 
-### Send a Location
-
-```python
-await bot.send_location(
-    chat_id="b0abc123...",
-    latitude=35.6892,
-    longitude=51.3890
-)
-```
-
-### Send a Contact
-
-```python
-await bot.send_contact(
-    chat_id="b0abc123...",
-    phone_number="+989123456789",
-    first_name="MEHRAB",
-    last_name="Farahmand"
-)
-```
-
-
-## ⌨️ Inline Keyboard
+### ⌨️ Inline Keyboard
 
 ```python
 inline_keypad = [
@@ -212,8 +161,7 @@ await bot.send_message(
 )
 ```
 
-
-## 📋 Custom Keyboard
+### 📋 Custom Keyboard
 
 ```python
 chat_keypad = {
@@ -258,7 +206,7 @@ await bot.send_message(
 )
 ```
 
-## 🎯 Handle Callbacks
+### 🎯 Handle Callbacks
 
 ```python
 @bot.on_callback()
@@ -270,8 +218,7 @@ async def on_callback(bot, event):
     )
 ```
 
-
-## 🔧 Commands
+### 🔧 Commands
 
 ```python
 @bot.on_command("start")
@@ -286,8 +233,7 @@ async def help_command(bot, event):
     await event.reply("How can I help you?")
 ```
 
-
-## 🔍 Using Filters
+### 🔍 Using Filters
 
 ```python
 from maxrubika.filters import Text, ChatType, FromUser
@@ -305,8 +251,7 @@ async def on_image_from_user(bot, event):
     await event.reply("Nice image!")
 ```
 
-
-## 🔌 Middleware
+### 🔌 Middleware
 
 ```python
 @bot.middleware()
@@ -315,8 +260,7 @@ async def log_middleware(bot, event, call_next):
     await call_next()
 ```
 
-
-## 🔌 Plugin System
+### 🔌 Plugin System
 
 ### Create a Plugin
 
@@ -352,8 +296,7 @@ class AdvancedGreeterPlugin(Plugin):
         print("Advanced greeter loaded!")
 ```
 
-
-## 🌐 Webhook Setup
+### 🌐 Webhook Setup
 
 ```python
 bot = Bot("TOKEN")
@@ -384,58 +327,112 @@ await bot.register_all_endpoints(
 )
 ```
 
+## ● For Client (Userbot):
 
-## 🔜 Coming Soon: UserBot
+### 🚀 Quick Start
 
 ```python
 from maxrubika import Client
-client = Client("mySession")
 
-a = client.get_me()
-print(a)
+app = Client("mySession")
+print(app.get_me())
+```
+
+### Send Message
+
+```python
+await app.send_message("me", "Hello from MAXRubika!")
+await app.send_message("@username", "Hi!")
+await app.send_message("g0Hd4Ml...", "Group message")
+```
+
+### Send media
+
+```python
+
+app.send_file("g0Hd4Ml...", "document.pdf")
+
+app.send_music("https://rubika.ir/joing/....", "song.mp3", text="Test music")
+
+app.send_voice("https://rubika.ir/joing/....", "2026.07.11.mp3")
+
+app.send_image("me", "photo.jpg", text="My photo")
+
+app.send_gif("u0....", "VID_20260708_074706_239.mp4", text = "nice!")
+
+app.send_video("@username", "video.mp4")
+
+app.send_video_message("@Online_User", "myVideo.mp4")
 ```
 
 
-## 📁 Project Structure
+### Decorators
 
-```
-maxrubika/
-├── TheBot.py              # Main Bot class
-├── TheClient.py           # UserBot class (coming soon)
-├── bot/                   # All Bot modules (unified)
-│   ├── __init__.py
-│   ├── registry.py        # Handler registry
-│   ├── bridge.py          # Bridge between MTProto and Bot API
-│   ├── lifecycle.py       # Bot lifecycle management
-│   ├── message.py         # Message handling
-│   ├── callback.py        # Callback query handling
-│   ├── command.py         # Command handling
-│   ├── middleware.py      # Middleware system
-│   ├── start.py           # Start logic
-│   ├── run.py             # Running the bot
-│   ├── plugin.py          # Plugin system
-│   ├── exceptions.py      # Error classes
-│   ├── filters.py         # Event filters
-│   ├── metadata.py        # Metadata handling
-│   ├── keypad_mixin.py    # Keypad utilities
-│   ├── file_extensions.py # File type mappings
-│   ├── send_message.py    # Send message methods
-│   ├── send_file.py
-│   ├── send_poll.py
-│   ├── send_quiz.py
-│   ├── send_location.py
-│   ├── send_contact.py
-│   ├── send_image.py
-│   ├── send_video.py
-│   └── ......
-├── types/                 # Type definitions
-│   ├── __init__.py
-│   └── incoming.py
-├── hybrid.py              # Compatibility layer
-├── data.py                # wrapper for nested dicts
-└── __init__.py            # Package entry point
+```python
+@app.on_message()
+async def all_messages(event):
+    print(f"Message: {event.text}")
+
+@app.on_new_message()
+async def new_only(event):
+    print(f"New: {event.text}")
+
+@app.on_edit_message(HasMetadata())
+async def edited_with_format(event):
+    print(f"Edited Bold: {event.text}")
+
+@app.on_add_reaction()
+async def reaction_added(event):
+    print(f"Reaction: {event.reactions}")
+
+@app.on_show_activities(FromChat("https://rubika.ir/joing/..."))
+async def typing(event):
+    print(f"Typing in group")
 ```
 
+
+### Filters
+
+```python
+from maxrubika.client.filters import *
+
+# Text message
+@app.on_message(IsText())
+
+# Commands
+@app.on_message(Command("start"))
+@app.on_message(Command(["help", "راهنما"]))
+
+# Combined
+@app.on_message(IsText() & ChatType("group") & ~IsMe())
+
+# From specific user (GUID, username, or link)
+@app.on_message(FromUser("@Online_User"))
+
+# Files
+@app.on_message(IsImage() | IsVideo() | IsMusic())
+```
+
+### Event Properties
+
+```python
+@app.on_message()
+async def handler(event):
+    print(event.text)           # Message text
+    print(event.chat_guid)      # Chat GUID
+    print(event.author_guid)    # Sender GUID
+    print(event.message_id)     # Message ID
+    print(event.is_group)       # Is group?
+    print(event.is_pv)          # Is private?
+    print(event.is_reply)       # Is reply?
+    print(event.is_forward)     # Is forwarded?
+    print(event.is_image)       # Is image?
+    print(event.has_metadata)   # Has Bold/Italic?
+    print(event.file_name)      # File name
+    print(event.file_size)      # File size
+```
+
+---
 
 ## 🤝 Contributing
 
@@ -464,7 +461,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 | Rubika Channel | [@TheMAXRubika](https://rubika.ir/TheMAXRubika) |
 | Rubika Profile | [@Online_User](https://rubika.ir/Online_User) |
 | Telegram | [@MEH2RAB](https://t.me/MEH2RAB) |
-| Documentation | [MAXRubi.ir](https://MAXRubi.ir) |
+| Documentation | [MAXRubi.ir](https://MAXRubi.ir/documents) |
 | GitHub | [@MEH2RAB](https://github.com/MEH2RAB) |
 | Email | [MEH2RABx@gmail.com](mailto:MEH2RABx@gmail.com) |
 

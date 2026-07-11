@@ -1,21 +1,22 @@
-from .TheBot import Bot
-from .data import Data
 from . import types, hybrid
+from .TheClient import Client
+from .TheBot import Bot
 
-from colorama import init, Fore, Style
+from rich.console import Console
+from rich.text import Text
 from datetime import datetime
-import sys
-
-init(autoreset=True, convert=True)
-
-def print_with_color(text, color_style):
-    sys.stdout.write(color_style + text + Style.RESET_ALL + "\n")
-    sys.stdout.flush()
-
-print_with_color("Welcome to MAXRubika library for Rubika Messenger", Fore.MAGENTA + Style.BRIGHT)
-print_with_color(f"Copyright © {datetime.now().year} MEHRAB Farahmand - All rights reserved.", Fore.BLUE + Style.NORMAL)
-print_with_color("Github: https://github.com/MEH2RAB/maxrubika", Fore.CYAN + Style.NORMAL)
-print_with_color("Document: https://MAXRubi.ir/documents\n", Fore.YELLOW + Style.NORMAL)
 
 __author__ = 'MEHRAB Farahmand'
-__version__ = '1.1.0'
+__version__ = '1.2.0'
+
+console = Console()
+
+text = Text()
+text.append("Welcome to MAXRubika library for Rubika Messenger", style="bold magenta")
+text.append(f"\nCopyright © {datetime.now().year} MEHRAB Farahmand - All rights reserved.", style="cyan")
+text.append("\nGithub: ", style="white")
+text.append("https://github.com/MEH2RAB/maxrubika", style="green underline")
+text.append("\nDocument: ", style="white")
+text.append("https://MAXRubi.ir/documents\n", style="yellow underline")
+
+console.print(text)
