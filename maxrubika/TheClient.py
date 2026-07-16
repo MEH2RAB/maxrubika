@@ -33,7 +33,7 @@ class Client(Methods):
         logger: Optional[logging.Logger] = None,
         platform: Literal['web', 'pwa', 'android'] = 'web',
         max_retries: int = 5,
-        stop_on_first_match: bool = False,
+        stop_on_first_match: bool = False
     ) -> None:
         """
         Initialize the Rubika client.
@@ -98,9 +98,11 @@ class Client(Methods):
         if session is not None:
             if not isinstance(session, str):
                 raise InvalidInput("The 'session' parameter must be a string.")
+            self.session_name = session
             session = Session(session)
         else:
-            session = Session(f"maxrubika_{auth[:10]}")
+            self.session_name = f"maxrubika_{auth[:10]}"
+            session = Session(self.session_name)
 
         if not isinstance(logger, logging.Logger):
             logger = logging.getLogger(__name__)

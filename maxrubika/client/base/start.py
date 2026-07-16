@@ -148,6 +148,7 @@ class Start:
             raise InvalidAccess("Failed to get 'phone_code_hash'.")
 
         public_key, self.private_key = Cipher.create_keys()
+        phone_code = None
         first_prompt = True
 
         while True:
@@ -161,6 +162,8 @@ class Start:
                         phone_code = input("\nVerification code will be announced to you via a phone call, please answer that call and enter the code: ")
                     else:
                         phone_code = input(f"\nVerification code sent via {result.send_type}, please enter the code: ")
+                else:
+                    phone_code = input("\nPlease enter the verification code: ")
                 first_prompt = False
             else:
                 phone_code = input("\nCode is incorrect, please enter correct code: ")
@@ -191,7 +194,7 @@ class Start:
                     private_key=self.private_key
                 )
 
-                await self.register_device(device_model = self.session_name)
+                await self.register_device(device_model=self.session_name)
                 return self
 
             elif result.status == 'CodeIsInvalid':

@@ -7,7 +7,7 @@ from rich.text import Text
 from datetime import datetime
 
 __author__ = 'MEHRAB Farahmand'
-__version__ = '1.3.0'
+__version__ = '1.3.1'
 
 console = Console()
 
