@@ -86,8 +86,8 @@ for method in methods:
     
 For complete documentation with examples for every method, visit **[MAXRubi.ir/documents](https://MAXRubi.ir/documents)**.
 
-
 ## 📚 Basic Usage
+
 
 ## ● For Bot:
 
@@ -450,9 +450,10 @@ Contributions are welcome! Please read our Contributing Guide.
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 
-## 👤 Author
+## 👤 Authors
 
 **MEHRAB Farahmand**
+**Yaser Ghaljaei**
 
 ## Get in Touch
 
@@ -470,6 +471,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Special thanks to the management team of MAX Server ([@The_MAXWare](https://t.me/The_MAXWare)) for their invaluable support and contributions to this project.**
+
+**Special thanks to [Yaser Ghaljaei](https://github.com/Yaser-gh) for his valuable contributions to the development of this library.**
 
 ## ⭐ Support
 
