@@ -58,9 +58,25 @@ class GetUpdates:
 
     async def _handle_text_message(self: "maxrubika.Client", msg_data: dict) -> None:
 
-        data_enc = msg_data.get("data_enc")
+        data_enc = msg_data.get("data_enc") or msg_data.get("messenger")
         if not data_enc:
-            self.logger.debug("Missing 'data_enc' key in message", extra={"data": msg_data})
+            self.logger.debug("Missing update data in message", extra={"data": msg_data})
+            return
+
+        if isinstance(data_enc, dict):
+            try:
+                user_guid = msg_data.get("user_guid")
+                tasks = [
+                    self.connection.handle_update(
+                        name, {**update, "client": self, "user_guid": user_guid}
+                    )
+                    for name, updates in data_enc.items()
+                    if isinstance(updates, list)
+                    for update in updates
+                ]
+                await asyncio.gather(*tasks)
+            except Exception as e:
+                self.logger.error(f"Channel update error: {e}", extra={"data": msg_data})
             return
 
         try:

@@ -16,12 +16,14 @@ from .delete_avatar import DeleteAvatar
 from .delete_chat_history import DeleteChatHistory
 from .discard_voice_chat import DiscardVoiceChat
 from .download_profile_picture import DownloadProfilePicture
+from .get_all_drafts import GetAllDrafts
 from .get_avatars import GetAvatars
 from .get_banned_members import GetBannedMembers
 from .get_chat_ads import GetChatAds
 from .get_chat_info import GetChatInfo
 from .get_chat_voice_chat import GetChatVoiceChat
 from .get_chats import GetChats
+from .get_chats_info import GetChatsInfo
 from .get_chats_updates import GetChatsUpdates
 from .get_guid import GetGuid
 from .get_info_by_link import GetInfoByLink
@@ -39,6 +41,7 @@ from .leave_voice_chat import LeaveVoiceChat
 from .member_is_admin import MemberIsAdmin
 from .mute_chat import MuteChat
 from .pin_chat import PinChat
+from .pin_chat_in_folder import PinChatInFolder
 from .play_voice_chat import PlayVoiceChat
 from .reject_join_request import RejectJoinRequest
 from .reject_ownership_request import RejectOwnershipRequest
@@ -48,7 +51,10 @@ from .seen_chats import SeenChats
 from .send_chat_activity import SendChatActivity
 from .send_voice_chat_activity import SendVoiceChatActivity
 from .set_admin import SetAdmin
+from .set_ask_spam import SetAskSpam
+from .set_chat_auto_delete import SetChatAutoDelete
 from .set_chat_protected_content import SetChatProtectedContent
+from .set_chat_use_time import SetChatUseTime
 from .set_voice_chat_setting import SetVoiceChatSetting
 from .set_voice_chat_state import SetVoiceChatState
 from .start_voice_chat import StartVoiceChat
@@ -58,6 +64,7 @@ from .unban_member import UnbanMember
 from .unban_members import UnbanMembers
 from .unmute_chat import UnmuteChat
 from .unpin_chat import UnpinChat
+from .unpin_chat_in_folder import UnpinChatInFolder
 from .unset_admin import UnsetAdmin
 from .upload_avatar import UploadAvatar
 
@@ -80,12 +87,14 @@ class Chats(
     DeleteChatHistory,
     DiscardVoiceChat,
     DownloadProfilePicture,
+    GetAllDrafts,
     GetAvatars,
     GetBannedMembers,
     GetChatAds,
     GetChatInfo,
     GetChatVoiceChat,
     GetChats,
+    GetChatsInfo,
     GetChatsUpdates,
     GetGuid,
     GetInfoByLink,
@@ -103,6 +112,7 @@ class Chats(
     MemberIsAdmin,
     MuteChat,
     PinChat,
+    PinChatInFolder,
     PlayVoiceChat,
     RejectJoinRequest,
     RejectOwnershipRequest,
@@ -112,7 +122,10 @@ class Chats(
     SendChatActivity,
     SendVoiceChatActivity,
     SetAdmin,
+    SetAskSpam,
+    SetChatAutoDelete,
     SetChatProtectedContent,
+    SetChatUseTime,
     SetVoiceChatSetting,
     SetVoiceChatState,
     StartVoiceChat,
@@ -122,6 +135,7 @@ class Chats(
     UnbanMembers,
     UnmuteChat,
     UnpinChat,
+    UnpinChatInFolder,
     UnsetAdmin,
     UploadAvatar
 ):

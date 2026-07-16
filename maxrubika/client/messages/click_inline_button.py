@@ -2,8 +2,8 @@ from typing import Union
 import maxrubika
 from ..exceptions import InvalidInput
 
-class ClickMessageButton:
-    async def click_message_button(
+class ClickInlineButton:
+    async def click_inline_button(
         self: "maxrubika.Client",
         chat: str,
         message_id: Union[str, int],

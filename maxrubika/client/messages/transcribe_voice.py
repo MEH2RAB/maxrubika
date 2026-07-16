@@ -31,7 +31,15 @@ class TranscribeVoice:
         if not transcription_id:
             return Data({"status": "ERROR", "message": "Failed to get transcription ID."})
 
-        return await self.request(
+        transcription_result = await self.request(
             method = 'getTranscription',
             input = {'message_id': message_id, 'transcription_id': transcription_id}
         )
+
+        transcription_data = transcription_result.to_dict() if hasattr(transcription_result, 'to_dict') else transcription_result
+
+        return Data({
+            "status": transcription_data.get("status", "OK"),
+            "text": transcription_data.get("text", ""),
+            "transcription_id": transcription_id
+        })

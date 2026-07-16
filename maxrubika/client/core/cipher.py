@@ -57,7 +57,12 @@ class Cipher:
     def decrypt(cls, data, key):
         aes = AES.new(key.encode(), AES.MODE_CBC, cls.AES_IV)
         dec = aes.decrypt(base64.urlsafe_b64decode(data.encode("UTF-8")))
-        return json.loads(unpad(dec, AES.block_size).decode("UTF-8"))
+        dec_res = unpad(dec, AES.block_size).decode("UTF-8")
+
+        dec_res = re.sub(r'"time":,', '"time":0,', dec_res)
+        dec_res = re.sub(r'"size":,', '"size":0,', dec_res)
+        
+        return json.loads(dec_res)
 
     @classmethod
     def encrypt(cls, data: str, key: str):

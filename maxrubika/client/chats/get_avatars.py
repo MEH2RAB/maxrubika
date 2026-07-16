@@ -17,8 +17,4 @@ class GetAvatars:
         else:
             chat_guid = await self.get_guid(chat)
 
-        if not chat_guid.startswith(("g0", "c0")) and chat_guid != self.guid:
-            message = f"'{chat}' does not point to a valid chat. Expected a chat GUID, chat link, or username."
-            raise InvalidInput(message)
-
         return await self.request(method = 'getAvatars', input = {'object_guid': chat_guid})

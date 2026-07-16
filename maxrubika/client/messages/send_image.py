@@ -1,5 +1,6 @@
-from typing import Union, Optional
+from typing import Union, Optional, Literal
 from pathlib import Path
+from datetime import timedelta, datetime
 import maxrubika
 
 class SendImage:
@@ -14,7 +15,9 @@ class SendImage:
         thumb: Optional[Union[bool, str]] = None,
         width: Optional[int] = None,
         height: Optional[int] = None,
-        auto_delete: Optional[int] = None
+        auto_delete: Optional[int] = None,
+        schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
+        schedule_type: Optional[Literal['Default', 'WhenOnline']] = None
     ):
         """
         Send an image to a chat.
@@ -32,6 +35,13 @@ class SendImage:
             width (Optional[int]): Custom width for the image. Defaults to None (auto-detect).
             height (Optional[int]): Custom height for the image. Defaults to None (auto-detect).
             auto_delete (Optional[int]): Auto-delete duration in seconds. Defaults to None.
+            schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
+                When to send the message.
+                - Unix timestamp (int/float): Absolute time
+                - timedelta: Relative time from now
+                - datetime: Absolute date and time
+            schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
+                'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
 
         Returns:
             The API response containing the sent message details.
@@ -47,5 +57,7 @@ class SendImage:
             via_bot=via_bot,
             auto_delete=auto_delete,
             width=width,
-            height=height
+            height=height,
+            schedule_time=schedule_time,
+            schedule_type=schedule_type
         )

@@ -191,7 +191,7 @@ class Start:
                     private_key=self.private_key
                 )
 
-                await self.register_device(device_model=self.session.filename)
+                await self.register_device(device_model = self.session_name)
                 return self
 
             elif result.status == 'CodeIsInvalid':

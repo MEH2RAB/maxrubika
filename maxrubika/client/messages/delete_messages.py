@@ -7,7 +7,7 @@ class DeleteMessages:
         self: "maxrubika.Client",
         chat: str,
         message_ids: Union[str, int, list],
-        type: Literal['Local', 'Global'] = 'Global'
+        type: Literal['Local', 'Global', 'Scheduled'] = 'Global'
     ):
         """
         Delete specified messages associated with the given chat.
@@ -16,15 +16,15 @@ class DeleteMessages:
             chat (str): The GUID, link, or username of the chat associated with the messages
                 (e.g., user, group, channel).
             message_ids (Union[str, int, list]): The ID or list of IDs of the messages to be deleted.
-            type (str): The type of deletion, can be 'Global' or 'Local'. Default is 'Global'.
+            type (str): The type of deletion, can be 'Global', 'Local', or 'Scheduled'. Default is 'Global'.
 
         Returns:
             The updated information after deleting the messages.
         """
         chat_guid = await self.get_guid(chat)
 
-        if type not in ('Global', 'Local'):
-            raise InvalidInput("'type' argument can only be in 'Local' or 'Global'.")
+        if type not in ('Global', 'Local', 'Scheduled'):
+            raise InvalidInput("'type' argument can only be in 'Local', 'Global', or 'Scheduled'.")
 
         if isinstance(message_ids, (str, int)):
             message_ids = [str(message_ids)]

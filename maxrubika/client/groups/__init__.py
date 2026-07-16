@@ -11,7 +11,9 @@ from .get_group_info import GetGroupInfo
 from .get_group_link import GetGroupLink
 from .get_group_members import GetGroupMembers
 from .get_group_mention_list import GetGroupMentionList
+from .get_group_message_read_participants import GetGroupMessageReadParticipants
 from .get_group_online_count import GetGroupOnlineCount
+from .get_unread_mentions import GetUnreadMentions
 from .join_group import JoinGroup
 from .leave_group import LeaveGroup
 from .lock_group import LockGroup
@@ -33,7 +35,9 @@ class Groups(
     GetGroupLink,
     GetGroupMembers,
     GetGroupMentionList,
+    GetGroupMessageReadParticipants,
     GetGroupOnlineCount,
+    GetUnreadMentions,
     JoinGroup,
     LeaveGroup,
     LockGroup,

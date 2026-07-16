@@ -55,7 +55,7 @@ class VoiceChatConnection:
 class PlayVoiceChat:
     logger = logging.getLogger("VoiceChatPlayer")
 
-    async def _heartbeat(self: "maxrubika.Client", chat_guid: str) -> None:
+    async def heartbeat(self: "maxrubika.Client", chat_guid: str) -> None:
         while True:
             try:
                 await self.get_voice_chat_updates(chat_guid)
@@ -68,7 +68,7 @@ class PlayVoiceChat:
                 self.logger.error(f"[Heartbeat] Unexpected error: {e}")
                 await asyncio.sleep(5)
 
-    async def _speaking(self: "maxrubika.Client", chat_guid: str) -> None:
+    async def speaking(self: "maxrubika.Client", chat_guid: str) -> None:
         while True:
             try:
                 await self.send_voice_chat_activity(chat_guid)
@@ -154,8 +154,8 @@ class PlayVoiceChat:
         await self.set_voice_chat_state(chat_guid, action="Unmute")
 
         connection = VoiceChatConnection(pc, media_player, track, chat_guid, voice_chat_id, self)
-        connection._speaking_task = asyncio.create_task(self._speaking(chat_guid))
-        connection._heartbeat_task = asyncio.create_task(self._heartbeat(chat_guid))
+        connection._speaking_task = asyncio.create_task(self.speaking(chat_guid))
+        connection._heartbeat_task = asyncio.create_task(self.heartbeat(chat_guid))
 
         await pc.setRemoteDescription(RTCSessionDescription(sdp_answer, "answer"))
 

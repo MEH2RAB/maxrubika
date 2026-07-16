@@ -9,6 +9,13 @@ AUTHORIZED_HANDLERS = [
     "ShowActivities",
     "ShowNotifications",
     "RemoveNotifications",
+    "UnconfirmedSessionUpdates",
+    "GroupVoiceChatParticipantUpdates",
+    "GroupVoiceChatUpdates",
+    "CallUpdates",
+    "CallSignalData",
+    "ScheduleMessageUpdates",
+    "DraftMessageUpdate"
 ]
 
 def create_handler(
@@ -72,3 +79,10 @@ MessageUpdates: Type[BaseHandlers]
 ShowActivities: Type[BaseHandlers]
 ShowNotifications: Type[BaseHandlers]
 RemoveNotifications: Type[BaseHandlers]
+UnconfirmedSessionUpdates: Type[BaseHandlers]
+GroupVoiceChatParticipantUpdates: Type[BaseHandlers]
+GroupVoiceChatUpdates: Type[BaseHandlers]
+CallUpdates: Type[BaseHandlers]
+CallSignalData: Type[BaseHandlers]
+ScheduleMessageUpdates: Type[BaseHandlers]
+DraftMessageUpdate: Type[BaseHandlers]

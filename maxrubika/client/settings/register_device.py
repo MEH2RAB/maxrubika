@@ -1,6 +1,7 @@
-import re
-import warnings
 from random import choices
+import warnings
+import secrets
+import re
 import maxrubika
 
 system_versions = {
@@ -54,7 +55,7 @@ def _get_device_info(user_agent: str, lang_code: str, app_version: str, platform
         prefix = 'PW'
 
     if platform == 'Android':
-        device_hash = ''.join(choices('0123456789', k=26))
+        device_hash = secrets.token_hex(8)
     else:
         device_hash = '2' + ''.join(re.findall(r'\d+', user_agent))
 

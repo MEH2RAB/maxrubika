@@ -1,4 +1,4 @@
-import re; import maxrubika
+import maxrubika
 from ..exceptions import InvalidInput
 
 class JoinGroup:
@@ -12,13 +12,14 @@ class JoinGroup:
         Returns:
             The result of the API call.
         """
-        group_link_regex = r'^https:\/\/rubika\.ir\/(?:joing)\/?\+?([A-Z]{8}0[A-Z]{23}|[A-Z]{9}0[A-Z]{22})$'
+        group_lower = group.lower()
 
-        if re.match(group_link_regex, group):
-            hash_link = group.split('/')[-1]
-
+        if group_lower.startswith('https://rubika.ir/joing/'):
+            hash_link = group.rstrip('/').split('/')[-1].split('?')[0].split('#')[0]
+            return await self.request(
+                method = 'joinGroup',
+                input = {'hash_link': hash_link}
+            )
         else:
-            message = "'link' must start with 'https://rubika.ir/going' and follow the specified hash format."
+            message = "'link' must start with 'https://rubika.ir/joing/' and follow the specified hash format."
             raise InvalidInput(message)
-
-        return await self.request(method = 'joinGroup', input = {'hash_link': hash_link})

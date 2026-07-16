@@ -7,7 +7,7 @@ class SetVoiceChatState:
     async def set_voice_chat_state(
         self: "maxrubika.Client",
         chat: str,
-        action: typing.Literal['Mute', 'Unmute'] = 'Unmute',
+        action: typing.Literal['Mute', 'Unmute', 'RequestSpeak', 'CancelRequestSpeak'] = 'Unmute',
         participant_chat_guid: str = None
     ):
         """

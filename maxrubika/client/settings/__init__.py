@@ -2,8 +2,11 @@ from .add_folder import AddFolder
 from .auto_delete_account import AutoDeleteAccount
 from .change_password import ChangePassword
 from .check_two_step_passcode import CheckTwoStepPasscode
+from .confirm_unconfirmed_session import ConfirmUnconfirmedSession
 from .delete_account import DeleteAccount
 from .delete_folder import DeleteFolder
+from .delete_saved_music_playlist import DeleteSavedMusicPlaylist
+from .deny_unconfirmed_session import DenyUnconfirmedSession
 from .edit_can_called_by import EditCanCalledBy
 from .edit_can_join_chat_by import EditCanJoinChatBy
 from .edit_show_birthday import EditShowBirthday
@@ -16,10 +19,14 @@ from .get_notification_setting import GetNotificationSetting
 from .get_privacy_setting import GetPrivacySetting
 from .get_suggested_folders import GetSuggestedFolders
 from .get_two_passcode_status import GetTwoPasscodeStatus
+from .get_unconfirmed_sessions import GetUnconfirmedSessions
 from .logout import Logout
 from .recovery_email import RecoveryEmail
 from .register_device import RegisterDevice
+from .reorder_folder import ReorderFolder
+from .request_change_phone_number import RequestChangePhoneNumber
 from .set_notification import SetNotification
+from .set_saved_music_playlist import SetSavedMusicPlaylist
 from .set_setting import SetSetting
 from .set_two_step_verification import SetTwoStepVerification
 from .terminate_other_sessions import TerminateOtherSessions
@@ -30,14 +37,18 @@ from .update_my_birthday import UpdateMyBirthday
 from .update_my_name import UpdateMyName
 from .update_my_profile import UpdateMyProfile
 from .update_my_username import UpdateMyUsername
+from .verify_change_phone_number import VerifyChangePhoneNumber
 
 class Settings(
     AddFolder,
     AutoDeleteAccount,
     ChangePassword,
     CheckTwoStepPasscode,
+    ConfirmUnconfirmedSession,
     DeleteAccount,
     DeleteFolder,
+    DeleteSavedMusicPlaylist,
+    DenyUnconfirmedSession,
     EditCanCalledBy,
     EditCanJoinChatBy,
     EditShowBirthday,
@@ -50,10 +61,14 @@ class Settings(
     GetPrivacySetting,
     GetSuggestedFolders,
     GetTwoPasscodeStatus,
+    GetUnconfirmedSessions,
     Logout,
     RecoveryEmail,
     RegisterDevice,
+    ReorderFolder,
+    RequestChangePhoneNumber,
     SetNotification,
+    SetSavedMusicPlaylist,
     SetSetting,
     SetTwoStepVerification,
     TerminateOtherSessions,
@@ -63,6 +78,7 @@ class Settings(
     UpdateMyBirthday,
     UpdateMyName,
     UpdateMyProfile,
-    UpdateMyUsername
+    UpdateMyUsername,
+    VerifyChangePhoneNumber
 ):
     pass

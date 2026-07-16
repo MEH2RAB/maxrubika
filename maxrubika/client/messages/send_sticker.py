@@ -1,4 +1,5 @@
-from typing import Optional, Union
+from typing import Optional, Union, Literal
+from datetime import timedelta, datetime
 import maxrubika
 
 class SendSticker:
@@ -11,7 +12,9 @@ class SendSticker:
         file: dict,
         w_h_ratio: str = '1.0',
         reply_to_message_id: Optional[Union[str, int]] = None,
-        auto_delete: Optional[Union[str, float]] = None
+        auto_delete: Optional[Union[str, float]] = None,
+        schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
+        schedule_type: Optional[Literal['Default', 'WhenOnline']] = None
     ):
         """
         Send a sticker.
@@ -25,6 +28,13 @@ class SendSticker:
             w_h_ratio (str): The width-to-height ratio of the sticker. Defaults to '1.0'.
             reply_to_message_id (Optional[Union[str, int]]): The ID of the message to which this is a reply. Defaults to None.
             auto_delete (Optional[Union[str, float]]): Auto-delete duration in seconds. Defaults to None.
+            schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
+                When to send the message.
+                - Unix timestamp (int/float): Absolute time
+                - timedelta: Relative time from now
+                - datetime: Absolute date and time
+            schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
+                'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
         """
         if not isinstance(file, dict):
             file = file.to_dict()
@@ -42,4 +52,6 @@ class SendSticker:
             sticker=data,
             reply_to_message_id=reply_to_message_id,
             auto_delete=auto_delete,
+            schedule_time=schedule_time,
+            schedule_type=schedule_type
         )

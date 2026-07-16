@@ -21,13 +21,13 @@ class JoinChannel:
         if channel.startswith("https://rubika.ir/joinc"):
             link = channel.split('/')[-1]
             result = await self.request(
-                method='joinChannelByLink',
-                input={'hash_link': link}
+                method = 'joinChannelByLink',
+                input = {'hash_link': link}
             )
         else:
             result = await self.request(
-                method='joinChannelAction',
-                input={'channel_guid': chat_guid, 'action': 'Join'}
+                method = 'joinChannelAction',
+                input = {'channel_guid': chat_guid, 'action': 'Join'}
             )
 
         return result

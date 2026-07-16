@@ -421,7 +421,7 @@ class Text(Filter):
         return bool(text and self._regex.search(text))
 
 class TextMatch(Filter):
-    f"""
+    """
     Like Text but stores regex match as ``event.pattern_match``.
 
     Usage::

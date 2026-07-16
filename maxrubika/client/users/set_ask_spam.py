@@ -5,34 +5,53 @@ from ..exceptions import InvalidInput
 class SetAskSpam:
     async def set_ask_spam(
         self: "maxrubika.Client",
-        user: str,
-        action: Literal['AddToContact', 'BlockUser'] = 'AddToContact'
+        chat: str,
+        action: Literal['AddToContact', 'BlockUser', 'Cancel', 'ReportAndLeave'] = 'Cancel'
     ):
         """
         Perform an action for a pending spam request.
 
         Parameters:
-            user (str): The user GUID or username.
-            action (str): The action to apply `'AddToContact' or 'BlockUser'`.
+            chat (str): The GUID, link, or username of the user, group, or channel.
+            action (str): The action to apply:
+                - For user: 'AddToContact', 'BlockUser', 'Cancel'.
+                - For group/channel: 'ReportAndLeave'.
 
         Returns:
             The result of the API call.
         """
-        user_guid = await self.get_guid(user)
+        chat_guid = await self.get_guid(chat)
 
-        if not user_guid.startswith("u0"):
-            message = f"'{user}' does not point to a valid user. Expected a user GUID or username."
+        is_user = chat_guid.startswith("u0")
+        is_group_channel = chat_guid.startswith(("g0", "c0"))
+
+        if not is_user and not is_group_channel:
+            message = f"'{chat}' does not point to a valid chat. Expected a user GUID/username, group link, or channel link."
             raise InvalidInput(message)
 
-        if action.lower() == "addtocontact":
-            action = "AddToContact"
-        elif action.lower() == "blockuser":
-            action = "BlockUser"
-        else:
-            raise InvalidInput(
-                f"Invalid action: '{action}'. Expected 'AddToContact' or 'BlockUser'."
-            )
+        action = action.lower()
+        if is_user:
+            if action == "addtocontact":
+                action = "AddToContact"
+            elif action == "blockuser":
+                action = "BlockUser"
+            elif action == "cancel":
+                action = "Cancel"
+            else:
+                raise InvalidInput(
+                    f"Invalid action for user: '{action}'. Expected 'AddToContact', 'BlockUser', or 'Cancel'."
+                )
+        elif is_group_channel:
+            if action == "reportandleave":
+                action = "ReportAndLeave"
+            elif action == "cancel":
+                action = "Cancel"
+            else:
+                raise InvalidInput(
+                    f"Invalid action for group/channel: '{action}'. Expected 'ReportAndLeave' or 'Cancel'."
+                )
+
         return await self.request(
             method = 'setAskSpamAction',
-            input = {'object_guid': user_guid, 'action': action}
+            input = {'object_guid': chat_guid, 'action': action}
         )

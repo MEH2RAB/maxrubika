@@ -1,5 +1,6 @@
-from typing import Union, Optional
+from typing import Union, Optional, Literal
 from pathlib import Path
+from datetime import timedelta, datetime
 import maxrubika
 
 class SendGif:
@@ -14,7 +15,9 @@ class SendGif:
         width: Optional[int] = None,
         height: Optional[int] = None,
         time: Optional[int] = None,
-        auto_delete: Optional[int] = None
+        auto_delete: Optional[int] = None,
+        schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
+        schedule_type: Optional[Literal['Default', 'WhenOnline']] = None
     ):
         """
         Send a GIF to a chat.
@@ -33,6 +36,13 @@ class SendGif:
             height (Optional[int]): Custom height for the GIF. Defaults to None (auto-detect).
             time (Optional[int]): Custom duration for the GIF in seconds. Defaults to None (auto-detect).
             auto_delete (Optional[int]): Auto-delete duration in seconds. Defaults to None.
+            schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
+                When to send the message.
+                - Unix timestamp (int/float): Absolute time
+                - timedelta: Relative time from now
+                - datetime: Absolute date and time
+            schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
+                'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
 
         Returns:
             The API response containing the sent message details.
@@ -49,4 +59,6 @@ class SendGif:
             height=height,
             time=time,
             auto_delete=auto_delete,
+            schedule_time=schedule_time,
+            schedule_type=schedule_type
         )
