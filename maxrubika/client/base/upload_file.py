@@ -1,7 +1,6 @@
 import os
 import asyncio
 import inspect
-import aiohttp
 import aiofiles
 from typing import Callable, Optional, Union
 import maxrubika

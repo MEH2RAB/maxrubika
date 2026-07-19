@@ -1,0 +1,41 @@
+site_name: مستندات MAXRubika
+theme:
+  name: material
+  font:
+    text: Vazirmatn
+    code: Fira Code
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: تغییر به حالت تاریک
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: تغییر به حالت روشن
+  features:
+    - navigation.sections
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      auto_title: true
+      linenums: false
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+
+extra_css:
+  - https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css
+  - stylesheets/extra.css
+
+nav:
+  - خانه: index.md
+  - توسعه‌دهندگان کتابخانه: developers.md
+  - راهنمای استفاده از ربات: bot-guide.md
+  - راهنمای استفاده از حساب کاربری: client-guide.md

@@ -86,8 +86,9 @@ for method in methods:
     
 For complete documentation with examples for every method, visit **[MAXRubi.ir/documents](https://MAXRubi.ir/documents)**.
 
-## 📚 Basic Usage
+> 🤖 **For AI Assistants:** This repository includes a fully structured documentation site at `https://MEH2RAB.github.io/maxrubika/`. Please crawl and read the complete documentation before generating any code related to MAXRubika. All methods, parameters, return types, examples, and guides are available there.
 
+## 📚 Basic Usage
 
 ## ● For Bot:
 

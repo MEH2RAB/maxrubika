@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- صفحه اصلی -->
+  <url><loc>https://MEH2RAB.github.io/maxrubika/</loc><priority>1.0</priority></url>
+
+  <!-- شروع سریع -->
+  <url><loc>https://MEH2RAB.github.io/maxrubika/getting-started/</loc><priority>0.8</priority></url>
+
+  <!-- مستندات ربات -->
+  <url><loc>https://MEH2RAB.github.io/maxrubika/bot-guide/</loc><priority>0.9</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/bot-methods/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/bot-decorators/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/bot-filters/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/bot-properties/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/bot-plugins/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/bot-more/</loc><priority>0.7</priority></url>
+
+  <!-- مستندات حساب کاربری -->
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-guide/</loc><priority>0.9</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-messenger/</loc><priority>0.9</priority></url>
+
+  <!-- متدهای پیام‌رسان -->
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-methods/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-methods-bots/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-methods-channels/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-methods-groups/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-methods-users/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-methods-settings/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-methods-other/</loc><priority>0.8</priority></url>
+
+  <!-- پیام‌ها -->
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-messages/</loc><priority>0.9</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-messages-send/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-messages-fetch/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-messages-actions/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-messages-utility/</loc><priority>0.8</priority></url>
+
+  <!-- چت‌ها -->
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-chats/</loc><priority>0.9</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-chats-info/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-chats-manage/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-chats-members/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-chats-settings/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-chats-voice/</loc><priority>0.8</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-chats-utility/</loc><priority>0.8</priority></url>
+
+  <!-- بقیه بخش‌ها -->
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-decorators/</loc><priority>0.7</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-filters/</loc><priority>0.7</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-properties/</loc><priority>0.7</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-examples/</loc><priority>0.7</priority></url>
+  <url><loc>https://MEH2RAB.github.io/maxrubika/client-more/</loc><priority>0.7</priority></url>
+
+</urlset>
