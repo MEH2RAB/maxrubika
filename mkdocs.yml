@@ -1,5 +1,4 @@
 site_name: مستندات MAXRubika
-site_url: https://meh2rab.github.io/maxrubika/
 theme:
   name: material
   font:
@@ -40,35 +39,3 @@ nav:
   - توسعه‌دهندگان کتابخانه: developers.md
   - راهنمای استفاده از ربات: bot-guide.md
   - راهنمای استفاده از حساب کاربری: client-guide.md
-  - متدهای ربات: bot-methods.md
-  - دکوراتورهای ربات: bot-decorators.md
-  - فیلترهای ربات: bot-filters.md
-  - پراپرتی‌های ربات: bot-properties.md
-  - پلاگین ربات: bot-plugins.md
-  - توضیحات بیشتر ربات: bot-more.md
-  - مثال‌های ربات: bot-examples.md
-  - پیام‌رسان: client-messenger.md
-  - متدهای پیام‌رسان: client-methods.md
-  - متدهای بات: client-methods-bots.md
-  - متدهای کانال: client-methods-channels.md
-  - متدهای گروه: client-methods-groups.md
-  - متدهای کاربران: client-methods-users.md
-  - متدهای تنظیمات: client-methods-settings.md
-  - سایر متدها: client-methods-other.md
-  - پیام‌ها: client-messages.md
-  - ارسال پیام: client-messages-send.md
-  - دریافت پیام: client-messages-fetch.md
-  - عملیات روی پیام: client-messages-actions.md
-  - ابزارهای پیام: client-messages-utility.md
-  - چت‌ها: client-chats.md
-  - اطلاعات چت: client-chats-info.md
-  - مدیریت چت: client-chats-manage.md
-  - اعضا و ادمین‌ها: client-chats-members.md
-  - تنظیمات چت: client-chats-settings.md
-  - ویس چت: client-chats-voice.md
-  - ابزارهای چت: client-chats-utility.md
-  - دکوراتورهای کلاینت: client-decorators.md
-  - فیلترهای کلاینت: client-filters.md
-  - پراپرتی‌های کلاینت: client-properties.md
-  - مثال‌های کلاینت: client-examples.md
-  - توضیحات بیشتر کلاینت: client-more.md
