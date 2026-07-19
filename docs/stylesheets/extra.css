@@ -8,6 +8,19 @@ code, pre, .highlight, .md-code__content {
     text-align: left;
 }
 
+html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+}
+
+.md-main {
+    overflow-x: hidden !important;
+}
+
+.md-content {
+    max-width: 100% !important;
+}
+
 .highlighttable {
     width: 100%;
     display: table;
@@ -226,5 +239,19 @@ code, pre, .highlight code, .highlight pre, .md-code__content {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
+    }
+
+    .md-button {
+        padding: 10px 14px !important;
+        font-size: 13px !important;
+    }
+
+    .md-grid {
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+    .md-typeset {
+        word-break: break-word;
     }
 }
