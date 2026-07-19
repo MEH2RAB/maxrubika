@@ -190,6 +190,6 @@ except Exception as e:
 
 <div style="display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap;">
 
-<a href="client-methods-messages" class="md-button" style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; flex: 1; min-width: 140px; text-align: center; padding: 10px 20px; font-weight: bold; color: #333;">بازگشت به صفحه قبل</a>
+<a href="../client-methods-messages/" class="md-button" style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; flex: 1; min-width: 140px; text-align: center; padding: 10px 20px; font-weight: bold; color: #333;">بازگشت به صفحه قبل</a>
 
 </div>
