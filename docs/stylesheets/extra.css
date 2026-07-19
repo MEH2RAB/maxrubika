@@ -210,3 +210,21 @@ code, pre, .highlight code, .highlight pre, .md-code__content {
 [data-md-color-scheme="default"] .md-button--primary {
     border-color: #E91E63 !important;
 }
+
+@media (max-width: 768px) {
+    .md-typeset pre,
+    .md-typeset pre > code,
+    .highlight pre,
+    .highlight pre > code,
+    .highlighttable {
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    
+    .md-typeset table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
