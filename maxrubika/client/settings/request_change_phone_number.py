@@ -1,5 +1,4 @@
 import maxrubika
-import re
 
 class RequestChangePhoneNumber:
     async def request_change_phone_number(

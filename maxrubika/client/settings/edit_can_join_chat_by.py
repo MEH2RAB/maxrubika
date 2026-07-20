@@ -22,6 +22,6 @@ class EditCanJoinChatBy:
             The updated privacy settings after the change.
         """
         return await self.set_setting(
-            can_join_chat_by=setting,
-            can_join_chat_by_exceptions=exceptions
+            can_join_chat_by = setting,
+            can_join_chat_by_exceptions = exceptions
         )

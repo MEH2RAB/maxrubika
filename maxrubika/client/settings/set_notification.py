@@ -45,7 +45,6 @@ class SetNotification:
             'in_app_preview': in_app_preview,
             'new_contacts': new_contacts,
         }
-
         for key, value in params.items():
             if value is not None:
                 settings[key] = value

@@ -22,6 +22,6 @@ class EditCanCalledBy:
             The updated privacy settings after the change.
         """
         return await self.set_setting(
-            can_called_by=setting,
-            can_called_by_exceptions=exceptions
+            can_called_by = setting,
+            can_called_by_exceptions = exceptions
         )

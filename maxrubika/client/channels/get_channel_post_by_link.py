@@ -19,8 +19,7 @@ class GetChannelPostByLink:
         Returns:
             Channel info and message data.
         """
-        result = await self.request(method = 'getLinkFromAppUrl', input = {'app_url': url})
-
+        result = await self.request(method='getLinkFromAppUrl', input={'app_url': url})
         info = result.to_dict() if hasattr(result, 'to_dict') else result
 
         if 'link' not in info:
@@ -46,7 +45,7 @@ class GetChannelPostByLink:
         message_result = await self.get_message_info(channel_guid, message_id)
         message_data = message_result.to_dict() if hasattr(message_result, 'to_dict') else message_result
 
-        ask_spam_link = await self._get_ask_spam_link(url) if re.match(r"https://rubika\.ir/\w+/[A-Z]", url) else None
+        ask_spam_link = await self._get_ask_spam_link(url)
 
         result_dict = {
             "channel_guid": channel.get('channel_guid'),
@@ -61,6 +60,24 @@ class GetChannelPostByLink:
         return Data(result_dict)
 
     async def _get_ask_spam_link(self, url: str) -> Optional[str]:
+        if not re.match(r"https://rubika\.ir/\w+/[A-Z]", url):
+            return None
+
+        html = await self._fetch_html(url)
+        if not html:
+            return None
+
+        link_match = re.search(r'var CHANNEL_MESSAGE_LINK="(rubika://[^"]+)"', html)
+        if link_match:
+            return link_match.group(1).replace("rubika://o.rubika.ir/", "https://go.rubika.ir/")
+
+        link_match = re.search(r'href="(rubika://[^"]+)"', html)
+        if link_match:
+            return link_match.group(1).replace("rubika://o.rubika.ir/", "https://go.rubika.ir/")
+
+        return None
+
+    async def _fetch_html(self, url: str) -> Optional[str]:
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -73,14 +90,9 @@ class GetChannelPostByLink:
                     if response.status != 200:
                         return None
                     html = await response.text(encoding='utf-8')
+                    if not html or len(html) < 100:
+                        return None
+                    return html
+
         except Exception:
             return None
-
-        if not html or len(html) < 100:
-            return None
-
-        link_match = re.search(r'var CHANNEL_MESSAGE_LINK="(rubika://[^"]+)"', html)
-        if not link_match:
-            return None
-
-        return link_match.group(1).replace("rubika://o.rubika.ir/", "https://go.rubika.ir/")

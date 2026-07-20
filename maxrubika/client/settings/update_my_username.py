@@ -1,20 +1,11 @@
-import maxrubika
-import re
+import re; import maxrubika
+from ..exceptions import InvalidInput
 
 class UpdateMyUsername:
-    """
-    Provides a method to update the username of the user.
-
-    Methods:
-        update_my_username: Update the username of the user.
-
-    Attributes:
-        self (maxrubika.Client): The maxrubika client instance.
-    """
     async def update_my_username(
-            self: "maxrubika.Client",
-            username: str
-    ) -> "maxrubika.types.Update":
+        self: "maxrubika.Client",
+        username: str
+    ):
         """
         Update the username of the user.
 
@@ -26,28 +17,25 @@ class UpdateMyUsername:
                 - Should not end with underscore
 
         Returns:
-            maxrubika.types.Update: The updated user information after the username update.
-
-        Raises:
-            ValueError: If username doesn't meet the requirements.
+            The updated user information.
         """
         username = username.replace('@', '').strip()
 
         if len(username) < 7:
-            raise ValueError('Username must be at least 7 characters long.')
+            raise InvalidInput('Username must be at least 7 characters long.')
         if len(username) > 32:
-            raise ValueError('Username must be at most 32 characters long.')
+            raise InvalidInput('Username must be at most 32 characters long.')
 
         if not re.match(r'^[a-zA-Z0-9_]+$', username):
-            raise ValueError('Username can only contain English letters, numbers, and underscore (_).')
+            raise InvalidInput('Username can only contain English letters, numbers, and underscore (_).')
 
         if username[0].isdigit() or username.startswith('_'):
-            raise ValueError('Username cannot start with a number or underscore.')
+            raise InvalidInput('Username cannot start with a number or underscore.')
 
         if username.endswith('_'):
-            raise ValueError('Username cannot end with underscore.')
+            raise InvalidInput('Username cannot end with underscore.')
 
         if not re.search(r'[a-zA-Z]', username):
-            raise ValueError('Username must contain at least one letter.')
-        
-        return await self.request(name = 'updateUsername', input = {'username': username})
+            raise InvalidInput('Username must contain at least one letter.')
+
+        return await self.request(mrthod = 'updateUsername', input = {'username': username})

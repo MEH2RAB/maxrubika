@@ -8,7 +8,4 @@ class GetUnconfirmedSessions:
         Returns:
             The result of the API call containing unconfirmed sessions.
         """
-        return await self.request(
-            method = 'getUnconfirmedSessions',
-            input = {}
-        )
+        return await self.request(method = 'getUnconfirmedSessions')

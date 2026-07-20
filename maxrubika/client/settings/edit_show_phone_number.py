@@ -22,6 +22,6 @@ class EditShowPhoneNumber:
             The updated privacy settings after the change.
         """
         return await self.set_setting(
-            show_my_phone_number=setting,
-            show_my_phone_number_exceptions=exceptions
+            show_my_phone_number = setting,
+            show_my_phone_number_exceptions = exceptions
         )

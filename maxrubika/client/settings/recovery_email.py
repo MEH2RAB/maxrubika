@@ -20,17 +20,16 @@ class RecoveryEmail:
         """
         print("Recovery code sent to email...")
         await self.request(
-            name = 'requestRecoveryEmail',
+            method = 'requestRecoveryEmail',
             input = {
                 "password": password,
                 "recovery_email": recovery_email
             }
         )
-
         code = input("Enter the code received in email: ").strip()
 
         result = await self.request(
-            name = "verifyRecoveryEmail",
+            method = "verifyRecoveryEmail",
             input = {
                 "password": password,
                 "code": code

@@ -19,7 +19,7 @@ class UpdateMyBio:
             raise InvalidInput("'bio' must be 150 characters or less.")
 
         return await self.request(
-            name = 'updateProfile',
+            method = 'updateProfile',
             input = {
                 'bio': bio,
                 'updated_parameters': ['bio']

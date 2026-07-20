@@ -22,6 +22,6 @@ class EditShowProfilePhoto:
             The updated privacy settings after the change.
         """
         return await self.set_setting(
-            show_my_profile_photo=setting,
-            show_my_profile_photo_exceptions=exceptions
+            show_my_profile_photo = setting,
+            show_my_profile_photo_exceptions = exceptions
         )

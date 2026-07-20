@@ -334,6 +334,18 @@ class IncomingEnvelope(Data):
                 sender_id=target_sender_id
             )
 
+    async def unban_member(self, sender_id: str = None):
+        """Unban this member or another member by sender ID."""
+        target_sender_id = sender_id or self.author_id
+        if not target_sender_id:
+            return
+
+        if self.chat_id and self.bot:
+            return await self.bot.unban_member(
+                chat_id=self.chat_id,
+                sender_id=target_sender_id
+            )
+
     async def reply(self, content: str, **extras):
         """Send a threaded reply directly from this event."""
         if self.chat_id and self.bot:

@@ -22,6 +22,6 @@ class EditShowLastOnline:
             The updated privacy settings after the change.
         """
         return await self.set_setting(
-            show_my_last_online=setting,
-            show_my_last_online_exceptions=exceptions
+            show_my_last_online = setting,
+            show_my_last_online_exceptions = exceptions
         )
