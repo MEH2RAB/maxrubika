@@ -11,7 +11,7 @@ class ForwardMessages:
         from_chat: str,
         message_ids: Union[str, int, list],
         to_chat: str,
-        drop_author: bool = False,
+        hide_author: bool = False,
         is_mute: bool = False,
         schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
         schedule_type: Optional[Literal['Default', 'WhenOnline']] = None,
@@ -23,7 +23,7 @@ class ForwardMessages:
             from_chat (str): The GUID, link, or username of the source chat.
             message_ids (Union[str, int, list]): The IDs of the messages to forward.
             to_chat (str): The GUID, link, or username of the destination chat.
-            drop_author (bool): Hide the original sender's identity. Default is False.
+            hide_author (bool): Hide the original sender's identity. Default is False.
             is_mute (bool): Forward silently without notification. Default is False.
             schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
                 When to send the forwarded message.
@@ -47,7 +47,7 @@ class ForwardMessages:
             'to_object_guid': to_chat_guid,
             'message_ids': message_ids,
             'rnd': random.randint(100000, 999999),
-            'drop_author': drop_author,
+            'drop_author': hide_author,
             'is_mute': is_mute
         }
         if schedule_time is not None:

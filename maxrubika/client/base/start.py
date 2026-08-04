@@ -6,8 +6,7 @@ import maxrubika
 from ..exceptions import (
     InvalidInput,
     NotRegistered,
-    InvalidAccess,
-    TooRequests
+    InvalidAccess
 )
 
 def convert_farsi_digits(text):
@@ -84,12 +83,14 @@ class Start:
                     self.logger.info('user', extra={'guid': result})
                     return self
 
-                except (NotRegistered, InvalidInput, InvalidAccess):
+                except (InvalidInput, InvalidAccess, NotRegistered):
                     continue
 
             raise NotRegistered
 
-        except (NotRegistered, InvalidInput, InvalidAccess):
+        except (InvalidInput, InvalidAccess, NotRegistered):
+            if not self.continue_on_error:
+                        raise
             self.DEFAULT_PLATFORM['platform'] = current_platform
             if current_platform == 'Web':
                 self.DEFAULT_PLATFORM['app_version'] = '4.4.33'

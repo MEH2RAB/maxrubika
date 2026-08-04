@@ -3,25 +3,30 @@ import maxrubika
 
 class GetChatInfo:
     async def get_chat_info(
-            self: "maxrubika.Client",
-            chat: str
-        ):
+        self: "maxrubika.Client",
+        chat: str
+    ):
         """
         Get information about a user, group, or channel.
 
         Parameters:
-            chat (str): The GUID or link or username of the chat (user, group, or channel).
+            chat (str): The GUID, link, or username of the chat (user, group, or channel).
 
         Returns:
             The update containing information about the chat.
         """
         if re.match(r"^([cubsg]0)[a-zA-Z0-9]{30}$", chat):
-            match chat[0]:
-                case "u": return await self.get_user_info(chat)
-                case "b": return await self.get_bot_info(chat)
-                case "c": return await self.get_channel_info(chat)
-                case "g": return await self.get_group_info(chat)
-                case "s": return await self.get_service_info(chat)
+            first_char = chat[0]
+            if first_char == "u":
+                return await self.get_user_info(chat)
+            elif first_char == "b":
+                return await self.get_bot_info(chat)
+            elif first_char == "c":
+                return await self.get_channel_info(chat)
+            elif first_char == "g":
+                return await self.get_group_info(chat)
+            elif first_char == "s":
+                return await self.get_service_info(chat)
 
         if "joing" in chat:
             info_chat = await self.get_info_by_link(chat)
@@ -52,8 +57,10 @@ class GetChatInfo:
         info_chat = await self.get_info_by_username(chat)
         if hasattr(info_chat, 'exist') and info_chat.exist:
             obj_type = getattr(info_chat, 'type', None)
-            match obj_type:
-                case "User": return await self.get_user_info(info_chat.user.user_guid)
-                case "Bot": return await self.get_bot_info(info_chat.bot.bot_guid)
-                case "Channel": return await self.get_channel_info(info_chat.channel.channel_guid)
+            if obj_type == "User":
+                return await self.get_user_info(info_chat.user.user_guid)
+            elif obj_type == "Bot":
+                return await self.get_bot_info(info_chat.bot.bot_guid)
+            elif obj_type == "Channel":
+                return await self.get_channel_info(info_chat.channel.channel_guid)
         return info_chat

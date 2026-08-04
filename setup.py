@@ -7,19 +7,19 @@ requirements = ['aiohttp', 'aiofiles', 'mutagen', 'pycryptodome', 'rich']
 
 setup(
     name = 'maxrubika',
-    version = '1.4.0',
+    version = '1.5.0',
     author = 'MEHRAB Farahmand',
     author_email = 'MEH2RABx@gmail.com',
-    description = 'Python async library for Rubika Messenger - Build bots and userbots effortlessly.',
+    description = 'Python async library for Rubika Platform - Build bots and userbots effortlessly.',
     keywords = ['maxrubika', 'rubika', 'bot', 'robot', 'asyncio', 'client'],
     long_description = long_description,
     python_requires = '>=3.8',
     long_description_content_type = 'text/markdown',
     url = 'https://github.com/MEH2RAB/maxrubika',
     project_urls={
-        "Documentation": "https://maxrubi.ir",
+        "Documentation": "https://maxrubi.ir/documents",
         "Source": "https://github.com/MEH2RAB/maxrubika",
-        "Channel": "https://rubika.ir/MAXRubikaLibrary",
+        "Channel": "https://rubika.ir/TheMAXRubika",
     },
     packages = find_packages(),
     exclude_package_data = {'': ['*.pyc', '*__pycache__*']},

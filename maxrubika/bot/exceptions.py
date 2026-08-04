@@ -27,7 +27,7 @@ class APIException(Exception):
             "TOO_REQUESTS": TooRequests,
         }
         exception_class = exception_map.get(status, cls)
-        return exception_class(status=status, dev_message=dev_message)
+        return exception_class(dev_message=dev_message)
 
     def _get_default_message(self, status: str) -> str:
         default_messages = {
@@ -52,46 +52,37 @@ class APIException(Exception):
         return self.__str__()
 
 class Network(APIException):
-    """خطاهای مربوط به شبکه و اتصال"""
     def __init__(self, dev_message: any = None):
         super().__init__(status="NETWORK_ERROR", dev_message=dev_message)
 
 class Timeout(APIException):
-    """خطای timeout در درخواست‌ها"""
     def __init__(self, dev_message: any = None):
         super().__init__(status="TIMEOUT_ERROR", dev_message=dev_message)
 
 class BadGateway(APIException):
-    """خطای 502 Bad Gateway"""
     def __init__(self, dev_message: any = None):
         super().__init__(status="BAD_GATEWAY", dev_message=dev_message)
 
 class InvalidResponse(APIException):
-    """پاسخ نامعتبر یا غیرقابل پردازش از سرور"""
     def __init__(self, dev_message: any = None):
         super().__init__(status="INVALID_RESPONSE", dev_message=dev_message)
 
 class JSONDecode(APIException):
-    """خطا در پردازش JSON پاسخ"""
     def __init__(self, dev_message: any = None):
         super().__init__(status="JSON_DECODE_ERROR", dev_message=dev_message)
 
 class ServerError(APIException):
-    """خطای سرور (خطاهای داخلی سرور روبیکا)"""
     def __init__(self, dev_message: any = None):
         super().__init__(status="SERVER_ERROR", dev_message=dev_message)
 
 class InvalidInput(APIException):
-    """ورودی نامعتبر - پارامترهای ارسالی مشکل دارند"""
     def __init__(self, dev_message: any = None):
         super().__init__(status="INVALID_INPUT", dev_message=dev_message)
 
 class InvalidAccess(APIException):
-    """دسترسی نامعتبر - توکن نامعتبر یا دسترسی کافی نیست"""
     def __init__(self, dev_message: any = None):
         super().__init__(status="INVALID_ACCESS", dev_message=dev_message)
 
 class TooRequests(APIException):
-    """تعداد درخواست‌ها بیش از حد مجاز - Rate limit"""
     def __init__(self, dev_message: any = None):
         super().__init__(status="TOO_REQUESTS", dev_message=dev_message)

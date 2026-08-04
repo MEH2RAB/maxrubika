@@ -23,7 +23,7 @@ class SendChatActivity:
         """
         chat_guid = await self.get_guid(chat)
 
-        if not chat_guid.startswith(("g0", "c0")):
+        if not chat_guid.startswith(("g0", "u0")):
             message = f"'{chat}' does not point to a valid chat. Expected a chat GUID, chat link, or username."
             raise InvalidInput(message)
 

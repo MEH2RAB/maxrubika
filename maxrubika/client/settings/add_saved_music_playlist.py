@@ -3,8 +3,8 @@ from pathlib import Path
 import maxrubika
 from ..core import media
 
-class SetSavedMusicPlaylist:
-    async def set_saved_music_playlist(
+class AddSavedMusicPlaylist:
+    async def add_saved_music_playlist(
         self: "maxrubika.Client",
         files: Union[Path, str, List[Union[Path, str]]] = None,
         file_inlines: List[dict] = None,
@@ -14,11 +14,11 @@ class SetSavedMusicPlaylist:
         **kwargs
     ):
         """
-        Replace the saved music playlist on your profile.
+        Add a saved music playlist on your profile.
 
         Parameters:
             files: A single file path or a list of file paths to music files.
-            file_inlines: Pre-uploaded file_inline dicts to set directly.
+            file_inlines: Pre-uploaded file_inline dicts to add directly.
             time: Custom duration in seconds. If not provided, auto-detected.
             performer: Custom performer name. If not provided, auto-detected.
             file_name: Custom file name. If not provided, uses original file name.
@@ -69,10 +69,13 @@ class SetSavedMusicPlaylist:
                     "is_round": False
                 })
 
-        return await self.request(
-            method = 'setSavedMusicPlaylist',
-            input = {
-                'object_guid': self.guid,
-                'playlist_tracks': tracks
-            }
-        )
+        last_result = None
+        for track in tracks:
+            last_result = await self.request(
+                method='addSavedMusicTrack',
+                input={
+                    'object_guid': self.guid,
+                    'added_track': track
+                }
+            )
+        return last_result

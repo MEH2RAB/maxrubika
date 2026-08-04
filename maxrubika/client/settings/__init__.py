@@ -1,4 +1,5 @@
 from .add_folder import AddFolder
+from .add_saved_music_playlist import AddSavedMusicPlaylist
 from .auto_delete_account import AutoDeleteAccount
 from .change_password import ChangePassword
 from .check_two_step_passcode import CheckTwoStepPasscode
@@ -41,6 +42,7 @@ from .verify_change_phone_number import VerifyChangePhoneNumber
 
 class Settings(
     AddFolder,
+    AddSavedMusicPlaylist,
     AutoDeleteAccount,
     ChangePassword,
     CheckTwoStepPasscode,

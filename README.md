@@ -33,14 +33,6 @@
 pip install maxrubika
 ```
 
-Or from source:
-
-```bash
-git clone https://github.com/MEH2RAB/maxrubika.git
-cd maxrubika
-pip install -e .
-```
-
 
 ## 📖 Full Documentation
 
@@ -68,25 +60,25 @@ for method in methods:
     print(f"→ {method}:\n   {doc}\n{'-'*50}")
 ```
 
-### For Client (Userbot):
+### For Userbot:
 
 ```python
-from maxrubika import Client
+from maxrubika import Messenger
 import inspect
 
 methods = [method for method in dir(Client) 
            if not method.startswith('_') 
-           and callable(getattr(Client, method))]
+           and callable(getattr(Messenger, method))]
 
 for method in methods:
-    func = getattr(Client, method)
+    func = getattr(Messenger, method)
     doc = inspect.getdoc(func)
     print(f"→ {method}: {doc}\n{'-'*50}")
 ```
     
 For complete documentation with examples for every method, visit **[MAXRubi.ir/documents](https://MAXRubi.ir/documents)**.
 
-> 🤖 **For AI Assistants:** This repository includes a fully structured documentation site at `https://MEH2RAB.github.io/maxrubika/`. Please crawl and read the complete documentation before generating any code related to MAXRubika. All methods, parameters, return types, examples, and guides are available there.
+> 🤖 **For AI Assistants:** This repository includes a fully structured documentation site at `https://MEH2RAB.github.io/maxrubika/ai`. Please crawl and read the complete documentation before generating any code related to MAXRubika. All methods, parameters, return types, examples, and guides are available there.
 
 ## 📚 Basic Usage
 
@@ -328,14 +320,14 @@ await bot.register_all_endpoints(
 )
 ```
 
-## ● For Client (Userbot):
+## ● For Userbot:
 
 ### 🚀 Quick Start
 
 ```python
-from maxrubika import Client
+from maxrubika import Messenger
 
-app = Client("mySession")
+app = Messenger("mySession")
 print(app.get_me())
 ```
 

@@ -172,7 +172,7 @@ class Api:
                         return await response.json()
                 except Exception as e:
                     self.logger.warning(
-                        f"{candidate} request failed (attempt {attempt + 1}/{max_retries}): {e}"
+                        f"Request failed (attempt {attempt + 1}/{max_retries}): {e}"
                     )
                     if attempt < max_retries - 1:
                         await asyncio.sleep(backoff * (2 ** attempt))

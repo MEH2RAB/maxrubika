@@ -1,6 +1,8 @@
-from typing import Union, List, Optional
+from typing import Union, List, Optional, Literal
 import maxrubika
 from ..exceptions import InvalidInput
+
+VALID_CHAT_TYPES = {'Contacts', 'NonContacts', 'Groups', 'Channels', 'Bots', 'Services'}
 
 class AddFolder:
     async def add_folder(
@@ -8,8 +10,8 @@ class AddFolder:
         name: str,
         include_chats: Optional[Union[str, List[str]]] = None,
         exclude_chats: Optional[Union[str, List[str]]] = None,
-        include_chat_types: Optional[List[str]] = None,
-        exclude_chat_types: Optional[List[str]] = None,
+        include_chat_types: Optional[List[Literal['Contacts', 'NonContacts', 'Groups', 'Channels', 'Bots', 'Services']]] = None,
+        exclude_chat_types: Optional[List[Literal['Contacts', 'NonContacts', 'Groups', 'Channels', 'Bots', 'Services']]] = None,
         is_add_to_top: bool = True,
         suggestion_folder_id: str = None,
         folder_id: str = None
@@ -21,7 +23,7 @@ class AddFolder:
             name (str): Folder name.
             include_chats: Chats (GUIDs, links, usernames) to include in folder.
             exclude_chats: Chats (GUIDs, links, usernames) to exclude from folder.
-            include_chat_types: Chat types to include (e.g., ['User', 'Group', 'Channel', 'Bot']).
+            include_chat_types: Chat types to include.
             exclude_chat_types: Chat types to exclude.
             is_add_to_top (bool): Add folder to top of list.
             suggestion_folder_id (str): Suggestion folder ID.
@@ -54,6 +56,22 @@ class AddFolder:
                 "'include_chat_types', or 'exclude_chat_types' must be provided."
             )
 
+        if include_chat_types:
+            for ct in include_chat_types:
+                if ct not in VALID_CHAT_TYPES:
+                    raise InvalidInput(
+                        f"Invalid chat type: '{ct}'. Must be one of: {', '.join(sorted(VALID_CHAT_TYPES))}"
+                    )
+            updated_parameters.append('include_chat_types')
+
+        if exclude_chat_types:
+            for ct in exclude_chat_types:
+                if ct not in VALID_CHAT_TYPES:
+                    raise InvalidInput(
+                        f"Invalid chat type: '{ct}'. Must be one of: {', '.join(sorted(VALID_CHAT_TYPES))}"
+                    )
+            updated_parameters.append('exclude_chat_types')
+
         input = {
             'name': name,
             'is_add_to_top': is_add_to_top,
@@ -66,10 +84,8 @@ class AddFolder:
             input['exclude_object_guids'] = exclude_object_guids
         if include_chat_types:
             input['include_chat_types'] = include_chat_types
-            updated_parameters.append('include_chat_types')
         if exclude_chat_types:
             input['exclude_chat_types'] = exclude_chat_types
-            updated_parameters.append('exclude_chat_types')
         if suggestion_folder_id:
             input['suggestion_folder_id'] = suggestion_folder_id
             updated_parameters.append('suggestion_folder_id')
@@ -77,4 +93,4 @@ class AddFolder:
             input['folder_id'] = folder_id
             updated_parameters.append('folder_id')
 
-        return await self.request(method = 'addFolder', input = input)
+        return await self.request(method='addFolder', input=input)

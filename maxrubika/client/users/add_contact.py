@@ -25,7 +25,7 @@ class AddContact:
             The `first_name` and `last_name` parameters represent the name of the contact.
             If the contact has no last name, `last_name` can be an empty string.
         """
-        phone = re.sub(r'[^\d+]', '', phone)
+        phone = re.sub(r'[^\d+]', '', phone_number)
 
         if phone.startswith('+'):
             phone = phone[1:]

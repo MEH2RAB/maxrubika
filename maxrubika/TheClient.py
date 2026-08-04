@@ -6,6 +6,8 @@ import maxrubika
 from .client import Methods
 from .client.core.session import Session
 from .client.exceptions import InvalidInput
+from rich.console import Console
+from rich.text import Text
 
 class Client(Methods):
     DEFAULT_PLATFORM = {
@@ -33,7 +35,8 @@ class Client(Methods):
         logger: Optional[logging.Logger] = None,
         platform: Literal['web', 'pwa', 'android'] = 'web',
         max_retries: int = 5,
-        stop_on_first_match: bool = False
+        stop_on_first_match: bool = False,
+        continue_on_error: bool = True
     ) -> None:
         """
         Initialize the Rubika client.
@@ -48,11 +51,22 @@ class Client(Methods):
             platform: Literal['web', 'pwa', 'android']: Client platform (default: 'web').
             max_retries (int, optional): Maximum number of retries for requests (default: 5).
             stop_on_first_match (bool, optional): If True, stop processing handlers after the first match (default: False).
+            continue_on_error (bool, optional): If True, continue trying other platforms on auth errors (default: True).
 
         Raises:
             ValueError: If any input is invalid.
             TypeError: If the 'session' parameter is not a string.
         """
+        if type(self) is Client:
+            err_console = Console(stderr=True)
+            warning_msg = Text()
+            warning_msg.append("DeprecationWarning: ", style="red")
+            warning_msg.append("'Client'", style="red underline")
+            warning_msg.append(" is deprecated and will be removed in a future version. Please use ", style="red")
+            warning_msg.append("'Messenger'", style="red underline")
+            warning_msg.append(" instead.\n", style="red")
+            err_console.print(warning_msg)
+
         super().__init__()
 
         if session is None and auth is None and private_key is None:
@@ -79,7 +93,7 @@ class Client(Methods):
 
         self.DEFAULT_PLATFORM = self.DEFAULT_PLATFORM.copy()
         self.DEFAULT_PLATFORM['lang_code'] = 'fa'
-        
+
         if platform.lower() == 'pwa':
             self.DEFAULT_PLATFORM['platform'] = 'PWA'
             self.DEFAULT_PLATFORM['app_version'] = '2.5.8'
@@ -128,6 +142,7 @@ class Client(Methods):
         self.handlers = {}
         self.max_retries = max_retries
         self.stop_on_first_match = stop_on_first_match
+        self.continue_on_error = continue_on_error
 
         try:
             asyncio.get_running_loop()
@@ -166,3 +181,6 @@ class Client(Methods):
         if self.connection.session.closed:
             return
         await self.disconnect()
+
+class Messenger(Client):
+    pass

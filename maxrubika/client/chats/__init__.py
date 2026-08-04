@@ -30,6 +30,7 @@ from .get_info_by_link import GetInfoByLink
 from .get_info_by_username import GetInfoByUsername
 from .get_join_links import GetJoinLinks
 from .get_join_requests import GetJoinRequests
+from .get_my_guid import GetMyGuid
 from .get_pending_owner import GetPendingOwner
 from .get_profile_link_items import GetProfileLinkItems
 from .get_related_chats import GetRelatedChats
@@ -37,6 +38,7 @@ from .get_voice_chat_participants import GetVoiceChatParticipants
 from .get_voice_chat_updates import GetVoiceChatUpdates
 from .join_chat import JoinChat
 from .join_voice_chat import JoinVoiceChat
+from .leave_chat import LeaveChat
 from .leave_voice_chat import LeaveVoiceChat
 from .member_is_admin import MemberIsAdmin
 from .mute_chat import MuteChat
@@ -101,6 +103,7 @@ class Chats(
     GetInfoByUsername,
     GetJoinLinks,
     GetJoinRequests,
+    GetMyGuid,
     GetPendingOwner,
     GetProfileLinkItems,
     GetRelatedChats,
@@ -108,6 +111,7 @@ class Chats(
     GetVoiceChatUpdates,
     JoinChat,
     JoinVoiceChat,
+    LeaveChat,
     LeaveVoiceChat,
     MemberIsAdmin,
     MuteChat,

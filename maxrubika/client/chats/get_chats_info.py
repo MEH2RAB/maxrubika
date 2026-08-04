@@ -11,7 +11,7 @@ class GetChatsInfo:
         Get information about multiple chats by their GUIDs.
 
         Parameters:
-            chats (Union[str, List[str]]): A single chat GUID or a list of chat GUIDs.
+            chats (Union[str, List[str]]): A single chat (GUID, username, or link) or a list of them.
 
         Returns:
             The result of the API call containing chats information.
