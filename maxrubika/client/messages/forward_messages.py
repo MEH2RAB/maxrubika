@@ -31,7 +31,7 @@ class ForwardMessages:
                 - timedelta: Relative time from now
                 - datetime: Absolute date and time
             schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-                'Default' uses schedule_time, 'WhenOnline' sends when user comes online (u0 only).
+                'Default' uses schedule_time, 'WhenOnline' sends when user comes online.
 
         Returns:
             The updated information after forwarding the messages.

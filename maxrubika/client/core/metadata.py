@@ -117,12 +117,14 @@ def to_metadata(text: str) -> Dict[str, Any]:
             markup_len = utf16[end] - utf16[start]
             char_markup = end - start
 
-            if md_type == "Link" and url.startswith('u0'):
+            if md_type == "Link" and (url.startswith('u0') or url.startswith('b0')):
+                mention_type = "User" if url.startswith('u0') else "Bot"
                 part = {
                     "type": "MentionText",
                     "from_index": adj_start,
                     "length": content_len,
-                    "mention_text_user_id": url
+                    "mention_text_object_guid": url,
+                    "mention_text_object_type": mention_type
                 }
             elif md_type == "Link":
                 part = {
