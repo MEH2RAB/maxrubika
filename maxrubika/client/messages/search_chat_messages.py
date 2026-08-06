@@ -12,19 +12,20 @@ class SearchChatMessages:
 
         Parameters:
             chat (str): The GUID, link, or username of the chat.
-            search_text (str): The text to search for in messages.
+            search_text (str): The text to search for in messages. 
 
         Returns:
             The search results containing messages.
         """
         chat_guid = await self.get_guid(chat)
+        is_hashtag = search_text.startswith('#')
 
         result = await self.request(
-            method='searchChatMessages',
-            input={
+            method = 'searchChatMessages',
+            input = {
                 'object_guid': chat_guid,
-                'search_text': search_text,
-                'type': "Hashtag" if search_text.startswith("#") else "Text"
+                'search_text': search_text[1:] if is_hashtag else search_text,
+                'type': "Hashtag" if is_hashtag else "Text"
             }
         )
 

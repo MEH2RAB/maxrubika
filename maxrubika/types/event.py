@@ -58,12 +58,7 @@ class Event(Data):
 
     @property
     def is_me(self):
-        if self.client:
-            if self.author_guid:
-                return self.author_guid == self.client.guid
-            if self.user_guid:
-                return self.user_guid == self.client.guid
-        return False
+        return self.author_guid == self.client.guid if self.client else False
 
     @property
     def is_group(self):

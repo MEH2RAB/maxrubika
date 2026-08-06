@@ -1,6 +1,8 @@
+import base64
 import os
 import asyncio
 import inspect
+import aiohttp
 import aiofiles
 from typing import Callable, Optional, Union
 import maxrubika
@@ -21,7 +23,7 @@ class UploadFile:
         Upload a file to Rubika with chunked transfer and retry logic.
 
         Parameters:
-            file (str or bytes): File path or bytes to upload.
+            file (str or bytes): File path, bytes, base64 string, or URL to upload.
             mime (str, optional): MIME type of the file.
             file_name (str, optional): Name of the file.
             chunk (int, optional): Chunk size in bytes (default: 1MB).
@@ -30,17 +32,30 @@ class UploadFile:
         Returns:
             Metadata about the uploaded file.
         """
+        if isinstance(file, str) and not os.path.exists(file) and not file.startswith('http'):
+            try:
+                file = base64.b64decode(file)
+            except:
+                pass
+
         if isinstance(file, str):
-            if not os.path.exists(file):
+            if file.startswith('http'):
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(file) as resp:
+                        file = await resp.read()
+                file_name = file_name or file.split('/')[-1].split('?')[0]
+                file_size = len(file)
+            elif os.path.exists(file):
+                file_name = file_name or os.path.basename(file)
+                file_size = os.path.getsize(file)
+            else:
                 raise exceptions.InvalidInput("Unable to locate file at the given path.")
-            file_name = file_name or os.path.basename(file)
-            file_size = os.path.getsize(file)
         elif isinstance(file, bytes):
             if not file_name:
                 raise exceptions.InvalidInput("'file_name' must be provided for byte uploads.")
             file_size = len(file)
         else:
-            raise exceptions.InvalidInput("Expected a file path (str) or raw bytes.")
+            raise exceptions.InvalidInput("Expected a file path (str), raw bytes, base64 string, or URL.")
 
         mime = mime or file_name.split(".")[-1]
         max_retries = self.max_retries
@@ -56,7 +71,7 @@ class UploadFile:
             except exceptions.CancelledError:
                 return None
             except Exception as e:
-                self.logger.error(f"Callback error: {e}")
+                self.logger.error(f"Callback error: {e}", exc_info=True)
 
         async def upload_chunk(data: bytes, part_number: int) -> dict:
             for attempt in range(max_retries):

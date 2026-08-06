@@ -211,10 +211,11 @@ class SendMessage:
                 file_inline['thumb_inline'] = thumb_inline
 
             if custom_time is not None:
+                custom_time = int(custom_time)
                 file_inline['time'] = custom_time if type == 'Music' else custom_time * 1000
             elif type == 'Music' and audio_info_result is not None:
                 file_inline['time'] = audio_info_result.duration
-            elif thumb_obj is not None:
+            elif isinstance(thumb_obj, media.ResultMedia):
                 file_inline['time'] = thumb_obj.seconds
             elif audio_info_result is not None:
                 file_inline['time'] = audio_info_result.duration * 1000

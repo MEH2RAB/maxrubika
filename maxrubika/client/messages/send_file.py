@@ -13,7 +13,8 @@ class SendFile:
         via_bot: Optional[str] = None,
         auto_delete: Optional[int] = None,
         schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
-        schedule_type: Optional[Literal['Default', 'WhenOnline']] = None
+        schedule_type: Optional[Literal['Default', 'WhenOnline']] = None,
+        **kwargs
     ):
         """
         Send a file.
@@ -45,5 +46,6 @@ class SendFile:
             via_bot=via_bot,
             auto_delete=auto_delete,
             schedule_time=schedule_time,
-            schedule_type=schedule_type
+            schedule_type=schedule_type,
+            **kwargs
         )

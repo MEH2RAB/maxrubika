@@ -76,7 +76,7 @@ class GetUpdates:
                 ]
                 await asyncio.gather(*tasks)
             except Exception as e:
-                self.logger.error(f"Channel update error: {e}", extra={"data": msg_data})
+                self.logger.error(f"Channel update error: {e}", extra={"data": msg_data}, exc_info=True)
             return
 
         try:
@@ -96,5 +96,6 @@ class GetUpdates:
         except Exception as e:
             self.logger.error(
                 f"Failed to handle WebSocket message: {e}",
-                extra={"data": msg_data}
+                extra={"data": msg_data},
+                exc_info=True
             )

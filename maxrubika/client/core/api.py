@@ -215,5 +215,6 @@ class Api:
             except Exception as e:
                 self.logger.error(
                     f"Handler '{name}' failed: {e}",
-                    extra={"data": event}  
+                    extra={"data": event},
+                    exc_info=True
                 )

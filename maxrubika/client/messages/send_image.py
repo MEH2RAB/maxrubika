@@ -17,7 +17,8 @@ class SendImage:
         height: Optional[int] = None,
         auto_delete: Optional[int] = None,
         schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
-        schedule_type: Optional[Literal['Default', 'WhenOnline']] = None
+        schedule_type: Optional[Literal['Default', 'WhenOnline']] = None,
+        **kwargs
     ):
         """
         Send an image to a chat.
@@ -59,5 +60,6 @@ class SendImage:
             width=width,
             height=height,
             schedule_time=schedule_time,
-            schedule_type=schedule_type
+            schedule_type=schedule_type,
+            **kwargs
         )

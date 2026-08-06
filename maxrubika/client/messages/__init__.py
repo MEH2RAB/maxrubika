@@ -32,6 +32,7 @@ from .report_message import ReportMessage
 from .request_send_file import RequestSendFile
 from .retract_poll import RetractPoll
 from .search_chat_messages import SearchChatMessages
+from .search_global_messages import SearchGlobalMessages
 from .search_messages import SearchMessages
 from .send_contact import SendContact
 from .send_file import SendFile
@@ -46,6 +47,7 @@ from .send_now_scheduled_message import SendNowScheduledMessage
 from .send_poll import SendPoll
 from .send_quiz import SendQuiz
 from .send_rubino_post import SendRubinoPost
+from .send_rubino_product import SendRubinoProduct
 from .send_rubino_story import SendRubinoStory
 from .send_sticker import SendSticker
 from .send_video import SendVideo
@@ -92,6 +94,7 @@ class Messages(
     RequestSendFile,
     RetractPoll,
     SearchChatMessages,
+    SearchGlobalMessages,
     SearchMessages,
     SendContact,
     SendFile,
@@ -106,6 +109,7 @@ class Messages(
     SendPoll,
     SendQuiz,
     SendRubinoPost,
+    SendRubinoProduct,
     SendRubinoStory,
     SendSticker,
     SendVideo,

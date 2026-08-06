@@ -17,7 +17,8 @@ class SendGif:
         time: Optional[int] = None,
         auto_delete: Optional[int] = None,
         schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
-        schedule_type: Optional[Literal['Default', 'WhenOnline']] = None
+        schedule_type: Optional[Literal['Default', 'WhenOnline']] = None,
+        **kwargs
     ):
         """
         Send a GIF to a chat.
@@ -60,5 +61,6 @@ class SendGif:
             time=time,
             auto_delete=auto_delete,
             schedule_time=schedule_time,
-            schedule_type=schedule_type
+            schedule_type=schedule_type,
+            **kwargs
         )
