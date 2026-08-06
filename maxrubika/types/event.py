@@ -1,4 +1,4 @@
-from typing import Literal, Union
+from typing import Literal
 import maxrubika
 from ..data import Data
 
@@ -6,17 +6,17 @@ class Event(Data):
     def __init__(self, event: dict, *args, **kwargs) -> None:
         super().__init__(event)
         self.client: "maxrubika.Client" = event.get("client")
-        
+
         msg = event.get('message', {}) if isinstance(event.get('message'), dict) else {}
         fi = msg.get('file_inline', {}) if isinstance(msg.get('file_inline'), dict) else {}
-        
+
         self.action = event.get('action', '')
         self.type = event.get('type', '')
         self.message_id = event.get('message_id', '')
         self.object_guid = event.get('object_guid', '')
         self.timestamp = event.get('timestamp', '')
         self.user_guid = event.get('user_guid', '')
-        
+
         self.text = msg.get('text', '')
         self.is_edited = msg.get('is_edited', False)
         self.author_guid = msg.get('author_object_guid', '')
@@ -27,7 +27,7 @@ class Event(Data):
         self.reactions = msg.get('reactions', None)
         self.event_data = msg.get('event_data', None)
         self.message_type = msg.get('type', '')
-        
+
         self.file_inline_raw = msg.get('file_inline', None)
         self.file_type = fi.get('type', '')
         self.is_round = fi.get('is_round', False)
@@ -43,7 +43,7 @@ class Event(Data):
         self.file_mime = fi.get('mime', '')
         self.thumb_inline = fi.get('thumb_inline', '') if self.file_type in ('Image', 'Video', 'Gif', 'VideoMessage') else ''
         self.music_performer = fi.get('music_performer', '')
-        
+
         self.user_activity_guid = event.get('user_activity_guid', '')
         self.object_type = event.get('object_type', '')
         self.updated_parameters = event.get('updated_parameters', [])
@@ -58,7 +58,12 @@ class Event(Data):
 
     @property
     def is_me(self):
-        return self.author_guid == self.client.guid if self.client else False
+        if self.client:
+            if self.author_guid:
+                return self.author_guid == self.client.guid
+            if self.user_guid:
+                return self.user_guid == self.client.guid
+        return False
 
     @property
     def is_group(self):
@@ -232,7 +237,7 @@ class Event(Data):
 
     async def copy(self, to_chat: str = None, via_bot: str = None):
         target = to_chat or self.chat_guid
-        
+
         if self.file_inline:
             file_path = await self.download(save_as=True)
             if not file_path:

@@ -9,7 +9,7 @@ from .TheBot import Bot
 from .TheClient import Client, Messenger
 
 __author__ = 'MEHRAB Farahmand'
-__version__ = '1.5.2'
+__version__ = '1.5.3'
 
 def check_for_updates(current_version_str):
     try:
