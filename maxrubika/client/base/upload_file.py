@@ -12,7 +12,8 @@ from .. import exceptions
 class UploadFile:
     async def upload_file(
         self: "maxrubika.Client",
-        file: Union[str, bytes],
+        file: Union[str, bytes, None] = None,
+        base64_data: Optional[str] = None,
         mime: Optional[str] = None,
         file_name: Optional[str] = None,
         chunk: int = 1048576,
@@ -23,7 +24,8 @@ class UploadFile:
         Upload a file to Rubika with chunked transfer and retry logic.
 
         Parameters:
-            file (str or bytes): File path, bytes, base64 string, or URL to upload.
+            file (str, bytes, or None): File path, bytes, or URL to upload.
+            base64_data (str, optional): Base64 encoded file data.
             mime (str, optional): MIME type of the file.
             file_name (str, optional): Name of the file.
             chunk (int, optional): Chunk size in bytes (default: 1MB).
@@ -32,11 +34,14 @@ class UploadFile:
         Returns:
             Metadata about the uploaded file.
         """
-        if isinstance(file, str) and not os.path.exists(file) and not file.startswith('http'):
+        if base64_data:
             try:
-                file = base64.b64decode(file)
-            except:
-                pass
+                file = base64.b64decode(base64_data)
+            except Exception:
+                raise exceptions.InvalidInput("Invalid base64 data.")
+
+        if file is None:
+            raise exceptions.InvalidInput("Either 'file' or 'base64_data' must be provided.")
 
         if isinstance(file, str):
             if file.startswith('http'):
@@ -55,9 +60,9 @@ class UploadFile:
                 raise exceptions.InvalidInput("'file_name' must be provided for byte uploads.")
             file_size = len(file)
         else:
-            raise exceptions.InvalidInput("Expected a file path (str), raw bytes, base64 string, or URL.")
+            raise exceptions.InvalidInput("Expected a file path (str), raw bytes, or URL.")
 
-        mime = mime or file_name.split(".")[-1]
+        mime = mime or file_name.split(".")[-1] if file_name else "bin"
         max_retries = self.max_retries
 
         async def handle_callback(total: int, current: int):
@@ -122,7 +127,7 @@ class UploadFile:
         upload_result = None
 
         while index < total_parts:
-            if isinstance(file, str):
+            if isinstance(file, str) and os.path.exists(file):
                 async with aiofiles.open(file, "rb") as f:
                     await f.seek(index * chunk)
                     data = await f.read(chunk)

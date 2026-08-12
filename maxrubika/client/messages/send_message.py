@@ -2,6 +2,7 @@ from typing import Optional, Union, Literal
 from pathlib import Path
 from os import path
 from datetime import timedelta, datetime
+import base64
 import random
 import aiohttp
 import aiofiles
@@ -27,12 +28,12 @@ class SendMessage:
         text: Optional[str] = None,
         reply_to_message_id: Optional[Union[str, int]] = None,
         via_bot: Optional[str] = None,
-        auto_delete: Optional[Union[int, float]] = None,
         file_inline: Optional[Union[Data, Path, bytes]] = None,
+        base64_data: Optional[str] = None,
         sticker: Optional[Union[Data, dict]] = None,
         type: str = 'File',
         is_spoil: bool = False,
-        thumb: Optional[Union[bool, str]] = None,
+        thumb: Optional[Union[bool, str, Path, bytes]] = None,
         audio_info: bool = True,
         metadata: Optional[dict] = None,
         performer: Optional[str] = None,
@@ -48,12 +49,12 @@ class SendMessage:
             text (Optional[str]): The text content of the message.
             reply_to_message_id (Optional[Union[str, int]]): The ID of the message to reply to.
             via_bot (Optional[str]): Bot GUID or username to send the message via.
-            auto_delete (Optional[Union[int, float]]): Auto-delete duration in seconds.
             file_inline (Optional[Union[Data, Path, bytes]]): The file to attach.
+            base64_data (Optional[str]): Base64 encoded file data.
             sticker (Optional[Union[Data, dict]]): Sticker data to attach.
             type (str): The type of file ('File', 'Image', 'Video', 'Gif', 'Music', 'Voice', 'VideoMessage').
             is_spoil (bool): Whether the media is a spoiler.
-            thumb (Optional[Union[bool, str]]): Thumbnail - True for auto, str for base64, None for no thumbnail.
+            thumb (Optional[Union[bool, str, Path, bytes]]): Thumbnail - True for auto, str/Path/bytes for custom, None for no thumbnail.
             audio_info (bool): Whether to extract audio metadata (Music/Voice only).
             metadata (Optional[dict]): Additional metadata for text formatting.
             performer (Optional[str]): Music performer name.
@@ -67,7 +68,8 @@ class SendMessage:
             **kwargs: Additional file metadata:
                 - width (int): Custom width
                 - height (int): Custom height
-                - time (int): Custom duration in seconds
+                - time (Union[int, float, timedelta]): Custom duration. 
+                    int/float < 1000 = seconds, int/float >= 1000 = milliseconds, timedelta = converted to seconds.
                 - file_name (str): Custom file name
 
         Returns:
@@ -78,7 +80,7 @@ class SendMessage:
             - For Voice, Image, Gif, Video, VideoMessage, and File, `time` is in **milliseconds**.
             - If `schedule_time` is provided, `is_scheduled` is automatically set to True and `schedule_type` to 'Default'.
             - If `schedule_type='WhenOnline'` is provided, `is_scheduled` is automatically set to True.
-              This only works for user chats (u0).
+              This only works for user chats.
         """
         if chat.lower() in ('me', 'cloud', 'self', 'myself'):
             chat_guid = self.guid
@@ -128,7 +130,7 @@ class SendMessage:
         if via_bot is not None:
             bot_guid = await self.get_guid(via_bot)
             if not bot_guid.startswith('b0'):
-                raise InvalidInput(f"'{via_bot}' does not point to a valid bot.")
+                raise InvalidInput(f"'{via_bot}' does not point to a valid bot. Expected a bot GUID or bot username.")
             input['via_bot_guid'] = bot_guid
 
         if text is not None and isinstance(text, str) and text.strip():
@@ -157,23 +159,39 @@ class SendMessage:
                 else sticker
             )
 
+        if base64_data:
+            try:
+                file_inline = base64.b64decode(base64_data)
+            except Exception:
+                raise InvalidInput("Invalid base64 data.")
+
         if file_inline is not None and isinstance(file_inline, str):
-            if not file_inline.startswith('http'):
-                async with aiofiles.open(file_inline, 'rb') as file:
-                    kwargs['file_name'] = kwargs.get('file_name', path.basename(file_inline))
-                    file_inline = await file.read()
-            else:
-                async with aiohttp.ClientSession(headers={'user-agent': self.user_agent}) as cs:
-                    mime = await get_mime_from_url(session=cs, url=file_inline)
-                    kwargs['file_name'] = kwargs.get('file_name', ''.join([str(input['rnd']), mime or f'.{type}']))
-                    async with cs.get(file_inline) as result:
-                        file_inline = await result.read()
+            if not file_inline.startswith('http') and not path.exists(file_inline):
+                raise InvalidInput("Unable to locate file at the given path.")
+
+            if isinstance(file_inline, str):
+                if not file_inline.startswith('http'):
+                    async with aiofiles.open(file_inline, 'rb') as file:
+                        kwargs['file_name'] = kwargs.get('file_name', path.basename(file_inline))
+                        file_inline = await file.read()
+                else:
+                    async with aiohttp.ClientSession(headers={'user-agent': self.user_agent}) as cs:
+                        mime = await get_mime_from_url(session=cs, url=file_inline)
+                        kwargs['file_name'] = kwargs.get('file_name', ''.join([str(input['rnd']), mime or f'.{type}']))
+                        async with cs.get(file_inline) as result:
+                            file_inline = await result.read()
 
         if isinstance(file_inline, bytes):
             custom_width = kwargs.get('width')
             custom_height = kwargs.get('height')
             custom_time = kwargs.get('time')
             custom_performer = performer
+
+            if isinstance(custom_time, timedelta):
+                custom_time = custom_time.total_seconds()
+            elif isinstance(custom_time, (int, float)):
+                if custom_time >= 1000:
+                    custom_time = custom_time / 1000
 
             audio_info_result = None
             if type in ('Music', 'Voice') and audio_info is True:
@@ -182,26 +200,52 @@ class SendMessage:
                     if custom_performer is None and type == 'Music':
                         custom_performer = audio_info_result.performer
 
-            NEEDS_THUMBNAIL = ('Image', 'Gif', 'Video', 'VideoMessage')
-            thumb = True if (thumb is None and type in NEEDS_THUMBNAIL) else (False if thumb is None else thumb)
-
             thumb_obj = None
+            if type == 'Image':
+                thumb_obj = media.MediaThumbnail.from_image(file_inline)
+            elif type in ('Video', 'Gif', 'VideoMessage'):
+                thumb_obj = media.MediaThumbnail.from_video(file_inline)
+
+            NEEDS_THUMBNAIL = ('Image', 'Gif', 'Video', 'VideoMessage')
+            use_thumb = True if (thumb is None and type in NEEDS_THUMBNAIL) else (False if thumb is None else thumb)
+
             thumb_inline = None
 
-            if thumb is True:
-                if type == 'Image':
-                    thumb_obj = media.MediaThumbnail.from_image(file_inline)
-                elif type in ('Video', 'Gif', 'VideoMessage'):
-                    thumb_obj = media.MediaThumbnail.from_video(file_inline)
-
+            if use_thumb is True:
                 if isinstance(thumb_obj, media.ResultMedia):
                     thumb_inline = thumb_obj.to_base64()
                 elif isinstance(thumb_obj, str):
                     thumb_inline = thumb_obj
-            elif isinstance(thumb, str):
-                thumb_inline = thumb
+            elif isinstance(use_thumb, bytes):
+                result = media.MediaThumbnail.from_manual(use_thumb)
+                if isinstance(result, media.ResultMedia):
+                    thumb_inline = result.to_base64()
+                else:
+                    thumb_inline = result
+            elif isinstance(use_thumb, (str, Path)):
+                thumb_data = None
+                if isinstance(use_thumb, Path) or (isinstance(use_thumb, str) and path.exists(use_thumb)):
+                    if isinstance(use_thumb, str):
+                        async with aiofiles.open(use_thumb, 'rb') as f:
+                            thumb_data = await f.read()
+                    else:
+                        async with aiofiles.open(str(use_thumb), 'rb') as f:
+                            thumb_data = await f.read()
+                elif isinstance(use_thumb, str) and use_thumb.startswith('http'):
+                    async with aiohttp.ClientSession() as cs:
+                        async with cs.get(use_thumb) as resp:
+                            thumb_data = await resp.read()
+                else:
+                    thumb_inline = use_thumb
 
-            file_inline = await self.upload_file(file_inline, file_name=kwargs.get('file_name'))
+                if thumb_data:
+                    result = media.MediaThumbnail.from_manual(thumb_data)
+                    if isinstance(result, media.ResultMedia):
+                        thumb_inline = result.to_base64()
+                    else:
+                        thumb_inline = result
+
+            file_inline = await self.upload_file(file=file_inline, file_name=kwargs.get('file_name'))
 
             if type == 'VideoMessage':
                 file_inline['is_round'] = True
@@ -222,8 +266,8 @@ class SendMessage:
             else:
                 file_inline['time'] = 1 if type == 'Music' else 1000
 
-            file_inline['width'] = custom_width or (thumb_obj.width if thumb_obj else 200)
-            file_inline['height'] = custom_height or (thumb_obj.height if thumb_obj else 200)
+            file_inline['width'] = custom_width or (thumb_obj.width if isinstance(thumb_obj, media.ResultMedia) else 200)
+            file_inline['height'] = custom_height or (thumb_obj.height if isinstance(thumb_obj, media.ResultMedia) else 200)
 
             file_inline['music_performer'] = (
                 custom_performer or
@@ -234,18 +278,15 @@ class SendMessage:
 
         if file_inline is not None:
             input['file_inline'] = file_inline if isinstance(file_inline, dict) else file_inline.to_dict()
-            result = await self.request('sendMessage', input=input)
+            result = await self.request(method = 'sendMessage', input = input)
         else:
             if 'text' in input:
                 chunks = [input['text'][i:i+4200] for i in range(0, len(input['text']), 4200)]
                 if not chunks:
-                    result = await self.request('sendMessage', input=input)
+                    result = await self.request(method = 'sendMessage', input = input)
                 else:
                     for chunk in chunks:
                         input['text'] = chunk.strip()
-                        result = await self.request('sendMessage', input=input)
-
-        if isinstance(auto_delete, (int, float)):
-            asyncio.create_task(self.auto_delete_message(result.object_guid, result.message_id, auto_delete))
+                        result = await self.request(method = 'sendMessage', input = input)
 
         return result

@@ -4,6 +4,7 @@ from ...data import Data
 from .. import exceptions
 import maxrubika
 import asyncio
+import json
 
 class Request:
     async def request(
@@ -35,20 +36,36 @@ class Request:
             self.auth = Cipher.secret(length=32)
 
         if self.key is None:
-            self.key = Cipher.passphrase(self.auth)
+            if self.API_VERSION == 5:
+                self.key = Cipher.secret_v5(self.auth)
+            else:
+                self.key = Cipher.passphrase(self.auth)
 
         client = self.DEFAULT_PLATFORM.copy()
 
-        data = {"api_version": self.API_VERSION}
-        data["tmp_session" if tmp_session else "auth"] = (
-            self.auth if tmp_session else self.decode_auth
-        )
+        data = {"api_version": str(self.API_VERSION)}
 
-        data_enc = {"client": client, "method": method, "input": input or {}}
+        if self.API_VERSION == 5:
+            if tmp_session:
+                data["tmp_session"] = self.auth
+            else:
+                data["auth"] = self.auth
+        else:
+            data["tmp_session" if tmp_session else "auth"] = (
+                self.auth if tmp_session else self.decode_auth
+            )
+
+        data_enc = {"method": method, "input": input or {}, "client": client}
+        
         if encrypt:
-            data["data_enc"] = Cipher.encrypt(data_enc, key=self.key)
-            if not tmp_session:
-                data["sign"] = Cipher.sign(self.import_key, data["data_enc"])
+            if self.API_VERSION == 5:
+                data["data_enc"] = Cipher.encrypt_v5(
+                    json.dumps(data_enc), key=self.key
+                )
+            else:
+                data["data_enc"] = Cipher.encrypt(data_enc, key=self.key)
+                if not tmp_session:
+                    data["sign"] = Cipher.sign(self.import_key, data["data_enc"])
 
         result = await self.connection._http_request(data, max_retries=self.max_retries)
 
@@ -57,7 +74,10 @@ class Request:
 
         data_enc = result.get('data_enc')
         if data_enc is not None:
-            result = Cipher.decrypt(data_enc, key=self.key)
+            if self.API_VERSION == 5:
+                result = Cipher.decrypt_v5(data_enc, key=self.key)
+            else:
+                result = Cipher.decrypt(data_enc, key=self.key)
 
         status = result.get('status')
         status_det = result.get('status_det')
@@ -66,7 +86,7 @@ class Request:
             data_result = result.get('data')
 
             if data_result is None:
-                return None
+                return Data({})
 
             if isinstance(data_result, dict):
                 data_result['_client'] = self

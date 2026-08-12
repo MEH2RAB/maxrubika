@@ -3,42 +3,68 @@ import asyncio
 import inspect
 import aiohttp
 import aiofiles
+import base64
 from typing import Callable, Optional, Union
 import maxrubika
+from ...data import Data
 from .. import exceptions
 
 class DownloadFile:
     async def download_file(
         self: "maxrubika.Client",
-        dc_id: int,
-        file_id: int,
-        access_hash: str,
-        size: int,
+        file_inline: Optional[Union[dict, Data]] = None,
+        dc_id: Optional[int] = None,
+        file_id: Optional[int] = None,
+        access_hash: Optional[str] = None,
+        size: Optional[int] = None,
         chunk: int = 131072,
         callback: Optional[Callable[[int, int], Union[None, asyncio.Future]]] = None,
         gather: bool = False,
         save_as: Optional[Union[str, bool]] = None,
         file_name: Optional[str] = None,
+        as_base64: bool = False,
         *args,
         **kwargs,
-    ) -> Union[bytes, str]:
+    ) -> Union[bytes, str, Data]:
         """
-        Download a file from Rubika using its file ID and access hash.
+        Download a file from Rubika.
 
         Parameters:
-            dc_id (int): Data center ID.
-            file_id (int): Unique identifier of the file.
-            access_hash (str): Access hash associated with the file.
-            size (int): Total size of the file in bytes.
+            file_inline (dict or Data, optional): File inline object from messages.
+                If provided, dc_id, file_id, access_hash, size will be extracted.
+            dc_id (int, optional): Data center ID (if file_inline not provided).
+            file_id (int, optional): Unique identifier of the file.
+            access_hash (str, optional): Access hash associated with the file.
+            size (int, optional): Total size of the file in bytes.
             chunk (int, optional): Size of each download chunk (default: 131072).
             callback (callable, optional): Progress callback(total_size, downloaded_size).
             gather (bool, optional): Download chunks in parallel (default: False).
             save_as (str or bool, optional): Directory path or True for current dir. If None, returns bytes.
             file_name (str, optional): Custom file name.
+            as_base64 (bool, optional): Return as base64 encoded string (default: False).
 
         Returns:
-            bytes or str: File content (bytes) or saved path (str).
+            bytes, str, or Data: File content (bytes), base64 string, or Data object (when save_as used).
         """
+        if file_inline:
+            if isinstance(file_inline, Data):
+                fi = file_inline
+            elif isinstance(file_inline, dict):
+                fi = Data(file_inline)
+            else:
+                raise exceptions.InvalidInput("'file_inline' must be a dict or Data object.")
+            dc_id = fi.dc_id
+            file_id = fi.file_id
+            access_hash = fi.access_hash_rec
+            size = fi.size
+            if not file_name:
+                file_name = fi.get('file_name')
+        
+        if not all([dc_id, file_id, access_hash, size]):
+            raise exceptions.InvalidInput(
+                "Either 'file_inline' or all of 'dc_id', 'file_id', 'access_hash', 'size' must be provided."
+            )
+
         if save_as is True:
             save_dir = os.getcwd()
         elif isinstance(save_as, str):
@@ -94,17 +120,7 @@ class DownloadFile:
         ) as session:
             if save_dir:
                 filename = file_name or "download.bin"
-                
                 filepath = os.path.join(save_dir, filename)
-                
-                if os.path.exists(filepath):
-                    base, ext = os.path.splitext(filename)
-                    counter = 1
-                    while os.path.exists(os.path.join(save_dir, f"{base}_{counter}{ext}")):
-                        counter += 1
-                    filename = f"{base}_{counter}{ext}"
-                    filepath = os.path.join(save_dir, filename)
-                
                 os.makedirs(save_dir, exist_ok=True)
 
                 async with aiofiles.open(filepath, "wb") as f:
@@ -115,7 +131,11 @@ class DownloadFile:
                             break
                         await f.write(data)
                         await handle_callback(size, end + 1)
-                return filepath
+                
+                return Data({
+                    "status": "OK",
+                    "message": f"File saved to {filepath}",
+                })
 
             elif gather:
                 tasks = [
@@ -125,7 +145,7 @@ class DownloadFile:
                 chunks = await asyncio.gather(*tasks)
                 result = b"".join(filter(None, chunks))
                 await handle_callback(size, len(result))
-                return result
+                return base64.b64encode(result).decode() if as_base64 else result
 
             else:
                 result = bytearray()
@@ -136,4 +156,5 @@ class DownloadFile:
                         break
                     result.extend(data)
                     await handle_callback(size, len(result))
-                return bytes(result)
+                result = bytes(result)
+                return base64.b64encode(result).decode() if as_base64 else result

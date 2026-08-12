@@ -5,7 +5,7 @@ class SearchGlobalMessages:
     async def search_global_messages(
         self: "maxrubika.Client",
         search_text: str,
-        start_id: Optional[str] = None
+        start_id: Optional[str] = None,
     ):
         """
         Search for messages globally across all chats.

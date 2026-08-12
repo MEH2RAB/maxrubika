@@ -38,6 +38,7 @@ from .update_my_birthday import UpdateMyBirthday
 from .update_my_name import UpdateMyName
 from .update_my_profile import UpdateMyProfile
 from .update_my_username import UpdateMyUsername
+from .upgrade_to_api6 import UpgradeToApi6
 from .verify_change_phone_number import VerifyChangePhoneNumber
 
 class Settings(
@@ -81,6 +82,7 @@ class Settings(
     UpdateMyName,
     UpdateMyProfile,
     UpdateMyUsername,
+    UpgradeToApi6,
     VerifyChangePhoneNumber
 ):
     pass

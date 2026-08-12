@@ -7,17 +7,17 @@ requirements = ['aiohttp', 'aiofiles', 'mutagen', 'pycryptodome', 'rich']
 
 setup(
     name = 'maxrubika',
-    version = '1.6.0',
+    version = '1.7.0',
     author = 'MEHRAB Farahmand',
     author_email = 'MEH2RABx@gmail.com',
-    description = 'Python async library for Rubika Platform - Build bots and userbots effortlessly.',
+    description = 'Python async library for Rubika Messenger - Build bots and userbots effortlessly.',
     keywords = ['maxrubika', 'rubika', 'bot', 'robot', 'asyncio', 'client'],
     long_description = long_description,
     python_requires = '>=3.8',
     long_description_content_type = 'text/markdown',
     url = 'https://github.com/MEH2RAB/maxrubika',
     project_urls={
-        "Documentation": "https://maxrubi.ir/documents",
+        "Documentation": "https://MAXRubi.ir/documents",
         "Source": "https://github.com/MEH2RAB/maxrubika",
         "Channel": "https://rubika.ir/TheMAXRubika",
     },
@@ -25,10 +25,10 @@ setup(
     exclude_package_data = {'': ['*.pyc', '*__pycache__*']},
     install_requires = requirements,
     extras_require = {
-        'cv': ['opencv-python'],
-        'movie': ['numpy', 'moviepy', 'pillow'],
-        'pil': ['pillow'],
-        'rtc': ['aiortc']
+        'opencv': ['opencv-python'],
+        'movie': ['numpy', 'moviepy'],
+        'pillow': ['pillow==9.4.0'],
+        'aiortc': ['aiortc']
     },
     classifiers = [
         'Programming Language :: Python :: 3',

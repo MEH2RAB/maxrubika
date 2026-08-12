@@ -1,5 +1,5 @@
 """
-Rubika Client Exception Classes for handling API errors.
+Rubika Messenger Exception Classes for handling API errors.
 """
 import json
 from typing import Optional, Union, Dict
@@ -100,6 +100,67 @@ class RequestError(ClientError):
     def __repr__(self) -> str:
         return self.__str__()
 
+class ValidationError(ClientError):
+    custom_status = "VALIDATION_ERROR"
+    
+    def __init__(self, message=None, request=None):
+        self.request = request
+        self._custom_user_message = message
+        super().__init__(message, request)
+    
+    def _get_custom_msg(self) -> Optional[str]:
+        custom_msg = getattr(self.__class__, 'custom_msg', None)
+        if custom_msg:
+            try:
+                custom_json = json.loads(custom_msg)
+                return custom_json.get('dev_message')
+            except:
+                return None
+        return None
+    
+    def _get_custom_status(self) -> Optional[str]:
+        return getattr(self.__class__, 'custom_status', None)
+    
+    def __str__(self) -> str:
+        status = self._get_custom_status() or "VALIDATION_ERROR"
+        dev_message = self._custom_user_message or self._get_custom_msg() or "A validation error occurred."
+        
+        return json.dumps({
+            "status": status,
+            "dev_message": dev_message
+        }, ensure_ascii=False)
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+
+class TimeoutError(ValidationError):
+    custom_status = "INVALID_TIMEOUT"
+    custom_msg = '{"status": "INVALID_TIMEOUT", "dev_message": "Timeout value is invalid."}'
+
+class ApiVersionError(ValidationError):
+    custom_status = "INVALID_API_VERSION"
+    custom_msg = '{"status": "INVALID_API_VERSION", "dev_message": "API version must be 5 or 6."}'
+
+class PlatformError(ValidationError):
+    custom_status = "INVALID_PLATFORM"
+    custom_msg = '{"status": "INVALID_PLATFORM", "dev_message": "Invalid platform specified."}'
+
+class AuthError(ValidationError):
+    custom_status = "INVALID_AUTH_INPUT"
+    custom_msg = '{"status": "INVALID_AUTH_INPUT", "dev_message": "Authentication parameters are invalid."}'
+
+class MaxRetriesError(ValidationError):
+    custom_status = "INVALID_MAX_RETRIES"
+    custom_msg = '{"status": "INVALID_MAX_RETRIES", "dev_message": "Max retries value is invalid."}'
+
+class ProxyError(ValidationError):
+    custom_status = "INVALID_PROXY"
+    custom_msg = '{"status": "INVALID_PROXY", "dev_message": "Proxy value is invalid."}'
+
+class SessionError(ValidationError):
+    custom_status = "INVALID_SESSION"
+    custom_msg = '{"status": "INVALID_SESSION", "dev_message": "Session parameter is invalid."}'
+
 class InvalidInput(RequestError):
     custom_status = "INVALID_INPUT"
     custom_msg = '{"status": "INVALID_INPUT", "dev_message": "Invalid input received. Please check and try again."}'
@@ -171,13 +232,10 @@ EXCEPTION_MAP = {
     'NOT_REGISTERED': NotRegistered, 'URL_NOT_FOUND': UrlNotFound,
     'CODE_IS_USED': CodeIsUsed, 'ERROR_ACTION': ErrorAction,
     'ERROR_IGNORE': ErrorIgnore, 'NO_CONNECTION': NoConnection,
-    'UNDELIVERABLE': Undeliverable, 'CODE_IS_EXPIRED': CodeIsExpired,
-    'INVALID_METHOD': InvalidMethod, 'USERNAME_EXIST': UsernameExist,
-    'ERROR_TRY_AGAIN': ErrorTryAgain, 'ERROR_MESSAGE_TRY': ErrorMessageTry,
-    'INTERNAL_PROBLEM': InternalProblem, 'ERROR_MESSAGE_IGN': ErrorMessageIgn,
-    'NOT_SUPPORTED_API_VERSION': NotSupportedApiVersion, 'INVALID_CHAT_INPUT': InvalidChatInput,
-    'INVALID_GROUP_LINK': InvalidGroupLink, 'INVALID_CHANNEL_LINK': InvalidChannelLink,
-    'INVALID_USERNAME': InvalidUsername,
+    'CODE_IS_EXPIRED': CodeIsExpired, 'INVALID_METHOD': InvalidMethod,
+    'USERNAME_EXIST': UsernameExist, 'ERROR_TRY_AGAIN': ErrorTryAgain,
+    'ERROR_MESSAGE_TRY': ErrorMessageTry, 'INTERNAL_PROBLEM': InternalProblem,
+    'ERROR_MESSAGE_IGN': ErrorMessageIgn, 'NOT_SUPPORTED_API_VERSION': NotSupportedApiVersion
 }
 
 def get(status_det: str):

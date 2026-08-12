@@ -1,4 +1,6 @@
+import os
 import re
+import asyncio
 from ..core.cipher import Cipher
 from Crypto.PublicKey import RSA
 from Crypto.Signature import pkcs1_15
@@ -8,6 +10,11 @@ from ..exceptions import (
     NotRegistered,
     InvalidAccess
 )
+from ..core.configs import PLATFORMS
+from rich.console import Console
+from rich.text import Text
+
+console = Console()
 
 def convert_farsi_digits(text):
     return text.translate(str.maketrans("۰۱۲۳۴۵۶۷۸۹", "0123456789"))
@@ -24,6 +31,14 @@ def normalize_phone_number(phone: str) -> str:
     return None
 
 class Start:
+    _ALIASES = {
+        'rubx': 'rubx',
+        'rubikids': 'rubikids',
+        'rubino': 'rubino',
+    }
+
+    ALL_PLATFORMS = ['Web', 'PWA', 'Android', 'RubX', 'RubiKids', 'Rubino']
+
     async def start(self: "maxrubika.Client", phone_number: str = None):
         """
         Start the client, handling authentication and registration.
@@ -39,9 +54,14 @@ class Start:
 
         current_platform = self.DEFAULT_PLATFORM['platform']
 
-        all_platforms = ['Web', 'PWA', 'Android']
-        tried_platforms = [current_platform]
-        for p in all_platforms:
+        alias_key = self._ALIASES.get(self._original_platform)
+        if alias_key and current_platform == 'Android':
+            alias_platform = {'rubx': 'RubX', 'rubikids': 'RubiKids', 'rubino': 'Rubino'}[alias_key]
+            tried_platforms = [alias_platform]
+        else:
+            tried_platforms = [current_platform]
+
+        for p in self.ALL_PLATFORMS:
             if p not in tried_platforms:
                 tried_platforms.append(p)
 
@@ -54,28 +74,21 @@ class Start:
 
             for platform in tried_platforms:
                 if platform != self.DEFAULT_PLATFORM['platform']:
-                    self.DEFAULT_PLATFORM['platform'] = platform
-                    if platform == 'Web':
-                        self.DEFAULT_PLATFORM['app_version'] = '4.4.33'
-                        self.DEFAULT_PLATFORM['package'] = 'web.rubika.ir'
-                    elif platform == 'Android':
-                        self.DEFAULT_PLATFORM['app_version'] = '4.0.5'
-                        self.DEFAULT_PLATFORM['package'] = 'app.rbmain.a'
-                    else:
-                        self.DEFAULT_PLATFORM['app_version'] = '2.5.8'
-                        self.DEFAULT_PLATFORM['package'] = 'm.rubika.ir'
+                    config_key = platform.lower()
+                    if platform in ('RubX', 'RubiKids', 'Rubino'):
+                        config_key = {'RubX': 'rubx', 'RubiKids': 'rubikids', 'Rubino': 'rubino'}[platform]
+                    
+                    config = PLATFORMS.get(config_key, {})
+                    self.DEFAULT_PLATFORM['platform'] = config.get('platform', platform)
+                    self.DEFAULT_PLATFORM['app_version'] = config.get('app_version', '4.4.33')
+                    self.DEFAULT_PLATFORM['package'] = config.get('package', 'web.rubika.ir')
 
                     if hasattr(self, 'connection'):
-                        if platform == "Android":
+                        platform_config = config.get('headers', {})
+                        if self.DEFAULT_PLATFORM['platform'] == "Android":
                             self.connection.headers.pop("origin", None)
                             self.connection.headers.pop("referer", None)
-                            self.connection.headers["user-agent"] = "okhttp/3.12.1"
-                        elif platform == "Web":
-                            self.connection.headers["origin"] = "https://web.rubika.ir"
-                            self.connection.headers["referer"] = "https://web.rubika.ir/"
-                        else:
-                            self.connection.headers["origin"] = "https://m.rubika.ir"
-                            self.connection.headers["referer"] = "https://m.rubika.ir/"
+                        self.connection.headers.update(platform_config)
 
                 try:
                     result = await self.get_me()
@@ -91,30 +104,54 @@ class Start:
         except (InvalidInput, InvalidAccess, NotRegistered):
             if not self.continue_on_error:
                         raise
+            config = PLATFORMS.get(self._original_platform, {})
             self.DEFAULT_PLATFORM['platform'] = current_platform
-            if current_platform == 'Web':
-                self.DEFAULT_PLATFORM['app_version'] = '4.4.33'
-                self.DEFAULT_PLATFORM['package'] = 'web.rubika.ir'
-            elif current_platform == 'Android':
-                self.DEFAULT_PLATFORM['app_version'] = '4.0.5'
-                self.DEFAULT_PLATFORM['package'] = 'app.rbmain.a'
-            else:
-                self.DEFAULT_PLATFORM['app_version'] = '2.5.8'
-                self.DEFAULT_PLATFORM['package'] = 'm.rubika.ir'
+            self.DEFAULT_PLATFORM['app_version'] = config.get('app_version', '4.4.33')
+            self.DEFAULT_PLATFORM['package'] = config.get('package', 'web.rubika.ir')
 
-        if phone_number is None:
-            phone_number = input('Enter phone number (e.g., +989123456789): ')
+        while True:
+            if phone_number is None:
+                phone_text = Text()
+                phone_text.append("Enter phone number (e.g., +989123456789): ", style="cyan")
+                console.print(phone_text, end='')
+                phone_number = input()
+
+            phone_number = normalize_phone_number(phone_number)
+            if phone_number is None:
+                phone_number = None
+                continue
+            
+            phone_number = f'98{phone_number[1:]}' if phone_number.startswith('09') else phone_number
+
             is_phone_number_true = True
             while is_phone_number_true:
-                if input(f'Is the {phone_number} correct? (y/n): ').lower() == 'y':
+                confirm_text = Text()
+                confirm_text.append("\nIs the ", style="cyan")
+                confirm_text.append(phone_number, style="bold yellow")
+                confirm_text.append(" correct? (y/n): ", style="cyan")
+                console.print(confirm_text, end='')
+                if input().lower() == 'y':
                     is_phone_number_true = False
                 else:
-                    phone_number = input('\nEnter phone number (e.g., +989123456789): ')
+                    retry_text = Text()
+                    retry_text.append("\nEnter phone number (e.g., +989123456789): ", style="cyan")
+                    console.print(retry_text, end='')
+                    phone_number = input()
+                    phone_number = normalize_phone_number(phone_number)
+                    if phone_number is None:
+                        phone_number = None
+                        break
+                    phone_number = f'98{phone_number[1:]}' if phone_number.startswith('09') else phone_number
+            
+            if phone_number is None:
+                continue
 
-        phone_number = normalize_phone_number(phone_number)
-        phone_number = f'98{phone_number[1:]}' if phone_number.startswith('09') else phone_number
-
-        result = await self.send_code(phone_number=phone_number)
+            try:
+                result = await self.send_code(phone_number=phone_number)
+                break
+            except InvalidInput:
+                console.print("\nInvalid phone number! Please enter a valid number.\n", style="bright_red")
+                phone_number = None
 
         saved_phone_code_hash = None
 
@@ -122,18 +159,25 @@ class Start:
             while True:
                 hint = getattr(result, 'hint_pass_key', None)
                 if hint:
-                    pass_key = input(f'\nEnter 2-step verification password (hint: {hint}): ')
+                    pass_text = Text()
+                    pass_text.append("\nEnter 2-step verification password (hint: ", style="cyan")
+                    pass_text.append(hint, style="bold yellow")
+                    pass_text.append("): ", style="cyan")
+                    console.print(pass_text, end='')
                 else:
-                    pass_key = input('\nEnter 2-step verification password: ')
+                    pass_text = Text()
+                    pass_text.append("\nEnter 2-step verification password: ", style="cyan")
+                    console.print(pass_text, end='')
+                pass_key = input()
                 
                 if not pass_key:
-                    print("\nPassword cannot be empty!")
+                    console.print("\nPassword cannot be empty!", style="bright_red")
                     continue
 
                 result = await self.send_code(phone_number=phone_number, pass_key=pass_key)
 
                 if result.status == 'InvalidPassKey':
-                    print("\nIncorrect password! Try again.")
+                    console.print("\nIncorrect password! Try again.", style="bright_red")
                     continue
 
                 if result.status == 'OK':
@@ -155,22 +199,37 @@ class Start:
         while True:
             if first_prompt:
                 if hasattr(result, 'send_type') and result.send_type:
+                    code_text = Text()
                     if result.send_type == 'SMS':
-                        phone_code = input("\nVerification code has been sent to you via SMS, please enter the code: ")
+                        code_text.append("\nVerification code has been sent to you via ", style="cyan")
+                        code_text.append("SMS", style="bold yellow")
+                        code_text.append(", please enter the code: ", style="cyan")
                     elif result.send_type == 'Internal':
-                        phone_code = input("\nVerification code has been sent to you via 'Login Notifications' service, please check your account and enter the code: ")
+                        code_text.append("\nVerification code has been sent to you via ", style="cyan")
+                        code_text.append("'Login Notifications'", style="bold yellow")
+                        code_text.append(" service, please check your account and enter the code: ", style="cyan")
                     elif result.send_type == 'CallCode':
-                        phone_code = input("\nVerification code will be announced to you via a phone call, please answer that call and enter the code: ")
+                        code_text.append("\nVerification code will be announced to you via a ", style="cyan")
+                        code_text.append("phone call", style="bold yellow")
+                        code_text.append(", please answer that call and enter the code: ", style="cyan")
                     else:
-                        phone_code = input(f"\nVerification code sent via {result.send_type}, please enter the code: ")
+                        code_text.append("\nVerification code sent via ", style="cyan")
+                        code_text.append(result.send_type, style="bold yellow")
+                        code_text.append(", please enter the code: ", style="cyan")
+                    console.print(code_text, end='')
                 else:
-                    phone_code = input("\nPlease enter the verification code: ")
+                    code_text = Text()
+                    code_text.append("\nPlease enter the verification code: ", style="cyan")
+                    console.print(code_text, end='')
                 first_prompt = False
             else:
-                phone_code = input("\nCode is incorrect, please enter correct code: ")
+                error_text = Text()
+                error_text.append("\nCode is incorrect, please enter correct code: ", style="bright_red")
+                console.print(error_text, end='')
+            
+            phone_code = input()
 
             if not phone_code or not phone_code.strip():
-                print("\nCode cannot be empty! Please enter the code.")
                 continue
 
             result = await self.sign_in(
@@ -195,14 +254,25 @@ class Start:
                     private_key=self.private_key
                 )
 
+                session_path = os.path.abspath(f"{self.session_name}.max")
+                session_text = Text()
+                session_text.append("\nSession saved to ", style="green")
+                session_text.append(session_path, style="bold green")
+                session_text.append("\n")
+                console.print(session_text)
+
                 await self.register_device(device_model=self.session_name)
+                await asyncio.sleep(2)
                 return self
 
             elif result.status == 'CodeIsInvalid':
                 continue
 
             else:
-                print(f"\nSign in failed: {result.status}")
+                error_text = Text()
+                error_text.append("\nSign in failed: ", style="bold bright_red")
+                error_text.append(str(result.status), style="red")
+                console.print(error_text)
                 break
 
         return self

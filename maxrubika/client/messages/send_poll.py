@@ -1,5 +1,4 @@
 from typing import Union, Optional
-from asyncio import create_task
 import random; import maxrubika
 from ..exceptions import InvalidInput
 
@@ -11,8 +10,7 @@ class SendPoll:
         options: list,
         is_anonymous: bool = True,
         multiple_answers: bool = False,
-        reply_to_message_id: Optional[Union[str, int]] = None,
-        auto_delete: Optional[Union[int, float]] = None
+        reply_to_message_id: Optional[Union[str, int]] = None
     ):
         """
         Send a poll message with the specified parameters.
@@ -24,7 +22,6 @@ class SendPoll:
             is_anonymous (bool): Whether the poll is anonymous or not. Defaults to True.
             multiple_answers (bool): Whether the poll allows multiple answers or not. Defaults to False.
             reply_to_message_id (Optional[Union[str, int]]): The ID of the message to reply to. Defaults to None.
-            auto_delete (Optional[Union[int, float]]): Auto-delete duration in seconds. Defaults to None.
 
         Returns:
             The updated information after creating the poll.
@@ -62,9 +59,5 @@ class SendPoll:
             'rnd': random.randint(100000, 999999)
         }
         result = await self.request(method = 'createPoll', input = input)
-
-        if isinstance(auto_delete, (int, float)):
-            create_task(self.auto_delete_message(
-                result.object_guid, result.message_id, auto_delete))
 
         return result

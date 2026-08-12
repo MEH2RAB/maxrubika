@@ -50,6 +50,25 @@ class Cipher:
         return "".join(result_list)
 
     @classmethod
+    def secret_v5(cls, auth: str) -> str:
+        if len(auth) != 32:
+            raise ValueError("auth length should be 32 digits")
+        
+        t = auth[0:8]
+        i = auth[8:16]
+        n = auth[16:24] + t + auth[24:32] + i
+        result = list(n)
+        
+        for s in range(len(result)):
+            c = result[s]
+            if '0' <= c <= '9':
+                result[s] = chr((ord(c) - ord('0') + 5) % 10 + ord('0'))
+            elif 'a' <= c <= 'z':
+                result[s] = chr((ord(c) - ord('a') + 9) % 26 + ord('a'))
+        
+        return "".join(result)
+
+    @classmethod
     def secret(cls, length):
         return "".join(secrets.choice(string.ascii_lowercase) for _ in range(length))
 
@@ -65,11 +84,28 @@ class Cipher:
         return json.loads(dec_res)
 
     @classmethod
+    def decrypt_v5(cls, data: str, key: str):
+        key_bytes = key.encode() if isinstance(key, str) else key
+        aes = AES.new(key_bytes, AES.MODE_CBC, cls.AES_IV)
+        dec = aes.decrypt(base64.urlsafe_b64decode(data.encode("UTF-8")))
+        dec_res = unpad(dec, AES.block_size).decode("UTF-8")
+        return json.loads(dec_res)
+
+    @classmethod
     def encrypt(cls, data: str, key: str):
         if isinstance(data, dict):
             data = json.dumps(data)
         raw = pad(data.encode("UTF-8"), AES.block_size)
         aes = AES.new(key.encode(), AES.MODE_CBC, cls.AES_IV)
+        return base64.b64encode(aes.encrypt(raw)).decode("UTF-8")
+
+    @classmethod
+    def encrypt_v5(cls, data: str, key: str):
+        if isinstance(data, dict):
+            data = json.dumps(data)
+        key_bytes = key.encode() if isinstance(key, str) else key
+        raw = pad(data.encode("UTF-8"), AES.block_size)
+        aes = AES.new(key_bytes, AES.MODE_CBC, cls.AES_IV)
         return base64.b64encode(aes.encrypt(raw)).decode("UTF-8")
 
     @staticmethod

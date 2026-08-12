@@ -7,6 +7,7 @@ import logging
 import maxrubika
 from ...types import Event
 from ..exceptions import (NetworkError, StopHandler, ServerError)
+from .configs import PLATFORMS
 
 def capitalize(text: str) -> str:
     return "".join(word.title() for word in text.split("_"))
@@ -25,16 +26,17 @@ class Api:
         self.headers["user-agent"] = client.user_agent
 
         platform = client.DEFAULT_PLATFORM["platform"]
+        original_key = client._original_platform
+        config = PLATFORMS.get(original_key, {}).get('headers', {})
+
         if platform == "Web":
-            self.headers["origin"] = "https://web.rubika.ir"
-            self.headers["referer"] = "https://web.rubika.ir/"
+            self.headers.update(config)
         elif platform == "Android":
             self.headers.pop("origin", None)
             self.headers.pop("referer", None)
-            self.headers["user-agent"] = "okhttp/3.12.1"
+            self.headers.update(config)
         else:
-            self.headers["origin"] = "https://m.rubika.ir"
-            self.headers["referer"] = "https://m.rubika.ir/"
+            self.headers.update(config)
 
         connector = aiohttp.TCPConnector(verify_ssl=False, limit=100)
         self.session = aiohttp.ClientSession(

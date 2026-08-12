@@ -1,5 +1,4 @@
 from typing import Union, Optional
-from asyncio import create_task
 import random; import maxrubika
 from ..exceptions import InvalidInput
 
@@ -12,8 +11,7 @@ class SendQuiz:
         correct_option: Union[int, str],
         hint: str = None,
         is_anonymous: bool = True,
-        reply_to_message_id: Optional[Union[str, int]] = None,
-        auto_delete: Optional[Union[int, float]] = None
+        reply_to_message_id: Optional[Union[str, int]] = None
     ):
         """
         Send a quiz-type poll message with the specified parameters.
@@ -26,7 +24,6 @@ class SendQuiz:
             hint (str): A hint for the correct answer in quiz-type polls. Defaults to None.
             is_anonymous (bool): Whether the poll is anonymous or not. Defaults to True.
             reply_to_message_id (Union[str, int]): The ID of the message to reply to. Defaults to None.
-            auto_delete (Optional[Union[int, float]]): Auto-delete duration in seconds. Defaults to None.
 
         Returns:
             The updated information after creating the quiz-type poll.
@@ -93,9 +90,5 @@ class SendQuiz:
         }
 
         result = await self.request(method = 'createPoll', input = input)
-
-        if isinstance(auto_delete, (int, float)):
-            create_task(self.auto_delete_message(
-                result.object_guid, result.message_id, auto_delete))
 
         return result

@@ -2,12 +2,13 @@ from typing import Union, Optional, Literal
 from pathlib import Path
 from datetime import timedelta, datetime
 import maxrubika
+from ..exceptions import InvalidInput
 
 class SendVideo:
     async def send_video(
         self: "maxrubika.Client",
         chat: str,
-        video: Union[Path, bytes],
+        video: Union[Path, bytes] = None,
         text: Optional[str] = None,
         reply_to_message_id: Optional[Union[str, int]] = None,
         is_spoil: bool = False,
@@ -16,9 +17,9 @@ class SendVideo:
         width: Optional[int] = None,
         height: Optional[int] = None,
         time: Optional[int] = None,
-        auto_delete: Optional[int] = None,
         schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
         schedule_type: Optional[Literal['Default', 'WhenOnline']] = None,
+        base64: str = None,
         **kwargs
     ):
         """
@@ -26,7 +27,7 @@ class SendVideo:
 
         Parameters:
             chat (str): The GUID, link, or username of the chat.
-            video (Path, bytes): The video data. Can be a file path or bytes.
+            video (Path, bytes, optional): The video data. Can be a file path or bytes.
             text (Optional[str]): Caption for the video. Defaults to None.
             reply_to_message_id (Optional[Union[str, int]]): ID of the message to reply to. Defaults to None.
             is_spoil (bool): Whether the video should be marked as a spoiler. Defaults to False.
@@ -37,7 +38,6 @@ class SendVideo:
             width (Optional[int]): Custom width for the video. Defaults to None (auto-detect).
             height (Optional[int]): Custom height for the video. Defaults to None (auto-detect).
             time (Optional[int]): Custom duration for the video in seconds. Defaults to None (auto-detect).
-            auto_delete (Optional[int]): Auto-delete duration in seconds. Defaults to None.
             schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
                 When to send the message.
                 - Unix timestamp (int/float): Absolute time
@@ -45,10 +45,17 @@ class SendVideo:
                 - datetime: Absolute date and time
             schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
                 'Default' uses schedule_time, 'WhenOnline' sends when user comes online (users only).
+            base64 (str, optional): Base64 encoded video data.
 
         Returns:
             The API response containing the sent message details.
         """
+        if video is None and base64 is None:
+            raise InvalidInput("Either 'video' or 'base64' must be provided.")
+
+        if video is not None:
+            base64 = None
+
         return await self.send_message(
             chat=chat,
             text=text,
@@ -61,8 +68,8 @@ class SendVideo:
             width=width,
             height=height,
             time=time,
-            auto_delete=auto_delete,
             schedule_time=schedule_time,
             schedule_type=schedule_type,
+            base64_data=base64,
             **kwargs
         )
