@@ -45,11 +45,15 @@ class ResultMedia:
         self.seconds = seconds
 
         if hasattr(cv2, 'imdecode'):
-            if not isinstance(image, np.ndarray):
-                image = np.frombuffer(image, dtype=np.uint8)
-                image = cv2.imdecode(image, flags=1)
-
-            self.image = self.ndarray_to_bytes(image)
+            try:
+                if not isinstance(image, np.ndarray):
+                    image = np.frombuffer(image, dtype=np.uint8)
+                    image = cv2.imdecode(image, flags=1)
+                
+                if image is not None:
+                    self.image = self.ndarray_to_bytes(image)
+            except Exception:
+                pass
 
     def ndarray_to_bytes(self, image, *args, **kwargs) -> str:
         if hasattr(cv2, 'resize'):
@@ -79,28 +83,49 @@ class MediaThumbnail:
         return DEFAULT_THUMB_BASE64
 
     @classmethod
+    def _no_library_warning(cls) -> None:
+        warnings.warn(
+            'No optional libraries are installed. '
+            'Using default settings.'
+        )
+
+    @classmethod
+    def _processing_error_warning(cls, library: str, error: Exception = None) -> None:
+        message = f'Failed to process media with {library}.'
+        if error is not None:
+            message += f' Details: {error}'
+        message += ' Using default settings.'
+        warnings.warn(message)
+
+    @classmethod
     def from_image(cls, image: bytes) -> typing.Union[ResultMedia, str]:
         if PIL_AVAILABLE:
             try:
                 img = PILImage.open(io.BytesIO(image))
                 width, height = img.size
 
+                if img.mode in ('RGBA', 'LA', 'P'):
+                    img = img.convert('RGB')
+
                 img.thumbnail((max(width // 20, 100), max(height // 20, 100)))
-                
+
                 output = io.BytesIO()
                 img.save(output, format='JPEG', quality=50)
                 return ResultMedia(output.getvalue(), width=width, height=height)
-            except Exception:
-                pass
+            except Exception as e:
+                cls._processing_error_warning('Pillow', e)
 
         if cv2 is None or np is None:
-            warnings.warn('OpenCV or NumPy not found, using default thumbnail.')
+            cls._no_library_warning()
             return cls._default_thumbnail()
 
         try:
             if not isinstance(image, np.ndarray):
                 image = np.frombuffer(image, dtype=np.uint8)
                 image = cv2.imdecode(image, flags=1)
+
+            if image is None:
+                raise ValueError('Could not decode image.')
 
             height, width = image.shape[0], image.shape[1]
 
@@ -109,8 +134,8 @@ class MediaThumbnail:
             status, buffer = cv2.imencode('.jpg', image, [cv2.IMWRITE_JPEG_QUALITY, 50])
             if status:
                 return ResultMedia(bytes(buffer), width=width, height=height)
-        except Exception:
-            pass
+        except Exception as e:
+            cls._processing_error_warning('OpenCV', e)
 
         return cls._default_thumbnail()
 
@@ -118,6 +143,8 @@ class MediaThumbnail:
     def from_video(cls, video: bytes) -> typing.Union[ResultMedia, str]:
 
         if VideoFileClip is not None:
+            file_name = None
+            capture = None
             try:
                 with tempfile.NamedTemporaryFile(mode='wb+', suffix='.mp4', delete=False) as file:
                     file.write(video)
@@ -127,19 +154,27 @@ class MediaThumbnail:
                 width, height = capture.size
                 seconds = int(capture.duration)
                 image = capture.get_frame(seconds / 2)
-                capture.close()
-                os.remove(file_name)
                 return ResultMedia(image, width, height, seconds * 1000)
             except Exception as e:
-                print(f"Error processing video with moviepy: {e}")
-                if os.path.exists(file_name):
-                    os.remove(file_name)
+                cls._processing_error_warning('MoviePy', e)
                 return cls._default_thumbnail()
+            finally:
+                if capture is not None:
+                    try:
+                        capture.close()
+                    except Exception:
+                        pass
+                if file_name and os.path.exists(file_name):
+                    try:
+                        os.remove(file_name)
+                    except Exception:
+                        pass
 
         if cv2 is None:
-            warnings.warn('OpenCV not found, using default thumbnail.')
+            cls._no_library_warning()
             return cls._default_thumbnail()
 
+        capture = None
         try:
             with tempfile.NamedTemporaryFile(mode='wb+', suffix='.mp4') as file:
                 file.write(video)
@@ -157,27 +192,34 @@ class MediaThumbnail:
                     height = image.shape[0]
 
                     return ResultMedia(image, width, height, seconds)
-        except Exception:
-            pass
+        except Exception as e:
+            cls._processing_error_warning('OpenCV', e)
+        finally:
+            if capture is not None:
+                try:
+                    capture.release()
+                except Exception:
+                    pass
 
         return cls._default_thumbnail()
 
     @classmethod
     def from_manual(cls, data: bytes) -> typing.Union[ResultMedia, str]:
-        """Process manual thumbnail (from bytes, path, or URL) with size limit.
-        Tries as image first, then as video if image fails."""
         if PIL_AVAILABLE:
             try:
                 img = PILImage.open(io.BytesIO(data))
                 width, height = img.size
 
+                if img.mode in ('RGBA', 'LA', 'P'):
+                    img = img.convert('RGB')
+
                 img.thumbnail((100, 100), PILImage.LANCZOS)
-                
+
                 output = io.BytesIO()
                 img.save(output, format='JPEG', quality=30)
                 return ResultMedia(output.getvalue(), width=width, height=height)
-            except Exception:
-                pass
+            except Exception as e:
+                cls._processing_error_warning('Pillow', e)
 
         if cv2 is not None and np is not None:
             try:
@@ -190,8 +232,8 @@ class MediaThumbnail:
                         status, buffer = cv2.imencode('.jpg', nparr, [cv2.IMWRITE_JPEG_QUALITY, 30])
                         if status:
                             return ResultMedia(bytes(buffer), width=width, height=height)
-            except Exception:
-                pass
+            except Exception as e:
+                cls._processing_error_warning('OpenCV', e)
 
         try:
             return cls.from_video(data)
@@ -203,6 +245,7 @@ class MediaThumbnail:
 class Audio:
     @classmethod
     def get_audio_info(cls, audio: bytes) -> AudioResult:
+        filename = None
         try:
             with tempfile.NamedTemporaryFile('wb', suffix='.rpa', delete=False) as file:
                 file.write(audio)
@@ -223,5 +266,11 @@ class Audio:
             os.remove(filename)
             return AudioResult(duration, performer)
 
-        except Exception:
+        except Exception as e:
+            if filename and os.path.exists(filename):
+                try:
+                    os.remove(filename)
+                except Exception:
+                    pass
+            warnings.warn(f'Failed to process audio metadata. Details: {e} Using default values.')
             return AudioResult(1, '')

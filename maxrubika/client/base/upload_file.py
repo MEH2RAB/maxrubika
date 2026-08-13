@@ -54,10 +54,13 @@ class UploadFile:
                 file_name = file_name or os.path.basename(file)
                 file_size = os.path.getsize(file)
             else:
-                raise exceptions.InvalidInput("Unable to locate file at the given path.")
+                raise FileNotFoundError(
+                    f"File not found: {file}\n"
+                    "Please check if the file path is correct, "
+                    "or provide the file as bytes or URL.")
         elif isinstance(file, bytes):
             if not file_name:
-                raise exceptions.InvalidInput("'file_name' must be provided for byte uploads.")
+                raise exceptions.InvalidInput("'file_name' must be provided for byte or base64 uploads.")
             file_size = len(file)
         else:
             raise exceptions.InvalidInput("Expected a file path (str), raw bytes, or URL.")
@@ -82,8 +85,8 @@ class UploadFile:
             for attempt in range(max_retries):
                 try:
                     async with self.connection.session.post(
-                        url=upload_url,
-                        headers={
+                        url = upload_url,
+                        headers = {
                             "auth": self.auth,
                             "file-id": file_id,
                             "total-part": str(total_parts),
@@ -153,6 +156,7 @@ class UploadFile:
 
         if upload_result.get("status") == "OK" and upload_result.get("status_det") == "OK":
             return Data({
+                "status": "OK",
                 "mime": mime,
                 "size": file_size,
                 "dc_id": dc_id,
@@ -161,4 +165,9 @@ class UploadFile:
                 "access_hash_rec": upload_result["data"]["access_hash_rec"],
             })
 
-        raise getattr(exceptions, upload_result.get("status_det"))(upload_result)
+        error_type = upload_result.get("status_det") or "UnknownError"
+        if hasattr(exceptions, error_type):
+            raise getattr(exceptions, error_type)(upload_result)
+        else:
+            raise exceptions.InvalidInput(
+                f"Upload failed: {upload_result}")

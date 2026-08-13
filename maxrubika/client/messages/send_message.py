@@ -49,35 +49,19 @@ class SendMessage:
             text (Optional[str]): The text content of the message.
             reply_to_message_id (Optional[Union[str, int]]): The ID of the message to reply to.
             via_bot (Optional[str]): Bot GUID or username to send the message via.
-            file_inline (Optional[Union[Data, Path, bytes]]): The file to attach.
-            base64_data (Optional[str]): Base64 encoded file data.
-            sticker (Optional[Union[Data, dict]]): Sticker data to attach.
-            type (str): The type of file ('File', 'Image', 'Video', 'Gif', 'Music', 'Voice', 'VideoMessage').
-            is_spoil (bool): Whether the media is a spoiler.
-            thumb (Optional[Union[bool, str, Path, bytes]]): Thumbnail - True for auto, str/Path/bytes for custom, None for no thumbnail.
-            audio_info (bool): Whether to extract audio metadata (Music/Voice only).
             metadata (Optional[dict]): Additional metadata for text formatting.
-            performer (Optional[str]): Music performer name.
             schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
                 When to send the message. Accepts:
                 - Unix timestamp (int/float): Absolute time
                 - timedelta: Relative time from now (e.g., timedelta(hours=1))
                 - datetime: Absolute date and time
             schedule_type (Optional[Literal['Default', 'WhenOnline']]): 
-                'Default' uses schedule_time, 'WhenOnline' sends when user comes online (u0 only).
-            **kwargs: Additional file metadata:
-                - width (int): Custom width
-                - height (int): Custom height
-                - time (Union[int, float, timedelta]): Custom duration. 
-                    int/float < 1000 = seconds, int/float >= 1000 = milliseconds, timedelta = converted to seconds.
-                - file_name (str): Custom file name
+                'Default' uses schedule_time, 'WhenOnline' sends when user comes online.
 
         Returns:
             The API response containing the sent message details.
 
         Note:
-            - For Music, `time` is in **seconds**.
-            - For Voice, Image, Gif, Video, VideoMessage, and File, `time` is in **milliseconds**.
             - If `schedule_time` is provided, `is_scheduled` is automatically set to True and `schedule_type` to 'Default'.
             - If `schedule_type='WhenOnline'` is provided, `is_scheduled` is automatically set to True.
               This only works for user chats.
@@ -166,9 +150,6 @@ class SendMessage:
                 raise InvalidInput("Invalid base64 data.")
 
         if file_inline is not None and isinstance(file_inline, str):
-            if not file_inline.startswith('http') and not path.exists(file_inline):
-                raise InvalidInput("Unable to locate file at the given path.")
-
             if isinstance(file_inline, str):
                 if not file_inline.startswith('http'):
                     async with aiofiles.open(file_inline, 'rb') as file:
@@ -245,7 +226,10 @@ class SendMessage:
                     else:
                         thumb_inline = result
 
-            file_inline = await self.upload_file(file=file_inline, file_name=kwargs.get('file_name'))
+            file_inline = await self.upload_file(
+                file=file_inline,
+                file_name=kwargs.get('file_name'),
+                callback=kwargs.get('callback'))
 
             if type == 'VideoMessage':
                 file_inline['is_round'] = True
