@@ -2,8 +2,8 @@
 
 ---
 
-<a id="client_get_bot_info"></a>
-## [get_bot_info](#client_get_bot_info)
+<a id="messenger_get_bot_info"></a>
+## [get_bot_info](#messenger_get_bot_info)
 
 این متد برای دریافت اطلاعات یک بات به کار می‌رود.
 
@@ -16,21 +16,21 @@
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    info = client.get_bot_info("@ShowInfoBot")
-    print(info)
+with Messenger("mySession") as app:
+    try:
+        info = app.get_bot_info("@ShowInfoBot")
+        print(info)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_service_info"></a>
-## [get_service_info](#client_get_service_info)
+<a id="messenger_get_service_info"></a>
+## [get_service_info](#messenger_get_service_info)
 
 این متد برای دریافت اطلاعات یک سرویس به کار می‌رود.
 
@@ -41,21 +41,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    info = client.get_service_info("s0abcdefghijklmnopqrstuvwxyz12")
-    print(info)
+with Messenger("mySession") as app:
+    try:
+        info = app.get_service_info("s0abcdefghijklmnopqrstuvwxyz12")
+        print(info)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_start_bot"></a>
-## [start_bot](#client_start_bot)
+<a id="messenger_start_bot"></a>
+## [start_bot](#messenger_start_bot)
 
 این متد برای ارسال دستور `/start` به یک بات و راه‌اندازی آن به کار می‌رود.
 
@@ -66,21 +66,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.start_bot("@TestBot")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.start_bot("@TestBot")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_stop_bot"></a>
-## [stop_bot](#client_stop_bot)
+<a id="messenger_stop_bot"></a>
+## [stop_bot](#messenger_stop_bot)
 
 این متد برای متوقف کردن یک بات به کار می‌رود.
 
@@ -91,21 +91,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.stop_bot("@TestBot")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.stop_bot("@TestBot")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_bot_chat"></a>
-## [delete_bot_chat](#client_delete_bot_chat)
+<a id="messenger_delete_bot_chat"></a>
+## [delete_bot_chat](#messenger_delete_bot_chat)
 
 این متد برای حذف تاریخچه چت با یک بات به کار می‌رود.
 
@@ -117,21 +117,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_bot_chat("@TestBot", last_deleted_message_id="12345678900")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_bot_chat("@TestBot", last_deleted_message_id="12345678900")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_service_chat"></a>
-## [delete_service_chat](#client_delete_service_chat)
+<a id="messenger_delete_service_chat"></a>
+## [delete_service_chat](#messenger_delete_service_chat)
 
 این متد برای حذف تاریخچه چت با یک سرویس به کار می‌رود.
 
@@ -143,15 +143,15 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_service_chat("s0abcdefghijklmnopqrstuvwxyz12", last_deleted_message_id="12345678900")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_service_chat("s0abcdefghijklmnopqrstuvwxyz12", last_deleted_message_id="12345678900")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---

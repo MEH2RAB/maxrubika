@@ -2,8 +2,8 @@
 
 ---
 
-<a id="client_send_message"></a>
-## [send_message](#client_send_message)
+<a id="messenger_send_message"></a>
+## [send_message](#messenger_send_message)
 
 این متد اصلی و پایه برای ارسال هر نوع پیام (متن، فایل، مدیا و...) به یک چت است. تمام متدهای ارسال دیگر مانند `send_image`، `send_video` و... در نهایت از این متد استفاده می‌کنند.
 
@@ -28,76 +28,76 @@
 ارسال پیام متنی ساده:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_message("u0abc123...", text="سلام! چطوری؟")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_message("@Online_User", text="سلام! چطوری؟")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ارسال پیام با ریپلای:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_message(
-        "u0abc123...",
-        text="پاسخ شما",
-        reply_to_message_id="123456"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_message(
+            "u0abc123...",
+            text="پاسخ شما",
+            reply_to_message_id="123456"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ارسال پیام زمان‌بندی شده:
 
 ```python
 from datetime import timedelta
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_message(
-        "u0abc123...",
-        text="این پیام ۱ ساعت دیگر ارسال می‌شود",
-        schedule_time=timedelta(hours=1)
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_message(
+            "https://rubika.ir/joing/GROUP123",
+            text="این پیام ۱ ساعت دیگر ارسال می‌شود",
+            schedule_time=timedelta(hours=1)
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ارسال پیام با حذف خودکار:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_message(
-        "u0abc123...",
-        text="این پیام ۶۰ ثانیه دیگر حذف می‌شود",
-        auto_delete=60
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_message(
+            "@Online_User",
+            text="این پیام ۶۰ ثانیه دیگر حذف می‌شود",
+            auto_delete=60
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_image"></a>
-## [send_image](#client_send_image)
+<a id="messenger_send_image"></a>
+## [send_image](#messenger_send_image)
 
 این متد برای ارسال تصویر به یک چت است. این متد از `send_message` با `type='Image'` استفاده می‌کند.
 
@@ -119,25 +119,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_image(
-        "u0abc123...",
-        image="photo.jpg",
-        text="عکس من"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_image(
+            "https://rubika.ir/joinc/CHANNEL123",
+            image="photo.jpg",
+            text="عکس من"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_video"></a>
-## [send_video](#client_send_video)
+<a id="messenger_send_video"></a>
+## [send_video](#messenger_send_video)
 
 این متد برای ارسال ویدئو به یک چت است.
 
@@ -160,25 +160,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_video(
-        "u0abc123...",
-        video="video.mp4",
-        text="ویدئوی من"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_video(
+            "u0abc123...",
+            video="video.mp4",
+            text="ویدئوی من"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_video_message"></a>
-## [send_video_message](#client_send_video_message)
+<a id="messenger_send_video_message"></a>
+## [send_video_message](#messenger_send_video_message)
 
 این متد برای ارسال پیام ویدئویی (ویدئوی گرد) به یک چت است.
 
@@ -187,24 +187,24 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_video_message(
-        "u0abc123...",
-        video_message="round_video.mp4"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_video_message(
+            "https://rubika.ir/joing/GROUP123",
+            video_message="round_video.mp4"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_gif"></a>
-## [send_gif](#client_send_gif)
+<a id="messenger_send_gif"></a>
+## [send_gif](#messenger_send_gif)
 
 این متد برای ارسال گیف به یک چت است.
 
@@ -226,25 +226,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_gif(
-        "u0abc123...",
-        gif="animation.mp4",
-        text="گیف بامزه"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_gif(
+            "@Online_User",
+            gif="animation.mp4",
+            text="گیف بامزه"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_voice"></a>
-## [send_voice](#client_send_voice)
+<a id="messenger_send_voice"></a>
+## [send_voice](#messenger_send_voice)
 
 این متد برای ارسال پیام صوتی (ویس) به یک چت است.
 
@@ -263,24 +263,24 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_voice(
-        "u0abc123...",
-        voice="voice.mp3"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_voice(
+            "https://rubika.ir/joing/GROUP123",
+            voice="voice.mp3"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_music"></a>
-## [send_music](#client_send_music)
+<a id="messenger_send_music"></a>
+## [send_music](#messenger_send_music)
 
 این متد برای ارسال فایل موسیقی به یک چت است.
 
@@ -300,25 +300,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_music(
-        "me",
-        music="song.mp3",
-        performer="خواننده مورد علاقه"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_music(
+            "me",
+            music="song.mp3",
+            performer="خواننده مورد علاقه"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_file"></a>
-## [send_file](#client_send_file)
+<a id="messenger_send_file"></a>
+## [send_file](#messenger_send_file)
 
 این متد برای ارسال فایل (عمومی) به یک چت است.
 
@@ -336,25 +336,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_file(
-        "Online_User",
-        file="document.pdf",
-        text="فایل مورد نظر"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_file(
+            "Online_User",
+            file="document.pdf",
+            text="فایل مورد نظر"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_sticker"></a>
-## [send_sticker](#client_send_sticker)
+<a id="messenger_send_sticker"></a>
+## [send_sticker](#messenger_send_sticker)
 
 این متد برای ارسال استیکر به یک چت است.
 
@@ -374,27 +374,27 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_sticker(
-        "g0abc123...",
-        emoji_character="😊",
-        sticker_id="sticker_123",
-        sticker_set_id="set_123",
-        file={"file_id": "abc", "dc_id": 1, "access_hash_rec": "hash", "mime": "image/webp", "file_name": "sticker.webp", "size": 1234}
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_sticker(
+            "https://rubika.ir/joing/GROUP123",
+            emoji_character="😊",
+            sticker_id="sticker_123",
+            sticker_set_id="set_123",
+            file={"file_id": "abc", "dc_id": 1, "access_hash_rec": "hash", "mime": "image/webp", "file_name": "sticker.webp", "size": 1234}
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_poll"></a>
-## [send_poll](#client_send_poll)
+<a id="messenger_send_poll"></a>
+## [send_poll](#messenger_send_poll)
 
 این متد برای ایجاد و ارسال نظرسنجی به یک چت است.
 
@@ -411,27 +411,27 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_poll(
-        "g0abc123...",
-        question="رنگ مورد علاقه شما چیست؟",
-        options=["قرمز", "آبی", "سبز", "زرد"],
-        is_anonymous=False,
-        multiple_answers=True
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_poll(
+            "https://rubika.ir/joing/GROUP123",
+            question="رنگ مورد علاقه شما چیست؟",
+            options=["قرمز", "آبی", "سبز", "زرد"],
+            is_anonymous=False,
+            multiple_answers=True
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_quiz"></a>
-## [send_quiz](#client_send_quiz)
+<a id="messenger_send_quiz"></a>
+## [send_quiz](#messenger_send_quiz)
 
 این متد برای ایجاد و ارسال آزمون (نظرسنجی با پاسخ صحیح) به یک چت است.
 
@@ -449,27 +449,27 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_quiz(
-        "g0abc123...",
-        question="پایتخت ایران کدام است؟",
-        options=["تهران", "اصفهان", "شیراز", "تبریز"],
-        correct_option="تهران",
-        hint="بزرگترین شهر ایران"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_quiz(
+            "https://rubika.ir/joinc/CHANNEL123",
+            question="پایتخت ایران کدام است؟",
+            options=["تهران", "اصفهان", "شیراز", "تبریز"],
+            correct_option="تهران",
+            hint="بزرگترین شهر ایران"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_location"></a>
-## [send_location](#client_send_location)
+<a id="messenger_send_location"></a>
+## [send_location](#messenger_send_location)
 
 این متد برای ارسال موقعیت مکانی به یک چت است.
 
@@ -483,25 +483,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_location(
-        "@Online_User",
-        latitude=35.6892,
-        longitude=51.3890
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_location(
+            "@Online_User",
+            latitude=35.6892,
+            longitude=51.3890
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_live"></a>
-## [send_live](#client_send_live)
+<a id="messenger_send_live"></a>
+## [send_live](#messenger_send_live)
 
 این متد برای ارسال پخش زنده به یک چت است.
 
@@ -515,24 +515,24 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_live(
-        "@TheMAXRubika",
-        title="پخش زنده تستی"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_live(
+            "@TheMAXRubika",
+            title="پخش زنده تستی"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_message_api_call"></a>
-## [send_message_api_call](#client_send_message_api_call)
+<a id="messenger_send_message_api_call"></a>
+## [send_message_api_call](#messenger_send_message_api_call)
 
 این متد برای ارسال پاسخ API Call به دکمه‌های اینلاین یک پیام است.
 
@@ -545,25 +545,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_message_api_call(
-        chat="@RubiGuardBot",
-        message_id="1499338519906784",
-        button_id="101"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_message_api_call(
+            chat="@RubiGuardBot",
+            message_id="1499338519906784",
+            button_id="101"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_rubino_post"></a>
-## [send_rubino_post](#client_send_rubino_post)
+<a id="messenger_send_rubino_post"></a>
+## [send_rubino_post](#messenger_send_rubino_post)
 
 این متد برای ارسال یک پست روبینو به چت است.
 
@@ -577,25 +577,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_rubino_post(
-        "u0abc123...",
-        post_id="post_123",
-        post_profile_id="profile_123"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_rubino_post(
+            "@Online_User",
+            post_id="post_123",
+            post_profile_id="profile_123"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_rubino_story"></a>
-## [send_rubino_story](#client_send_rubino_story)
+<a id="messenger_send_rubino_story"></a>
+## [send_rubino_story](#messenger_send_rubino_story)
 
 این متد برای ارسال پاسخ یا پیام مستقیم به استوری روبینو است.
 
@@ -611,26 +611,60 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_rubino_story(
-        "u0abc123...",
-        story_id="story_123",
-        story_profile_id="profile_123",
-        reply_text="استوری قشنگی بود!"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_rubino_story(
+            "u0abc123...",
+            story_id="story_123",
+            story_profile_id="profile_123",
+            reply_text="استوری قشنگی بود!"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_now_scheduled_message"></a>
-## [send_now_scheduled_message](#client_send_now_scheduled_message)
+<a id="messenger_send_rubino_product"></a>
+## [send_rubino_product](#messenger_send_rubino_product)
+
+این متد برای ارسال یک محصول روبینو به چت است.
+
+**پارامترها:**
+
+- **chat:** شناسه (GUID)، لینک یا نام‌کاربری چت مقصد.
+- **store_id:** شناسه فروشگاه.
+- **product_id:** شناسه محصول.
+- **product_varieties:** لیست تنوع‌های محصول.
+- **rnd:** عدد تصادفی. (در صورت عدم ارسال، به صورت خودکار تولید می‌شود)
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    try:
+        result = app.send_rubino_product(
+            chat="@Online_User",
+            store_id="store_123",
+            product_id="product_456",
+            product_varieties=[{"id": "var_1", "price": 100000}]
+        )
+        print(result)
+
+    except Exception as e:
+        print(e)
+```
+
+---
+
+<a id="messenger_send_now_scheduled_message"></a>
+## [send_now_scheduled_message](#messenger_send_now_scheduled_message)
 
 این متد برای ارسال فوری یک پیام زمان‌بندی شده (قبل از موعد مقرر) است.
 
@@ -642,24 +676,24 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_now_scheduled_message(
-        "u0abc123...",
-        message_id="123456"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_now_scheduled_message(
+            "@Online_User",
+            message_id="123456"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_send_contact"></a>
-## [send_contact](#client_send_contact)
+<a id="messenger_send_contact"></a>
+## [send_contact](#messenger_send_contact)
 
 این متد برای ارسال مخاطب به یک چت است.
 
@@ -674,20 +708,20 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_contact(
-        "u0abc123...",
-        phone_number="09123456789",
-        first_name="علی",
-        last_name="حسینی"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_contact(
+            "https://rubika.ir/joing/GROUP123",
+            phone_number="09123456789",
+            first_name="علی",
+            last_name="حسینی"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---

@@ -2,8 +2,8 @@
 
 ---
 
-<a id="client_add_members"></a>
-## [add_members](#client_add_members)
+<a id="messenger_add_members"></a>
+## [add_members](#messenger_add_members)
 
 این متد برای افزودن یک یا چند عضو به گروه یا کانال است.
 
@@ -15,24 +15,24 @@
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.add_members(
-        "g0abc123...",
-        members=["@User1", "@User2", "u0xyz789..."]
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.add_members(
+            "g0abc123...",
+            members=["@User1", "@User2", "u0xyz789..."]
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_ban_member"></a>
-## [ban_member](#client_ban_member)
+<a id="messenger_ban_member"></a>
+## [ban_member](#messenger_ban_member)
 
 این متد برای مسدود کردن یک عضو از گروه یا کانال است.
 
@@ -44,21 +44,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.ban_member("g0abc123...", member="@SpamUser")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.ban_member("g0abc123...", member="@SpamUser")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_ban_members"></a>
-## [ban_members](#client_ban_members)
+<a id="messenger_ban_members"></a>
+## [ban_members](#messenger_ban_members)
 
 این متد برای مسدود کردن چند عضو به صورت یکجا است.
 
@@ -70,21 +70,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.ban_members("g0abc123...", members=["@User1", "@User2"])
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.ban_members("g0abc123...", members=["@User1", "@User2"])
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_unban_member"></a>
-## [unban_member](#client_unban_member)
+<a id="messenger_unban_member"></a>
+## [unban_member](#messenger_unban_member)
 
 این متد برای رفع مسدودیت یک عضو از گروه یا کانال است.
 
@@ -96,21 +96,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.unban_member("g0abc123...", member="@SpamUser")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.unban_member("g0abc123...", member="@SpamUser")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_unban_members"></a>
-## [unban_members](#client_unban_members)
+<a id="messenger_unban_members"></a>
+## [unban_members](#messenger_unban_members)
 
 این متد برای رفع مسدودیت چند عضو به صورت یکجا است.
 
@@ -122,21 +122,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.unban_members("g0abc123...", members=["@User1", "@User2"])
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.unban_members("g0abc123...", members=["@User1", "@User2"])
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_unban_all_members"></a>
-## [unban_all_members](#client_unban_all_members)
+<a id="messenger_unban_all_members"></a>
+## [unban_all_members](#messenger_unban_all_members)
 
 این متد برای رفع مسدودیت تمام اعضای مسدود شده یک گروه یا کانال به صورت یکجا است.
 
@@ -148,21 +148,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.unban_all_members("g0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.unban_all_members("g0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_banned_members"></a>
-## [get_banned_members](#client_get_banned_members)
+<a id="messenger_get_banned_members"></a>
+## [get_banned_members](#messenger_get_banned_members)
 
 این متد برای دریافت لیست اعضای مسدود شده یک گروه یا کانال است. به صورت خودکار تمام صفحات را پیمایش می‌کند.
 
@@ -174,21 +174,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    banned = client.get_banned_members("g0abc123...")
-    print(banned)
+with Messenger("mySession") as app:
+    try:
+        banned = app.get_banned_members("g0abc123...")
+        print(banned)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_clear_black_list"></a>
-## [clear_black_list](#client_clear_black_list)
+<a id="messenger_clear_black_list"></a>
+## [clear_black_list](#messenger_clear_black_list)
 
 این متد برای پاک‌سازی لیست سیاه (رفع مسدودیت تمام اعضا) در یک گروه یا کانال است.
 
@@ -200,21 +200,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.clear_black_list("g0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.clear_black_list("g0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_set_admin"></a>
-## [set_admin](#client_set_admin)
+<a id="messenger_set_admin"></a>
+## [set_admin](#messenger_set_admin)
 
 این متد برای تنظیم یک عضو به عنوان ادمین در گروه یا کانال است.
 
@@ -230,26 +230,26 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_admin(
-        "g0abc123...",
-        member="@NewAdmin",
-        access=["BanMember", "PinMessages", "ChangeInfo"],
-        custom_title="مدیر ارشد"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.set_admin(
+            "g0abc123...",
+            member="@NewAdmin",
+            access=["BanMember", "PinMessages", "ChangeInfo"],
+            custom_title="مدیر ارشد"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_unset_admin"></a>
-## [unset_admin](#client_unset_admin)
+<a id="messenger_unset_admin"></a>
+## [unset_admin](#messenger_unset_admin)
 
 این متد برای حذف ادمینی یک عضو در گروه یا کانال است.
 
@@ -261,21 +261,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.unset_admin("g0abc123...", member="@OldAdmin")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.unset_admin("g0abc123...", member="@OldAdmin")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_member_is_admin"></a>
-## [member_is_admin](#client_member_is_admin)
+<a id="messenger_member_is_admin"></a>
+## [member_is_admin](#messenger_member_is_admin)
 
 این متد برای بررسی ادمین بودن یک عضو در گروه یا کانال است. مقدار بازگشتی `True` یا `False` است.
 
@@ -287,21 +287,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    is_admin = client.member_is_admin("g0abc123...", member="@TestUser")
-    print(is_admin)
+with Messenger("mySession") as app:
+    try:
+        is_admin = app.member_is_admin("g0abc123...", member="@TestUser")
+        print(is_admin)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_change_owner"></a>
-## [change_owner](#client_change_owner)
+<a id="messenger_change_owner"></a>
+## [change_owner](#messenger_change_owner)
 
 این متد برای درخواست انتقال مالکیت یک چت (گروه یا کانال) به کاربر دیگر است.
 
@@ -315,21 +315,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.change_owner("g0abc123...", new_owner="@NewOwner")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.change_owner("g0abc123...", new_owner="@NewOwner")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_accept_ownership_request"></a>
-## [accept_ownership_request](#client_accept_ownership_request)
+<a id="messenger_accept_ownership_request"></a>
+## [accept_ownership_request](#messenger_accept_ownership_request)
 
 این متد برای پذیرفتن درخواست انتقال مالکیت یک چت است.
 
@@ -340,21 +340,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.accept_ownership_request("g0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.accept_ownership_request("g0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_reject_ownership_request"></a>
-## [reject_ownership_request](#client_reject_ownership_request)
+<a id="messenger_reject_ownership_request"></a>
+## [reject_ownership_request](#messenger_reject_ownership_request)
 
 این متد برای رد کردن درخواست انتقال مالکیت یک چت است.
 
@@ -365,21 +365,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.reject_ownership_request("g0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.reject_ownership_request("g0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_cancel_change_owner"></a>
-## [cancel_change_owner](#client_cancel_change_owner)
+<a id="messenger_cancel_change_owner"></a>
+## [cancel_change_owner](#messenger_cancel_change_owner)
 
 این متد برای لغو درخواست انتقال مالکیت توسط مالک فعلی است.
 
@@ -390,21 +390,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.cancel_change_owner("g0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.cancel_change_owner("g0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_pending_owner"></a>
-## [get_pending_owner](#client_get_pending_owner)
+<a id="messenger_get_pending_owner"></a>
+## [get_pending_owner](#messenger_get_pending_owner)
 
 این متد برای دریافت اطلاعات مالک در انتظار (کسی که درخواست انتقال مالکیت برایش ارسال شده) است.
 
@@ -415,15 +415,15 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    pending = client.get_pending_owner("g0abc123...")
-    print(pending)
+with Messenger("mySession") as app:
+    try:
+        pending = app.get_pending_owner("g0abc123...")
+        print(pending)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---

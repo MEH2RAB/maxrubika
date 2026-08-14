@@ -2,8 +2,8 @@
 
 ---
 
-<a id="client_edit_message"></a>
-## [edit_message](#client_edit_message)
+<a id="messenger_edit_message"></a>
+## [edit_message](#messenger_edit_message)
 
 این متد برای ویرایش متن یک پیام ارسال‌شده به کار می‌رود.
 
@@ -19,25 +19,25 @@
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.edit_message(
-        "u0abc123...",
-        message_id="12345678090",
-        text="متن ویرایش شده جدید"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.edit_message(
+            "@Online_User",
+            message_id="12345678090",
+            text="متن ویرایش شده جدید"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_messages"></a>
-## [delete_messages](#client_delete_messages)
+<a id="messenger_delete_messages"></a>
+## [delete_messages](#messenger_delete_messages)
 
 این متد برای حذف یک یا چند پیام از یک چت به کار می‌رود.
 
@@ -50,24 +50,24 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_messages(
-        "u0abc123...",
-        message_ids=["123", "456", "789"]
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_messages(
+            "https://rubika.ir/joing/ABC123",
+            message_ids=["123", "456", "789"]
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_all_messages"></a>
-## [delete_all_messages](#client_delete_all_messages)
+<a id="messenger_delete_all_messages"></a>
+## [delete_all_messages](#messenger_delete_all_messages)
 
 این متد برای حذف تمام پیام‌های یک چت (به جز پیام ایجاد گروه/کانال) به کار می‌رود.
 
@@ -79,21 +79,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_all_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_all_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_my_messages"></a>
-## [delete_my_messages](#client_delete_my_messages)
+<a id="messenger_delete_my_messages"></a>
+## [delete_my_messages](#messenger_delete_my_messages)
 
 این متد برای حذف تمام پیام‌های خودتان در یک چت به کار می‌رود.
 
@@ -105,21 +105,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_my_messages("g0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_my_messages("@MyGroup")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_auto_delete_message"></a>
-## [auto_delete_message](#client_auto_delete_message)
+<a id="messenger_auto_delete_message"></a>
+## [auto_delete_message](#messenger_auto_delete_message)
 
 این متد برای حذف خودکار یک پیام پس از مدت زمان مشخص به کار می‌رود.
 
@@ -132,25 +132,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.auto_delete_message(
-        "u0abc123...",
-        message_id="12345674103",
-        time=60
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.auto_delete_message(
+            "u0abc123...",
+            message_id="12345674103",
+            time=60
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_forward_messages"></a>
-## [forward_messages](#client_forward_messages)
+<a id="messenger_forward_messages"></a>
+## [forward_messages](#messenger_forward_messages)
 
 این متد برای فوروارد (هدایت) یک یا چند پیام از یک چت به چت دیگر به کار می‌رود.
 
@@ -159,7 +159,7 @@ except Exception as e:
 - **from_chat:** شناسه (GUID)، لینک یا نام‌کاربری چت مبدأ.
 - **message_ids:** شناسه پیام‌ها برای فوروارد.
 - **to_chat:** شناسه (GUID)، لینک یا نام‌کاربری چت مقصد.
-- **drop_author:** مخفی کردن فرستنده اصلی. (پیش‌فرض: False)
+- **hide_author:** مخفی کردن فرستنده اصلی. (پیش‌فرض: False)
 - **is_mute:** فوروارد بی‌صدا بدون اعلان. (پیش‌فرض: False)
 - **schedule_time:** زمان‌بندی ارسال.
 - **schedule_type:** نوع زمان‌بندی.
@@ -167,25 +167,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.forward_messages(
-        from_chat="u0abc123...",
-        message_ids=["123", "456"],
-        to_chat="u0xyz789..."
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.forward_messages(
+            from_chat="@SourceUser",
+            message_ids=["123", "456"],
+            to_chat="https://rubika.ir/joing/DEST123"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_pin_message"></a>
-## [pin_message](#client_pin_message)
+<a id="messenger_pin_message"></a>
+## [pin_message](#messenger_pin_message)
 
 این متد برای سنجاق کردن (پین) یک پیام در چت به کار می‌رود.
 
@@ -197,21 +197,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.pin_message("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", message_id=147503987410)
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.pin_message("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", message_id=147503987410)
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_unpin_message"></a>
-## [unpin_message](#client_unpin_message)
+<a id="messenger_unpin_message"></a>
+## [unpin_message](#messenger_unpin_message)
 
 این متد برای برداشتن سنجاق (آنپین) یک پیام در چت به کار می‌رود.
 
@@ -223,21 +223,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.unpin_message("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", message_id=12345636971)
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.unpin_message("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", message_id=12345636971)
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_unpin_all_messages"></a>
-## [unpin_all_messages](#client_unpin_all_messages)
+<a id="messenger_unpin_all_messages"></a>
+## [unpin_all_messages](#messenger_unpin_all_messages)
 
 این متد برای برداشتن سنجاق تمام پیام‌های پین شده در یک چت به کار می‌رود.
 
@@ -248,21 +248,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.unpin_all_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.unpin_all_messages("@MyChannel")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_pinned_messages"></a>
-## [get_pinned_messages](#client_get_pinned_messages)
+<a id="messenger_get_pinned_messages"></a>
+## [get_pinned_messages](#messenger_get_pinned_messages)
 
 این متد برای دریافت تمام پیام‌های سنجاق شده یک چت به کار می‌رود.
 
@@ -273,21 +273,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    pinned = client.get_pinned_messages("g0abc123...")
-    print(pinned)
+with Messenger("mySession") as app:
+    try:
+        pinned = app.get_pinned_messages("https://rubika.ir/joinc/CH123")
+        print(pinned)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_add_reaction"></a>
-## [add_reaction](#client_add_reaction)
+<a id="messenger_add_reaction"></a>
+## [add_reaction](#messenger_add_reaction)
 
 این متد برای افزودن ری‌اکشن به یک پیام به کار می‌رود.
 
@@ -300,25 +300,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.add_reaction(
-        "u0abc123...",
-        message_id="123456",
-        reaction_id=1
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.add_reaction(
+            "@Online_User",
+            message_id="123456",
+            reaction_id=1
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_remove_reaction"></a>
-## [remove_reaction](#client_remove_reaction)
+<a id="messenger_remove_reaction"></a>
+## [remove_reaction](#messenger_remove_reaction)
 
 این متد برای حذف ری‌اکشن از یک پیام به کار می‌رود.
 
@@ -331,25 +331,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.remove_reaction(
-        "u0abc123...",
-        message_id="123456",
-        reaction_id=1
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.remove_reaction(
+            "https://rubika.ir/joing/GROUP123",
+            message_id="123456",
+            reaction_id=1
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_messages_reactions"></a>
-## [get_messages_reactions](#client_get_messages_reactions)
+<a id="messenger_get_messages_reactions"></a>
+## [get_messages_reactions](#messenger_get_messages_reactions)
 
 این متد برای دریافت ری‌اکشن‌های پیام‌ها در یک بازه مشخص به کار می‌رود.
 
@@ -362,25 +362,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    reactions = client.get_messages_reactions(
-        "u0abc123...",
-        min_id="100",
-        max_id="200"
-    )
-    print(reactions)
+with Messenger("mySession") as app:
+    try:
+        reactions = app.get_messages_reactions(
+            "u0abc123...",
+            min_id="100",
+            max_id="200"
+        )
+        print(reactions)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_report_message"></a>
-## [report_message](#client_report_message)
+<a id="messenger_report_message"></a>
+## [report_message](#messenger_report_message)
 
 این متد برای گزارش یک پیام به کار می‌رود.
 
@@ -394,26 +394,26 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.report_message(
-        "u0abc123...",
-        message_id="123456",
-        report_type="Spam",
-        description="پیام اسپم"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.report_message(
+            "@Spammer",
+            message_id="123456",
+            report_type="Spam",
+            description="پیام اسپم"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_mark_as_read"></a>
-## [mark_as_read](#client_mark_as_read)
+<a id="messenger_mark_as_read"></a>
+## [mark_as_read](#messenger_mark_as_read)
 
 این متد برای علامت‌گذاری یک چت به عنوان خوانده‌شده (با دیدن آخرین پیام) به کار می‌رود.
 
@@ -424,21 +424,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.mark_as_read("u0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.mark_as_read("u0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_mark_as_seen"></a>
-## [mark_as_seen](#client_mark_as_seen)
+<a id="messenger_mark_as_seen"></a>
+## [mark_as_seen](#messenger_mark_as_seen)
 
 این متد برای علامت‌گذاری یک پیام خاص به عنوان دیده‌شده به کار می‌رود.
 
@@ -450,21 +450,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.mark_as_seen("u0abc123...", message_id="123456")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.mark_as_seen("@MyFriend", message_id="123456")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_click_message_url"></a>
-## [click_message_url](#client_click_message_url)
+<a id="messenger_click_message_url"></a>
+## [click_message_url](#messenger_click_message_url)
 
 این متد برای شبیه‌سازی کلیک روی یک لینک داخل پیام به کار می‌رود.
 
@@ -477,25 +477,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.click_message_url(
-        "u0abc123...",
-        message_id="123456",
-        link_url="https://example.com"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.click_message_url(
+            "https://rubika.ir/joing/CHAT123",
+            message_id="123456",
+            link_url="https://example.com"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_click_inline_button"></a>
-## [click_inline_button](#client_click_inline_button)
+<a id="messenger_click_inline_button"></a>
+## [click_inline_button](#messenger_click_inline_button)
 
 این متد برای شبیه‌سازی کلیک روی دکمه اینلاین (شیشه‌ای) یک پیام به کار می‌رود.
 
@@ -508,19 +508,19 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.click_inline_button(
-        "u0abc123...",
-        message_id="1499338519906784",
-        button_id="b0SPm00c8gb83b689ac2eeffe16ec7db"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.click_inline_button(
+            "@MyBot",
+            message_id="1499338519906784",
+            button_id="b0SPm00c8gb83b689ac2eeffe16ec7db"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---

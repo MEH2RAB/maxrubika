@@ -2,8 +2,8 @@
 
 ---
 
-<a id="client_join_chat"></a>
-## [join_chat](#client_join_chat)
+<a id="messenger_join_chat"></a>
+## [join_chat](#messenger_join_chat)
 
 این متد برای عضویت در یک چت (گروه یا کانال) است. به صورت خودکار نوع چت را تشخیص داده و متد مناسب را فراخوانی می‌کند.
 
@@ -14,21 +14,21 @@
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.join_chat("https://rubika.ir/joing/ABC123")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.join_chat("https://rubika.ir/joing/ABC123")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_leave_chat"></a>
-## [leave_chat](#client_leave_chat)
+<a id="messenger_leave_chat"></a>
+## [leave_chat](#messenger_leave_chat)
 
 این متد برای خروج از یک چت (گروه یا کانال) است.
 
@@ -39,21 +39,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.leave_chat("g0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.leave_chat("g0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_check_join"></a>
-## [check_join](#client_check_join)
+<a id="messenger_check_join"></a>
+## [check_join](#messenger_check_join)
 
 این متد برای بررسی عضویت یک کاربر یا بات در یک گروه یا کانال است. مقدار بازگشتی `True` یا `False` است.
 
@@ -65,21 +65,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    is_member = client.check_join("g0abc123...", member="@Online_User")
-    print(is_member)
+with Messenger("mySession") as app:
+    try:
+        is_member = app.check_join("g0abc123...", member="@Online_User")
+        print(is_member)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_create_join_link"></a>
-## [create_join_link](#client_create_join_link)
+<a id="messenger_create_join_link"></a>
+## [create_join_link](#messenger_create_join_link)
 
 این متد برای ایجاد لینک دعوت برای یک گروه یا کانال است.
 
@@ -94,26 +94,26 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    link = client.create_join_link(
-        "g0abc123...",
-        request_needed=True,
-        title="لینک ویژه",
-        usage_limit=10
-    )
-    print(link)
+with Messenger("mySession") as app:
+    try:
+        link = app.create_join_link(
+            "g0abc123...",
+            request_needed=True,
+            title="لینک ویژه",
+            usage_limit=10
+        )
+        print(link)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_join_links"></a>
-## [get_join_links](#client_get_join_links)
+<a id="messenger_get_join_links"></a>
+## [get_join_links](#messenger_get_join_links)
 
 این متد برای دریافت لیست لینک‌های دعوت یک گروه یا کانال است.
 
@@ -125,21 +125,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    links = client.get_join_links("g0abc123...")
-    print(links)
+with Messenger("mySession") as app:
+    try:
+        links = app.get_join_links("g0abc123...")
+        print(links)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_join_requests"></a>
-## [get_join_requests](#client_get_join_requests)
+<a id="messenger_get_join_requests"></a>
+## [get_join_requests](#messenger_get_join_requests)
 
 این متد برای دریافت لیست درخواست‌های عضویت در یک گروه یا کانال است. به صورت خودکار تمام صفحات را پیمایش می‌کند.
 
@@ -151,21 +151,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    requests = client.get_join_requests("g0abc123...")
-    print(requests)
+with Messenger("mySession") as app:
+    try:
+        requests = app.get_join_requests("g0abc123...")
+        print(requests)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_accept_join_request"></a>
-## [accept_join_request](#client_accept_join_request)
+<a id="messenger_accept_join_request"></a>
+## [accept_join_request](#messenger_accept_join_request)
 
 این متد برای پذیرفتن یک درخواست عضویت در گروه یا کانال است.
 
@@ -177,21 +177,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.accept_join_request("g0abc123...", user="@NewUser")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.accept_join_request("g0abc123...", user="@NewUser")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_reject_join_request"></a>
-## [reject_join_request](#client_reject_join_request)
+<a id="messenger_reject_join_request"></a>
+## [reject_join_request](#messenger_reject_join_request)
 
 این متد برای رد کردن یک درخواست عضویت در گروه یا کانال است.
 
@@ -203,21 +203,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.reject_join_request("g0abc123...", user="@SpamUser")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.reject_join_request("g0abc123...", user="@SpamUser")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_accept_all_join_requests"></a>
-## [accept_all_join_requests](#client_accept_all_join_requests)
+<a id="messenger_accept_all_join_requests"></a>
+## [accept_all_join_requests](#messenger_accept_all_join_requests)
 
 این متد برای پذیرفتن تمام درخواست‌های عضویت در یک گروه یا کانال به صورت یکجا است.
 
@@ -229,15 +229,15 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.accept_all_join_requests("g0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.accept_all_join_requests("g0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---

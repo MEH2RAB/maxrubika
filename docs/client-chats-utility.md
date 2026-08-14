@@ -2,8 +2,8 @@
 
 ---
 
-<a id="client_send_chat_activity"></a>
-## [send_chat_activity](#client_send_chat_activity)
+<a id="messenger_send_chat_activity"></a>
+## [send_chat_activity](#messenger_send_chat_activity)
 
 این متد برای ارسال وضعیت فعالیت در چت (در حال تایپ، ضبط یا آپلود) است.
 
@@ -15,21 +15,21 @@
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.send_chat_activity("u0abc123...", activity="Typing")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.send_chat_activity("u0abc123...", activity="Typing")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_click_keypad_button"></a>
-## [click_keypad_button](#client_click_keypad_button)
+<a id="messenger_click_keypad_button"></a>
+## [click_keypad_button](#messenger_click_keypad_button)
 
 این متد برای کلیک روی دکمه‌های کیپاد یک بات است.
 
@@ -43,42 +43,42 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.click_keypad_button("@MyBot", button_id="100")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.click_keypad_button("@MyBot", button_id="100")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_all_drafts"></a>
-## [get_all_drafts](#client_get_all_drafts)
+<a id="messenger_get_all_drafts"></a>
+## [get_all_drafts](#messenger_get_all_drafts)
 
 این متد برای دریافت تمام پیش‌نویس‌های ذخیره شده پیام‌ها است.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    drafts = client.get_all_drafts()
-    print(drafts)
+with Messenger("mySession") as app:
+    try:
+        drafts = app.get_all_drafts()
+        print(drafts)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_upload_avatar"></a>
-## [upload_avatar](#client_upload_avatar)
+<a id="messenger_upload_avatar"></a>
+## [upload_avatar](#messenger_upload_avatar)
 
 این متد برای آپلود تصویر پروفایل (آواتار) برای یک چت (خود، گروه یا کانال) است.
 
@@ -91,24 +91,24 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.upload_avatar(
-        "me",
-        main_image="/path/to/avatar.jpg"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.upload_avatar(
+            "me",
+            main_image="/path/to/avatar.jpg"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_avatars"></a>
-## [get_avatars](#client_get_avatars)
+<a id="messenger_get_avatars"></a>
+## [get_avatars](#messenger_get_avatars)
 
 این متد برای دریافت لیست آواتارهای یک چت است.
 
@@ -119,21 +119,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    avatars = client.get_avatars("g0abc123...")
-    print(avatars)
+with Messenger("mySession") as app:
+    try:
+        avatars = app.get_avatars("g0abc123...")
+        print(avatars)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_avatar"></a>
-## [delete_avatar](#client_delete_avatar)
+<a id="messenger_delete_avatar"></a>
+## [delete_avatar](#messenger_delete_avatar)
 
 این متد برای حذف یک آواتار خاص از چت است.
 
@@ -145,21 +145,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_avatar("me", avatar_id="avatar_123")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_avatar("me", avatar_id="avatar_123")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_all_avatars"></a>
-## [delete_all_avatars](#client_delete_all_avatars)
+<a id="messenger_delete_all_avatars"></a>
+## [delete_all_avatars](#messenger_delete_all_avatars)
 
 این متد برای حذف تمام آواتارهای یک چت است.
 
@@ -170,21 +170,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_all_avatars("g0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_all_avatars("g0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_download_profile_picture"></a>
-## [download_profile_picture](#client_download_profile_picture)
+<a id="messenger_download_profile_picture"></a>
+## [download_profile_picture](#messenger_download_profile_picture)
 
 این متد برای دانلود تصویر پروفایل یک کاربر، گروه یا کانال است.
 
@@ -202,29 +202,29 @@ except Exception as e:
 ۱. دریافت آخرین عکس پروفایل به صورت بایت:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    image_bytes = client.download_profile_picture("@Online_User")
-    print(len(image_bytes))
+with Messenger("mySession") as app:
+    try:
+        image_bytes = app.download_profile_picture("@Online_User")
+        print(len(image_bytes))
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ۲. ذخیره در مسیر دلخواه:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.download_profile_picture("@Online_User", save_as="/path/to/folder")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.download_profile_picture("@Online_User", save_as="/path/to/folder")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---

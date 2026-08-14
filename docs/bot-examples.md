@@ -382,6 +382,131 @@ bot.run(0)
 
 ---
 
+<a id="bot_examples_self_bot_combined"></a>
+## [ترکیب بات و سلف‌بات - دریافت لینک پست](#bot_examples_self_bot_combined)
+
+```python
+import re
+from maxrubika import Bot, Messenger
+from maxrubika.bot.filters import Text
+
+bot = Bot("Token")  # توکن بات خود را اینجا وارد کنید
+
+with Messenger("mySession") as app:  # سشن اکانت خود را اینجا وارد کنید
+
+    @bot.on_message(Text(re.compile(r'https://rubika\.ir/\w+/[A-Z]+', re.IGNORECASE)))
+    async def get_post(bot, event):
+        link = event.text.strip()
+
+        try:
+            result = await app.get_channel_post_by_link(link)
+            ask_spam_link = result.ask_spam_link
+
+            if ask_spam_link:
+                await event.reply(f"**لینک پست مورد نظر آماده شد:**\n\n{ask_spam_link}")
+            else:
+                await event.reply("**خطایی رخ داد.**")
+
+        except Exception:
+            await event.reply("**لطفاً لینک معتبر وارد شود.**")
+
+    bot.run()
+```
+
+---
+
+<a id="bot_examples_check_join_channel"></a>
+## [ترکیب بات و سلف‌بات - بررسی عضویت کانال](#bot_examples_check_join_channel)
+
+```python
+from maxrubika import Bot, Messenger
+from maxrubika.bot.filters import ChatType
+
+bot = Bot("Token")
+
+with Messenger("mySession") as app:
+    channel = "@TheMAXRubika"
+
+    guid = app.get_guid(channel)
+    info = app.get_channel_info(guid)
+    title = info.channel.channel_title
+
+    @bot.on_command("start", ChatType("user"))
+    async def handler(bot, event):
+        sender = event.author_id
+        chat_info = await bot.get_chat_info(event.chat_id)
+        username = getattr(chat_info.data.chat, 'username', None)
+
+        if username:
+            is_member = await app.check_join(guid, username)
+            if is_member:
+                await event.reply(f"✅ **شما در کانال {title} عضو هستید.**")
+                return
+            else:
+                await event.reply(f"❌ **ابتدا در کانال زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{channel}")
+                return
+
+        members = await app.get_channel_members(guid)
+        sender_prefix = sender[:7]
+
+        for member in members.in_chat_members:
+            if member.member_guid[:7] == sender_prefix:
+                await event.reply(f"✅ **شما در کانال {title} عضو هستید.**")
+                return
+
+        await event.reply(f"❌ **ابتدا در کانال زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{channel}\n\n**اگر از قبل عضو بودید، ابتدا کانال را ترک کنید و دوباره عضو کانال شوید.**")
+
+    bot.run(0)
+```
+
+---
+
+<a id="bot_examples_check_join_group"></a>
+## [ترکیب بات و سلف‌بات - بررسی عضویت گروه](#bot_examples_check_join_group)
+
+```python
+from maxrubika import Bot, Messenger
+from maxrubika.bot.filters import ChatType
+
+bot = Bot("Token")
+
+with Messenger("mySession") as app:
+    group = "https://rubika.ir/joing/..."
+
+    guid = app.get_guid(group)
+    info = app.get_group_info(guid)
+    title = info.group.group_title
+
+    @bot.on_command("start", ChatType("user"))
+    async def handler(bot, event):
+        sender = event.author_id
+        chat_info = await bot.get_chat_info(event.chat_id)
+        username = getattr(chat_info.data.chat, 'username', None)
+
+        if username:
+            is_member = await app.check_join(guid, username)
+            if is_member:
+                await event.reply(f"✅ **شما در گروه {title} عضو هستید.**")
+                return
+            else:
+                await event.reply(f"❌ **ابتدا در گروه زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{group}")
+                return
+
+        members = await app.get_group_members(guid)
+        sender_prefix = sender[:7]
+
+        for member in members.in_chat_members:
+            if member.member_guid[:7] == sender_prefix:
+                await event.reply(f"✅ **شما در گروه {title} عضو هستید.**")
+                return
+
+        await event.reply(f"❌ **ابتدا در گروه زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{group}\n\n**اگر از قبل عضو بودید، ابتدا گروه را ترک کنید و دوباره عضو گروه شوید.**")
+
+    bot.run(0)
+```
+
+---
+
 <div style="display: flex; gap: 12px; flex-wrap: wrap;">
 
 <a href="../bot-guide/" class="md-button" style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; flex: 1; min-width: 140px; text-align: center; padding: 10px 20px; font-weight: bold; color: #333;">بازگشت به صفحه قبل</a>

@@ -2,8 +2,8 @@
 
 ---
 
-<a id="client_get_guid"></a>
-## [get_guid](#client_get_guid)
+<a id="messenger_get_guid"></a>
+## [get_guid](#messenger_get_guid)
 
 این متد برای دریافت شناسه (GUID) یک کاربر، گروه، کانال یا بات از روی نام‌کاربری یا لینک است. این متد پایه‌ای و پرکاربرد است و بسیاری از متدهای دیگر از آن استفاده می‌کنند.
 
@@ -16,21 +16,42 @@
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    guid = client.get_guid("@Online_User")
-    print(guid)
+with Messenger("mySession") as app:
+    try:
+        guid = app.get_guid("@Online_User")
+        print(guid)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_info_by_username"></a>
-## [get_info_by_username](#client_get_info_by_username)
+<a id="messenger_get_my_guid"></a>
+## [get_my_guid](#messenger_get_my_guid)
+
+این متد برای دریافت شناسه (GUID) اکانت خود کاربر استفاده می‌شود.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    try:
+        my_guid = app.get_my_guid()
+        print(my_guid)
+
+    except Exception as e:
+        print(e)
+```
+
+---
+
+<a id="messenger_get_info_by_username"></a>
+## [get_info_by_username](#messenger_get_info_by_username)
 
 این متد برای دریافت اطلاعات اولیه یک چت (کاربر، بات یا کانال) از طریق نام‌کاربری است.
 
@@ -43,21 +64,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    info = client.get_info_by_username("Online_User")
-    print(info)
+with Messenger("mySession") as app:
+    try:
+        info = app.get_info_by_username("Online_User")
+        print(info)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_info_by_link"></a>
-## [get_info_by_link](#client_get_info_by_link)
+<a id="messenger_get_info_by_link"></a>
+## [get_info_by_link](#messenger_get_info_by_link)
 
 این متد برای دریافت پیش‌نمایش اطلاعات گروه یا کانال از طریق لینک دعوت است.
 
@@ -68,21 +89,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    info = client.get_info_by_link("https://rubika.ir/joing/ABC123")
-    print(info)
+with Messenger("mySession") as app:
+    try:
+        info = app.get_info_by_link("https://rubika.ir/joing/ABC123")
+        print(info)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_chat_info"></a>
-## [get_chat_info](#client_get_chat_info)
+<a id="messenger_get_chat_info"></a>
+## [get_chat_info](#messenger_get_chat_info)
 
 این متد جامع برای دریافت اطلاعات کامل یک چت (کاربر، گروه، کانال، بات یا سرویس) است. با تشخیص خودکار نوع چت، متد مناسب را فراخوانی می‌کند.
 
@@ -97,35 +118,35 @@ except Exception as e:
 ۱. دریافت اطلاعات کاربر:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    info = client.get_chat_info("@Online_User")
-    print(info)
+with Messenger("mySession") as app:
+    try:
+        info = app.get_chat_info("@Online_User")
+        print(info)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ۲. دریافت اطلاعات گروه از لینک:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    info = client.get_chat_info("https://rubika.ir/joing/ABC123")
-    print(info)
+with Messenger("mySession") as app:
+    try:
+        info = app.get_chat_info("https://rubika.ir/joing/ABC123")
+        print(info)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_chats_info"></a>
-## [get_chats_info](#client_get_chats_info)
+<a id="messenger_get_chats_info"></a>
+## [get_chats_info](#messenger_get_chats_info)
 
 این متد برای دریافت اطلاعات چند چت به صورت هم‌زمان با استفاده از GUID آنها است.
 
@@ -136,21 +157,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    info = client.get_chats_info(["u0abc123...", "g0xyz789...", "c0def456..."])
-    print(info)
+with Messenger("mySession") as app:
+    try:
+        info = app.get_chats_info(["u0abc123...", "g0xyz789...", "c0def456..."])
+        print(info)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_chats"></a>
-## [get_chats](#client_get_chats)
+<a id="messenger_get_chats"></a>
+## [get_chats](#messenger_get_chats)
 
 این متد برای دریافت لیست تمام چت‌های حساب کاربری است. به صورت خودکار تمام صفحات را پیمایش می‌کند.
 
@@ -161,21 +182,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    chats = client.get_chats()
-    print(chats)
+with Messenger("mySession") as app:
+    try:
+        chats = app.get_chats()
+        print(chats)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_chats_updates"></a>
-## [get_chats_updates](#client_get_chats_updates)
+<a id="messenger_get_chats_updates"></a>
+## [get_chats_updates](#messenger_get_chats_updates)
 
 این متد برای دریافت به‌روزرسانی‌های چت‌ها (مانند پیام‌های جدید، تغییرات و...) است.
 
@@ -186,21 +207,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    updates = client.get_chats_updates()
-    print(updates)
+with Messenger("mySession") as app:
+    try:
+        updates = app.get_chats_updates()
+        print(updates)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_related_chats"></a>
-## [get_related_chats](#client_get_related_chats)
+<a id="messenger_get_related_chats"></a>
+## [get_related_chats](#messenger_get_related_chats)
 
 این متد برای دریافت چت‌های مرتبط با یک چت خاص (مانند گروه‌ها و کانال‌های مرتبط) است.
 
@@ -211,21 +232,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    related = client.get_related_chats("g0abc123...")
-    print(related)
+with Messenger("mySession") as app:
+    try:
+        related = app.get_related_chats("g0abc123...")
+        print(related)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_profile_link_items"></a>
-## [get_profile_link_items](#client_get_profile_link_items)
+<a id="messenger_get_profile_link_items"></a>
+## [get_profile_link_items](#messenger_get_profile_link_items)
 
 این متد برای دریافت آیتم‌های لینک پروفایل یک چت است.
 
@@ -236,21 +257,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    items = client.get_profile_link_items("u0abc123...")
-    print(items)
+with Messenger("mySession") as app:
+    try:
+        items = app.get_profile_link_items("u0abc123...")
+        print(items)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_chat_ads"></a>
-## [get_chat_ads](#client_get_chat_ads)
+<a id="messenger_get_chat_ads"></a>
+## [get_chat_ads](#messenger_get_chat_ads)
 
 این متد برای دریافت اطلاعات تبلیغاتی چت‌ها است.
 
@@ -261,40 +282,61 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    ads = client.get_chat_ads()
-    print(ads)
+with Messenger("mySession") as app:
+    try:
+        ads = app.get_chat_ads()
+        print(ads)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_search_global_chats"></a>
-## [search_global_chats](#client_search_global_chats)
+<a id="messenger_search_global_chats"></a>
+## [search_global_chats](#messenger_search_global_chats)
 
 این متد برای جستجوی سراسری در میان چت‌ها (کاربران، کانال‌ها و...) بر اساس متن است.
 
-**پارامتر:**
+**پارامترها:**
 
 - **text:** متن مورد جستجو.
+- **filter_type:** فیلتر نتایج بر اساس نوع. مقادیر قابل قبول: `User`، `Channel`، `Bot` یا لیستی از آن‌ها. (پیش‌فرض: None)
+- **start_id:** شناسه شروع برای صفحه‌بندی. (پیش‌فرض: None)
 
-**مثال:**
+**مثال‌ها:**
+
+جستجوی ساده:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    results = client.search_global_chats("برنامه‌نویس")
-    print(results)
+with Messenger("mySession") as app:
+    try:
+        results = app.search_global_chats("برنامه‌نویس")
+        print(results)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
+```
+
+جستجو با فیلتر نوع:
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    try:
+        results = app.search_global_chats(
+            "برنامه‌نویس",
+            filter_type=["Channel", "Bot"]
+        )
+        print(results)
+
+    except Exception as e:
+        print(e)
 ```
 
 ---

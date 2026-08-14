@@ -2,8 +2,8 @@
 
 ---
 
-<a id="client_check_channel_username"></a>
-## [check_channel_username](#client_check_channel_username)
+<a id="messenger_check_channel_username"></a>
+## [check_channel_username](#messenger_check_channel_username)
 
 این متد برای بررسی وضعیت یک نام‌کاربری به کار می‌رود. با استفاده از آن می‌توان تعیین کرد که نام‌کاربری مورد نظر آزاد است یا پیش‌تر ثبت شده است.
 
@@ -16,21 +16,21 @@
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    check = client.check_channel_username("@Undefined")
-    print(check)
+with Messenger("mySession") as app:
+    try:
+        check = app.check_channel_username("@Undefined")
+        print(check)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_create_channel"></a>
-## [create_channel](#client_create_channel)
+<a id="messenger_create_channel"></a>
+## [create_channel](#messenger_create_channel)
 
 این متد برای ایجاد یک کانال جدید به کار می‌رود.
 
@@ -46,26 +46,26 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    action = client.create_channel(
-        title="کانال تست",
-        members=["Online_User", "@ShowInfoBot", "@Cipher", "ir_maxware", "u0HryBf03dbfba68374497983bc850a0"],
-        channel_type="Public",
-        description="این یک کانال تست است."
-    )
-    print(action)
+with Messenger("mySession") as app:
+    try:
+        action = app.create_channel(
+            title="کانال تست",
+            members=["Online_User", "@ShowInfoBot", "@Cipher", "ir_maxware", "u0HryBf03dbfba68374497983bc850a0"],
+            channel_type="Public",
+            description="این یک کانال تست است."
+        )
+        print(action)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_channel"></a>
-## [delete_channel](#client_delete_channel)
+<a id="messenger_delete_channel"></a>
+## [delete_channel](#messenger_delete_channel)
 
 این متد برای حذف یک کانال به کار می‌رود.
 
@@ -80,21 +80,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    action = client.delete_channel("c0CyVlK0cae995e5b46031170a358a4e")
-    print(action)
+with Messenger("mySession") as app:
+    try:
+        action = app.delete_channel("c0CyVlK0cae995e5b46031170a358a4e")
+        print(action)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_edit_channel_info"></a>
-## [edit_channel_info](#client_edit_channel_info)
+<a id="messenger_edit_channel_info"></a>
+## [edit_channel_info](#messenger_edit_channel_info)
 
 این متد برای ویرایش تنظیمات یک کانال به کار می‌رود.
 
@@ -114,29 +114,29 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    action = client.edit_channel_info(
-        channel="https://rubika.ir/joinc/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD",
-        title="کانال من",
-        username="infoChannel1234",
-        channel_type="Public",
-        description="درباره‌ی من.",
-        reactions=[1, 2, 3, 5, 7, 9, 12, 20],
-        sign_messages=True
-    )
-    print(action)
+with Messenger("mySession") as app:
+    try:
+        action = app.edit_channel_info(
+            channel="https://rubika.ir/joinc/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD",
+            title="کانال من",
+            username="infoChannel1234",
+            channel_type="Public",
+            description="درباره‌ی من.",
+            reactions=[1, 2, 3, 5, 7, 9, 12, 20],
+            sign_messages=True
+        )
+        print(action)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_edit_channel_title"></a>
-## [edit_channel_title](#client_edit_channel_title)
+<a id="messenger_edit_channel_title"></a>
+## [edit_channel_title](#messenger_edit_channel_title)
 
 این متد برای ویرایش عنوان یک کانال به کار می‌رود. این متد میانبری برای `edit_channel_info` با پارامتر `title` است.
 
@@ -150,21 +150,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    action = client.edit_channel_title("@TheProgrammer", "new title")
-    print(action)
+with Messenger("mySession") as app:
+    try:
+        action = app.edit_channel_title("@TheProgrammer", "new title")
+        print(action)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_channel_admin_access"></a>
-## [get_channel_admin_access](#client_get_channel_admin_access)
+<a id="messenger_get_channel_admin_access"></a>
+## [get_channel_admin_access](#messenger_get_channel_admin_access)
 
 این متد برای دریافت سطح دسترسی‌های یک ادمین در کانال هدف به کار می‌رود.
 
@@ -181,21 +181,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    action = client.get_channel_admin_access("@TheProgrammer", "@Online_User")
-    print(action)
+with Messenger("mySession") as app:
+    try:
+        action = app.get_channel_admin_access("@TheProgrammer", "@Online_User")
+        print(action)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_channel_admins"></a>
-## [get_channel_admins](#client_get_channel_admins)
+<a id="messenger_get_channel_admins"></a>
+## [get_channel_admins](#messenger_get_channel_admins)
 
 این متد برای دریافت فهرست کامل ادمین‌های یک کانال به کار می‌رود. این متد به صورت خودکار تمام صفحات را پیمایش می‌کند و همه ادمین‌ها را بازمی‌گرداند.
 
@@ -209,21 +209,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    action = client.get_channel_admins("CodeYaran")
-    print(action)
+with Messenger("mySession") as app:
+    try:
+        action = app.get_channel_admins("CodeYaran")
+        print(action)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_channel_info"></a>
-## [get_channel_info](#client_get_channel_info)
+<a id="messenger_get_channel_info"></a>
+## [get_channel_info](#messenger_get_channel_info)
 
 این متد برای دریافت اطلاعات یک کانال به کار می‌رود.
 
@@ -236,21 +236,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    action = client.get_channel_info("MEH2RAB")
-    print(action)
+with Messenger("mySession") as app:
+    try:
+        action = app.get_channel_info("MEH2RAB")
+        print(action)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_channel_link"></a>
-## [get_channel_link](#client_get_channel_link)
+<a id="messenger_get_channel_link"></a>
+## [get_channel_link](#messenger_get_channel_link)
 
 این متد برای دریافت لینک خصوصی یک کانال به کار می‌رود.
 
@@ -263,21 +263,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    action = client.get_channel_link("g0G3R19035f77574adc0127ab97c999c")
-    print(action)
+with Messenger("mySession") as app:
+    try:
+        action = app.get_channel_link("c0G3R19035f77574adc0127ab97c999c")
+        print(action)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_channel_members"></a>
-## [get_channel_members](#client_get_channel_members)
+<a id="messenger_get_channel_members"></a>
+## [get_channel_members](#messenger_get_channel_members)
 
 این متد برای دریافت فهرست اعضای یک کانال به کار می‌رود.
 
@@ -297,35 +297,35 @@ except Exception as e:
 نمایش اعضای کانال:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    action = client.get_channel_members("g0G3R19035f77574adc0127ab97c999c")
-    print(action)
+with Messenger("mySession") as app:
+    try:
+        action = app.get_channel_members("c0G3R19035f77574adc0127ab97c999c")
+        print(action)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 جستجوی یک کاربر خاص:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    action = client.get_channel_members("PythonChannel", search_text="@ir_MAXWare")
-    print(action)
+with Messenger("mySession") as app:
+    try:
+        action = app.get_channel_members("PythonChannel", search_text="@ir_MAXWare")
+        print(action)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_channel_post_by_link"></a>
-## [get_channel_post_by_link](#client_get_channel_post_by_link)
+<a id="messenger_get_channel_post_by_link"></a>
+## [get_channel_post_by_link](#messenger_get_channel_post_by_link)
 
 این متد برای دریافت اطلاعات یک پیام کانال از طریق لینک آن پیام به کار می‌رود. خروجی شامل اطلاعات کانال، متن پیام و زمان ارسال است.
 
@@ -339,21 +339,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    info = client.get_channel_post_by_link("https://rubika.ir/RubiFAQ/BICEGHDGFBGJHCCD")
-    print(info)
+with Messenger("mySession") as app:
+    try:
+        info = app.get_channel_post_by_link("https://rubika.ir/RubiFAQ/BICEGHDGFBGJHCCD")
+        print(info)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_channel_seen_count"></a>
-## [get_channel_seen_count](#client_get_channel_seen_count)
+<a id="messenger_get_channel_seen_count"></a>
+## [get_channel_seen_count](#messenger_get_channel_seen_count)
 
 این متد برای دریافت آمار بازدید بازه‌ای از پیام‌های یک کانال به کار می‌رود.
 
@@ -368,21 +368,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.get_channel_seen_count("CodeYaran", 157896351047, 189720063713)
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.get_channel_seen_count("CodeYaran", 157896351047, 189720063713)
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_channel_statistics"></a>
-## [get_channel_statistics](#client_get_channel_statistics)
+<a id="messenger_get_channel_statistics"></a>
+## [get_channel_statistics](#messenger_get_channel_statistics)
 
 این متد برای دریافت تمام آمارهای یک کانال به کار می‌رود.
 
@@ -395,21 +395,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    stats = client.get_channel_statistics("CodeYaran")
-    print(stats)
+with Messenger("mySession") as app:
+    try:
+        stats = app.get_channel_statistics("CodeYaran")
+        print(stats)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_join_channel"></a>
-## [join_channel](#client_join_channel)
+<a id="messenger_join_channel"></a>
+## [join_channel](#messenger_join_channel)
 
 این متد برای عضویت در یک کانال به کار می‌رود. هم لینک دعوت و هم روش مستقیم را پشتیبانی می‌کند.
 
@@ -422,21 +422,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.join_channel("@TheComputeriha")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.join_channel("@TheComputeriha")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_leave_channel"></a>
-## [leave_channel](#client_leave_channel)
+<a id="messenger_leave_channel"></a>
+## [leave_channel](#messenger_leave_channel)
 
 این متد برای خروج از یک کانال به کار می‌رود.
 
@@ -449,21 +449,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.leave_channel("@Rubika")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.leave_channel("@Rubika")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_seen_channel_messages"></a>
-## [seen_channel_messages](#client_seen_channel_messages)
+<a id="messenger_seen_channel_messages"></a>
+## [seen_channel_messages](#messenger_seen_channel_messages)
 
 این متد برای علامت‌گذاری بازه‌ای از پیام‌های یک کانال به عنوان دیده‌شده به کار می‌رود.
 
@@ -478,21 +478,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.seen_channel_messages("@PythonChannel", 11231014101, 52415414554)
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.seen_channel_messages("@PythonChannel", 11231014101, 52415414554)
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_set_channel_link"></a>
-## [set_channel_link](#client_set_channel_link)
+<a id="messenger_set_channel_link"></a>
+## [set_channel_link](#messenger_set_channel_link)
 
 این متد برای تنظیم لینک خصوصی یک کانال به کار می‌رود.
 
@@ -505,21 +505,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_channel_link("@PC_and_Mobile")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.set_channel_link("@PC_and_Mobile")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_set_channel_type"></a>
-## [set_channel_type](#client_set_channel_type)
+<a id="messenger_set_channel_type"></a>
+## [set_channel_type](#messenger_set_channel_type)
 
 این متد برای تغییر نوع کانال (عمومی یا خصوصی) به کار می‌رود. این متد میانبری برای `edit_channel_info` با پارامتر `channel_type` است.
 
@@ -533,21 +533,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_channel_type("@Undefined", channel_type="Private")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.set_channel_type("@Undefined", channel_type="Private")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_update_channel_username"></a>
-## [update_channel_username](#client_update_channel_username)
+<a id="messenger_update_channel_username"></a>
+## [update_channel_username](#messenger_update_channel_username)
 
 این متد برای به‌روزرسانی نام‌کاربری یک کانال به کار می‌رود.
 
@@ -564,15 +564,15 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.update_channel_username("TheProgrammer", username="TheProgrammer2")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.update_channel_username("TheProgrammer", username="TheProgrammer2")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---

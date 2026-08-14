@@ -4,27 +4,28 @@
 
 ## متدهای اصلی و راه‌اندازی
 
-<a id="client_connect"></a>
-### [connect](#client_connect)
+<a id="messenger_connect"></a>
+### [connect](#messenger_connect)
 
 برقراری ارتباط با API روبیکا. یک نمونه Api ایجاد می‌کند و اطلاعات نشست ذخیره شده (auth, guid, private_key, user_agent) را در صورت وجود بارگذاری می‌کند.
 
 **خروجی:**
 
-- **Client:** نمونه کلاینت با اتصال فعال.
+- **Messenger:** نمونه کلاینت با اتصال فعال.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
-client.connect()
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    app.connect()
 ```
 
 ---
 
-<a id="client_start"></a>
-### [start](#client_start)
+<a id="messenger_start"></a>
+### [start](#messenger_start)
 
 شروع کلاینت، مدیریت احراز هویت و ثبت‌نام.
 
@@ -34,20 +35,21 @@ client.connect()
 
 **خروجی:**
 
-- **Client:** نمونه کلاینت مقداردهی‌شده.
+- **Messenger:** نمونه کلاینت مقداردهی‌شده.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
-client.start("+989123456789")
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    app.start("+989123456789")
 ```
 
 ---
 
-<a id="client_run"></a>
-### [run](#client_run)
+<a id="messenger_run"></a>
+### [run](#messenger_run)
 
 شروع کلاینت و گوش دادن به به‌روزرسانی‌ها. اطمینان از برقراری اتصال، سپس اجرای اختیاری یک coroutine قبل از ورود به حلقه به‌روزرسانی. هم در محیط‌های sync و هم async کار می‌کند.
 
@@ -62,67 +64,68 @@ client.start("+989123456789")
 **مثال sync:**
 
 ```python
-from maxrubika import Client
+from maxrubika import Messenger
 
-client = Client("mySession")
-client.run()
+with Messenger("mySession") as app:
+    app.run()
 ```
 
 **مثال async:**
 
 ```python
-from maxrubika import Client
+from maxrubika import Messenger
 
-async with Client("mySession") as app:
+async with Messenger("mySession") as app:
     await app.run()
 ```
 
 ---
 
-<a id="client_disconnect"></a>
-### [disconnect](#client_disconnect)
+<a id="messenger_disconnect"></a>
+### [disconnect](#messenger_disconnect)
 
 قطع ارتباط با سرور روبیکا.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
-client.start()
-# ... انجام عملیات ...
-client.disconnect()
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    app.start()
+    # ... انجام عملیات ...
+    app.disconnect()
 ```
 
 ---
 
 ## متدهای دریافت به‌روزرسانی
 
-<a id="client_get_updates"></a>
-### [get_updates](#client_get_updates)
+<a id="messenger_get_updates"></a>
+### [get_updates](#messenger_get_updates)
 
 دریافت به‌روزرسانی‌ها از WebSocket روبیکا.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    # این متد به صورت نامحدود اجرا می‌شود و به‌روزرسانی‌ها را دریافت می‌کند
-    client.get_updates()
+with Messenger("mySession") as app:
+    try:
+        # این متد به صورت نامحدود اجرا می‌شود و به‌روزرسانی‌ها را دریافت می‌کند
+        app.get_updates()
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
 ## متدهای درخواست
 
-<a id="client_request"></a>
-### [request](#client_request)
+<a id="messenger_request"></a>
+### [request](#messenger_request)
 
 ساخت و ارسال درخواست به API روبیکا.
 
@@ -140,26 +143,26 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.request(
-        method="getUserInfo",
-        input={"user_guid": "u0abc123..."}
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.request(
+            method="getUserInfo",
+            input={"user_guid": "u0abc123..."}
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
 ## متدهای فایل
 
-<a id="client_upload_file"></a>
-### [upload_file](#client_upload_file)
+<a id="messenger_upload_file"></a>
+### [upload_file](#messenger_upload_file)
 
 آپلود فایل به روبیکا.
 
@@ -178,113 +181,133 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.upload_file(
-        file="file.jpg",
-        mime="image/jpeg",
-        file_name="my_image.jpg"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.upload_file(
+            file="file.jpg",
+            mime="image/jpeg",
+            file_name="my_image.jpg"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_download_file"></a>
-### [download_file](#client_download_file)
+<a id="messenger_download_file"></a>
+### [download_file](#messenger_download_file)
 
 دانلود فایل از سرورهای روبیکا با استفاده از شناسه فایل و access hash.
 
 **پارامترها:**
 
-- **dc_id** (int): شناسه دیتاسنتر.
-- **file_id** (int): شناسه یکتای فایل.
-- **access_hash** (str): هش دسترسی مرتبط با فایل.
-- **size** (int): اندازه کل فایل به بایت.
+- **file_inline:** دیکشنری یا Data حاوی اطلاعات فایل (dc_id, file_id, access_hash_rec, size, file_name).
+- **dc_id** (int, optional): شناسه دیتاسنتر (در صورت عدم ارسال file_inline).
+- **file_id** (int, optional): شناسه یکتای فایل.
+- **access_hash** (str, optional): هش دسترسی مرتبط با فایل.
+- **size** (int, optional): اندازه کل فایل به بایت.
 - **chunk** (int, optional): اندازه هر بخش دانلود (پیش‌فرض: 131072).
 - **callback** (callable, optional): تابع پیشرفت دانلود (total_size, downloaded_size).
 - **gather** (bool, optional): دانلود بخش‌ها به صورت موازی (پیش‌فرض: False).
 - **save_as** (str or bool, optional): مسیر دایرکتوری یا True برای دایرکتوری جاری. اگر None باشد، بایت‌ها را برمی‌گرداند.
 - **file_name** (str, optional): نام سفارشی فایل.
+- **as_base64** (bool, optional): بازگرداندن فایل به صورت base64 (پیش‌فرض: False).
 
 **خروجی:**
 
-- **bytes or str:** محتوای فایل (bytes) یا مسیر ذخیره شده (str).
+- **bytes, str, or Data:** محتوای فایل (bytes)، رشته base64 یا Data (زمانی که save_as استفاده می‌شود).
 
-**مثال:**
+**مثال‌ها:**
+
+۱. دانلود با file_inline:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.download_file(
-        dc_id=1,
-        file_id=123456,
-        access_hash="hash_example",
-        size=1024000,
-        save_as=True,
-        file_name="my_file.jpg"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.download_file(
+            file_inline={"dc_id": 1, "file_id": 123456, "access_hash_rec": "hash_example", "size": 1024000},
+            save_as=True,
+            file_name="my_file.jpg"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
+```
+
+۲. دانلود با پارامترهای جداگانه و دریافت bytes:
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    try:
+        result = app.download_file(
+            dc_id=1,
+            file_id=123456,
+            access_hash="hash_example",
+            size=1024000
+        )
+        print(result)
+
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
 ## متدهای کمکی
 
-<a id="client_get_time"></a>
-### [get_time](#client_get_time)
+<a id="messenger_get_time"></a>
+### [get_time](#messenger_get_time)
 
 این متد برای دریافت زمان فعلی سرور به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    time = client.get_time()
-    print(time)
+with Messenger("mySession") as app:
+    try:
+        time = app.get_time()
+        print(time)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_available_reactions"></a>
-### [get_available_reactions](#client_get_available_reactions)
+<a id="messenger_get_available_reactions"></a>
+### [get_available_reactions](#messenger_get_available_reactions)
 
 این متد برای دریافت لیست ری‌اکشن‌های قابل استفاده در چت‌ها به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    reactions = client.get_available_reactions()
-    print(reactions)
+with Messenger("mySession") as app:
+    try:
+        reactions = app.get_available_reactions()
+        print(reactions)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_location_view"></a>
-### [get_location_view](#client_get_location_view)
+<a id="messenger_get_location_view"></a>
+### [get_location_view](#messenger_get_location_view)
 
 این متد برای دریافت نقشه یک موقعیت جغرافیایی به کار می‌رود.
 
@@ -296,107 +319,107 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    view = client.get_location_view(latitude=35.6892, longitude=51.3890)
-    print(view)
+with Messenger("mySession") as app:
+    try:
+        view = app.get_location_view(latitude=35.6892, longitude=51.3890)
+        print(view)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_wallpapers"></a>
-### [get_wallpapers](#client_get_wallpapers)
+<a id="messenger_get_wallpapers"></a>
+### [get_wallpapers](#messenger_get_wallpapers)
 
 این متد برای دریافت تنظیمات فعلی تصویر پس‌زمینه چت به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    wallpapers = client.get_wallpapers()
-    print(wallpapers)
+with Messenger("mySession") as app:
+    try:
+        wallpapers = app.get_wallpapers()
+        print(wallpapers)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_reset_wallpapers"></a>
-### [reset_wallpapers](#client_reset_wallpapers)
+<a id="messenger_reset_wallpapers"></a>
+### [reset_wallpapers](#messenger_reset_wallpapers)
 
 این متد برای بازنشانی تمام تصاویر پس‌زمینه چت‌ها به حالت پیش‌فرض به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.reset_wallpapers()
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.reset_wallpapers()
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
 ## متدهای استیکر و گیف
 
-<a id="client_get_sticker_setting"></a>
-### [get_sticker_setting](#client_get_sticker_setting)
+<a id="messenger_get_sticker_setting"></a>
+### [get_sticker_setting](#messenger_get_sticker_setting)
 
 این متد برای دریافت تنظیمات استیکر کاربر فعلی به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    settings = client.get_sticker_setting()
-    print(settings)
+with Messenger("mySession") as app:
+    try:
+        settings = app.get_sticker_setting()
+        print(settings)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_my_sticker_sets"></a>
-### [get_my_sticker_sets](#client_get_my_sticker_sets)
+<a id="messenger_get_my_sticker_sets"></a>
+### [get_my_sticker_sets](#messenger_get_my_sticker_sets)
 
 این متد برای دریافت مجموعه استیکرهای متعلق به کاربر به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    stickers = client.get_my_sticker_sets()
-    print(stickers)
+with Messenger("mySession") as app:
+    try:
+        stickers = app.get_my_sticker_sets()
+        print(stickers)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_my_archived_sticker_sets"></a>
-### [get_my_archived_sticker_sets](#client_get_my_archived_sticker_sets)
+<a id="messenger_get_my_archived_sticker_sets"></a>
+### [get_my_archived_sticker_sets](#messenger_get_my_archived_sticker_sets)
 
 این متد برای دریافت مجموعه استیکرهای آرشیو شده کاربر به کار می‌رود.
 
@@ -407,21 +430,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    archived = client.get_my_archived_sticker_sets()
-    print(archived)
+with Messenger("mySession") as app:
+    try:
+        archived = app.get_my_archived_sticker_sets()
+        print(archived)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_sticker_set_by_id"></a>
-### [get_sticker_set_by_id](#client_get_sticker_set_by_id)
+<a id="messenger_get_sticker_set_by_id"></a>
+### [get_sticker_set_by_id](#messenger_get_sticker_set_by_id)
 
 این متد برای دریافت یک مجموعه استیکر با شناسه آن به کار می‌رود.
 
@@ -432,21 +455,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    sticker_set = client.get_sticker_set_by_id("sticker_set_id_123")
-    print(sticker_set)
+with Messenger("mySession") as app:
+    try:
+        sticker_set = app.get_sticker_set_by_id("sticker_set_id_123")
+        print(sticker_set)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_stickers_by_set_ids"></a>
-### [get_stickers_by_set_ids](#client_get_stickers_by_set_ids)
+<a id="messenger_get_stickers_by_set_ids"></a>
+### [get_stickers_by_set_ids](#messenger_get_stickers_by_set_ids)
 
 این متد برای دریافت استیکرها با شناسه مجموعه‌های آن‌ها به کار می‌رود.
 
@@ -457,21 +480,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    stickers = client.get_stickers_by_set_ids(["id1", "id2", "id3"])
-    print(stickers)
+with Messenger("mySession") as app:
+    try:
+        stickers = app.get_stickers_by_set_ids(["id1", "id2", "id3"])
+        print(stickers)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_stickers_by_emoji"></a>
-### [get_stickers_by_emoji](#client_get_stickers_by_emoji)
+<a id="messenger_get_stickers_by_emoji"></a>
+### [get_stickers_by_emoji](#messenger_get_stickers_by_emoji)
 
 این متد برای دریافت استیکرها بر اساس ایموجی به کار می‌رود.
 
@@ -483,21 +506,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    stickers = client.get_stickers_by_emoji("😊")
-    print(stickers)
+with Messenger("mySession") as app:
+    try:
+        stickers = app.get_stickers_by_emoji("😊")
+        print(stickers)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_search_stickers"></a>
-### [search_stickers](#client_search_stickers)
+<a id="messenger_search_stickers"></a>
+### [search_stickers](#messenger_search_stickers)
 
 این متد برای جستجوی استیکرها به کار می‌رود.
 
@@ -509,21 +532,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    results = client.search_stickers(search_text="سلام")
-    print(results)
+with Messenger("mySession") as app:
+    try:
+        results = app.search_stickers(search_text="سلام")
+        print(results)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_trend_sticker_sets"></a>
-### [get_trend_sticker_sets](#client_get_trend_sticker_sets)
+<a id="messenger_get_trend_sticker_sets"></a>
+### [get_trend_sticker_sets](#messenger_get_trend_sticker_sets)
 
 این متد برای دریافت مجموعه استیکرهای پرطرفدار به کار می‌رود.
 
@@ -534,21 +557,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    trending = client.get_trend_sticker_sets()
-    print(trending)
+with Messenger("mySession") as app:
+    try:
+        trending = app.get_trend_sticker_sets()
+        print(trending)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_add_sticker_set"></a>
-### [add_sticker_set](#client_add_sticker_set)
+<a id="messenger_add_sticker_set"></a>
+### [add_sticker_set](#messenger_add_sticker_set)
 
 این متد برای افزودن یک مجموعه استیکر به مجموعه‌های کاربر به کار می‌رود.
 
@@ -559,21 +582,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.add_sticker_set("sticker_set_id_123")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.add_sticker_set("sticker_set_id_123")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_sticker_set"></a>
-### [delete_sticker_set](#client_delete_sticker_set)
+<a id="messenger_delete_sticker_set"></a>
+### [delete_sticker_set](#messenger_delete_sticker_set)
 
 این متد برای حذف یک مجموعه استیکر از مجموعه‌های کاربر به کار می‌رود.
 
@@ -584,42 +607,42 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_sticker_set("sticker_set_id_123")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_sticker_set("sticker_set_id_123")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_my_gif_set"></a>
-### [get_my_gif_set](#client_get_my_gif_set)
+<a id="messenger_get_my_gif_set"></a>
+### [get_my_gif_set](#messenger_get_my_gif_set)
 
 این متد برای دریافت مجموعه گیف‌های شخصی کاربر به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    gifs = client.get_my_gif_set()
-    print(gifs)
+with Messenger("mySession") as app:
+    try:
+        gifs = app.get_my_gif_set()
+        print(gifs)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_add_to_my_gif_set"></a>
-### [add_to_my_gif_set](#client_add_to_my_gif_set)
+<a id="messenger_add_to_my_gif_set"></a>
+### [add_to_my_gif_set](#messenger_add_to_my_gif_set)
 
 این متد برای افزودن یک گیف به مجموعه گیف‌های شخصی کاربر به کار می‌رود.
 
@@ -631,21 +654,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.add_to_my_gif_set("g0abc123...", message_id="123456")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.add_to_my_gif_set("g0abc123...", message_id="123456")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_my_gif_set"></a>
-### [delete_my_gif_set](#client_delete_my_gif_set)
+<a id="messenger_delete_my_gif_set"></a>
+### [delete_my_gif_set](#messenger_delete_my_gif_set)
 
 این متد برای حذف یک گیف از مجموعه گیف‌های شخصی کاربر به کار می‌رود.
 
@@ -656,23 +679,23 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_my_gif_set("file_id_123")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_my_gif_set("file_id_123")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
 ## متدهای پخش زنده
 
-<a id="client_get_live_status"></a>
-### [get_live_status](#client_get_live_status)
+<a id="messenger_get_live_status"></a>
+### [get_live_status](#messenger_get_live_status)
 
 این متد برای دریافت وضعیت یک پخش زنده به کار می‌رود.
 
@@ -684,21 +707,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    status = client.get_live_status(live_id="live_123", access_token="token_abc")
-    print(status)
+with Messenger("mySession") as app:
+    try:
+        status = app.get_live_status(live_id="live_123", access_token="token_abc")
+        print(status)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_live_comments"></a>
-### [get_live_comments](#client_get_live_comments)
+<a id="messenger_get_live_comments"></a>
+### [get_live_comments](#messenger_get_live_comments)
 
 این متد برای دریافت نظرات یک پخش زنده به کار می‌رود.
 
@@ -710,21 +733,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    comments = client.get_live_comments(live_id="live_123", access_token="token_abc")
-    print(comments)
+with Messenger("mySession") as app:
+    try:
+        comments = app.get_live_comments(live_id="live_123", access_token="token_abc")
+        print(comments)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_live_play_url"></a>
-### [get_live_play_url](#client_get_live_play_url)
+<a id="messenger_get_live_play_url"></a>
+### [get_live_play_url](#messenger_get_live_play_url)
 
 این متد برای دریافت URL پخش یک لایو به کار می‌رود.
 
@@ -736,21 +759,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    url = client.get_live_play_url(access_token="token_abc", live_id="live_123")
-    print(url)
+with Messenger("mySession") as app:
+    try:
+        url = app.get_live_play_url(access_token="token_abc", live_id="live_123")
+        print(url)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_add_live_comment"></a>
-### [add_live_comment](#client_add_live_comment)
+<a id="messenger_add_live_comment"></a>
+### [add_live_comment](#messenger_add_live_comment)
 
 این متد برای افزودن نظر به یک پخش زنده به کار می‌رود.
 
@@ -763,27 +786,27 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.add_live_comment(
-        access_token="token_abc",
-        live_id="live_123",
-        comment="نظر تستی"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.add_live_comment(
+            access_token="token_abc",
+            live_id="live_123",
+            comment="نظر تستی"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
 ## متدهای بازخورد
 
-<a id="client_feedback_voice_transcription"></a>
-### [feedback_voice_transcription](#client_feedback_voice_transcription)
+<a id="messenger_feedback_voice_transcription"></a>
+### [feedback_voice_transcription](#messenger_feedback_voice_transcription)
 
 این متد برای ارسال بازخورد برای تبدیل صوت به متن به کار می‌رود.
 
@@ -796,19 +819,19 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.feedback_voice_transcription(
-        chat="u0abc123...",
-        message_id="123456",
-        feedback_type="OK"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.feedback_voice_transcription(
+            chat="u0abc123...",
+            message_id="123456",
+            feedback_type="OK"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---

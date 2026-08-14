@@ -2,50 +2,50 @@
 
 ---
 
-<a id="client_get_privacy_setting"></a>
-## [get_privacy_setting](#client_get_privacy_setting)
+<a id="messenger_get_privacy_setting"></a>
+## [get_privacy_setting](#messenger_get_privacy_setting)
 
 این متد برای دریافت تنظیمات حریم خصوصی فعلی کاربر به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    privacy = client.get_privacy_setting()
-    print(privacy)
+with Messenger("mySession") as app:
+    try:
+        privacy = app.get_privacy_setting()
+        print(privacy)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_notification_setting"></a>
-## [get_notification_setting](#client_get_notification_setting)
+<a id="messenger_get_notification_setting"></a>
+## [get_notification_setting](#messenger_get_notification_setting)
 
 این متد برای دریافت تنظیمات اعلان‌های فعلی حساب کاربری به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    notifications = client.get_notification_setting()
-    print(notifications)
+with Messenger("mySession") as app:
+    try:
+        notifications = app.get_notification_setting()
+        print(notifications)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_set_notification"></a>
-## [set_notification](#client_set_notification)
+<a id="messenger_set_notification"></a>
+## [set_notification](#messenger_set_notification)
 
 این متد برای به‌روزرسانی تنظیمات اعلان‌ها به کار می‌رود.
 
@@ -64,25 +64,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_notification(
-        user_notification=True,
-        group_notification=False,
-        in_app_sound=True
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.set_notification(
+            user_notification=True,
+            group_notification=False,
+            in_app_sound=True
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_set_setting"></a>
-## [set_setting](#client_set_setting)
+<a id="messenger_set_setting"></a>
+## [set_setting](#messenger_set_setting)
 
 این متد برای تنظیم حریم خصوصی و تنظیمات حذف خودکار به کار می‌رود.
 
@@ -110,40 +110,40 @@ except Exception as e:
 ۱. تنظیم آخرین بازدید فقط برای مخاطبین:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_setting(show_my_last_online="MyContacts")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.set_setting(show_my_last_online="MyContacts")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ۲. تنظیم با استثنا:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_setting(
-        show_my_last_online="Nobody",
-        show_my_last_online_exceptions={
-            "include_users": ["u0abc123..."]
-        }
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.set_setting(
+            show_my_last_online="Nobody",
+            show_my_last_online_exceptions={
+                "include_users": ["u0abc123..."]
+            }
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_edit_show_last_online"></a>
-## [edit_show_last_online](#client_edit_show_last_online)
+<a id="messenger_edit_show_last_online"></a>
+## [edit_show_last_online](#messenger_edit_show_last_online)
 
 این متد میانبری برای تنظیم نمایش آخرین بازدید است.
 
@@ -155,21 +155,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.edit_show_last_online("MyContacts")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.edit_show_last_online("MyContacts")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_edit_show_phone_number"></a>
-## [edit_show_phone_number](#client_edit_show_phone_number)
+<a id="messenger_edit_show_phone_number"></a>
+## [edit_show_phone_number](#messenger_edit_show_phone_number)
 
 این متد میانبری برای تنظیم نمایش شماره تلفن است.
 
@@ -181,21 +181,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.edit_show_phone_number("Nobody")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.edit_show_phone_number("Nobody")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_edit_show_profile_photo"></a>
-## [edit_show_profile_photo](#client_edit_show_profile_photo)
+<a id="messenger_edit_show_profile_photo"></a>
+## [edit_show_profile_photo](#messenger_edit_show_profile_photo)
 
 این متد میانبری برای تنظیم نمایش عکس پروفایل است.
 
@@ -207,21 +207,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.edit_show_profile_photo("MyContacts")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.edit_show_profile_photo("MyContacts")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_edit_show_birthday"></a>
-## [edit_show_birthday](#client_edit_show_birthday)
+<a id="messenger_edit_show_birthday"></a>
+## [edit_show_birthday](#messenger_edit_show_birthday)
 
 این متد میانبری برای تنظیم نمایش تاریخ تولد است.
 
@@ -233,21 +233,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.edit_show_birthday("Nobody")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.edit_show_birthday("Nobody")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_edit_can_join_chat_by"></a>
-## [edit_can_join_chat_by](#client_edit_can_join_chat_by)
+<a id="messenger_edit_can_join_chat_by"></a>
+## [edit_can_join_chat_by](#messenger_edit_can_join_chat_by)
 
 این متد میانبری برای تنظیم امکان ملحق شدن از طریق لینک است.
 
@@ -259,21 +259,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.edit_can_join_chat_by("MyContacts")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.edit_can_join_chat_by("MyContacts")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_edit_can_called_by"></a>
-## [edit_can_called_by](#client_edit_can_called_by)
+<a id="messenger_edit_can_called_by"></a>
+## [edit_can_called_by](#messenger_edit_can_called_by)
 
 این متد میانبری برای تنظیم امکان تماس گرفتن با شما است.
 
@@ -285,21 +285,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.edit_can_called_by("Nobody")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.edit_can_called_by("Nobody")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_auto_delete_account"></a>
-## [auto_delete_account](#client_auto_delete_account)
+<a id="messenger_auto_delete_account"></a>
+## [auto_delete_account](#messenger_auto_delete_account)
 
 این متد برای تنظیم حذف خودکار حساب پس از مدت مشخصی عدم فعالیت به کار می‌رود.
 
@@ -310,21 +310,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.auto_delete_account(6)
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.auto_delete_account(6)
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_update_my_name"></a>
-## [update_my_name](#client_update_my_name)
+<a id="messenger_update_my_name"></a>
+## [update_my_name](#messenger_update_my_name)
 
 این متد برای به‌روزرسانی نام و نام خانوادگی کاربر به کار می‌رود.
 
@@ -336,21 +336,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.update_my_name(first_name="علی", last_name="حسینی")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.update_my_name(first_name="علی", last_name="حسینی")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_update_my_username"></a>
-## [update_my_username](#client_update_my_username)
+<a id="messenger_update_my_username"></a>
+## [update_my_username](#messenger_update_my_username)
 
 این متد برای به‌روزرسانی نام‌کاربری کاربر به کار می‌رود.
 
@@ -363,21 +363,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.update_my_username("new_username")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.update_my_username("new_username")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_update_my_bio"></a>
-## [update_my_bio](#client_update_my_bio)
+<a id="messenger_update_my_bio"></a>
+## [update_my_bio](#messenger_update_my_bio)
 
 این متد برای به‌روزرسانی بیوگرافی کاربر به کار می‌رود.
 
@@ -388,21 +388,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.update_my_bio("این بیوگرافی من است.")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.update_my_bio("این بیوگرافی من است.")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_update_my_birthday"></a>
-## [update_my_birthday](#client_update_my_birthday)
+<a id="messenger_update_my_birthday"></a>
+## [update_my_birthday](#messenger_update_my_birthday)
 
 این متد برای به‌روزرسانی تاریخ تولد کاربر به کار می‌رود.
 
@@ -413,21 +413,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.update_my_birthday("2000-05-20")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.update_my_birthday("2000-05-20")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_update_my_profile"></a>
-## [update_my_profile](#client_update_my_profile)
+<a id="messenger_update_my_profile"></a>
+## [update_my_profile](#messenger_update_my_profile)
 
 این متد برای به‌روزرسانی هم‌زمان چند بخش از پروفایل به کار می‌رود.
 
@@ -442,45 +442,45 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.update_my_profile(
-        first_name="علی",
-        bio="برنامه‌نویس پایتون"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.update_my_profile(
+            first_name="علی",
+            bio="برنامه‌نویس پایتون"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_two_passcode_status"></a>
-## [get_two_passcode_status](#client_get_two_passcode_status)
+<a id="messenger_get_two_passcode_status"></a>
+## [get_two_passcode_status](#messenger_get_two_passcode_status)
 
 این متد برای دریافت وضعیت تأیید دو مرحله‌ای حساب به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    status = client.get_two_passcode_status()
-    print(status)
+with Messenger("mySession") as app:
+    try:
+        status = app.get_two_passcode_status()
+        print(status)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_set_two_step_verification"></a>
-## [set_two_step_verification](#client_set_two_step_verification)
+<a id="messenger_set_two_step_verification"></a>
+## [set_two_step_verification](#messenger_set_two_step_verification)
 
 این متد برای تنظیم تأیید دو مرحله‌ای به کار می‌رود.
 
@@ -493,24 +493,24 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_two_step_verification(
-        password="current_password",
-        hint="رمز من"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.set_two_step_verification(
+            password="current_password",
+            hint="رمز من"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_check_two_step_passcode"></a>
-## [check_two_step_passcode](#client_check_two_step_passcode)
+<a id="messenger_check_two_step_passcode"></a>
+## [check_two_step_passcode](#messenger_check_two_step_passcode)
 
 این متد برای بررسی صحت رمز تأیید دو مرحله‌ای به کار می‌رود.
 
@@ -521,21 +521,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.check_two_step_passcode("my_password")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.check_two_step_passcode("my_password")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_turn_off_two_step"></a>
-## [turn_off_two_step](#client_turn_off_two_step)
+<a id="messenger_turn_off_two_step"></a>
+## [turn_off_two_step](#messenger_turn_off_two_step)
 
 این متد برای غیرفعال کردن تأیید دو مرحله‌ای به کار می‌رود.
 
@@ -546,21 +546,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.turn_off_two_step("my_password")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.turn_off_two_step("my_password")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_change_password"></a>
-## [change_password](#client_change_password)
+<a id="messenger_change_password"></a>
+## [change_password](#messenger_change_password)
 
 این متد برای تغییر رمز عبور حساب به کار می‌رود.
 
@@ -573,25 +573,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.change_password(
-        password="old_pass",
-        new_password="new_pass",
-        new_hint="راهنمایی جدید"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.change_password(
+            password="old_pass",
+            new_password="new_pass",
+            new_hint="راهنمایی جدید"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_recovery_email"></a>
-## [recovery_email](#client_recovery_email)
+<a id="messenger_recovery_email"></a>
+## [recovery_email](#messenger_recovery_email)
 
 این متد برای بازیابی حساب با استفاده از ایمیل بازیابی به کار می‌رود.
 
@@ -605,24 +605,24 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.recovery_email(
-        password="my_password",
-        recovery_email="example@email.com"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.recovery_email(
+            password="my_password",
+            recovery_email="example@email.com"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_request_change_phone_number"></a>
-## [request_change_phone_number](#client_request_change_phone_number)
+<a id="messenger_request_change_phone_number"></a>
+## [request_change_phone_number](#messenger_request_change_phone_number)
 
 این متد برای درخواست تغییر شماره تلفن حساب به کار می‌رود.
 
@@ -633,21 +633,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.request_change_phone_number("09123456789")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.request_change_phone_number("09123456789")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_verify_change_phone_number"></a>
-## [verify_change_phone_number](#client_verify_change_phone_number)
+<a id="messenger_verify_change_phone_number"></a>
+## [verify_change_phone_number](#messenger_verify_change_phone_number)
 
 این متد برای تأیید تغییر شماره تلفن با کد دریافتی به کار می‌رود.
 
@@ -659,66 +659,66 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.verify_change_phone_number(
-        code="12345",
-        hash="hash_from_request"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.verify_change_phone_number(
+            code="12345",
+            hash="hash_from_request"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_my_sessions"></a>
-## [get_my_sessions](#client_get_my_sessions)
+<a id="messenger_get_my_sessions"></a>
+## [get_my_sessions](#messenger_get_my_sessions)
 
 این متد برای دریافت اطلاعات نشست‌های فعال حساب کاربری به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    sessions = client.get_my_sessions()
-    print(sessions)
+with Messenger("mySession") as app:
+    try:
+        sessions = app.get_my_sessions()
+        print(sessions)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_unconfirmed_sessions"></a>
-## [get_unconfirmed_sessions](#client_get_unconfirmed_sessions)
+<a id="messenger_get_unconfirmed_sessions"></a>
+## [get_unconfirmed_sessions](#messenger_get_unconfirmed_sessions)
 
 این متد برای دریافت نشست‌های تأیید نشده (در انتظار تأیید) حساب کاربری به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    pending = client.get_unconfirmed_sessions()
-    print(pending)
+with Messenger("mySession") as app:
+    try:
+        pending = app.get_unconfirmed_sessions()
+        print(pending)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_confirm_unconfirmed_session"></a>
-## [confirm_unconfirmed_session](#client_confirm_unconfirmed_session)
+<a id="messenger_confirm_unconfirmed_session"></a>
+## [confirm_unconfirmed_session](#messenger_confirm_unconfirmed_session)
 
 این متد برای تأیید یک نشست در انتظار به کار می‌رود.
 
@@ -729,21 +729,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.confirm_unconfirmed_session("session_key_123")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.confirm_unconfirmed_session("session_key_123")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_deny_unconfirmed_session"></a>
-## [deny_unconfirmed_session](#client_deny_unconfirmed_session)
+<a id="messenger_deny_unconfirmed_session"></a>
+## [deny_unconfirmed_session](#messenger_deny_unconfirmed_session)
 
 این متد برای رد یک نشست در انتظار به کار می‌رود.
 
@@ -754,21 +754,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.deny_unconfirmed_session("session_key_123")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.deny_unconfirmed_session("session_key_123")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_terminate_session"></a>
-## [terminate_session](#client_terminate_session)
+<a id="messenger_terminate_session"></a>
+## [terminate_session](#messenger_terminate_session)
 
 این متد برای پایان دادن به یک نشست خاص به کار می‌رود.
 
@@ -779,42 +779,42 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.terminate_session("session_key_123")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.terminate_session("session_key_123")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_terminate_other_sessions"></a>
-## [terminate_other_sessions](#client_terminate_other_sessions)
+<a id="messenger_terminate_other_sessions"></a>
+## [terminate_other_sessions](#messenger_terminate_other_sessions)
 
 این متد برای پایان دادن به تمام نشست‌های دیگر (به جز نشست فعلی) به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.terminate_other_sessions()
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.terminate_other_sessions()
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_register_device"></a>
-## [register_device](#client_register_device)
+<a id="messenger_register_device"></a>
+## [register_device](#messenger_register_device)
 
 این متد برای ثبت دستگاه فعلی در سرور روبیکا به کار می‌رود.
 
@@ -825,21 +825,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.register_device()
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.register_device()
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_logout"></a>
-## [logout](#client_logout)
+<a id="messenger_logout"></a>
+## [logout](#messenger_logout)
 
 این متد برای خروج از نشست فعلی به کار می‌رود.
 
@@ -848,21 +848,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.logout()
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.logout()
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_account"></a>
-## [delete_account](#client_delete_account)
+<a id="messenger_delete_account"></a>
+## [delete_account](#messenger_delete_account)
 
 این متد برای درخواست حذف دائمی حساب روبیکا به کار می‌رود.
 
@@ -871,21 +871,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_account()
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_account()
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_folders"></a>
-## [get_folders](#client_get_folders)
+<a id="messenger_get_folders"></a>
+## [get_folders](#messenger_get_folders)
 
 این متد برای دریافت لیست پوشه‌ها (Folders) به کار می‌رود.
 
@@ -896,42 +896,42 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    folders = client.get_folders()
-    print(folders)
+with Messenger("mySession") as app:
+    try:
+        folders = app.get_folders()
+        print(folders)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_get_suggested_folders"></a>
-## [get_suggested_folders](#client_get_suggested_folders)
+<a id="messenger_get_suggested_folders"></a>
+## [get_suggested_folders](#messenger_get_suggested_folders)
 
 این متد برای دریافت پوشه‌های پیشنهادی کاربر به کار می‌رود.
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    suggested = client.get_suggested_folders()
-    print(suggested)
+with Messenger("mySession") as app:
+    try:
+        suggested = app.get_suggested_folders()
+        print(suggested)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_add_folder"></a>
-## [add_folder](#client_add_folder)
+<a id="messenger_add_folder"></a>
+## [add_folder](#messenger_add_folder)
 
 این متد برای افزودن یک پوشه جدید برای سازمان‌دهی چت‌ها به کار می‌رود.
 
@@ -949,24 +949,24 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.add_folder(
-        name="دوستان",
-        include_chats=["@User1", "@User2"]
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.add_folder(
+            name="دوستان",
+            include_chats=["@User1", "@User2"]
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_folder"></a>
-## [delete_folder](#client_delete_folder)
+<a id="messenger_delete_folder"></a>
+## [delete_folder](#messenger_delete_folder)
 
 این متد برای حذف یک پوشه به کار می‌رود.
 
@@ -977,21 +977,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_folder("folder_id_123")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_folder("folder_id_123")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_reorder_folder"></a>
-## [reorder_folder](#client_reorder_folder)
+<a id="messenger_reorder_folder"></a>
+## [reorder_folder](#messenger_reorder_folder)
 
 این متد برای تغییر ترتیب پوشه‌ها به کار می‌رود.
 
@@ -1002,46 +1002,83 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.reorder_folder(["id3", "id1", "id2"])
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.reorder_folder(["id3", "id1", "id2"])
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_set_saved_music_playlist"></a>
-## [set_saved_music_playlist](#client_set_saved_music_playlist)
+<a id="messenger_add_saved_music_playlist"></a>
+## [add_saved_music_playlist](#messenger_add_saved_music_playlist)
 
-این متد برای تنظیم لیست موسیقی ذخیره شده در پروفایل به کار می‌رود.
+این متد برای افزودن آهنگ به لیست موسیقی ذخیره شده در پروفایل به کار می‌رود.
 
-**پارامتر:**
+**پارامترها:**
 
 - **files:** یک مسیر فایل یا لیستی از مسیرهای فایل‌های موسیقی.
+- **file_inlines:** لیست دیکشنری‌های file_inline از پیش آپلود شده.
+- **time:** مدت زمان سفارشی به ثانیه. (در صورت عدم ارسال، تشخیص خودکار)
+- **performer:** نام خواننده سفارشی. (در صورت عدم ارسال، تشخیص خودکار)
+- **file_name:** نام فایل سفارشی. (در صورت عدم ارسال، از نام اصلی فایل استفاده می‌شود)
 
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_saved_music_playlist(["/path/to/song1.mp3", "/path/to/song2.mp3"])
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.add_saved_music_playlist(
+            files=["song1.mp3", "song2.mp3"]
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_saved_music_playlist"></a>
-## [delete_saved_music_playlist](#client_delete_saved_music_playlist)
+<a id="messenger_set_saved_music_playlist"></a>
+## [set_saved_music_playlist](#messenger_set_saved_music_playlist)
+
+این متد برای جایگزینی کامل لیست موسیقی ذخیره شده در پروفایل به کار می‌رود.
+
+**پارامترها:**
+
+- **files:** یک مسیر فایل یا لیستی از مسیرهای فایل‌های موسیقی.
+- **file_inlines:** لیست دیکشنری‌های file_inline از پیش آپلود شده.
+- **time:** مدت زمان سفارشی به ثانیه. (در صورت عدم ارسال، تشخیص خودکار)
+- **performer:** نام خواننده سفارشی. (در صورت عدم ارسال، تشخیص خودکار)
+- **file_name:** نام فایل سفارشی. (در صورت عدم ارسال، از نام اصلی فایل استفاده می‌شود)
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    try:
+        result = app.set_saved_music_playlist(
+            files=["song1.mp3", "song2.mp3"]
+        )
+        print(result)
+
+    except Exception as e:
+        print(e)
+```
+
+---
+
+<a id="messenger_delete_saved_music_playlist"></a>
+## [delete_saved_music_playlist](#messenger_delete_saved_music_playlist)
 
 این متد برای حذف آهنگ‌ها از لیست موسیقی ذخیره شده به کار می‌رود.
 
@@ -1054,29 +1091,57 @@ except Exception as e:
 حذف یک آهنگ خاص:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_saved_music_playlist(position=1)
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_saved_music_playlist(position=1)
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 حذف تمام آهنگ‌ها:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_saved_music_playlist()
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_saved_music_playlist()
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
+```
+
+---
+
+<a id="messenger_upgrade_to_api6"></a>
+## [upgrade_to_api6](#messenger_upgrade_to_api6)
+
+این متد برای ارتقاء از API نسخه ۵ به نسخه ۶ با تنظیم کلید عمومی RSA به کار می‌رود.
+
+**پارامترها:**
+
+- **save_as:** در صورت True بودن، auth و private_key در فایل JSON ذخیره می‌شود. (پیش‌فرض: True)
+- **file_name:** نام فایل سفارشی برای ذخیره. (پیش‌فرض: `maxrubika_{auth[:10]}`)
+
+**نکته:** این متد فقط با `api_version = 5` کار می‌کند.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger(auth = "ahkjbsawthnh...", api_version=5) as app:
+    try:
+        result = app.upgrade_to_api6()
+        print(result)
+
+    except Exception as e:
+        print(e)
 ```
 
 ---

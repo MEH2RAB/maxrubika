@@ -2,8 +2,8 @@
 
 ---
 
-<a id="client_mute_chat"></a>
-## [mute_chat](#client_mute_chat)
+<a id="messenger_mute_chat"></a>
+## [mute_chat](#messenger_mute_chat)
 
 این متد برای بی‌صدا کردن (Mute) یک چت است.
 
@@ -17,36 +17,36 @@
 ۱. بی‌صدای دائمی:
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.mute_chat("g0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.mute_chat("g0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ۲. بی‌صدا برای ۲ ساعت:
 
 ```python
 from datetime import timedelta
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.mute_chat("g0abc123...", duration=timedelta(hours=2))
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.mute_chat("g0abc123...", duration=timedelta(hours=2))
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_unmute_chat"></a>
-## [unmute_chat](#client_unmute_chat)
+<a id="messenger_unmute_chat"></a>
+## [unmute_chat](#messenger_unmute_chat)
 
 این متد برای لغو بی‌صدا کردن (Unmute) یک چت است.
 
@@ -57,21 +57,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.unmute_chat("g0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.unmute_chat("g0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_pin_chat"></a>
-## [pin_chat](#client_pin_chat)
+<a id="messenger_pin_chat"></a>
+## [pin_chat](#messenger_pin_chat)
 
 این متد برای سنجاق کردن (Pin) یک چت در بالای لیست چت‌ها است.
 
@@ -82,21 +82,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.pin_chat("u0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.pin_chat("u0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_unpin_chat"></a>
-## [unpin_chat](#client_unpin_chat)
+<a id="messenger_unpin_chat"></a>
+## [unpin_chat](#messenger_unpin_chat)
 
 این متد برای برداشتن سنجاق (Unpin) یک چت است.
 
@@ -107,21 +107,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.unpin_chat("u0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.unpin_chat("u0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_pin_chat_in_folder"></a>
-## [pin_chat_in_folder](#client_pin_chat_in_folder)
+<a id="messenger_pin_chat_in_folder"></a>
+## [pin_chat_in_folder](#messenger_pin_chat_in_folder)
 
 این متد برای سنجاق کردن یک چت در یک پوشه خاص است.
 
@@ -133,21 +133,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.pin_chat_in_folder("u0abc123...", folder_id="folder_123")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.pin_chat_in_folder("u0abc123...", folder_id="folder_123")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_unpin_chat_in_folder"></a>
-## [unpin_chat_in_folder](#client_unpin_chat_in_folder)
+<a id="messenger_unpin_chat_in_folder"></a>
+## [unpin_chat_in_folder](#messenger_unpin_chat_in_folder)
 
 این متد برای برداشتن سنجاق یک چت از یک پوشه خاص است.
 
@@ -159,21 +159,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.unpin_chat_in_folder("u0abc123...", folder_id="folder_123")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.unpin_chat_in_folder("u0abc123...", folder_id="folder_123")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_archive_chat"></a>
-## [archive_chat](#client_archive_chat)
+<a id="messenger_archive_chat"></a>
+## [archive_chat](#messenger_archive_chat)
 
 این متد برای آرشیو کردن یک چت است.
 
@@ -184,21 +184,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.archive_chat("u0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.archive_chat("u0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_unarchive_chat"></a>
-## [unarchive_chat](#client_unarchive_chat)
+<a id="messenger_unarchive_chat"></a>
+## [unarchive_chat](#messenger_unarchive_chat)
 
 این متد برای خارج کردن یک چت از آرشیو است.
 
@@ -209,21 +209,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.unarchive_chat("u0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.unarchive_chat("u0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_seen_chats"></a>
-## [seen_chats](#client_seen_chats)
+<a id="messenger_seen_chats"></a>
+## [seen_chats](#messenger_seen_chats)
 
 این متد برای علامت‌گذاری چند چت به عنوان دیده‌شده است.
 
@@ -234,24 +234,24 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.seen_chats({
-        "u0abc123...": "123456",
-        "g0xyz789...": "789012"
-    })
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.seen_chats({
+            "u0abc123...": "123456",
+            "g0xyz789...": "789012"
+        })
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_set_chat_protected_content"></a>
-## [set_chat_protected_content](#client_set_chat_protected_content)
+<a id="messenger_set_chat_protected_content"></a>
+## [set_chat_protected_content](#messenger_set_chat_protected_content)
 
 این متد برای تنظیم محتوای محافظت‌شده (جلوگیری از اسکرین‌شات و ذخیره) در گروه یا کانال است.
 
@@ -263,21 +263,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_chat_protected_content("g0abc123...", enabled=True)
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.set_chat_protected_content("g0abc123...", enabled=True)
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_set_chat_auto_delete"></a>
-## [set_chat_auto_delete](#client_set_chat_auto_delete)
+<a id="messenger_set_chat_auto_delete"></a>
+## [set_chat_auto_delete](#messenger_set_chat_auto_delete)
 
 این متد برای تنظیم حذف خودکار پیام‌ها در گروه یا کانال است.
 
@@ -292,21 +292,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_chat_auto_delete("g0abc123...", auto_delete="7d")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.set_chat_auto_delete("g0abc123...", auto_delete="7d")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_set_chat_use_time"></a>
-## [set_chat_use_time](#client_set_chat_use_time)
+<a id="messenger_set_chat_use_time"></a>
+## [set_chat_use_time](#messenger_set_chat_use_time)
 
 این متد برای ارسال زمان استفاده از چت به سرور است. این کار به سرور کمک می‌کند رفتار طبیعی کاربر را تشخیص دهد.
 
@@ -318,21 +318,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_chat_use_time("u0abc123...", use_time=5000)
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.set_chat_use_time("u0abc123...", use_time=5000)
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_delete_chat_history"></a>
-## [delete_chat_history](#client_delete_chat_history)
+<a id="messenger_delete_chat_history"></a>
+## [delete_chat_history](#messenger_delete_chat_history)
 
 این متد برای حذف تاریخچه چت تا آخرین پیام است.
 
@@ -343,21 +343,21 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.delete_chat_history("u0abc123...")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.delete_chat_history("u0abc123...")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_report_chat"></a>
-## [report_chat](#client_report_chat)
+<a id="messenger_report_chat"></a>
+## [report_chat](#messenger_report_chat)
 
 این متد برای گزارش یک چت (کاربر، گروه، کانال) است.
 
@@ -370,25 +370,25 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.report_chat(
-        "u0abc123...",
-        report_type="Spam",
-        description="کاربر اسپمر"
-    )
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.report_chat(
+            "u0abc123...",
+            report_type="Spam",
+            description="کاربر اسپمر"
+        )
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
 
-<a id="client_set_ask_spam"></a>
-## [set_ask_spam](#client_set_ask_spam)
+<a id="messenger_set_ask_spam"></a>
+## [set_ask_spam](#messenger_set_ask_spam)
 
 این متد برای انجام عملیات روی یک درخواست اسپم معلق است.
 
@@ -402,15 +402,15 @@ except Exception as e:
 **مثال:**
 
 ```python
-from maxrubika import Client
-client = Client("mySession")
+from maxrubika import Messenger
 
-try:
-    result = client.set_ask_spam("u0abc123...", action="BlockUser")
-    print(result)
+with Messenger("mySession") as app:
+    try:
+        result = app.set_ask_spam("u0abc123...", action="BlockUser")
+        print(result)
 
-except Exception as e:
-    print(e)
+    except Exception as e:
+        print(e)
 ```
 
 ---
