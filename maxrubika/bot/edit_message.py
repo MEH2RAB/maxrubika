@@ -47,7 +47,7 @@ class EditMessage:
                 processed_text = text
                 metadata = None
 
-        payload: Dict[str, Any] = {
+        payload = {
             'chat_id': chat_id,
             'message_id': message_id,
             'text': processed_text

@@ -4,7 +4,7 @@ import logging
 from pathlib import Path
 from typing import Optional, Union
 import maxrubika
-from .exceptions import APIException
+from .exceptions import APIException, BadGateway, ServerError
 
 logger = logging.getLogger(__name__)
 
@@ -34,14 +34,16 @@ class UploadFile:
         if file_name is None:
             file_name = file_path.name
 
+        session = await self._get_session()
+
         for attempt in range(self.max_retries):
             try:
                 if attempt == 0:
                     logger.info(f"Uploading {file_name}...")
                 else:
-                    logger.warning(f"Retry {attempt + 1}/{self.max_retries}: {file_name}")
+                    logger.warning(f"Request failed - Attempt {attempt + 1}/{self.max_retries}: {file_name} - Retry...")
 
-                form = aiohttp.FormData()
+                form = aiohttp.FormData(quote_fields=False)
                 form.add_field(
                     "file",
                     file_path.read_bytes(),
@@ -49,55 +51,47 @@ class UploadFile:
                     content_type="application/octet-stream"
                 )
 
-                connector = aiohttp.TCPConnector(ssl=False)
-                async with aiohttp.ClientSession(connector=connector) as session:
-                    async with session.post(url, data=form) as response:
-                        if response.status == 502:
-                            logger.warning(f"Bad Gateway (502) - Attempt {attempt + 1}/{self.max_retries}")
-                            if attempt < self.max_retries - 1:
-                                await asyncio.sleep(2 ** attempt)
-                                continue
-                            else:
-                                raise APIException(
-                                    status="BAD_GATEWAY",
-                                    dev_message="Upload failed: Server temporarily unavailable (502)."
-                                )
+                async with session.post(url, data=form) as response:
+                    if response.status == 502:
+                        raise BadGateway(
+                            dev_message="Upload failed: Server temporarily unavailable (502)."
+                        )
 
-                        if response.status != 200:
-                            if response.status >= 500 and attempt < self.max_retries - 1:
-                                wait = 2 ** attempt
-                                logger.warning(f"Upload server error {response.status} - Retry in {wait}s...")
-                                await asyncio.sleep(wait)
-                                continue
-                            text = await response.text()
-                            raise aiohttp.ClientResponseError(
-                                response.request_info,
-                                response.history,
-                                status=response.status,
-                                message=text
-                            )
+                    if response.status == 500:
+                        raise ServerError(
+                            dev_message="Upload failed: Server error (500)."
+                        )
 
-                        data = await response.json()
-                        if data.get("status") != "OK":
-                            raise APIException.from_response(data)
+                    if response.status != 200:
+                        text = await response.text()
+                        raise APIException(
+                            status=f"HTTP_{response.status}",
+                            dev_message=f"HTTP {response.status}: {text[:500]}"
+                        )
 
-                        file_id = data["data"]["file_id"]
-                        return file_id
+                    data = await response.json()
+                    if data.get("status") != "OK":
+                        raise APIException.from_response(data)
+
+                    file_id = data["data"]["file_id"]
+                    return file_id
+
+            except (BadGateway, ServerError) as e:
+                if attempt < self.max_retries - 1:
+                    wait = 2 ** attempt
+                    logger.warning(f"Request failed - Attempt {attempt + 1}/{self.max_retries}: {type(e).__name__} - Retry in {wait}s...")
+                    await asyncio.sleep(wait)
+                    continue
+                raise
 
             except APIException:
                 raise
-            except aiohttp.ClientResponseError as e:
-                if attempt == self.max_retries - 1:
-                    raise
-                if e.status >= 500:
-                    logger.warning(f"Upload error - Retry {attempt + 1}/{self.max_retries}: {e}")
-                    await asyncio.sleep(2 ** attempt)
-                else:
-                    raise
+
             except Exception as e:
-                if attempt == self.max_retries - 1:
-                    raise
-                logger.warning(f"Upload error - Retry {attempt + 1}/{self.max_retries}: {e}")
-                await asyncio.sleep(2 ** attempt)
+                if attempt < self.max_retries - 1:
+                    logger.warning(f"Request failed - Attempt {attempt + 1}/{self.max_retries}: {e} - Retry...")
+                    await asyncio.sleep(2 ** attempt)
+                    continue
+                raise
 
         return None

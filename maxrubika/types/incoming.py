@@ -184,6 +184,55 @@ class IncomingEnvelope(Data):
         return 'file'
 
     @property
+    def sticker(self) -> Optional[Dict[str, Any]]:
+        """Sticker data if present."""
+        source = self.message or self.edited_message
+        if source is not None:
+            if isinstance(source, dict):
+                return source.get('sticker')
+            return getattr(source, 'sticker', None)
+        return None
+
+    @property
+    def is_sticker(self) -> bool:
+        return self.sticker is not None
+
+    @property
+    def sticker_id(self) -> Optional[str]:
+        sticker = self.sticker
+        if sticker and isinstance(sticker, dict):
+            return sticker.get('sticker_id')
+        return None
+
+    @property
+    def poll(self) -> Optional[Dict[str, Any]]:
+        """Poll data if present."""
+        source = self.message or self.edited_message
+        if source is not None:
+            if isinstance(source, dict):
+                return source.get('poll')
+            return getattr(source, 'poll', None)
+        return None
+
+    @property
+    def is_poll(self) -> bool:
+        return self.poll is not None
+
+    @property
+    def location(self) -> Optional[Dict[str, Any]]:
+        """Location data if present."""
+        source = self.message or self.edited_message
+        if source is not None:
+            if isinstance(source, dict):
+                return source.get('location')
+            return getattr(source, 'location', None)
+        return None
+
+    @property
+    def is_location(self) -> bool:
+        return self.location is not None
+
+    @property
     def reply_to_message_id(self) -> Optional[str]:
         """ID of the message this one replies to."""
         source = self.message or self.edited_message
@@ -301,7 +350,7 @@ class IncomingEnvelope(Data):
         List of metadata types used in this message.
 
         Possible values: 'Bold', 'Italic', 'Quote', 'Monospace', 
-        'Strikethrough', 'Underline', etc.
+        'Strikethrough', 'Underline', 'Pre', etc.
         """
         meta = self.metadata
         if meta:
@@ -334,24 +383,117 @@ class IncomingEnvelope(Data):
                 sender_id=target_sender_id
             )
 
-    async def unban_member(self, sender_id: str = None):
-        """Unban this member or another member by sender ID."""
-        target_sender_id = sender_id or self.author_id
-        if not target_sender_id:
-            return
-
-        if self.chat_id and self.bot:
-            return await self.bot.unban_member(
-                chat_id=self.chat_id,
-                sender_id=target_sender_id
-            )
-
-    async def reply(self, content: str, **extras):
+    async def reply(self, text: str, **extras):
         """Send a threaded reply directly from this event."""
         if self.chat_id and self.bot:
             return await self.bot.send_message(
                 chat_id=self.chat_id,
-                text=content,
+                text=text,
+                reply_to_message_id=self.msg_id,
+                **extras
+            )
+
+    async def reply_image(self, image: str, **extras):
+        """Send a threaded image reply directly from this event."""
+        if self.chat_id and self.bot:
+            return await self.bot.send_image(
+                chat_id=self.chat_id,
+                image=image,
+                reply_to_message_id=self.msg_id,
+                **extras
+            )
+
+    async def reply_video(self, video: str, **extras):
+        """Send a threaded video reply directly from this event."""
+        if self.chat_id and self.bot:
+            return await self.bot.send_video(
+                chat_id=self.chat_id,
+                video=video,
+                reply_to_message_id=self.msg_id,
+                **extras
+            )
+
+    async def reply_gif(self, gif: str, **extras):
+        """Send a threaded gif reply directly from this event."""
+        if self.chat_id and self.bot:
+            return await self.bot.send_gif(
+                chat_id=self.chat_id,
+                gif=gif,
+                reply_to_message_id=self.msg_id,
+                **extras
+            )
+
+    async def reply_music(self, music: str, **extras):
+        """Send a threaded music reply directly from this event."""
+        if self.chat_id and self.bot:
+            return await self.bot.send_music(
+                chat_id=self.chat_id,
+                music=music,
+                reply_to_message_id=self.msg_id,
+                **extras
+            )
+
+    async def reply_voice(self, voice: str, **extras):
+        """Send a threaded voice reply directly from this event."""
+        if self.chat_id and self.bot:
+            return await self.bot.send_voice(
+                chat_id=self.chat_id,
+                voice=voice,
+                reply_to_message_id=self.msg_id,
+                **extras
+            )
+
+    async def reply_file(self, file: str, **extras):
+        """Send a threaded file reply directly from this event."""
+        if self.chat_id and self.bot:
+            return await self.bot.send_file(
+                chat_id=self.chat_id,
+                file=file,
+                reply_to_message_id=self.msg_id,
+                **extras
+            )
+
+    async def reply_contact(self, first_name: str, phone_number, **extras):
+        """Send a threaded contact reply directly from this event."""
+        if self.chat_id and self.bot:
+            return await self.bot.send_contact(
+                chat_id=self.chat_id,
+                first_name=first_name,
+                phone_number=phone_number,
+                reply_to_message_id=self.msg_id,
+                **extras
+            )
+
+    async def reply_location(self, latitude: float | str, longitude: float | str, **extras):
+        """Send a threaded location reply directly from this event."""
+        if self.chat_id and self.bot:
+            return await self.bot.send_location(
+                chat_id=self.chat_id,
+                latitude=latitude,
+                longitude=longitude,
+                reply_to_message_id=self.msg_id,
+                **extras
+            )
+
+    async def reply_poll(self, question: str, options: list, **extras):
+        """Send a threaded poll reply directly from this event."""
+        if self.chat_id and self.bot:
+            return await self.bot.send_poll(
+                chat_id=self.chat_id,
+                question=question,
+                options=options,
+                reply_to_message_id=self.msg_id,
+                **extras
+            )
+
+    async def reply_quiz(self, question: str, options: list, correct_option: int | str, **extras):
+        """Send a threaded quiz reply directly from this event."""
+        if self.chat_id and self.bot:
+            return await self.bot.send_quiz(
+                chat_id=self.chat_id,
+                question=question,
+                options=options,
+                correct_option=correct_option,
                 reply_to_message_id=self.msg_id,
                 **extras
             )

@@ -213,11 +213,60 @@ class Event(Data):
         else:
             return "User"
 
-    async def reply(self, text=None, file_inline=None, **kwargs):
+    async def reply(self, text: str, **extras):
         return await self.client.send_message(
             self.chat_guid, text=text,
             reply_to_message_id=self.message_id,
-            file_inline=file_inline, **kwargs
+            **extras
+        )
+
+    async def reply_image(self, image: str, **extras):
+        return await self.client.send_image(
+            self.chat_guid, image=image,
+            reply_to_message_id=self.message_id,
+            **extras
+        )
+
+    async def reply_gif(self, gif: str, **extras):
+        return await self.client.send_gif(
+            self.chat_guid, gif=gif,
+            reply_to_message_id=self.message_id,
+            **extras
+        )
+
+    async def reply_video(self, video: str, **extras):
+        return await self.client.send_video(
+            self.chat_guid, video=video,
+            reply_to_message_id=self.message_id,
+            **extras
+        )
+
+    async def reply_video_message(self, video_message: str, **extras):
+        return await self.client.send_video_message(
+            self.chat_guid, video_message=video_message,
+            reply_to_message_id=self.message_id,
+            **extras
+        )
+
+    async def reply_music(self, music: str, **extras):
+        return await self.client.send_music(
+            self.chat_guid, music=music,
+            reply_to_message_id=self.message_id,
+            **extras
+        )
+
+    async def reply_voice(self, voice: str, **extras):
+        return await self.client.send_voice(
+            self.chat_guid, voice=voice,
+            reply_to_message_id=self.message_id,
+            **extras
+        )
+
+    async def reply_file(self, file: str, **extras):
+        return await self.client.send_file(
+            self.chat_guid, file=file,
+            reply_to_message_id=self.message_id,
+            **extras
         )
 
     async def delete(self, message_id: str = None):
@@ -234,47 +283,42 @@ class Event(Data):
         target = to_chat or self.chat_guid
 
         if self.file_inline:
-            file_path = await self.download(save_as=True)
-            if not file_path:
+            file_data = await self.download()
+            if not file_data:
                 return
 
-            try:
-                kwargs = {}
-                if self.text:
-                    kwargs['text'] = self.text
-                if self.thumb_inline:
-                    kwargs['thumb'] = self.thumb_inline
-                if self.file_width:
-                    kwargs['width'] = self.file_width
-                if self.file_height:
-                    kwargs['height'] = self.file_height
-                if self.file_duration:
-                    kwargs['time'] = self.file_duration
-                if via_bot:
-                    kwargs['via_bot'] = via_bot
+            kwargs = {}
+            if self.text:
+                kwargs['text'] = self.text
+            if self.thumb_inline:
+                kwargs['thumb'] = self.thumb_inline
+            if self.file_width:
+                kwargs['width'] = self.file_width
+            if self.file_height:
+                kwargs['height'] = self.file_height
+            if self.file_duration:
+                kwargs['time'] = self.file_duration / 1000 if not self.is_music else self.file_duration
+            if self.file_name:
+                kwargs['file_name'] = self.file_name
+            if self.music_performer:
+                kwargs['performer'] = self.music_performer
+            if via_bot:
+                kwargs['via_bot'] = via_bot
 
-                if self.is_image:
-                    return await self.client.send_image(target, file_path, **kwargs)
-                elif self.is_video:
-                    return await self.client.send_video(target, file_path, **kwargs)
-                elif self.is_video_message:
-                    return await self.client.send_video_message(target, file_path, **kwargs)
-                elif self.is_voice:
-                    return await self.client.send_voice(target, file_path, **kwargs)
-                elif self.is_music:
-                    if self.music_performer:
-                        kwargs['performer'] = self.music_performer
-                    return await self.client.send_music(target, file_path, **kwargs)
-                elif self.is_gif:
-                    return await self.client.send_gif(target, file_path, **kwargs)
-                elif self.is_sticker:
-                    return await self.client.send_sticker(target, file_path, **kwargs)
-                else:
-                    return await self.client.send_file(target, file_path, **kwargs)
-            finally:
-                import os
-                if os.path.exists(file_path):
-                    os.remove(file_path)
+            if self.is_image:
+                return await self.client.send_image(target, file_data, **kwargs)
+            elif self.is_video:
+                return await self.client.send_video(target, file_data, **kwargs)
+            elif self.is_video_message:
+                return await self.client.send_video_message(target, file_data, **kwargs)
+            elif self.is_voice:
+                return await self.client.send_voice(target, file_data, **kwargs)
+            elif self.is_music:
+                return await self.client.send_music(target, file_data, **kwargs)
+            elif self.is_gif:
+                return await self.client.send_gif(target, file_data, **kwargs)
+            else:
+                return await self.client.send_file(target, file_data, **kwargs)
 
         elif self.text:
             reply_to = None
@@ -283,7 +327,7 @@ class Event(Data):
             return await self.client.send_message(
                 target, text=self.text, metadata=self.metadata,
                 reply_to_message_id=reply_to, via_bot=via_bot
-            )
+        )
 
     async def pin(self):
         return await self.client.pin_message(self.chat_guid, self.message_id)

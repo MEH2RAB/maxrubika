@@ -1,6 +1,5 @@
 from typing import Union, Dict, Any, Optional, List
-import re
-import maxrubika
+import re; import maxrubika
 from .keypad_mixin import KeypadMixin
 from .exceptions import InvalidInput
 
@@ -77,7 +76,7 @@ class SendQuiz(KeypadMixin):
                         f"or one of the option texts: {options}"
                     )
         if not isinstance(correct_option, int):
-            raise InvalidInput("'correct_option' must be an integer or string")
+            raise InvalidInput("'correct_option' must be an integer or string.")
 
         if correct_option < 0 or correct_option >= len(options):
             raise InvalidInput(
@@ -91,7 +90,7 @@ class SendQuiz(KeypadMixin):
         normalized_chat_keypad = self._normalize_keypad(chat_keypad, is_inline=False)
         normalized_inline_keypad = self._normalize_keypad(inline_keypad, is_inline=True)
 
-        payload: Dict[str, Any] = {
+        payload = {
             'chat_id': chat_id,
             'question': question,
             'options': options,

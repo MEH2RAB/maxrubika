@@ -19,7 +19,6 @@ class EventConstraint(ABC):
     async def evaluate(self, event: Any) -> bool:
         """Return True when *event* passes this constraint."""
         ...
-
     def __and__(self, other: EventConstraint) -> BothConstraint:
         return BothConstraint(self, other)
 
@@ -31,7 +30,6 @@ class EventConstraint(ABC):
 
 class BothConstraint(EventConstraint):
     """Requires two constraints to pass (AND)."""
-
     def __init__(self, left: EventConstraint, right: EventConstraint) -> None:
         self._left = left
         self._right = right
@@ -41,7 +39,6 @@ class BothConstraint(EventConstraint):
 
 class EitherConstraint(EventConstraint):
     """Requires at least one constraint to pass (OR)."""
-
     def __init__(self, left: EventConstraint, right: EventConstraint) -> None:
         self._left = left
         self._right = right
@@ -51,7 +48,6 @@ class EitherConstraint(EventConstraint):
 
 class NegateConstraint(EventConstraint):
     """Inverts the result of a constraint (NOT)."""
-
     def __init__(self, inner: EventConstraint) -> None:
         self._inner = inner
 
@@ -60,7 +56,6 @@ class NegateConstraint(EventConstraint):
 
 class IsMessage(EventConstraint):
     """Accepts only events that contain a brand-new message."""
-
     async def evaluate(self, event: Any) -> bool:
         return (
             getattr(event, 'update_type', None) == 'NewMessage'
@@ -69,7 +64,6 @@ class IsMessage(EventConstraint):
 
 class IsEdited(EventConstraint):
     """Accepts only events that are message edits."""
-
     async def evaluate(self, event: Any) -> bool:
         return (
             getattr(event, 'update_type', None) == 'UpdatedMessage'
@@ -78,25 +72,21 @@ class IsEdited(EventConstraint):
 
 class IsDeleted(EventConstraint):
     """Accepts deleted notices."""
-
     async def evaluate(self, event: Any) -> bool:
         return getattr(event, 'update_type', None) == 'RemovedMessage'
 
 class IsCallback(EventConstraint):
     """Accepts inline-keyboard callback events."""
-
     async def evaluate(self, event: Any) -> bool:
         return getattr(event, 'update_type', None) == 'InlineMessage'
 
 class IsStartedBot(EventConstraint):
     """Accepts when a user starts the bot."""
-
     async def evaluate(self, event: Any) -> bool:
         return getattr(event, 'update_type', None) == 'StartedBot'
 
 class IsStoppedBot(EventConstraint):
     """Accepts when a user stops the bot."""
-
     async def evaluate(self, event: Any) -> bool:
         return getattr(event, 'update_type', None) == 'StoppedBot'
 
@@ -222,7 +212,6 @@ class ChatType(EventConstraint):
 
 class FromChat(EventConstraint):
     """Matches when the event comes from one of the specified chat ids."""
-
     def __init__(self, chat_ids: Union[str, List[str]]) -> None:
         self._ids: List[str] = [chat_ids] if isinstance(chat_ids, str) else list(chat_ids)
 
@@ -231,7 +220,6 @@ class FromChat(EventConstraint):
 
 class FromUser(EventConstraint):
     """Matches when the event author is one of the given user ids."""
-
     def __init__(self, user_ids: Union[str, List[str]]) -> None:
         self._ids: List[str] = [user_ids] if isinstance(user_ids, str) else list(user_ids)
 
@@ -262,7 +250,6 @@ class IsFile(EventConstraint):
 
 class _MediaTypeConstraint(EventConstraint):
     """Base for media-specific constraints. Checks file extension."""
-
     _extensions: List[str] = []
     _voice_prefix: bool = False
 
@@ -280,12 +267,12 @@ class _MediaTypeConstraint(EventConstraint):
 
 class IsImage(_MediaTypeConstraint):
     """
-    Matches image files (.jpg, .jpeg, .png, .gif, .webp).
+    Matches image files (.jpg, .jpeg, .png).
 
     Usage::
         IsImage()
     """
-    _extensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
+    _extensions = ['.jpg', '.jpeg', '.png',]
 
 class IsVideo(_MediaTypeConstraint):
     """
@@ -315,18 +302,38 @@ class IsMusic(_MediaTypeConstraint):
     """
     _extensions = ['.mp3', '.wav', '.flac', '.m4a']
 
-class IsSticker(_MediaTypeConstraint):
+class IsSticker(EventConstraint):
     """
-    Matches sticker files (.webm).
+    Matches sticker messages.
 
     Usage::
         IsSticker()
     """
-    _extensions = ['.webm']
+    async def evaluate(self, event: Any) -> bool:
+        return getattr(event, 'is_sticker', False)
+
+class IsPoll(EventConstraint):
+    """
+    Matches poll messages.
+
+    Usage::
+        IsPoll()
+    """
+    async def evaluate(self, event: Any) -> bool:
+        return getattr(event, 'is_poll', False)
+
+class IsLocation(EventConstraint):
+    """
+    Matches location messages.
+
+    Usage::
+        IsLocation()
+    """
+    async def evaluate(self, event: Any) -> bool:
+        return getattr(event, 'is_location', False)
 
 class IsReply(EventConstraint):
     """Matches messages that are a reply to another message."""
-
     async def evaluate(self, event: Any) -> bool:
         msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
         if msg is None:
@@ -339,13 +346,11 @@ class IsReply(EventConstraint):
 
 class IsText(EventConstraint):
     """Matches only text messages (no file, no sticker, no voice)."""
-
     async def evaluate(self, event: Any) -> bool:
         return bool(getattr(event, 'text', None)) and not bool(getattr(event, 'file_id', None))
 
 class IsForwarded(EventConstraint):
     """Matches any forwarded message (forwarded_from OR forwarded_no_link)."""
-
     async def evaluate(self, event: Any) -> bool:
         msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
         if msg is None:
@@ -358,7 +363,6 @@ class IsForwarded(EventConstraint):
 
 class ForwardedFromUser(EventConstraint):
     """Matches messages forwarded from a User."""
-
     async def evaluate(self, event: Any) -> bool:
         msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
         if msg is None:
@@ -373,7 +377,6 @@ class ForwardedFromUser(EventConstraint):
 
 class ForwardedFromChannel(EventConstraint):
     """Matches messages forwarded from a Channel."""
-
     async def evaluate(self, event: Any) -> bool:
         msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
         if msg is None:
@@ -387,7 +390,6 @@ class ForwardedFromChannel(EventConstraint):
 
 class ForwardedFromBot(EventConstraint):
     """Matches messages forwarded from a Bot."""
-
     async def evaluate(self, event: Any) -> bool:
         msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
         if msg is None:
@@ -401,7 +403,6 @@ class ForwardedFromBot(EventConstraint):
 
 class ForwardedNoLink(EventConstraint):
     """Matches forwarded messages where the sender has hidden their profile."""
-
     async def evaluate(self, event: Any) -> bool:
         msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
         if msg is None:
@@ -414,7 +415,6 @@ class ForwardedNoLink(EventConstraint):
 
 class HasMetadata(EventConstraint):
     """Matches messages that contain metadata (Bold, Italic, Quote, etc.)."""
-
     async def evaluate(self, event: Any) -> bool:
         meta = getattr(event, 'metadata', None)
         if meta is not None:
