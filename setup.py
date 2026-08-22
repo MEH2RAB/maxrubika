@@ -7,7 +7,7 @@ requirements = ['aiohttp', 'aiofiles', 'mutagen', 'pycryptodome', 'rich']
 
 setup(
     name = 'maxrubika',
-    version = '1.8.0',
+    version = '1.8.1',
     author = 'MEHRAB Farahmand',
     author_email = 'MEH2RABx@gmail.com',
     description = 'Python async library for Rubika Messenger - Build bots and userbots effortlessly.',
