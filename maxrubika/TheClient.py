@@ -161,19 +161,6 @@ class Client(Methods):
         self.stop_on_first_match = stop_on_first_match
         self.continue_on_error = continue_on_error
 
-        err_console = Console(stderr=True)
-        deprecation_msg = Text()
-        deprecation_msg.append("Direct instantiation is deprecated and will be removed.", style="bright_red")
-        deprecation_msg.append("\n   Please use ", style="bright_yellow")
-        deprecation_msg.append("with", style="bright_cyan")
-        deprecation_msg.append(" or ", style="bright_yellow")
-        deprecation_msg.append("async with", style="bright_cyan")
-        deprecation_msg.append(" statement instead.\n\n", style="bright_yellow")
-        deprecation_msg.append("Example:\n", style="bold bright_black")
-        deprecation_msg.append("    with Messenger(\"session\") as app:\n", style="bright_green")
-        deprecation_msg.append("       app.send_message(\"me\", \"Hello!\")\n", style="white")
-        err_console.print(deprecation_msg)
-
         try:
             asyncio.get_running_loop()
         except RuntimeError:

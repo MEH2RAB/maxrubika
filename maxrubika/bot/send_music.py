@@ -5,9 +5,11 @@ class SendMusic:
     async def send_music(
         self: "maxrubika.Bot",
         chat_id: str,
-        music: Optional[str] = None,
+        music: Optional[Union[str, bytes]] = None,
         text: Optional[str] = None,
         file_id: Optional[str] = None,
+        base64: Optional[str] = None,
+        file_name: Optional[str] = None,
         chat_keypad: Dict[str, Any] = None,
         inline_keypad: Dict[str, Any] = None,
         reply_to_message_id: Optional[Union[int, str]] = None,
@@ -20,9 +22,11 @@ class SendMusic:
 
         Parameters:
             chat_id (str): Target chat ID.
-            music (str, optional): Path to the music file to upload and send.
-            file_id (str, optional): Already uploaded file_id.
+            music (str | bytes, optional): Path to the music file OR raw bytes.
             text (str, optional): Caption text.
+            file_id (str, optional): Already uploaded file_id.
+            base64 (str, optional): Base64 encoded music data.
+            file_name (str, optional): Custom file name. If not provided, auto-generated.
             chat_keypad (Dict, optional): Custom keyboard attached to the message.
             inline_keypad (Dict, optional): Custom inline keyboard attached to the message.
             reply_to_message_id (Union[int, str], optional): Message ID to reply to.
@@ -39,6 +43,8 @@ class SendMusic:
             file_id=file_id,
             file_type="Music",
             text=text,
+            base64=base64,
+            file_name=file_name,
             chat_keypad=chat_keypad,
             inline_keypad=inline_keypad,
             reply_to_message_id=reply_to_message_id,

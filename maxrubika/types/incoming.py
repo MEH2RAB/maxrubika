@@ -393,7 +393,7 @@ class IncomingEnvelope(Data):
                 **extras
             )
 
-    async def reply_image(self, image: str, **extras):
+    async def reply_image(self, image: str = None, **extras):
         """Send a threaded image reply directly from this event."""
         if self.chat_id and self.bot:
             return await self.bot.send_image(
@@ -403,7 +403,7 @@ class IncomingEnvelope(Data):
                 **extras
             )
 
-    async def reply_video(self, video: str, **extras):
+    async def reply_video(self, video: str = None, **extras):
         """Send a threaded video reply directly from this event."""
         if self.chat_id and self.bot:
             return await self.bot.send_video(
@@ -413,7 +413,7 @@ class IncomingEnvelope(Data):
                 **extras
             )
 
-    async def reply_gif(self, gif: str, **extras):
+    async def reply_gif(self, gif: str = None, **extras):
         """Send a threaded gif reply directly from this event."""
         if self.chat_id and self.bot:
             return await self.bot.send_gif(
@@ -423,7 +423,7 @@ class IncomingEnvelope(Data):
                 **extras
             )
 
-    async def reply_music(self, music: str, **extras):
+    async def reply_music(self, music: str = None, **extras):
         """Send a threaded music reply directly from this event."""
         if self.chat_id and self.bot:
             return await self.bot.send_music(
@@ -433,7 +433,7 @@ class IncomingEnvelope(Data):
                 **extras
             )
 
-    async def reply_voice(self, voice: str, **extras):
+    async def reply_voice(self, voice: str = None, **extras):
         """Send a threaded voice reply directly from this event."""
         if self.chat_id and self.bot:
             return await self.bot.send_voice(
@@ -443,7 +443,7 @@ class IncomingEnvelope(Data):
                 **extras
             )
 
-    async def reply_file(self, file: str, **extras):
+    async def reply_file(self, file: str = None, **extras):
         """Send a threaded file reply directly from this event."""
         if self.chat_id and self.bot:
             return await self.bot.send_file(

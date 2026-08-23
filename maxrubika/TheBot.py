@@ -43,9 +43,9 @@ class Bot(Methods):
         Parameters:
             token (Optional[str]): Bot authentication token. If not provided
                 or invalid, the bot will prompt for it via console input.
-            timeout (int): Request timeout in seconds. Defaults to 20.
+            timeout (int): Request timeout in seconds. Defaults to 30.
             max_retries (int): Maximum number of retry attempts on network
-                errors or server failures. Defaults to 5.
+                errors. Defaults to 5.
         """
         if not token or not self.TOKEN_PATTERN.match(token.strip()):
             token = self._get_token()
@@ -58,6 +58,9 @@ class Bot(Methods):
         self._registry = HandlerRegistry(self)
         self._bridge = DecoratorBridge(self._registry)
         self.plugin_manager = PluginManager(self)
+
+        self._connector: Optional[aiohttp.TCPConnector] = None
+        self._session: Optional[aiohttp.ClientSession] = None
 
     def _get_token(self) -> str:
         while True:
@@ -77,145 +80,126 @@ class Bot(Methods):
             f"'{type(self).__name__}' object has no attribute '{name}'"
         )
 
+    async def _get_session(self) -> aiohttp.ClientSession:
+        if self._session is None or self._session.closed:
+            if self._connector is None or self._connector.closed:
+                self._connector = aiohttp.TCPConnector(ssl=False, limit=20)
+
+            timeout = aiohttp.ClientTimeout(total=self.timeout)
+            self._session = aiohttp.ClientSession(
+                timeout=timeout,
+                connector=self._connector
+            )
+        return self._session
+
+    async def close(self):
+        if self._session and not self._session.closed:
+            await self._session.close()
+        if self._connector and not self._connector.closed:
+            await self._connector.close()
+
+    def disconnect(self):
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                asyncio.create_task(self.close())
+            else:
+                loop.run_until_complete(self.close())
+        except RuntimeError:
+            asyncio.run(self.close())
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.disconnect()
+
     async def _request(self, method: str, endpoint: str, **kwargs) -> Response:
         url = f"{self.base_url}/{endpoint}"
-        timeout = aiohttp.ClientTimeout(total=self.timeout)
+        session = await self._get_session()
 
         last_error = None
-        last_error_type = None
 
         for attempt in range(self.max_retries):
             try:
-                connector = aiohttp.TCPConnector(ssl=False, limit=100)
-                async with aiohttp.ClientSession(timeout=timeout, connector=connector) as session:
-                    async with session.request(method.upper(), url, **kwargs) as resp:
-                        text = (await resp.text()).strip()
+                async with session.request(method.upper(), url, **kwargs) as resp:
+                    text = (await resp.text()).strip()
 
-                        if resp.status == 502:
-                            logger.warning(f"Bad Gateway (502) - Attempt {attempt + 1}/{self.max_retries}")
-                            if attempt < self.max_retries - 1:
-                                await asyncio.sleep(2 ** attempt)
-                                continue
+                    if resp.status == 502:
+                        raise BadGateway(
+                            dev_message=f"Server returned 502"
+                        )
+
+                    if resp.status == 500:
+                        raise ServerError(
+                            dev_message=f"Server returned error"
+                        )
+
+                    if resp.status >= 400:
+                        raise APIException(
+                            status=f"HTTP_{resp.status}",
+                            dev_message=f"HTTP {resp.status}: {text[:500]}"
+                        )
+
+                    try:
+                        data = json.loads(text)
+                    except json.JSONDecodeError as e:
+                        raise JSONDecode(
+                            dev_message=f"Failed to parse JSON response. Raw: {text[:200]}"
+                        ) from e
+
+                    if isinstance(data, dict):
+                        api_status = data.get('status', '')
+                        error_message = data.get('dev_message')
+
+                        if api_status != 'OK':
+                            if api_status == 'SERVER_ERROR':
+                                raise ServerError(dev_message=error_message)
+                            elif api_status == 'INVALID_INPUT':
+                                raise InvalidInput(dev_message=error_message)
+                            elif api_status == 'INVALID_ACCESS':
+                                raise InvalidAccess(dev_message=error_message)
+                            elif api_status == 'TOO_REQUESTS':
+                                raise TooRequests(dev_message=error_message)
+                            elif api_status == 'ERROR':
+                                raise APIException(status=api_status, dev_message=error_message)
+                            elif api_status == 'Timeout':
+                                raise Timeout(dev_message=error_message)
                             else:
-                                raise BadGateway(
-                                    dev_message=f"Server returned 502 after {self.max_retries} attempts."
-                                )
+                                raise APIException(status=api_status, dev_message=error_message)
 
-                        if resp.status == 500:
-                            logger.warning(f"Internal Server Error (500) - Attempt {attempt + 1}/{self.max_retries}")
-                            if attempt < self.max_retries - 1:
-                                await asyncio.sleep(2 ** attempt)
-                                continue
-                            else:
-                                raise ServerError(
-                                    dev_message=f"Server returned error after {self.max_retries} attempts."
-                                )
+                    return Response(data)
 
-                        if resp.status >= 400:
-                            logger.warning(f"HTTP {resp.status} error - Attempt {attempt + 1}/{self.max_retries}")
-                            if attempt < self.max_retries - 1 and resp.status in [429, 503, 504]:
-                                await asyncio.sleep(2 ** attempt)
-                                continue
-                            else:
-                                raise APIException(
-                                    status=f"HTTP_{resp.status}",
-                                    dev_message=f"HTTP {resp.status}: {text[:500]}"
-                                )
-
-                        try:
-                            data = json.loads(text)
-                        except json.JSONDecodeError as e:
-                            logger.warning(f"Invalid response (JSON) - Attempt {attempt + 1}/{self.max_retries}")
-                            if attempt < self.max_retries - 1:
-                                await asyncio.sleep(2 ** attempt)
-                                continue
-                            else:
-                                raise JSONDecode(
-                                    dev_message=f"Failed to parse JSON response. Raw: {text[:200]}"
-                                )
-
-                        if isinstance(data, dict):
-                            api_status = data.get('status', '')
-                            error_message = data.get('dev_message')
-
-                            if api_status != 'OK':
-                                if api_status == 'SERVER_ERROR':
-                                    raise ServerError(dev_message=error_message)
-                                elif api_status == 'INVALID_INPUT':
-                                    raise InvalidInput(dev_message=error_message)
-                                elif api_status == 'INVALID_ACCESS':
-                                    raise InvalidAccess(dev_message=error_message)
-                                elif api_status == 'TOO_REQUESTS':
-                                    raise TooRequests(dev_message=error_message)
-                                elif api_status == 'ERROR':
-                                    raise APIException(
-                                        status=api_status,
-                                        dev_message=error_message
-                                    )
-                                elif api_status == 'Timeout':
-                                    if attempt < self.max_retries - 1:
-                                        logger.warning(f"API Timeout - Attempt {attempt + 1}/{self.max_retries}")
-                                        await asyncio.sleep(2 ** attempt)
-                                        continue
-                                    else:
-                                        raise Timeout(dev_message=error_message)
-                                else:
-                                    raise APIException(
-                                        status=api_status,
-                                        dev_message=error_message
-                                    )
-
-                        return Response(data)
-
-            except (BadGateway, JSONDecode, ServerError, InvalidInput, InvalidAccess, TooRequests, Timeout):
+            except (BadGateway, ServerError, Timeout) as e:
+                if attempt < self.max_retries - 1:
+                    wait = 2 ** attempt
+                    logger.warning(f"Request failed - Attempt {attempt + 1}/{self.max_retries}: {type(e).__name__}")
+                    await asyncio.sleep(wait)
+                    continue
                 raise
 
-            except APIException:
+            except (JSONDecode, InvalidInput, InvalidAccess, TooRequests, APIException) as e:
                 raise
-
-            except asyncio.TimeoutError as e:
-                last_error = e
-                last_error_type = 'timeout'
-                logger.warning(f"Request timed out - Attempt {attempt + 1}/{self.max_retries}")
-                if attempt < self.max_retries - 1:
-                    await asyncio.sleep(2 ** attempt)
-                    continue
-
-            except aiohttp.ClientConnectionError as e:
-                last_error = e
-                last_error_type = 'connection'
-                logger.error(f"Connection lost - Attempt {attempt + 1}/{self.max_retries}: {str(e)}")
-                if attempt < self.max_retries - 1:
-                    await asyncio.sleep(2 ** attempt)
-                    continue
 
             except Exception as e:
                 last_error = e
-                last_error_type = 'unknown'
-                logger.error(f"Unknown error - Attempt {attempt + 1}/{self.max_retries}: {str(e)}")
+                logger.warning(f"Request failed - Attempt {attempt + 1}/{self.max_retries}: {e}")
                 if attempt < self.max_retries - 1:
                     await asyncio.sleep(2 ** attempt)
                     continue
 
-        if last_error_type == 'timeout':
-            raise Timeout(
-                dev_message=f"Request timed out after {self.max_retries} attempts."
-            ) from last_error
-
-        elif last_error_type == 'connection':
+        if last_error:
             raise Network(
-                dev_message=f"Connection failed after {self.max_retries} attempts."
-            ) from last_error
-
-        elif last_error:
-            raise APIException(
-                status="ERROR",
                 dev_message=f"Request failed after {self.max_retries} attempts."
             ) from last_error
-
         else:
-            raise APIException(
-                status="UNKNOWN_ERROR",
+            raise Network(
                 dev_message=f"Failed to call {endpoint} after {self.max_retries} attempts."
             )
 

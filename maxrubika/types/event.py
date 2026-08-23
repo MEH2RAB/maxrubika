@@ -265,7 +265,7 @@ class Event(Data):
             **extras
         )
 
-    async def reply_image(self, image: str, **extras):
+    async def reply_image(self, image: str = None, **extras):
         """Send an image reply."""
         return await self.client.send_image(
             self.chat_guid, image=image,
@@ -273,7 +273,7 @@ class Event(Data):
             **extras
         )
 
-    async def reply_gif(self, gif: str, **extras):
+    async def reply_gif(self, gif: str = None, **extras):
         """Send a GIF reply."""
         return await self.client.send_gif(
             self.chat_guid, gif=gif,
@@ -281,7 +281,7 @@ class Event(Data):
             **extras
         )
 
-    async def reply_video(self, video: str, **extras):
+    async def reply_video(self, video: str = None, **extras):
         """Send a video reply."""
         return await self.client.send_video(
             self.chat_guid, video=video,
@@ -289,7 +289,7 @@ class Event(Data):
             **extras
         )
 
-    async def reply_video_message(self, video_message: str, **extras):
+    async def reply_video_message(self, video_message: str = None, **extras):
         """Send a round video reply."""
         return await self.client.send_video_message(
             self.chat_guid, video_message=video_message,
@@ -297,7 +297,7 @@ class Event(Data):
             **extras
         )
 
-    async def reply_music(self, music: str, **extras):
+    async def reply_music(self, music: str = None, **extras):
         """Send a music reply."""
         return await self.client.send_music(
             self.chat_guid, music=music,
@@ -305,7 +305,7 @@ class Event(Data):
             **extras
         )
 
-    async def reply_voice(self, voice: str, **extras):
+    async def reply_voice(self, voice: str = None, **extras):
         """Send a voice reply."""
         return await self.client.send_voice(
             self.chat_guid, voice=voice,
@@ -313,7 +313,7 @@ class Event(Data):
             **extras
         )
 
-    async def reply_file(self, file: str, **extras):
+    async def reply_file(self, file: str = None, **extras):
         """Send a file reply."""
         return await self.client.send_file(
             self.chat_guid, file=file,
@@ -406,15 +406,20 @@ class Event(Data):
         """Remove reaction from this message."""
         return await self.client.remove_reaction(self.chat_guid, self.message_id, reaction_id)
 
-    async def download(self, file_inline=None, save_as=None, **kwargs):
+    async def download(self, file: str = None, save_as: bool = True, **extras):
         """Download the file."""
-        fi = file_inline or self.file_inline
-        if isinstance(fi, dict):
-            fi = Event(fi)
+        fi = file or self.file_inline_raw
+
+        if not isinstance(fi, dict):
+            if isinstance(fi, Data):
+                fi = fi.to_dict() if hasattr(fi, 'to_dict') else dict(fi)
+            else:
+                return None
+
         return await self.client.download_file(
-            fi.dc_id, fi.file_id, fi.access_hash_rec, fi.size,
-            save_as=save_as, file_name=getattr(fi, 'file_name', None),
-            mime=getattr(fi, 'mime', None), **kwargs
+            fi,
+            save_as=save_as,
+            **extras
         )
 
     async def get_author(self):
