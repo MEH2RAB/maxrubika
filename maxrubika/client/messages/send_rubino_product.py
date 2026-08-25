@@ -8,7 +8,7 @@ class SendRubinoProduct:
         chat: str,
         store_id: str,
         product_id: str,
-        product_varieties: List[dict],
+        product_varieties: List[dict]
     ):
         """
         Send a Rubino product to a chat.

@@ -3,6 +3,7 @@ import os
 import aiohttp
 import asyncio
 import datetime
+import base64
 import logging
 import maxrubika
 from .file_extensions import FILE_EXTENSIONS
@@ -87,6 +88,7 @@ class DownloadFile:
         name: str = None, 
         path: str = None,
         save_as: bool = False,
+        as_base64: bool = False,
         callback = None
     ):
         """
@@ -97,11 +99,13 @@ class DownloadFile:
             name (str, optional): Custom filename (without extension).
             path (str, optional): Custom save path (absolute).
             save_as (bool, optional): If True, save to disk. If False, return bytes only. Defaults to False.
+            as_base64 (bool, optional): If True, return as base64 encoded string. Only works when save_as=False. Defaults to False.
             callback (callable, optional): Progress callback function(downloaded, total, percent). Defaults to None.
 
         Returns:
             If save_as = True: dict with status and file_path.
-            If save_as = False: bytes of the file.
+            If save_as = False and as_base64 = False: bytes of the file.
+            If save_as = False and as_base64 = True: base64 encoded string.
         """
         file_response = await self.get_file(file_id)
 
@@ -175,4 +179,8 @@ class DownloadFile:
             else:
                 if callback:
                     callback(len(file_data), len(file_data), 100.0)
+
+                if as_base64:
+                    return base64.b64encode(file_data).decode('utf-8')
+
                 return file_data

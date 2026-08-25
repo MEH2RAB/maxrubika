@@ -68,7 +68,10 @@ class Api:
             await self.session.close()
 
     async def get_dcs(self, max_retries: int = 3, backoff: float = 1.0) -> bool:
-        url = "https://getdcmess.iranlms.ir/"
+        platform = self.client._original_platform
+        platform_config = PLATFORMS.get(platform, {})
+        url = platform_config.get('get_dcs_url', 'https://getdcmess.iranlms.ir/')
+
         for attempt in range(max_retries):
             try:
                 async with self.session.get(url, proxy=self.client.proxy) as response:

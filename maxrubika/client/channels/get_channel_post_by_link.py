@@ -4,6 +4,7 @@ import re
 import maxrubika
 from ...data import Data
 from ..exceptions import InvalidInput
+from ..core.configs import PLATFORMS
 
 class GetChannelPostByLink:
     async def get_channel_post_by_link(
@@ -45,8 +46,6 @@ class GetChannelPostByLink:
         message_result = await self.get_message_info(channel_guid, message_id)
         message_data = message_result.to_dict() if hasattr(message_result, 'to_dict') else message_result
 
-        ask_spam_link = await self._get_ask_spam_link(url)
-
         result_dict = {
             "channel_guid": channel.get('channel_guid'),
             "channel_title": channel.get('channel_title'),
@@ -54,12 +53,20 @@ class GetChannelPostByLink:
             "username": channel.get('username'),
             "members_count": channel.get('count_members'),
             "message": message_data.get('message'),
-            "ask_spam_link": ask_spam_link,
             "timestamp": message_data.get('timestamp'),
         }
+
+        if not self._original_platform.startswith('shad'):
+            ask_spam_link = await self._get_ask_spam_link(url)
+            if ask_spam_link:
+                result_dict["ask_spam_link"] = ask_spam_link
+
         return Data(result_dict)
 
     async def _get_ask_spam_link(self, url: str) -> Optional[str]:
+        if self._original_platform.startswith('shad'):
+            return None
+
         if not re.match(r"https://rubika\.ir/\w+/[A-Z]", url):
             return None
 

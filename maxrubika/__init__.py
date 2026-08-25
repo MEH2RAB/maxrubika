@@ -7,9 +7,10 @@ from rich.text import Text
 
 from .TheBot import Bot
 from .TheClient import Client, Messenger
+from .shad import Shad
 
 __author__ = 'MEHRAB Farahmand'
-__version__ = '1.9.0'
+__version__ = '1.10.0'
 
 def check_for_updates(current_version_str):
     try:
@@ -33,7 +34,7 @@ def check_for_updates(current_version_str):
 console = Console()
 
 text = Text()
-text.append("Welcome to MAXRubika library for Rubika Platform", style="bold magenta")
+text.append("Welcome to MAXRubika library for Rubika & Shad Platforms", style="bold magenta")
 text.append(f"\nCopyright © {datetime.now().year} MAXRubika Team - All rights reserved.", style="cyan")
 text.append("\nGithub: ", style="white")
 text.append("https://github.com/MEH2RAB/maxrubika", style="green underline")

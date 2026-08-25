@@ -5,6 +5,7 @@ from typing import Optional, Union, List
 import maxrubika
 from ...data import Data
 from ..exceptions import InvalidInput
+from ..core.configs import PLATFORMS
 
 class DownloadProfilePicture:
     async def download_profile_picture(
@@ -51,12 +52,17 @@ class DownloadProfilePicture:
         else:
             save_dir = None
 
+        platform = self._original_platform
+        platform_config = PLATFORMS.get(platform, {})
+        storage_prefix = platform_config.get('storage_prefix', 'messenger')
+
         if file_id and access_hash_rec and dc_id:
             return await self._download_and_save(
                 file_id=file_id,
                 access_hash_rec=access_hash_rec,
                 dc_id=dc_id,
                 save_dir=save_dir,
+                storage_prefix=storage_prefix,
             )
 
         if not chat:
@@ -82,7 +88,7 @@ class DownloadProfilePicture:
                 for avatar_obj in avatar_list:
                     avatar = avatar_obj.main
                     async with self.connection.session.get(
-                        url=f'https://messenger{avatar.dc_id}.iranlms.ir/InternFile.ashx',
+                        url=f'https://{storage_prefix}{avatar.dc_id}.iranlms.ir/InternFile.ashx',
                         params={'id': avatar.file_id, 'ach': avatar.access_hash_rec}
                     ) as response:
                         if response.ok:
@@ -91,7 +97,7 @@ class DownloadProfilePicture:
             else:
                 avatar = avatar_list[0].main
                 async with self.connection.session.get(
-                    url=f'https://messenger{avatar.dc_id}.iranlms.ir/InternFile.ashx',
+                    url=f'https://{storage_prefix}{avatar.dc_id}.iranlms.ir/InternFile.ashx',
                     params={'id': avatar.file_id, 'ach': avatar.access_hash_rec}
                 ) as response:
                     if response.ok:
@@ -102,7 +108,7 @@ class DownloadProfilePicture:
         for i, avatar_obj in enumerate(avatar_list):
             avatar = avatar_obj.main
             async with self.connection.session.get(
-                url=f'https://messenger{avatar.dc_id}.iranlms.ir/InternFile.ashx',
+                url=f'https://{storage_prefix}{avatar.dc_id}.iranlms.ir/InternFile.ashx',
                 params={'id': avatar.file_id, 'ach': avatar.access_hash_rec}
             ) as response:
                 if response.ok:
@@ -136,10 +142,11 @@ class DownloadProfilePicture:
             access_hash_rec: str,
             dc_id: str,
             save_dir: Optional[str] = None,
+            storage_prefix: str = 'messenger',
     ) -> Union[bytes, Data]:
 
         async with self.connection.session.get(
-            url=f'https://messenger{dc_id}.iranlms.ir/InternFile.ashx',
+            url=f'https://{storage_prefix}{dc_id}.iranlms.ir/InternFile.ashx',
             params={'id': file_id, 'ach': access_hash_rec}
         ) as response:
             if response.ok:

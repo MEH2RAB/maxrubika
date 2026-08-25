@@ -39,7 +39,21 @@ class GetGuid:
                 raise InvalidGroupLink()
             return info["group"]["group_guid"]
 
+        if chat_lower.startswith("https://shad.ir/joing/"):
+            result = await self.get_info_by_link(chat)
+            info = result.to_dict() if hasattr(result, 'to_dict') else result
+            if not info.get("is_valid"):
+                raise InvalidGroupLink()
+            return info["group"]["group_guid"]
+
         if chat_lower.startswith("https://rubika.ir/joinc/"):
+            result = await self.get_info_by_link(chat)
+            info = result.to_dict() if hasattr(result, 'to_dict') else result
+            if not info.get("is_valid"):
+                raise InvalidChannelLink()
+            return info["channel"]["channel_guid"]
+
+        if chat_lower.startswith("https://shad.ir/joinc/"):
             result = await self.get_info_by_link(chat)
             info = result.to_dict() if hasattr(result, 'to_dict') else result
             if not info.get("is_valid"):

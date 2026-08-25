@@ -8,6 +8,7 @@ from typing import Callable, Optional, Union
 import maxrubika
 from ...data import Data
 from .. import exceptions
+from ..core.configs import PLATFORMS
 
 class DownloadFile:
     async def download_file(
@@ -27,7 +28,7 @@ class DownloadFile:
         **kwargs,
     ) -> Union[bytes, str, Data]:
         """
-        Download a file from Rubika.
+        Download a file from Rubika/Shad.
 
         Parameters:
             file_inline (dict or Data, optional): File inline object from messages.
@@ -79,7 +80,11 @@ class DownloadFile:
             "file-id": str(file_id),
             "user-agent": self.user_agent,
         }
-        base_url = f"https://messenger{dc_id}.iranlms.ir"
+
+        platform = self._original_platform
+        platform_config = PLATFORMS.get(platform, {})
+        storage_prefix = platform_config.get('storage_prefix', 'messenger')
+        base_url = f"https://{storage_prefix}{dc_id}.iranlms.ir"
 
         async def fetch_chunk(session, start: int, end: int) -> bytes:
             chunk_headers = {

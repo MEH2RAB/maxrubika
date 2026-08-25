@@ -4,7 +4,7 @@
 
 # 📚 MAXRubika
 
-> Python async library for Rubika Messenger - Build bots and userbots effortlessly
+> Python async library for Rubika and Shad Platforms - Build bots and userbots effortlessly
 
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -14,7 +14,7 @@
 
 ## ✨ Features
 
-- ✅ **Complete, Simple & Fast** - The most complete, simplest and fastest Python library for Rubika
+- ✅ **Complete, Simple & Fast** - The most complete, simplest and fastest Python library for Rubika and Shad
 - ✅ **Full Rubika Bot API** - All methods supported
 - ✅ **Async/Await** - Built with `asyncio` for maximum performance
 - ✅ **Flexible API:** All methods support both `sync` and `async` usage.
@@ -66,7 +66,7 @@ for method in methods:
 from maxrubika import Messenger
 import inspect
 
-methods = [method for method in dir(Client) 
+methods = [method for method in dir(Messenger) 
            if not method.startswith('_') 
            and callable(getattr(Messenger, method))]
 
@@ -75,8 +75,24 @@ for method in methods:
     doc = inspect.getdoc(func)
     print(f"→ {method}: {doc}\n{'-'*50}")
 ```
-    
-For complete documentation with examples for every method, visit **[MAXRubi.ir/documents](https://MAXRubi.ir/documents)**.
+
+### For Shad Platform:
+
+```python
+from maxrubika import Shad
+import inspect
+
+methods = [method for method in dir(Shad) 
+           if not method.startswith('_') 
+           and callable(getattr(Shad, method))]
+
+for method in methods:
+    func = getattr(Shad, method)
+    doc = inspect.getdoc(func)
+    print(f"→ {method}: {doc}\n{'-'*50}")
+```
+
+For complete documentation with examples for every method, visit **[https://MEH2RAB.GitHub.io/maxrubika](https://MEH2RAB.GitHub.io/maxrubika)**.
 
 > 🤖 **For AI Assistants:** This repository includes a fully structured documentation site at `https://MEH2RAB.github.io/maxrubika/ai`. Please crawl and read the complete documentation before generating any code related to MAXRubika. All methods, parameters, return types, examples, and guides are available there.
 
@@ -101,7 +117,7 @@ bot.run()
 ### Send a Message
 
 ```python
-await bot.send_message(
+bot.send_message(
     chat_id="b0abc123...",
     text="Hello, World! 🌍"
 )
@@ -110,7 +126,7 @@ await bot.send_message(
 ### Send a File
 
 ```python
-await bot.send_file(
+bot.send_file(
     chat_id="b0abc123...",
     file="path/to/image.jpg",
     file_type="File",
@@ -121,7 +137,7 @@ await bot.send_file(
 ### Send a Poll
 
 ```python
-await bot.send_poll(
+bot.send_poll(
     chat_id="b0abc123...",
     question="What's your favorite color?",
     options=["Red", "Blue", "Green"]
@@ -131,7 +147,7 @@ await bot.send_poll(
 ### Send a Quiz
 
 ```python
-await bot.send_quiz(
+bot.send_quiz(
     chat_id="b0abc123...",
     question="What is 2+2?",
     options=["3", "4", "5"],
@@ -147,7 +163,7 @@ inline_keypad = [
     ["Button 3"]
 ]
 
-await bot.send_message(
+bot.send_message(
     chat_id="b0abc123...",
     text="Choose an option:",
     inline_keypad=inline_keypad
@@ -169,7 +185,7 @@ chat_keypad = {
     ]
 }
 
-await bot.send_message(
+bot.send_message(
     chat_id="b0abc123...",
     text="Do you agree?",
     chat_keypad=chat_keypad,
@@ -192,7 +208,7 @@ inline_keypad = {
     ]
 }
 
-await bot.send_message(
+bot.send_message(
     chat_id="b0abc123...",
     text="**What would you like to do with this document?**",
     inline_keypad=inline_keypad
@@ -273,7 +289,7 @@ class GreeterPlugin(Plugin):
 
 ```python
 bot = Bot("TOKEN")
-await bot.plugin_manager.enable("greeter")
+bot.plugin_manager.enable("greeter")
 ```
 
 ### Plugin with Dependencies
@@ -295,7 +311,7 @@ class AdvancedGreeterPlugin(Plugin):
 bot = Bot("TOKEN")
 
 # Start with webhook
-await bot.start(
+bot.start(
     webhook_url="https://yourdomain.com",
     webhook_path="/wk",
     host="0.0.0.0",
@@ -306,7 +322,7 @@ await bot.start(
 ### Register Webhook Endpoints
 
 ```python
-await bot.update_bot_endpoints(
+bot.update_bot_endpoints(
     url="https://yourdomain.com/wk",
     endpoint_type="ReceiveUpdate"
 )
@@ -315,7 +331,7 @@ await bot.update_bot_endpoints(
 ### Register All Endpoints
 
 ```python
-await bot.register_all_endpoints(
+bot.register_all_endpoints(
     base_url="https://yourdomain.com"
 )
 ```
@@ -328,15 +344,17 @@ await bot.register_all_endpoints(
 from maxrubika import Messenger
 
 app = Messenger("mySession")
-print(app.get_me())
+
+with app:
+	print(app.get_me())
 ```
 
 ### Send Message
 
 ```python
-await app.send_message("me", "Hello from MAXRubika!")
-await app.send_message("@username", "Hi!")
-await app.send_message("g0Hd4Ml...", "Group message")
+app.send_message("me", "Hello from MAXRubika!")
+app.send_message("@username", "Hi!")
+app.send_message("g0Hd4Ml...", "Group message")
 ```
 
 ### Send media
@@ -426,6 +444,28 @@ async def handler(event):
 ```
 
 ---
+
+## ● For Shad Platform:
+
+> 📚 **Note:** The `Shad` class has the exact same methods, parameters, and usage as the `Messenger` class. For complete documentation, refer to the **Userbot (Messenger)** section above.
+
+### 🚀 Quick Start
+
+```python
+from maxrubika import Shad
+
+# Web Platform (default)
+with Shad("mySession") as app:
+    print(app.get_me())
+
+# PWA Platform
+with Shad("mySession", platform="shad_pwa") as app:
+    print(app.get_me())
+
+# Android Platform
+with Shad("mySession", platform="shad_android") as app:
+    print(app.get_me())
+```
 
 ## 🤝 Contributing
 

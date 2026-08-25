@@ -10,7 +10,14 @@ from ..exceptions import (
     NotRegistered,
     InvalidAccess
 )
-from ..core.configs import PLATFORMS
+from ..core.configs import (
+    PLATFORMS,
+    RUBIKA_PLATFORM_NAMES,
+    RUBIKA_PLATFORM_ALIASES,
+    SHAD_PLATFORM_NAMES,
+    SHAD_PLATFORM_ALIASES,
+    PLATFORM_NAME_TO_KEY,
+)
 from rich.console import Console
 from rich.text import Text
 
@@ -31,14 +38,6 @@ def normalize_phone_number(phone: str) -> str:
     return None
 
 class Start:
-    _ALIASES = {
-        'rubx': 'rubx',
-        'rubikids': 'rubikids',
-        'rubino': 'rubino',
-    }
-
-    ALL_PLATFORMS = ['Web', 'PWA', 'Android', 'RubX', 'RubiKids', 'Rubino']
-
     async def start(self: "maxrubika.Client", phone_number: str = None):
         """
         Start the client, handling authentication and registration.
@@ -54,14 +53,19 @@ class Start:
 
         current_platform = self.DEFAULT_PLATFORM['platform']
 
-        alias_key = self._ALIASES.get(self._original_platform)
-        if alias_key and current_platform == 'Android':
-            alias_platform = {'rubx': 'RubX', 'rubikids': 'RubiKids', 'rubino': 'Rubino'}[alias_key]
-            tried_platforms = [alias_platform]
-        else:
-            tried_platforms = [current_platform]
+        if self._original_platform in SHAD_PLATFORM_ALIASES:
 
-        for p in self.ALL_PLATFORMS:
+            platform_names = SHAD_PLATFORM_NAMES
+            current_name = SHAD_PLATFORM_ALIASES[self._original_platform]
+        else:
+            platform_names = RUBIKA_PLATFORM_NAMES
+            if self._original_platform in RUBIKA_PLATFORM_ALIASES:
+                current_name = RUBIKA_PLATFORM_ALIASES[self._original_platform]
+            else:
+                current_name = current_platform
+
+        tried_platforms = [current_name]
+        for p in platform_names:
             if p not in tried_platforms:
                 tried_platforms.append(p)
 
@@ -74,9 +78,7 @@ class Start:
 
             for platform in tried_platforms:
                 if platform != self.DEFAULT_PLATFORM['platform']:
-                    config_key = platform.lower()
-                    if platform in ('RubX', 'RubiKids', 'Rubino'):
-                        config_key = {'RubX': 'rubx', 'RubiKids': 'rubikids', 'Rubino': 'rubino'}[platform]
+                    config_key = PLATFORM_NAME_TO_KEY.get(platform, platform.lower())
                     
                     config = PLATFORMS.get(config_key, {})
                     self.DEFAULT_PLATFORM['platform'] = config.get('platform', platform)

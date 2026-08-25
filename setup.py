@@ -7,11 +7,11 @@ requirements = ['aiohttp', 'aiofiles', 'mutagen', 'pycryptodome', 'rich']
 
 setup(
     name = 'maxrubika',
-    version = '1.9.0',
+    version = '1.10.0',
     author = 'MEHRAB Farahmand',
     author_email = 'MEH2RABx@gmail.com',
-    description = 'Python async library for Rubika Messenger - Build bots and userbots effortlessly.',
-    keywords = ['maxrubika', 'rubika', 'bot', 'robot', 'asyncio', 'client'],
+    description = 'Python async library for Rubika and Shad Platforms - Build bots and userbots effortlessly.',
+    keywords = ['maxrubika', 'rubika', 'bot', 'robot', 'asyncio', 'client', 'shad'],
     long_description = long_description,
     python_requires = '>=3.8',
     long_description_content_type = 'text/markdown',
@@ -28,7 +28,8 @@ setup(
         'opencv': ['opencv-python'],
         'movie': ['numpy', 'moviepy'],
         'pillow': ['pillow==9.4.0'],
-        'aiortc': ['aiortc']
+        'aiortc': ['aiortc'],
+        'pro': ['aiortc', 'pillow', 'opencv-python', 'numpy', 'moviepy']
     },
     classifiers = [
         'Programming Language :: Python :: 3',
@@ -36,6 +37,8 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
+
+        
         'Programming Language :: Python :: 3.12',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',

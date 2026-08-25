@@ -18,9 +18,13 @@ class GetLastMessage:
         info_data = info_result.to_dict() if hasattr(info_result, 'to_dict') else info_result
 
         chat_obj = info_data.get('chat', {})
-        last_message_obj = chat_obj.get('last_message', {})
 
-        last_message_id = last_message_obj.get('message_id') if isinstance(last_message_obj, dict) else None
+        last_message_id = chat_obj.get('last_message_id')
+
+        if not last_message_id:
+            last_message_obj = chat_obj.get('last_message', {})
+            if isinstance(last_message_obj, dict):
+                last_message_id = last_message_obj.get('message_id')
 
         if not last_message_id:
             return Data({"status": "OK", "message": "No messages found in this chat."})
