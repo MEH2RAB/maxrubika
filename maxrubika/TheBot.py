@@ -6,16 +6,13 @@ import logging
 from aiohttp import web
 from typing import Union, Any, Dict, Optional
 from .bot import Methods
+from .bot.token import TokenString
 from .bot.exceptions import (
-    APIException,
-    Network,
-    Timeout,
-    BadGateway,
-    JSONDecode,
-    ServerError,
-    InvalidInput,
-    InvalidAccess,
-    TooRequests,
+    APIException, Network,
+    Timeout, BadGateway,
+    JSONDecode, ServerError,
+    InvalidInput, InvalidAccess,
+    TooRequests, TokenError
 )
 from .bot.registry import HandlerRegistry
 from .bot.bridge import DecoratorBridge
@@ -34,6 +31,8 @@ class Bot(Methods):
     def __init__(
         self,
         token: Optional[str] = None,
+        token_string: Optional[str] = None,
+        password: Optional[str] = None,
         timeout: Union[int, float] = 30,
         max_retries: Union[int, float] = 5
     ):
@@ -43,11 +42,18 @@ class Bot(Methods):
         Parameters:
             token (Optional[str]): Bot authentication token. If not provided
                 or invalid, the bot will prompt for it via console input.
+            token_string (Optional[str]): Encrypted TokenString. Takes priority over token.
+            password (Optional[str]): Password for encrypted TokenString.
             timeout (int): Request timeout in seconds. Defaults to 30.
             max_retries (int): Maximum number of retry attempts on network
                 errors. Defaults to 5.
         """
-        if not token or not self.TOKEN_PATTERN.match(token.strip()):
+        if token_string:
+            token = TokenString(token_string).to_token(password)
+            if not token:
+                raise TokenError(
+                "Invalid token_string or wrong password.")
+        elif not token or not self.TOKEN_PATTERN.match(token.strip()):
             token = self._get_token()
 
         self.token = token

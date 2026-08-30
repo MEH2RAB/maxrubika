@@ -19,13 +19,13 @@ class NetworkError(Exception):
         self.dev_message = message or "A network error occurred."
         self.request = request
         super().__init__(self.dev_message)
-    
+
     def __str__(self) -> str:
         return json.dumps({
             "status": "NETWORK_ERROR",
             "dev_message": self.dev_message
         }, ensure_ascii=False)
-    
+
     def __repr__(self) -> str:
         return self.__str__()
 
@@ -102,12 +102,12 @@ class RequestError(ClientError):
 
 class ValidationError(ClientError):
     custom_status = "VALIDATION_ERROR"
-    
+
     def __init__(self, message=None, request=None):
         self.request = request
         self._custom_user_message = message
         super().__init__(message, request)
-    
+
     def _get_custom_msg(self) -> Optional[str]:
         custom_msg = getattr(self.__class__, 'custom_msg', None)
         if custom_msg:
@@ -117,19 +117,19 @@ class ValidationError(ClientError):
             except:
                 return None
         return None
-    
+
     def _get_custom_status(self) -> Optional[str]:
         return getattr(self.__class__, 'custom_status', None)
-    
+
     def __str__(self) -> str:
         status = self._get_custom_status() or "VALIDATION_ERROR"
         dev_message = self._custom_user_message or self._get_custom_msg() or "A validation error occurred."
-        
+
         return json.dumps({
             "status": status,
             "dev_message": dev_message
         }, ensure_ascii=False)
-    
+
     def __repr__(self) -> str:
         return self.__str__()
 

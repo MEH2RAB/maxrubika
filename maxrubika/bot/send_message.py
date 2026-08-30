@@ -3,6 +3,7 @@ import re; import maxrubika
 from .metadata import to_metadata
 from .keypad_mixin import KeypadMixin
 from .exceptions import InvalidInput
+from .message_result import MessageResult
 
 class SendMessage(KeypadMixin):
     async def send_message(
@@ -16,7 +17,7 @@ class SendMessage(KeypadMixin):
         disable_notification: bool = False,
         resize_keyboard: bool = True,
         one_time_keyboard: bool = False
-    ) -> Dict[str, Any]:
+    ) -> "MessageResult":
         """
         Sends a text message to a chat.
 
@@ -32,13 +33,10 @@ class SendMessage(KeypadMixin):
             one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used.
 
         Returns:
-            dict: API response with message information.
+            MessageResult: API response with message information and action methods.
         """
         if not re.match(r"^(c0|g0|b0)[a-zA-Z0-9]{30}$", chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
-
-        if not isinstance(text, str) or len(text) > 4096:
-            raise InvalidInput("'text' must be a string <= 4096 characters.")
 
         normalized_chat_keypad = self._normalize_keypad(chat_keypad, is_inline=False)
         normalized_inline_keypad = self._normalize_keypad(inline_keypad, is_inline=True)
@@ -75,4 +73,20 @@ class SendMessage(KeypadMixin):
             payload['metadata'] = metadata
 
         payload = {k: v for k, v in payload.items() if v is not None}
-        return await self._request('POST', 'sendMessage', json = payload)
+
+        result = await self._request('POST', 'sendMessage', json=payload)
+
+        message_id = None
+        if hasattr(result, 'message_id'):
+            message_id = result.message_id
+        elif isinstance(result, dict):
+            message_id = result.get('message_id')
+        elif hasattr(result, 'data'):
+            message_id = result.data.get('message_id')
+
+        return MessageResult(
+            bot=self,
+            chat_id=chat_id,
+            message_id=message_id,
+            result_data=result.to_dict() if hasattr(result, 'to_dict') else result
+        )

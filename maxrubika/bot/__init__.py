@@ -11,6 +11,7 @@ from .forward_message import ForwardMessage
 from .get_chat_info import GetChatInfo
 from .get_file import GetFile
 from .get_me import GetMe
+from .get_token_string import GetTokenString
 from .get_updates import GetUpdates
 from .register_all_endpoints import RegisterAllEndpoints
 from .remove_chat_keypad import RemoveChatKeypad
@@ -46,6 +47,7 @@ class Methods(
     GetChatInfo,
     GetFile,
     GetMe,
+    GetTokenString,
     GetUpdates,
     RegisterAllEndpoints,
     RemoveChatKeypad,
@@ -67,7 +69,7 @@ class Methods(
     Start,
     UnbanMember,
     UpdateBotEndpoints,
-    UploadFile,
+    UploadFile
 ):
     pass
 

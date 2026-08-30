@@ -51,7 +51,7 @@ class SendLive:
                 async with aiohttp.ClientSession() as cs:
                     async with cs.get(thumb) as resp:
                         thumb_data = await resp.read()
-            
+
             if thumb_data:
                 result = media.MediaThumbnail.from_manual(thumb_data)
                 thumb = result.to_base64() if isinstance(result, media.ResultMedia) else result

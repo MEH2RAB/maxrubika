@@ -41,7 +41,7 @@ class SetSetting:
                 Each exception should be a dict with:
                     - 'include_users': List[str] - Users to always allow
                     - 'exclude_users': List[str] - Users to always deny
-                    
+
                 To CLEAR exceptions for a setting, pass {'exclude_users': []}:
                     can_called_by_exceptions={'exclude_users': []}
 

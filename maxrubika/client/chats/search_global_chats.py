@@ -28,13 +28,13 @@ class SearchGlobalChats:
         if filter_type:
             if isinstance(filter_type, str):
                 filter_type = [filter_type]
-            
+
             for ft in filter_type:
                 if ft not in VALID_FILTER_TYPES:
                     raise InvalidInput(
                         f"Invalid filter_type: '{ft}'. Must be one of: {', '.join(sorted(VALID_FILTER_TYPES))}"
                     )
-            
+
             input['filter_types'] = filter_type
 
         if start_id:

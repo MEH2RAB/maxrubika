@@ -24,7 +24,7 @@ class APIException(Exception):
             "SERVER_ERROR": ServerError,
             "INVALID_INPUT": InvalidInput,
             "INVALID_ACCESS": InvalidAccess,
-            "TOO_REQUESTS": TooRequests,
+            "TOO_REQUESTS": TooRequests
         }
         exception_class = exception_map.get(status, cls)
         return exception_class(dev_message=dev_message)
@@ -35,6 +35,7 @@ class APIException(Exception):
             "INVALID_INPUT": "Invalid input received. Please check and try again.",
             "INVALID_ACCESS": "Access denied. You don't have permission to perform this action.",
             "TOO_REQUESTS": "Too many requests. Please slow down and try again later.",
+            "TOKEN_ERROR": "Invalid token or token string.",
         }
 
         if status in default_messages:
@@ -86,3 +87,7 @@ class InvalidAccess(APIException):
 class TooRequests(APIException):
     def __init__(self, dev_message: any = None):
         super().__init__(status="TOO_REQUESTS", dev_message=dev_message)
+
+class TokenError(APIException):
+    def __init__(self, dev_message: any = None):
+        super().__init__(status="TOKEN_ERROR", dev_message=dev_message)

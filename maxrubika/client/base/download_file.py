@@ -60,7 +60,7 @@ class DownloadFile:
             size = fi.size
             if not file_name:
                 file_name = fi.get('file_name')
-        
+
         if not all([dc_id, file_id, access_hash, size]):
             raise exceptions.InvalidInput(
                 "Either 'file_inline' or all of 'dc_id', 'file_id', 'access_hash', 'size' must be provided."
@@ -136,7 +136,7 @@ class DownloadFile:
                             break
                         await f.write(data)
                         await handle_callback(size, end + 1)
-                
+
                 return Data({
                     "status": "OK",
                     "message": f"File saved to {filepath}",

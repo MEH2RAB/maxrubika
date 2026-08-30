@@ -14,6 +14,7 @@ from ...data import Data
 from ..core import media
 from ..core import to_metadata
 from ..exceptions import InvalidInput
+from .message_result import MessageResult
 
 async def get_mime_from_url(session: "aiohttp.ClientSession", url: str):
     async with session.head(url) as response:
@@ -59,12 +60,8 @@ class SendMessage:
                 'Default' uses schedule_time, 'WhenOnline' sends when user comes online.
 
         Returns:
-            The API response containing the sent message details.
-
-        Note:
-            - If `schedule_time` is provided, `is_scheduled` is automatically set to True and `schedule_type` to 'Default'.
-            - If `schedule_type='WhenOnline'` is provided, `is_scheduled` is automatically set to True.
-              This only works for user chats.
+            MessageResult: The API response containing the sent message details,
+            with action methods like edit, delete, reply, forward, pin.
         """
         if chat.lower() in ('me', 'cloud', 'self', 'myself'):
             chat_guid = self.guid
@@ -151,17 +148,16 @@ class SendMessage:
                 raise InvalidInput("Invalid base64 data.")
 
         if file_inline is not None and isinstance(file_inline, str):
-            if isinstance(file_inline, str):
-                if not file_inline.startswith('http'):
-                    async with aiofiles.open(file_inline, 'rb') as file:
-                        kwargs['file_name'] = kwargs.get('file_name', path.basename(file_inline))
-                        file_inline = await file.read()
-                else:
-                    async with aiohttp.ClientSession(headers={'user-agent': self.user_agent}) as cs:
-                        mime = await get_mime_from_url(session=cs, url=file_inline)
-                        kwargs['file_name'] = kwargs.get('file_name', ''.join([str(input['rnd']), mime or f'.{type}']))
-                        async with cs.get(file_inline) as result:
-                            file_inline = await result.read()
+            if not file_inline.startswith('http'):
+                async with aiofiles.open(file_inline, 'rb') as file:
+                    kwargs['file_name'] = kwargs.get('file_name', path.basename(file_inline))
+                    file_inline = await file.read()
+            else:
+                async with aiohttp.ClientSession(headers={'user-agent': self.user_agent}) as cs:
+                    mime = await get_mime_from_url(session=cs, url=file_inline)
+                    kwargs['file_name'] = kwargs.get('file_name', ''.join([str(input['rnd']), mime or f'.{type}']))
+                    async with cs.get(file_inline) as result:
+                        file_inline = await result.read()
 
         if isinstance(file_inline, bytes):
             custom_width = kwargs.get('width')
@@ -263,19 +259,30 @@ class SendMessage:
 
         if file_inline is not None:
             input['file_inline'] = file_inline if isinstance(file_inline, dict) else file_inline.to_dict()
-            result = await self.request(method = 'sendMessage', input = input)
+            result = await self.request(method='sendMessage', input=input)
         else:
             if 'text' in input:
                 chunks = [input['text'][i:i+4200] for i in range(0, len(input['text']), 4200)]
                 if not chunks:
-                    result = await self.request(method = 'sendMessage', input = input)
+                    result = await self.request(method='sendMessage', input=input)
                 else:
                     for chunk in chunks:
                         input['text'] = chunk.strip()
-                        result = await self.request(method = 'sendMessage', input = input)
-            elif 'sticker' in input:
-                result = await self.request(method = 'sendMessage', input = input)
+                        result = await self.request(method='sendMessage', input=input)
             else:
-                result = await self.request(method = 'sendMessage', input = input)
+                result = await self.request(method='sendMessage', input=input)
 
-        return result
+        message_id = None
+        if hasattr(result, 'message_update'):
+            message_id = result.message_update.get('message_id')
+        elif hasattr(result, 'message_id'):
+            message_id = result.message_id
+        elif isinstance(result, dict):
+            message_id = result.get('message_id')
+
+        return MessageResult(
+            client=self,
+            chat_guid=chat_guid,
+            message_id=message_id,
+            result_data=result.to_dict() if hasattr(result, 'to_dict') else result
+        )

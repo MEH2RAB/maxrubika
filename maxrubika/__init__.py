@@ -10,7 +10,7 @@ from .TheClient import Client, Messenger
 from .shad import Shad
 
 __author__ = 'MEHRAB Farahmand'
-__version__ = '1.11.0'
+__version__ = '1.12.0'
 
 def check_for_updates(current_version_str):
     try:

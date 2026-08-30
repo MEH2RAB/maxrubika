@@ -49,7 +49,7 @@ class ResultMedia:
                 if not isinstance(image, np.ndarray):
                     image = np.frombuffer(image, dtype=np.uint8)
                     image = cv2.imdecode(image, flags=1)
-                
+
                 if image is not None:
                     self.image = self.ndarray_to_bytes(image)
             except Exception:

@@ -81,7 +81,7 @@ class EditChannelInfo:
 
         if reactions is not None:
             reaction_dict = {}
-            
+
             if reactions == "All":
                 reaction_dict["reaction_type"] = "All"
             elif reactions == "Disable":

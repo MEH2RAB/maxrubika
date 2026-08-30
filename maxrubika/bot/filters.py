@@ -95,7 +95,7 @@ class Text(EventConstraint):
     Matches when the event text contains a substring or regex pattern.
 
     Usage::
-    
+
         Text("سلام")
         Text(r"(?i)hello")
     """

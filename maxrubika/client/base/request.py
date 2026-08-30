@@ -56,7 +56,7 @@ class Request:
             )
 
         data_enc = {"method": method, "input": input or {}, "client": client}
-        
+
         if encrypt:
             if self.API_VERSION == 5:
                 data["data_enc"] = Cipher.encrypt_v5(

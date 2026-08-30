@@ -154,13 +154,13 @@ class Api:
             if u not in seen:
                 seen.add(u)
                 candidates.append(u)
-        
+
         add(self.api_url)
         for code in self.api_priority:
             add(self.api_map.get(code))
         for endpoint in self.api_map.values():
             add(endpoint)
-        
+
         for candidate in candidates:
             for attempt in range(max_retries):
                 try:
@@ -181,7 +181,7 @@ class Api:
                     )
                     if attempt < max_retries - 1:
                         await asyncio.sleep(backoff * (2 ** attempt))
-        
+
         self.logger.error(f"Request failed after exhausting all {len(candidates)} endpoints.")
         return None
 

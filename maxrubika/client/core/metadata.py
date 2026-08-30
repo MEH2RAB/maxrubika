@@ -31,7 +31,7 @@ def _utf16_len(text: str) -> List[int]:
 def _is_in_username(text: str, position: int) -> bool:
     i = position - 1
     found_at = False
-    
+
     while i >= 0:
         if text[i] == '@':
             found_at = True
@@ -39,14 +39,14 @@ def _is_in_username(text: str, position: int) -> bool:
         elif text[i] in ' \n':
             break
         i -= 1
-    
+
     if not found_at:
         return False
-    
+
     j = position
     while j < len(text) and text[j] not in ' \n':
         j += 1
-    
+
     return position < j
 
 def to_metadata(text: str) -> Dict[str, Any]:
@@ -60,11 +60,11 @@ def to_metadata(text: str) -> Dict[str, Any]:
     for match in MARKDOWN_RE.finditer(text):
         group = match.group()
         start, end = match.span()
-        
+
         if group.startswith('__'):
             if _is_in_username(text, start):
                 continue
-        
+
         adj_start = utf16[start] - offset
         adj_char_start = start - char_offset
 
@@ -84,12 +84,12 @@ def to_metadata(text: str) -> Dict[str, Any]:
                 raw_content = '\n'.join(lines)
                 inner = to_metadata(raw_content)
                 content = inner["text"]
-                
+
                 if "metadata" in inner:
                     for p in inner["metadata"]["meta_data_parts"]:
                         p["from_index"] += adj_start
                         parts.append(p)
-                
+
             elif md_type == "Pre":
                 raw = match.group(idx) or ""
                 lines = raw.split('\n', 1)
@@ -99,11 +99,11 @@ def to_metadata(text: str) -> Dict[str, Any]:
                 else:
                     lang = ""
                     content = raw
-                    
+
             elif md_type == "Link":
                 content = match.group(idx) or ""
                 url = match.group(9) or ""
-                
+
             else:
                 raw_content = match.group(idx) or ""
                 inner = to_metadata(raw_content)

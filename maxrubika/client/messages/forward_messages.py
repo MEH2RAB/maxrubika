@@ -14,7 +14,7 @@ class ForwardMessages:
         hide_author: bool = False,
         is_mute: bool = False,
         schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
-        schedule_type: Optional[Literal['Default', 'WhenOnline']] = None,
+        schedule_type: Optional[Literal['Default', 'WhenOnline']] = None
     ):
         """
         Forward specified messages from one chat to another.

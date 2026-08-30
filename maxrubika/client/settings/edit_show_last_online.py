@@ -15,7 +15,7 @@ class EditShowLastOnline:
             exceptions (Optional[Dict[str, List[str]]]): 
                 - 'include_users': List[str] - Users to always allow
                 - 'exclude_users': List[str] - Users to always deny
-                
+
                 To clear exceptions, pass {'exclude_users': []}
 
         Returns:

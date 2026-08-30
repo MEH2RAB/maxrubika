@@ -53,19 +53,19 @@ class Cipher:
     def secret_v5(cls, auth: str) -> str:
         if len(auth) != 32:
             raise ValueError("auth length should be 32 digits")
-        
+
         t = auth[0:8]
         i = auth[8:16]
         n = auth[16:24] + t + auth[24:32] + i
         result = list(n)
-        
+
         for s in range(len(result)):
             c = result[s]
             if '0' <= c <= '9':
                 result[s] = chr((ord(c) - ord('0') + 5) % 10 + ord('0'))
             elif 'a' <= c <= 'z':
                 result[s] = chr((ord(c) - ord('a') + 9) % 26 + ord('a'))
-        
+
         return "".join(result)
 
     @classmethod
@@ -80,7 +80,7 @@ class Cipher:
 
         dec_res = re.sub(r'"time":,', '"time":0,', dec_res)
         dec_res = re.sub(r'"size":,', '"size":0,', dec_res)
-        
+
         return json.loads(dec_res)
 
     @classmethod

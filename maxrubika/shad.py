@@ -5,10 +5,12 @@ from .client.exceptions import PlatformError
 
 class Shad(Messenger):
     VALID_SHAD_PLATFORMS = ('shad_web', 'shad_pwa', 'shad_android')
-    
+
     def __init__(
         self,
         session: Optional[str] = None,
+        string_session: Optional[str] = None,
+        password: Optional[str] = None,
         auth: Optional[str] = None,
         private_key: Optional[Union[str, bytes]] = None,
         timeout: Union[str, int, float] = 30,
@@ -25,6 +27,8 @@ class Shad(Messenger):
 
         Parameters:
             session (str, optional): Session file name or path.
+            string_session (str, optional): StringSession string. Takes priority over 'session'.
+            password (str, optional): Password for encrypted StringSession.
             auth (str, optional): Authentication key (32 lowercase letters).
             private_key (str or bytes, optional): RSA private key.
             timeout (int or float, optional): Request timeout in seconds (default: 30).
@@ -46,6 +50,8 @@ class Shad(Messenger):
 
         super().__init__(
             session=session,
+            string_session=string_session,
+            password=password,
             auth=auth,
             private_key=private_key,
             timeout=timeout,

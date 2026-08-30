@@ -147,7 +147,7 @@ class PlayVoiceChat:
         connect = await self.join_voice_chat(chat_guid, sdp_offer_data=offer.sdp)
         connect_data = connect.to_dict() if hasattr(connect, 'to_dict') else connect
         sdp_answer = connect_data.get('sdp_answer_data')
-        
+
         if not sdp_answer:
             raise InvalidAccess("No SDP answer received from server.")
 

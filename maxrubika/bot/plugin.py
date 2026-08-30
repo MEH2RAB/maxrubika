@@ -249,7 +249,7 @@ class PluginManager:
         if removed:
             logger.debug(f"Plugin {identifier} unregistered.")
         return removed
-    
+
     async def enable(self, identifier: str) -> Plugin:
         """Enable a plugin."""
         key = self._normalize(identifier)
@@ -328,7 +328,7 @@ class PluginManager:
         """Reload a plugin."""
         await self.disable(identifier)
         return await self.enable(identifier)
-    
+
     async def _enable_dependencies(self, plugin_cls: Type[Plugin]) -> None:
         """Enable plugin dependencies."""
         dependencies = getattr(plugin_cls.meta, "dependencies", None) or ()

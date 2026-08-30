@@ -321,16 +321,21 @@ class Event(Data):
             **extras
         )
 
-    async def delete(self, message_id: str = None):
+    async def delete(self, message_id: str = None, **extras):
         """Delete this message."""
-        return await self.client.delete_messages(self.chat_guid, [message_id or self.message_id])
+        return await self.client.delete_messages(
+            self.chat_guid,
+            [message_id or self.message_id],
+            **extras
+        )
 
-    async def forward(self, to_chat: str = None, message_id: str = None):
+    async def forward(self, to_chat: str = None, message_id: str = None, **extras):
         """Forward this message."""
         return await self.client.forward_messages(
             self.chat_guid,
             [message_id or self.message_id],
             to_chat or self.chat_guid,
+            **extras
         )
 
     async def copy(self, to_chat: str = None, via_bot: str = None):

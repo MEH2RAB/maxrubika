@@ -81,9 +81,9 @@ class IsDeleted(Filter):
 class ChatType(Filter):
     """
     Matches based on chat GUID prefix.
-    
+
     Accepted values: ``"user"``, ``"bot"``, ``"group"``, ``"channel"``, ``"service"``.
-    
+
     Usage::
         ChatType("group")
         ChatType(["group", "channel"])
@@ -103,7 +103,7 @@ class FromChat(Filter):
     """
     Matches events from specific chats.
     Accepts GUID, username, or link for groups/channels.
-    
+
     Usage::
         FromChat("g0Hd4Ml...")
         FromChat("@channel_username")
@@ -135,7 +135,7 @@ class FromChat(Filter):
 class FromUser(Filter):
     """
     Matches events from specific users by author_guid or object_guid (if u0).
-    
+
     Usage::
         FromUser("u0Hzgbk0...")
         FromUser("@Online_User")
@@ -172,7 +172,7 @@ class FromBot(Filter):
     """
     Matches events from specific bots.
     Accepts GUID, username, or link for bots.
-    
+
     Usage::
         FromBot("b0Kiy09e...")
         FromBot("@bot_username")
@@ -205,7 +205,7 @@ class FromActivity(Filter):
     """
     Matches typing/activity events from specific users by user_activity_guid.
     Works with on_show_activities decorator.
-    
+
     Usage::
         FromActivity("u0Hzgbk0...")
         FromActivity("Online_User")
@@ -232,7 +232,6 @@ class FromActivity(Filter):
     async def evaluate(self, event: Any) -> bool:
         await self._resolve(event)
         return getattr(event, 'user_activity_guid', '') in self._ids
-
 
 class IsMe(Filter):
     """Matches messages sent by the client itself."""
@@ -384,14 +383,14 @@ class IsEvent(Filter):
 class EventType(Filter):
     """
     Matches specific system event types.
-    
+
     Known types:
         RemoveGroupMembers, AddedGroupMembers, PinnedMessageUpdated,
         TitleUpdate, PhotoUpdate, RemovePhoto, SetAutoDelete,
         JoinedGroupByLink, LeaveGroup, JoinedGroupByRequest,
         CreateGroupVoiceChat, StopGroupVoiceChat,
         GroupCreated, ChannelCreated
-    
+
     Usage::
         EventType("AddedGroupMembers")
         EventType("PinnedMessageUpdated")

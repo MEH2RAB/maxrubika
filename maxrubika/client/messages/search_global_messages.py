@@ -18,7 +18,7 @@ class SearchGlobalMessages:
             The result of the API call.
         """
         is_hashtag = search_text.startswith('#')
-        
+
         input = {
             'search_text': search_text[1:] if is_hashtag else search_text,
             'type': 'Hashtag' if is_hashtag else 'Text'

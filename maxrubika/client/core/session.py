@@ -45,7 +45,7 @@ def _read_json_session(filename: str):
     try:
         with open(filename, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        
+
         user = data.get('user', {})
         return {
             'phone': user.get('phone', ''),
@@ -90,7 +90,9 @@ class StringSession:
         self._string = string
 
     @classmethod
-    def _derive_master_key(cls, salt: bytes) -> bytes:
+    def _derive_master_key(cls, salt: bytes, password: str = None) -> bytes:
+        if password:
+            return pbkdf2_hmac('sha256', password.encode(), salt, 300000, dklen=32)
         return pbkdf2_hmac('sha256', cls._SECRET_PASSWORD, salt, 300000, dklen=32)
 
     @classmethod
@@ -114,33 +116,34 @@ class StringSession:
         return cipher.decrypt_and_verify(ciphertext, tag)
 
     @classmethod
-    def from_data(cls, data: dict) -> "StringSession":
+    def from_data(cls, data: dict, password: str = None) -> "StringSession":
+
         json_str = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
         compressed = zlib.compress(json_str.encode(), level=9)
         combined = sha512(compressed).digest() + compressed
-        
+
         for _ in range(cls._ROUNDS):
             salt = secrets.token_bytes(16)
-            key = cls._derive_master_key(salt)
+            key = cls._derive_master_key(salt, password)
             combined = salt + cls._encrypt_layer(combined, key)
-        
+
         return cls(base64.b64encode(combined).decode())
 
-    def to_data(self) -> dict:
+    def to_data(self, password: str = None) -> dict:
         if not self._string:
             return {}
-        
+
         try:
             combined = base64.b64decode(self._string.encode())
-            
+
             for _ in range(self._ROUNDS):
-                key = self._derive_master_key(combined[:16])
+                key = self._derive_master_key(combined[:16], password)
                 combined = self._decrypt_layer(combined[16:], key)
-            
+
             data_hash, compressed = combined[:64], combined[64:]
             if sha512(compressed).digest() != data_hash:
                 raise ValueError("Hash mismatch.")
-            
+
             return json.loads(zlib.decompress(compressed).decode())
         except Exception:
             return {}
@@ -153,8 +156,8 @@ class StringSession:
 
 class Session:
     def __init__(self, session: str = None, create_file: bool = False,
-                 string_session: str = None) -> None:
-        
+                 string_session: str = None, password: str = None) -> None:
+
         self._connection = None
         self._cursor = None
         self._data = None
@@ -162,9 +165,9 @@ class Session:
         self._imported_from = None
 
         if string_session:
-            data = StringSession(string_session).to_data()
+            data = StringSession(string_session).to_data(password)
             if not data:
-                raise ValueError("Invalid StringSession")
+                raise ValueError("Invalid StringSession or wrong password.")
             self.filename = None
             self.create_file = False
             self._imported_from = "string_session"
@@ -224,10 +227,10 @@ class Session:
                 self._data.get('agent', 'Mozilla/5.0'),
                 self._data.get('private_key')
             )
-        
+
         if not self._connection:
             return None
-        
+
         try:
             cursor = self._connection.cursor()
             cursor.execute('SELECT data FROM session')
@@ -289,5 +292,7 @@ class Session:
             self.is_logged_in = False
 
     def __del__(self):
-        try: self.close()
-        except: pass
+        try:
+            self.close()
+        except:
+            pass

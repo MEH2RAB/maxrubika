@@ -27,6 +27,7 @@ class Client(Methods):
         self,
         session: Optional[str] = None,
         string_session: Optional[str] = None,
+        password: Optional[str] = None,
         auth: Optional[str] = None,
         private_key: Optional[Union[str, bytes]] = None,
         timeout: Union[str, int, float] = 30,
@@ -44,6 +45,7 @@ class Client(Methods):
         Parameters:
             session (str, optional): Session file name or path. (api_version=6 only)
             string_session (str, optional): StringSession string. Takes priority over 'session'.
+            password (str, optional): Password for encrypted StringSession. Required if StringSession was created with a password.
             auth (str, optional): Authentication key.
             private_key (str or bytes, optional): RSA private key. (api_version=6 only)
             timeout (int or float, optional): Request timeout in seconds (default: 30).
@@ -137,14 +139,14 @@ class Client(Methods):
 
         elif string_session is not None:
             try:
-                session = Session(string_session=string_session)
+                session = Session(string_session=string_session, password=password)
                 info = session.information()
                 if info:
                     auth = info[1]
                     private_key = info[4]
             except ValueError:
                 raise SessionError(
-                    "String session is invalid."
+                    "String session is invalid or wrong password."
                 ) from None
 
         else:

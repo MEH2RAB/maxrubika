@@ -30,7 +30,7 @@ class DeleteSavedMusicPlaylist:
 
             for i, track in enumerate(raw_tracks):
                 track_dict = track.to_dict() if hasattr(track, 'to_dict') else track
-                
+
                 if i != position - 1:
                     playlist_tracks.append(track_dict)
 

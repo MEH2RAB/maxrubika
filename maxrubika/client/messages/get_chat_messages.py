@@ -80,7 +80,7 @@ class GetChatMessages:
             for msg in messages:
                 msg_dict = msg.to_dict() if hasattr(msg, 'to_dict') else msg
                 msg_id = int(msg_dict.get('message_id', 0))
-                
+
                 if msg_id not in message_ids:
                     message_ids.add(msg_id)
                     all_messages.append(msg_dict)
