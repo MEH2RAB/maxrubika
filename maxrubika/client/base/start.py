@@ -54,7 +54,6 @@ class Start:
         current_platform = self.DEFAULT_PLATFORM['platform']
 
         if self._original_platform in SHAD_PLATFORM_ALIASES:
-
             platform_names = SHAD_PLATFORM_NAMES
             current_name = SHAD_PLATFORM_ALIASES[self._original_platform]
         else:
@@ -79,7 +78,7 @@ class Start:
             for platform in tried_platforms:
                 if platform != self.DEFAULT_PLATFORM['platform']:
                     config_key = PLATFORM_NAME_TO_KEY.get(platform, platform.lower())
-                    
+
                     config = PLATFORMS.get(config_key, {})
                     self.DEFAULT_PLATFORM['platform'] = config.get('platform', platform)
                     self.DEFAULT_PLATFORM['app_version'] = config.get('app_version', '4.4.33')
@@ -105,7 +104,7 @@ class Start:
 
         except (InvalidInput, InvalidAccess, NotRegistered):
             if not self.continue_on_error:
-                        raise
+                raise
             config = PLATFORMS.get(self._original_platform, {})
             self.DEFAULT_PLATFORM['platform'] = current_platform
             self.DEFAULT_PLATFORM['app_version'] = config.get('app_version', '4.4.33')
@@ -122,7 +121,7 @@ class Start:
             if phone_number is None:
                 phone_number = None
                 continue
-            
+
             phone_number = f'98{phone_number[1:]}' if phone_number.startswith('09') else phone_number
 
             is_phone_number_true = True
@@ -144,7 +143,7 @@ class Start:
                         phone_number = None
                         break
                     phone_number = f'98{phone_number[1:]}' if phone_number.startswith('09') else phone_number
-            
+
             if phone_number is None:
                 continue
 
@@ -171,7 +170,7 @@ class Start:
                     pass_text.append("\nEnter 2-step verification password: ", style="cyan")
                     console.print(pass_text, end='')
                 pass_key = input()
-                
+
                 if not pass_key:
                     console.print("\nPassword cannot be empty!", style="bright_red")
                     continue
@@ -228,7 +227,7 @@ class Start:
                 error_text = Text()
                 error_text.append("\nCode is incorrect, please enter correct code: ", style="bright_red")
                 console.print(error_text, end='')
-            
+
             phone_code = input()
 
             if not phone_code or not phone_code.strip():

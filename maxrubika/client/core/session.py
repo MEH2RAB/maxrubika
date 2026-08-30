@@ -1,7 +1,10 @@
 import os
 import json
+import zlib
+import base64
 import sqlite3
-from hashlib import sha256
+import secrets
+from hashlib import sha256, sha512, pbkdf2_hmac
 from Crypto.Cipher import AES
 
 suffix = '.max'
@@ -79,40 +82,112 @@ def _find_session(filename_without_ext: str):
                     return data, ext
     return None, None
 
-class Session:
-    def __init__(self, session: str, create_file: bool = False) -> None:
-        self.filename = session
-        if not session.endswith(suffix):
-            self.filename += suffix
+class StringSession:
+    _SECRET_PASSWORD = b"MAXRubika_Ultra_Secret_2026"
+    _ROUNDS = 3
 
-        self.create_file = create_file
+    def __init__(self, string: str = ""):
+        self._string = string
+
+    @classmethod
+    def _derive_master_key(cls, salt: bytes) -> bytes:
+        return pbkdf2_hmac('sha256', cls._SECRET_PASSWORD, salt, 300000, dklen=32)
+
+    @classmethod
+    def _xor(cls, data: bytes, key: bytes) -> bytes:
+        return bytes(b ^ key[i % len(key)] for i, b in enumerate(data))
+
+    @classmethod
+    def _encrypt_layer(cls, data: bytes, key: bytes) -> bytes:
+        nonce = secrets.token_bytes(12)
+        cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
+        ciphertext, tag = cipher.encrypt_and_digest(data)
+        ciphertext = cls._xor(ciphertext, sha512(key + nonce).digest())
+        return nonce + tag + ciphertext
+
+    @classmethod
+    def _decrypt_layer(cls, data: bytes, key: bytes) -> bytes:
+        nonce = data[:12]
+        tag = data[12:28]
+        ciphertext = cls._xor(data[28:], sha512(key + nonce).digest())
+        cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
+        return cipher.decrypt_and_verify(ciphertext, tag)
+
+    @classmethod
+    def from_data(cls, data: dict) -> "StringSession":
+        json_str = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
+        compressed = zlib.compress(json_str.encode(), level=9)
+        combined = sha512(compressed).digest() + compressed
+        
+        for _ in range(cls._ROUNDS):
+            salt = secrets.token_bytes(16)
+            key = cls._derive_master_key(salt)
+            combined = salt + cls._encrypt_layer(combined, key)
+        
+        return cls(base64.b64encode(combined).decode())
+
+    def to_data(self) -> dict:
+        if not self._string:
+            return {}
+        
+        try:
+            combined = base64.b64decode(self._string.encode())
+            
+            for _ in range(self._ROUNDS):
+                key = self._derive_master_key(combined[:16])
+                combined = self._decrypt_layer(combined[16:], key)
+            
+            data_hash, compressed = combined[:64], combined[64:]
+            if sha512(compressed).digest() != data_hash:
+                raise ValueError("Hash mismatch.")
+            
+            return json.loads(zlib.decompress(compressed).decode())
+        except Exception:
+            return {}
+
+    def __str__(self):
+        return self._string
+
+    def __bool__(self):
+        return bool(self._string)
+
+class Session:
+    def __init__(self, session: str = None, create_file: bool = False,
+                 string_session: str = None) -> None:
+        
         self._connection = None
         self._cursor = None
+        self._data = None
         self.is_logged_in = False
         self._imported_from = None
 
-        if os.path.exists(self.filename) and not self.create_file:
-            try:
-                self._initialize_connection()
-                info = self.information()
-                if info and info[0]:
-                    self.is_logged_in = True
-                else:
-                    self.close()
-                    os.remove(self.filename)
-                    self._connection = None
-                    self._cursor = None
-            except Exception:
+        if string_session:
+            data = StringSession(string_session).to_data()
+            if not data:
+                raise ValueError("Invalid StringSession")
+            self.filename = None
+            self.create_file = False
+            self._imported_from = "string_session"
+            self._data = data
+            self.is_logged_in = True
+            return
+
+        self.filename = session if session and session.endswith(suffix) else f"{session}{suffix}"
+        self.create_file = create_file
+
+        if os.path.exists(self.filename) and not create_file:
+            self._initialize_connection()
+            info = self.information()
+            if info and info[0]:
+                self.is_logged_in = True
+            else:
                 self.close()
-                try:
-                    os.remove(self.filename)
-                except:
-                    pass
+                os.remove(self.filename)
                 self._connection = None
                 self._cursor = None
 
-        elif not self.create_file:
-            base_name = self.filename.replace('.max', '')
+        elif not create_file:
+            base_name = self.filename.replace(suffix, '')
             imported_data, ext = _find_session(base_name)
             if imported_data:
                 self._imported_from = base_name + ext
@@ -126,7 +201,7 @@ class Session:
                 )
                 self.is_logged_in = True
 
-        elif self.create_file:
+        elif create_file:
             self._initialize_database()
 
     def _initialize_connection(self):
@@ -137,55 +212,54 @@ class Session:
     def _initialize_database(self):
         self._initialize_connection()
         self._cursor.execute('DROP TABLE IF EXISTS session')
-        self._cursor.execute('CREATE TABLE IF NOT EXISTS session (data BLOB)')
+        self._cursor.execute('CREATE TABLE session (data BLOB)')
         self._connection.commit()
 
     def information(self):
+        if self._data is not None:
+            return (
+                self._data.get('phone'),
+                self._data.get('auth'),
+                self._data.get('guid'),
+                self._data.get('agent', 'Mozilla/5.0'),
+                self._data.get('private_key')
+            )
+        
         if not self._connection:
             return None
+        
         try:
             cursor = self._connection.cursor()
             cursor.execute('SELECT data FROM session')
             result = cursor.fetchone()
             cursor.close()
-
             if result and result[0] is not None:
                 data = _decrypt(result[0])
                 return (
-                    data.get('phone'),
-                    data.get('auth'),
-                    data.get('guid'),
-                    data.get('agent'),
-                    data.get('private_key')
+                    data.get('phone'), data.get('auth'), data.get('guid'),
+                    data.get('agent'), data.get('private_key')
                 )
-
-            return None
-
         except Exception:
-            return None
+            pass
+        return None
 
     def insert(self, phone_number, auth, guid, user_agent, private_key,
                *args, **kwargs):
+        if self._data is not None:
+            self._data = {
+                'phone': phone_number, 'auth': auth, 'guid': guid,
+                'agent': user_agent, 'private_key': private_key
+            }
+            self.is_logged_in = True
+            return
+
         if self._connection is None:
-            self.create_file = True
             self._initialize_database()
 
-        self._cursor.execute("PRAGMA table_info(session)")
-        columns = [col[1] for col in self._cursor.fetchall()]
-        if 'data' not in columns:
-            self._cursor.execute('DROP TABLE IF EXISTS session')
-            self._cursor.execute('CREATE TABLE session (data BLOB)')
-            self._connection.commit()
-
-        data = {
-            'phone': phone_number,
-            'auth': auth,
-            'guid': guid,
-            'agent': user_agent,
-            'private_key': private_key
-        }
-
-        encrypted = _encrypt(data)
+        encrypted = _encrypt({
+            'phone': phone_number, 'auth': auth, 'guid': guid,
+            'agent': user_agent, 'private_key': private_key
+        })
 
         cursor = self._connection.cursor()
         cursor.execute('DELETE FROM session')
@@ -201,11 +275,9 @@ class Session:
             if info is None or not info[0]:
                 raise ValueError('file_name arg is not set')
             file_name = info[0]
-
         session_instance = cls(file_name, create_file=(info is None))
         if info is not None:
             session_instance.insert(*info)
-
         return session_instance
 
     def close(self):
@@ -217,4 +289,5 @@ class Session:
             self.is_logged_in = False
 
     def __del__(self):
-        self.close()
+        try: self.close()
+        except: pass

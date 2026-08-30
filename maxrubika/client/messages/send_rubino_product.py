@@ -18,7 +18,6 @@ class SendRubinoProduct:
             store_id (str): The store ID.
             product_id (str): The product ID.
             product_varieties (List[dict]): List of product varieties.
-            rnd (int, optional): Random number. Auto-generated if not provided.
 
         Returns:
             The result of the API call.

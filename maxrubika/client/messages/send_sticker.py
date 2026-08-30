@@ -12,6 +12,7 @@ class SendSticker:
         file: dict,
         w_h_ratio: str = '1.0',
         reply_to_message_id: Optional[Union[str, int]] = None,
+        via_bot: Optional[str] = None,
         schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
         schedule_type: Optional[Literal['Default', 'WhenOnline']] = None
     ):
@@ -26,6 +27,7 @@ class SendSticker:
             file (dict): The file data for the sticker.
             w_h_ratio (str): The width-to-height ratio of the sticker. Defaults to '1.0'.
             reply_to_message_id (Optional[Union[str, int]]): The ID of the message to which this is a reply. Defaults to None.
+            via_bot (Optional[str]): Bot GUID or username to send the message via. Defaults to None.
             schedule_time (Optional[Union[int, float, timedelta, datetime]]): 
                 When to send the message.
                 - Unix timestamp (int/float): Absolute time
@@ -42,13 +44,14 @@ class SendSticker:
             'sticker_id': sticker_id,
             'sticker_set_id': sticker_set_id,
             'w_h_ratio': w_h_ratio,
-            'file': file,
+            'file': file
         }
 
         return await self.send_message(
             chat=chat,
             sticker=data,
             reply_to_message_id=reply_to_message_id,
+            via_bot=via_bot,
             schedule_time=schedule_time,
             schedule_type=schedule_type
         )

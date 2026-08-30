@@ -89,7 +89,8 @@ class SendMessage:
                     schedule_time = int(schedule_time)
             else:
                 raise InvalidInput(
-                f"Invalid schedule_time type: {type(schedule_time).__name__}")
+                    f"Invalid schedule_time type: {type(schedule_time).__name__}"
+                )
 
             if schedule_time <= time_module.time():
                 raise InvalidInput("'schedule_time' must be in the future.")
@@ -272,5 +273,9 @@ class SendMessage:
                     for chunk in chunks:
                         input['text'] = chunk.strip()
                         result = await self.request(method = 'sendMessage', input = input)
+            elif 'sticker' in input:
+                result = await self.request(method = 'sendMessage', input = input)
+            else:
+                result = await self.request(method = 'sendMessage', input = input)
 
         return result

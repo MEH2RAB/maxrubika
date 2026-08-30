@@ -232,10 +232,11 @@ EXCEPTION_MAP = {
     'NOT_REGISTERED': NotRegistered, 'URL_NOT_FOUND': UrlNotFound,
     'CODE_IS_USED': CodeIsUsed, 'ERROR_ACTION': ErrorAction,
     'ERROR_IGNORE': ErrorIgnore, 'NO_CONNECTION': NoConnection,
-    'CODE_IS_EXPIRED': CodeIsExpired, 'INVALID_METHOD': InvalidMethod,
-    'USERNAME_EXIST': UsernameExist, 'ERROR_TRY_AGAIN': ErrorTryAgain,
-    'ERROR_MESSAGE_TRY': ErrorMessageTry, 'INTERNAL_PROBLEM': InternalProblem,
-    'ERROR_MESSAGE_IGN': ErrorMessageIgn, 'NOT_SUPPORTED_API_VERSION': NotSupportedApiVersion
+ 'CODE_IS_EXPIRED': CodeIsExpired,
+    'INVALID_METHOD': InvalidMethod, 'USERNAME_EXIST': UsernameExist,
+    'ERROR_TRY_AGAIN': ErrorTryAgain, 'ERROR_MESSAGE_TRY': ErrorMessageTry,
+    'INTERNAL_PROBLEM': InternalProblem, 'ERROR_MESSAGE_IGN': ErrorMessageIgn,
+    'NOT_SUPPORTED_API_VERSION': NotSupportedApiVersion
 }
 
 def get(status_det: str):

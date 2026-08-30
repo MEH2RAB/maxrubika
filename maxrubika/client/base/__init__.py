@@ -1,6 +1,7 @@
 from .connect import Connect
 from .disconnect import Disconnect
 from .download_file import DownloadFile
+from .get_string_session import GetStringSession
 from .get_updates import GetUpdates
 from .request import Request
 from .run import Run
@@ -13,6 +14,7 @@ class Base(
     Connect,
     Disconnect,
     DownloadFile,
+    GetStringSession,
     GetUpdates,
     Request,
     Run,

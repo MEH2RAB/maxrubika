@@ -375,6 +375,18 @@ class Event(Data):
             else:
                 return await self.client.send_file(target, file_data, **kwargs)
 
+        elif self.is_sticker:
+            sticker_data = self.sticker_raw
+            if sticker_data and isinstance(sticker_data, dict):
+                return await self.client.send_sticker(
+                    target,
+                    emoji_character=sticker_data.get('emoji_character', ''),
+                    sticker_id=sticker_data.get('sticker_id', ''),
+                    sticker_set_id=sticker_data.get('sticker_set_id', ''),
+                    file=sticker_data.get('file', {}),
+                    via_bot=via_bot
+                )
+
         elif self.text:
             reply_to = None
             if to_chat is None and self.is_reply:
@@ -430,25 +442,45 @@ class Event(Data):
         """Get chat information."""
         return await self.client.get_chat_info(self.chat_guid)
 
-    async def ban_member(self, user_guid=None):
+    async def ban_member(self, member=None):
         """Ban a member."""
-        return await self.client.ban_member(self.chat_guid, user_guid or self.author_guid)
+        return await self.client.ban_member(self.chat_guid, member or self.author_guid)
 
-    async def unban_member(self, user_guid=None):
+    async def unban_member(self, member=None):
         """Unban a member."""
-        return await self.client.unban_member(self.chat_guid, user_guid or self.author_guid)
+        return await self.client.unban_member(self.chat_guid, member or self.author_guid)
 
-    async def member_is_admin(self, member_guid=None):
+    async def member_is_admin(self, member=None):
         """Check if a member is admin."""
-        return await self.client.member_is_admin(self.chat_guid, member_guid or self.author_guid)
+        return await self.client.member_is_admin(self.chat_guid, member or self.author_guid)
 
-    async def block_user(self, user_guid=None):
+    async def block_user(self, user=None):
         """Block a user."""
-        return await self.client.block_user(user_guid or self.author_guid)
+        return await self.client.block_user(user or self.author_guid)
 
-    async def unblock_user(self, user_guid=None):
+    async def unblock_user(self, user=None):
         """Unblock a user."""
-        return await self.client.unblock_user(user_guid or self.author_guid)
+        return await self.client.unblock_user(user or self.author_guid)
+
+    async def mute_chat(self, chat=None, **extras):
+        """Mute a chat."""
+        return await self.client.mute_chat(chat or self.chat_guid, **extras)
+
+    async def unmute_chat(self, chat=None, **extras):
+        """Unmute a chat."""
+        return await self.client.unmute_chat(chat or self.chat_guid, **extras)
+
+    async def archive_chat(self, chat=None):
+        """Archive a chat."""
+        return await self.client.archive_chat(chat or self.chat_guid)
+
+    async def unarchive_chat(self, chat=None):
+        """Unarchive a chat."""
+        return await self.client.unarchive_chat(chat or self.chat_guid)
+
+    async def delete_user_chat(self, user=None):
+        """Delete a user chat."""
+        return await self.client.delete_user_chat(user or self.author_guid)
 
     async def send_activity(self, activity: Literal["Typing", "Uploading", "Recording"] = "Typing"):
         """Send chat activity."""

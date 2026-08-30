@@ -14,7 +14,7 @@ class SetChatUseTime:
 
         Parameters:
             chat (str): The GUID, link, or username of the chat.
-            use_time (int): Time spent in the chat in milliseconds.
+            use_time (int): Time spent in the chat in seconds.
 
         Returns:
             The result of the API call.

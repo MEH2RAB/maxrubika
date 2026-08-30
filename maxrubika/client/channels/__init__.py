@@ -11,6 +11,7 @@ from .get_channel_members import GetChannelMembers
 from .get_channel_post_by_link import GetChannelPostByLink
 from .get_channel_seen_count import GetChannelSeenCount
 from .get_channel_statistics import GetChannelStatistics
+from .get_post_by_ask_link import GetPostByAskLink
 from .join_channel import JoinChannel
 from .leave_channel import LeaveChannel
 from .seen_channel_messages import SeenChannelMessages
@@ -32,6 +33,7 @@ class Channels(
     GetChannelPostByLink,
     GetChannelSeenCount,
     GetChannelStatistics,
+    GetPostByAskLink,
     JoinChannel,
     LeaveChannel,
     SeenChannelMessages,

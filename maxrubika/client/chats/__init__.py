@@ -48,6 +48,7 @@ from .play_voice_chat import PlayVoiceChat
 from .reject_join_request import RejectJoinRequest
 from .reject_ownership_request import RejectOwnershipRequest
 from .report_chat import ReportChat
+from .revoke_join_link import RevokeJoinLink
 from .search_global_chats import SearchGlobalChats
 from .seen_chats import SeenChats
 from .send_chat_activity import SendChatActivity
@@ -121,6 +122,7 @@ class Chats(
     RejectJoinRequest,
     RejectOwnershipRequest,
     ReportChat,
+    RevokeJoinLink,
     SearchGlobalChats,
     SeenChats,
     SendChatActivity,

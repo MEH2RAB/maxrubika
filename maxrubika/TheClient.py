@@ -1,12 +1,13 @@
 from typing import Optional, Union, Literal
 import asyncio
-import logging; import re
+import logging
+import re
 from rich.console import Console
 from rich.text import Text
 import maxrubika
 from .client import Methods
 from .client.core.cipher import Cipher
-from .client.core.session import Session
+from .client.core.session import Session, StringSession
 from .client.exceptions import (
     ApiVersionError,
     PlatformError,
@@ -25,6 +26,7 @@ class Client(Methods):
     def __init__(
         self,
         session: Optional[str] = None,
+        string_session: Optional[str] = None,
         auth: Optional[str] = None,
         private_key: Optional[Union[str, bytes]] = None,
         timeout: Union[str, int, float] = 30,
@@ -41,6 +43,7 @@ class Client(Methods):
 
         Parameters:
             session (str, optional): Session file name or path. (api_version=6 only)
+            string_session (str, optional): StringSession string. Takes priority over 'session'.
             auth (str, optional): Authentication key.
             private_key (str or bytes, optional): RSA private key. (api_version=6 only)
             timeout (int or float, optional): Request timeout in seconds (default: 30).
@@ -61,7 +64,7 @@ class Client(Methods):
             TimeoutError: If timeout is invalid.
             MaxRetriesError: If max_retries is invalid.
             ProxyError: If proxy is invalid.
-            SessionError: If session is invalid.
+            SessionError: If session or string_session is invalid.
         """
         if type(self) is Client:
             err_console = Console(stderr=True)
@@ -72,7 +75,6 @@ class Client(Methods):
             warning_msg.append("'Messenger'", style="bright_green underline")
             warning_msg.append(" instead.\n", style="bright_red")
             err_console.print(warning_msg)
-
         super().__init__()
 
         if api_version not in (5, 6):
@@ -86,8 +88,8 @@ class Client(Methods):
             )
 
         if api_version == 6:
-            if session is None and (auth is None or private_key is None):
-                raise AuthError("API v6 requires: 'session' OR both 'auth' and 'private_key'.")
+            if session is None and string_session is None and (auth is None or private_key is None):
+                raise AuthError("API v6 requires: 'session', 'string_session', OR both 'auth' and 'private_key'.")
             if auth is not None and private_key is None:
                 raise AuthError("If 'auth' is provided, 'private_key' must also be provided.")
             if private_key is not None and auth is None:
@@ -98,6 +100,7 @@ class Client(Methods):
             if private_key is not None:
                 raise AuthError("API v5 does not support 'private_key'.")
             session = None
+            string_session = None
 
         if auth is not None:
             if not isinstance(auth, str):
@@ -131,6 +134,19 @@ class Client(Methods):
                 raise SessionError("The 'session' parameter must be a string.")
             self.session_name = session
             session = Session(session)
+
+        elif string_session is not None:
+            try:
+                session = Session(string_session=string_session)
+                info = session.information()
+                if info:
+                    auth = info[1]
+                    private_key = info[4]
+            except ValueError:
+                raise SessionError(
+                    "String session is invalid."
+                ) from None
+
         else:
             self.session_name = f"maxrubika_{auth[:10]}" if auth else None
             session = Session(self.session_name) if self.session_name else None
