@@ -131,7 +131,6 @@ def to_metadata(text: str) -> Dict[str, Any]:
                     "type": "Link",
                     "from_index": adj_start,
                     "length": content_len,
-                    "link_url": url,
                     "link": {
                         "type": "hyperlink",
                         "hyperlink_data": {"url": url}

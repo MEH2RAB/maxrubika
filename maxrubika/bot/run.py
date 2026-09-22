@@ -1,22 +1,18 @@
 import asyncio
-from typing import Optional
+from typing import Optional, Union
 import maxrubika
 
 class Run:
-    """Synchronous wrapper that blocks until the bot shuts down."""
     def run(
         self: "maxrubika.Bot",
         poll_interval: float = 0.005,
         webhook_url: Optional[str] = None,
         webhook_path: str = "/wk",
         host: str = "0.0.0.0",
-        port: int = 8080
-    ) -> None:
+        port: int = 8080,
+    ) -> Union[None, "asyncio.Future"]:
         """
-        Start the bot and block until Ctrl-C.
-
-        This is a convenience wrapper around :meth:`start` for scripts
-        that don't already have their own event loop running.
+        Start the bot.
 
         Parameters:
             poll_interval (float): Seconds between polls in polling mode. Defaults to 0.005 seconds.
@@ -26,12 +22,24 @@ class Run:
             port (int): Bind port for the webhook server. Defaults to 8080.
         """
         try:
-            asyncio.run(self.start(
-                poll_interval=poll_interval,
-                webhook_url=webhook_url,
-                webhook_path=webhook_path,
-                host=host,
-                port=port
-            ))
-        except KeyboardInterrupt:
-            print("Bot stopped.")
+            asyncio.get_running_loop()
+        except RuntimeError:
+            try:
+                asyncio.run(self.start(
+                    poll_interval=poll_interval,
+                    webhook_url=webhook_url,
+                    webhook_path=webhook_path,
+                    host=host,
+                    port=port,
+                ))
+            except KeyboardInterrupt:
+                print("Bot stopped.")
+            return None
+
+        return self.start(
+            poll_interval=poll_interval,
+            webhook_url=webhook_url,
+            webhook_path=webhook_path,
+            host=host,
+            port=port,
+        )

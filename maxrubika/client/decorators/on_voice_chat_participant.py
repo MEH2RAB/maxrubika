@@ -1,3 +1,4 @@
+import inspect
 import maxrubika
 from ..core import handlers
 from ..filters import Filter
@@ -11,7 +12,12 @@ class OnVoiceChatParticipant:
                     if hasattr(f, 'evaluate'):
                         if not await f.evaluate(event):
                             return
-                return await func(event)
+
+                result = func(event)
+                if inspect.isawaitable(result):
+                    result = await result
+                return result
+
             self.add_handler(wrapper, handlers.GroupVoiceChatParticipantUpdates())
             return func
         return MetaHandler

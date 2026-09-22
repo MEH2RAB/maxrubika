@@ -1,3 +1,5 @@
+from ..hybrid import wrap_methods
+
 from typing import Literal
 import maxrubika
 from ..data import Data
@@ -6,48 +8,7 @@ class Event(Data):
     def __init__(self, event: dict, *args, **kwargs) -> None:
         super().__init__(event)
         self.client: "maxrubika.Client" = event.get("client")
-
         self._memo = {}
-        msg = event.get('message', {}) if isinstance(event.get('message'), dict) else {}
-        fi = msg.get('file_inline', {}) if isinstance(msg.get('file_inline'), dict) else {}
-
-        self.action = event.get('action', '')
-        self.type = event.get('type', '')
-        self.message_id = event.get('message_id', '')
-        self.object_guid = event.get('object_guid', '')
-        self.timestamp = event.get('timestamp', '')
-        self.user_guid = event.get('user_guid', '')
-
-        self.text = msg.get('text', '')
-        self.is_edited = msg.get('is_edited', False)
-        self.author_guid = msg.get('author_object_guid', '')
-        self.reply_to_message_id = msg.get('reply_to_message_id', None)
-        self.forwarded_from = msg.get('forwarded_from', None)
-        self.forwarded_no_link = msg.get('forwarded_no_link', None)
-        self.metadata = msg.get('metadata', None)
-        self.reactions = msg.get('reactions', None)
-        self.event_data = msg.get('event_data', None)
-        self.message_type = msg.get('type', '')
-
-        self.file_inline_raw = msg.get('file_inline', None)
-        self.file_type = fi.get('type', '')
-        self.is_round = fi.get('is_round', False)
-        self.sticker_raw = msg.get('sticker', None)
-
-        self.file_name = fi.get('file_name', '')
-        self.file_size = fi.get('size', 0)
-        self.file_dc_id = fi.get('dc_id', '')
-        self.file_access_hash = fi.get('access_hash_rec', '')
-        self.file_width = fi.get('width', 0)
-        self.file_height = fi.get('height', 0)
-        self.file_duration = fi.get('time', 0)
-        self.file_mime = fi.get('mime', '')
-        self.thumb_inline = fi.get('thumb_inline', '') if self.file_type in ('Image', 'Video', 'Gif', 'VideoMessage') else ''
-        self.music_performer = fi.get('music_performer', '')
-
-        self.user_activity_guid = event.get('user_activity_guid', '')
-        self.object_type = event.get('object_type', '')
-        self.updated_parameters = event.get('updated_parameters', [])
 
     @property
     def original_data(self):
@@ -55,9 +16,140 @@ class Event(Data):
         return self._data
 
     @property
+    def action(self):
+        """Return the event action."""
+        return self.find_keys("action")
+
+    @property
+    def text(self):
+        """Return the message text or caption."""
+        return self.find_keys(["text", "caption"])
+
+    @property
+    def message(self):
+        """Return the full message data."""
+        return self.find_keys("message")
+
+    @property
+    def author_title(self):
+        """Return the sender display name."""
+        return self.find_keys("author_title")
+
+    @property
+    def is_mine(self):
+        """Check if the message was sent by the client."""
+        return self.find_keys("is_mine")
+
+    @property
+    def file_inline(self):
+        """Return inline file data as Data object."""
+        fi = self.find_keys("file_inline")
+        return Data(fi) if isinstance(fi, dict) else None
+
+    @property
+    def file_inline_raw(self):
+        """Return raw inline file data as dict."""
+        return self.find_keys("file_inline")
+
+    @property
+    def file_type(self):
+        """Return the file type (Image, Video, Voice, ...)."""
+        return self.file_inline.find_keys("type") if self.file_inline else None
+
+    @property
+    def file_name(self):
+        """Return the file name."""
+        return self.file_inline.find_keys("file_name") if self.file_inline else None
+
+    @property
+    def file_size(self):
+        """Return the file size."""
+        return self.file_inline.find_keys("size") if self.file_inline else None
+
+    @property
+    def file_dc_id(self):
+        """Return the file data center ID."""
+        return self.file_inline.find_keys("dc_id") if self.file_inline else None
+
+    @property
+    def file_access_hash(self):
+        """Return the file access hash."""
+        return self.file_inline.find_keys("access_hash_rec") if self.file_inline else None
+
+    @property
+    def file_width(self):
+        """Return the file width (for images/videos)."""
+        return self.file_inline.find_keys("width") if self.file_inline else None
+
+    @property
+    def file_height(self):
+        """Return the file height (for images/videos)."""
+        return self.file_inline.find_keys("height") if self.file_inline else None
+
+    @property
+    def file_duration(self):
+        """Return the file duration (for audio/video)."""
+        return self.file_inline.find_keys("time") if self.file_inline else None
+
+    @property
+    def file_mime(self):
+        """Return the file MIME type."""
+        return self.file_inline.find_keys("mime") if self.file_inline else None
+
+    @property
+    def thumb_inline(self):
+        """Return the inline thumbnail."""
+        return self.file_inline.find_keys("thumb_inline") if self.file_inline else None
+
+    @property
+    def music_performer(self):
+        """Return the music performer name."""
+        return self.file_inline.find_keys("music_performer") if self.file_inline else None
+
+    @property
+    def is_round(self):
+        """Check if the video is a round video message."""
+        return self.file_inline.find_keys("is_round") if self.file_inline else None
+
+    @property
+    def message_id(self):
+        """Return the message ID."""
+        return self.find_keys("message_id")
+
+    @property
+    def reply_to_message_id(self):
+        """Return the ID of the message this replies to."""
+        return self.find_keys("reply_to_message_id")
+
+    @property
+    def message_type(self):
+        """Return the message type (Text, FileInline, ...)."""
+        return self.message.find_keys("type") if self.message else None
+
+    @property
+    def author_guid(self):
+        """Return the sender GUID."""
+        return self.find_keys("author_object_guid")
+
+    @property
+    def type(self):
+        """Return the event or author type."""
+        return self.find_keys(["type", "author_type"])
+
+    @property
+    def chat_type(self):
+        """Return the chat type (User, Group, Channel, ...)."""
+        return self.find_keys("object_type")
+
+    @property
     def chat_guid(self):
-        """Alias for object_guid."""
-        return self.object_guid
+        """Return the chat GUID."""
+        return self.find_keys("object_guid")
+
+    @property
+    def is_edited(self):
+        """Check if the message was edited."""
+        return self.find_keys("is_edited")
 
     @property
     def is_me(self):
@@ -67,147 +159,153 @@ class Event(Data):
     @property
     def is_group(self):
         """Check if the chat is a group."""
-        return self.object_guid.startswith('g0') if self.object_guid else False
+        return self.chat_guid.startswith("g0") if self.chat_guid else False
 
     @property
     def is_channel(self):
         """Check if the chat is a channel."""
-        return self.object_guid.startswith('c0') if self.object_guid else False
+        return self.chat_guid.startswith("c0") if self.chat_guid else False
 
     @property
     def is_pv(self):
-        """Check if the chat is a private chat (user)."""
-        return self.object_guid.startswith('u0') if self.object_guid else False
+        """Check if the chat is a private chat."""
+        return self.chat_guid.startswith("u0") if self.chat_guid else False
 
     @property
     def is_bot(self):
         """Check if the chat is a bot."""
-        return self.object_guid.startswith('b0') if self.object_guid else False
+        return self.chat_guid.startswith("b0") if self.chat_guid else False
 
     @property
     def is_service(self):
-        """Check if the chat is a service."""
-        return self.object_guid.startswith('s0') if self.object_guid else False
+        """Check if the chat is a service chat."""
+        return self.chat_guid.startswith("s0") if self.chat_guid else False
 
     @property
     def is_text(self):
         """Check if the message is text."""
-        return self.message_type == 'Text'
+        return self.message_type == "Text"
 
     @property
     def is_event(self):
         """Check if the message is an event."""
-        return self.message_type == 'Event'
+        return self.message_type == "Event"
 
     @property
     def is_forward(self):
         """Check if the message is forwarded."""
-        return self.forwarded_from is not None
+        return self.find_keys("forwarded_from") is not None
+
+    @property
+    def forwarded_from(self):
+        """Return the forward source info."""
+        return self.find_keys("forwarded_from")
+
+    @property
+    def forwarded_no_link(self):
+        """Return the forward info with hidden sender."""
+        return self.find_keys("forwarded_no_link")
 
     @property
     def is_file_inline(self):
-        """Check if the message has inline file."""
-        return self.message_type in ['FileInline', 'FileInlineCaption']
+        """Check if the message has an inline file."""
+        return self.message_type in ["FileInline", "FileInlineCaption"]
 
     @property
     def is_reply(self):
         """Check if the message is a reply."""
-        return bool(self.reply_to_message_id)
+        return self.find_keys("reply_to_message_id") is not None
 
     @property
     def forward_type_from(self):
         """Return the forward source type."""
-        return self.forwarded_from.get('type_from', None) if isinstance(self.forwarded_from, dict) else None
+        return self.find_keys("type_from")
 
     @property
     def is_forwarded_from_user(self):
         """Check if forwarded from a user."""
-        return self.forward_type_from == 'User'
+        return self.forward_type_from == "User"
 
     @property
     def is_forwarded_from_channel(self):
         """Check if forwarded from a channel."""
-        return self.forward_type_from == 'Channel'
+        return self.forward_type_from == "Channel"
 
     @property
     def is_forwarded_from_bot(self):
         """Check if forwarded from a bot."""
-        return self.forward_type_from == 'Bot'
+        return self.forward_type_from == "Bot"
 
     @property
     def is_forwarded_no_link(self):
         """Check if forwarded with hidden sender."""
-        return bool(self.forwarded_no_link)
-
-    @property
-    def file_inline(self):
-        """Return file inline data."""
-        return Data(self.file_inline_raw) if isinstance(self.file_inline_raw, dict) else None
-
-    @property
-    def message(self):
-        """Return the full message data."""
-        return Data(self._data.get('message', {})) if isinstance(self._data.get('message'), dict) else None
+        return self.find_keys("forwarded_no_link") is not None
 
     @property
     def is_image(self):
         """Check if the message is an image."""
-        return self.file_type == 'Image'
+        return self.file_type == "Image"
 
     @property
     def is_video(self):
         """Check if the message is a video."""
-        return self.file_type == 'Video' and not self.is_round
+        return self.file_type == "Video" and not self.is_round
 
     @property
     def is_video_message(self):
-        """Check if the message is a round video."""
-        return self.file_type == 'Video' and self.is_round
+        """Check if the message is a video message."""
+        return self.file_type == "Video" and self.is_round
 
     @property
     def is_voice(self):
-        """Check if the message is a voice."""
-        return self.file_type == 'Voice'
+        """Check if the message is a voice message."""
+        return self.file_type == "Voice"
 
     @property
     def is_music(self):
         """Check if the message is music."""
-        return self.file_type == 'Music'
+        return self.file_type == "Music"
 
     @property
     def is_gif(self):
         """Check if the message is a GIF."""
-        return self.file_type == 'Gif'
+        return self.file_type == "Gif"
 
     @property
     def is_file(self):
         """Check if the message is a file."""
-        return self.file_type == 'File'
+        return self.file_type == "File"
 
     @property
     def is_contact(self):
         """Check if the message is a contact."""
-        return self.file_type == 'Contact' or self.message_type == 'ContactMessage'
+        return self.file_type == "Contact" or self.message_type == "ContactMessage"
 
     @property
     def is_location(self):
         """Check if the message is a location."""
-        return self.file_type == 'Location' or self.message_type == 'Location'
+        return self.file_type == "Location" or self.message_type == "Location"
 
     @property
     def is_poll(self):
         """Check if the message is a poll."""
-        return self.file_type == 'Poll' or self.message_type in ('Poll', 'Poll2')
+        return self.file_type == "Poll" or self.message_type in ("Poll", "Poll2")
 
     @property
     def is_live(self):
-        """Check if the message is live."""
-        return self.file_type == 'Live' or self.message_type == 'Live'
+        """Check if the message is a live stream."""
+        return self.file_type == "Live" or self.message_type == "Live"
 
     @property
     def sticker(self):
-        """Return sticker data."""
-        return Data(self.sticker_raw) if isinstance(self.sticker_raw, dict) else None
+        """Return the sticker data."""
+        s = self.find_keys("sticker")
+        return Data(s) if isinstance(s, dict) else None
+
+    @property
+    def sticker_raw(self):
+        """Return the raw sticker data."""
+        return self.find_keys("sticker")
 
     @property
     def is_sticker(self):
@@ -217,25 +315,55 @@ class Event(Data):
     @property
     def has_reaction(self):
         """Check if the message has reactions."""
-        return bool(self.reactions)
+        return self.find_keys("reaction") is not None
+
+    @property
+    def reactions(self):
+        """Return the reactions data."""
+        return self.find_keys("reaction")
 
     @property
     def has_metadata(self):
         """Check if the message has metadata."""
-        return bool(self.metadata)
+        return self.find_keys("metadata")
+
+    @property
+    def metadata(self):
+        """Return the message metadata."""
+        return self.find_keys("metadata")
 
     @property
     def metadata_types(self):
-        """Return list of metadata types."""
-        if not self.metadata:
+        """Return the list of metadata types."""
+        if not self.has_metadata:
             return []
-        parts = self.metadata.get('meta_data_parts', []) if isinstance(self.metadata, dict) else []
-        return [p.get('type', '') for p in parts]
+        parts = self.find_keys("meta_data_parts", default=[])
+        return [p.get("type", "") for p in parts]
+
+    @property
+    def event_data(self):
+        """Return the event data."""
+        return self.find_keys("event_data")
 
     @property
     def event_type(self):
         """Return the event type."""
-        return self.event_data.get('type') if isinstance(self.event_data, dict) else None
+        return self.event_data.get("type") if self.event_data else None
+
+    @property
+    def timestamp(self):
+        """Return the event timestamp."""
+        return self.find_keys("timestamp")
+
+    @property
+    def user_activity_guid(self):
+        """Return the user activity GUID."""
+        return self.find_keys("user_activity_guid")
+
+    @property
+    def updated_parameters(self):
+        """Return the list of updated parameters."""
+        return self.find_keys("updated_parameters")
 
     @property
     def pattern_match(self):
@@ -243,9 +371,11 @@ class Event(Data):
         return self._memo.get('_regex_match')
 
     def guid_type(self, chat_guid: str = None):
-        """Return the type of the chat."""
+        """Return the type of a chat GUID (User, Group, Channel, Bot, Service)."""
         if chat_guid is None:
             chat_guid = self.chat_guid
+        if not chat_guid:
+            return None
         if chat_guid.startswith("c0"):
             return "Channel"
         elif chat_guid.startswith("g0"):
@@ -257,89 +387,111 @@ class Event(Data):
         else:
             return "User"
 
-    async def reply(self, text: str, **extras):
+    async def reply(self, text=None, **kwargs):
         """Send a reply to this message."""
         return await self.client.send_message(
-            self.chat_guid, text=text,
+            self.chat_guid,
+            text=text,
             reply_to_message_id=self.message_id,
-            **extras
+            **kwargs
         )
 
     async def reply_image(self, image: str = None, **extras):
-        """Send an image reply."""
+        """Send a threaded image reply."""
         return await self.client.send_image(
-            self.chat_guid, image=image,
-            reply_to_message_id=self.message_id,
-            **extras
-        )
-
-    async def reply_gif(self, gif: str = None, **extras):
-        """Send a GIF reply."""
-        return await self.client.send_gif(
-            self.chat_guid, gif=gif,
+            self.chat_guid,
+            image=image,
             reply_to_message_id=self.message_id,
             **extras
         )
 
     async def reply_video(self, video: str = None, **extras):
-        """Send a video reply."""
+        """Send a threaded video reply."""
         return await self.client.send_video(
-            self.chat_guid, video=video,
+            self.chat_guid,
+            video=video,
             reply_to_message_id=self.message_id,
             **extras
         )
 
     async def reply_video_message(self, video_message: str = None, **extras):
-        """Send a round video reply."""
+        """Send a threaded round video reply."""
         return await self.client.send_video_message(
-            self.chat_guid, video_message=video_message,
+            self.chat_guid,
+            video_message=video_message,
+            reply_to_message_id=self.message_id,
+            **extras
+        )
+
+    async def reply_gif(self, gif: str = None, **extras):
+        """Send a threaded GIF reply."""
+        return await self.client.send_gif(
+            self.chat_guid,
+            gif=gif,
             reply_to_message_id=self.message_id,
             **extras
         )
 
     async def reply_music(self, music: str = None, **extras):
-        """Send a music reply."""
+        """Send a threaded music reply."""
         return await self.client.send_music(
-            self.chat_guid, music=music,
+            self.chat_guid,
+            music=music,
             reply_to_message_id=self.message_id,
             **extras
         )
 
     async def reply_voice(self, voice: str = None, **extras):
-        """Send a voice reply."""
+        """Send a threaded voice reply."""
         return await self.client.send_voice(
-            self.chat_guid, voice=voice,
+            self.chat_guid,
+            voice=voice,
             reply_to_message_id=self.message_id,
             **extras
         )
 
     async def reply_file(self, file: str = None, **extras):
-        """Send a file reply."""
+        """Send a threaded file reply."""
         return await self.client.send_file(
-            self.chat_guid, file=file,
+            self.chat_guid,
+            file=file,
             reply_to_message_id=self.message_id,
             **extras
         )
 
-    async def delete(self, message_id: str = None, **extras):
-        """Delete this message."""
-        return await self.client.delete_messages(
-            self.chat_guid,
-            [message_id or self.message_id],
+    async def edit(self, text: str, message_id: str = None, **extras):
+        """Edit this message."""
+        return await self.client.edit_message(
+            chat=self.chat_guid,
+            text=text,
+            message_id=message_id or self.message_id,
             **extras
         )
 
-    async def forward(self, to_chat: str = None, message_id: str = None, **extras):
-        """Forward this message."""
+    async def delete(self, message_id: str = None):
+        """Delete this message."""
+        return await self.client.delete_messages(
+            self.chat_guid, [message_id or self.message_id]
+        )
+
+    async def forward(
+        self,
+        to_chat: str = None,
+        message_id: str = None,
+        hide_author: bool = None,
+        **kwargs
+    ):
+        """Forward this message to another chat."""
         return await self.client.forward_messages(
-            self.chat_guid,
-            [message_id or self.message_id],
-            to_chat or self.chat_guid,
-            **extras
+            from_chat=self.chat_guid,
+            message_ids=[message_id or self.message_id],
+            to_chat=to_chat or self.chat_guid,
+            hide_author=hide_author,
+            **kwargs
         )
 
     async def copy(self, to_chat: str = None, via_bot: str = None):
-        """Copy this message to another chat."""
+        """Copy this message."""
         target = to_chat or self.chat_guid
 
         if self.file_inline:
@@ -416,15 +568,19 @@ class Event(Data):
         return await self.client.seen_chats(seen_list)
 
     async def add_reaction(self, reaction_id: int):
-        """Add reaction to this message."""
-        return await self.client.add_reaction(self.chat_guid, self.message_id, reaction_id)
+        """Add a reaction to this message."""
+        return await self.client.add_reaction(
+            self.chat_guid, self.message_id, reaction_id
+        )
 
     async def remove_reaction(self, reaction_id: int):
-        """Remove reaction from this message."""
-        return await self.client.remove_reaction(self.chat_guid, self.message_id, reaction_id)
+        """Remove a reaction from this message."""
+        return await self.client.remove_reaction(
+            self.chat_guid, self.message_id, reaction_id
+        )
 
     async def download(self, file: str = None, save_as: bool = True, **extras):
-        """Download the file."""
+        """Download the file attached to this message."""
         fi = file or self.file_inline_raw
 
         if not isinstance(fi, dict):
@@ -440,24 +596,30 @@ class Event(Data):
         )
 
     async def get_author(self):
-        """Get author information."""
+        """Get the author information."""
         return await self.client.get_user_info(self.author_guid)
 
     async def get_chat(self):
-        """Get chat information."""
+        """Get the chat information."""
         return await self.client.get_chat_info(self.chat_guid)
 
-    async def ban_member(self, member=None):
-        """Ban a member."""
-        return await self.client.ban_member(self.chat_guid, member or self.author_guid)
+    async def ban_member(self, user=None):
+        """Ban a member from the chat."""
+        return await self.client.ban_member(
+            self.chat_guid, user or self.author_guid
+        )
 
-    async def unban_member(self, member=None):
-        """Unban a member."""
-        return await self.client.unban_member(self.chat_guid, member or self.author_guid)
+    async def unban_member(self, user=None):
+        """Unban a member from the chat."""
+        return await self.client.unban_member(
+            self.chat_guid, user or self.author_guid
+        )
 
     async def member_is_admin(self, member=None):
-        """Check if a member is admin."""
-        return await self.client.member_is_admin(self.chat_guid, member or self.author_guid)
+        """Check if a member is an admin."""
+        return await self.client.member_is_admin(
+            self.chat_guid, member or self.author_guid
+        )
 
     async def block_user(self, user=None):
         """Block a user."""
@@ -487,6 +649,10 @@ class Event(Data):
         """Delete a user chat."""
         return await self.client.delete_user_chat(user or self.author_guid)
 
-    async def send_activity(self, activity: Literal["Typing", "Uploading", "Recording"] = "Typing"):
-        """Send chat activity."""
+    async def send_activity(
+        self, activity: Literal["Typing", "Uploading", "Recording"] = "Typing"
+    ):
+        """Send chat activity (Typing, Uploading, Recording)."""
         return await self.client.send_chat_activity(self.chat_guid, activity)
+
+wrap_methods(Event)

@@ -6,11 +6,41 @@ from rich.console import Console
 from rich.text import Text
 
 from .TheBot import Bot
+from .TheBot import Bot as bot
+
 from .TheClient import Client, Messenger
+from .TheClient import Messenger as messenger
+
 from .shad import Shad
+from .shad import Shad as shad
 
 __author__ = 'MEHRAB Farahmand'
-__version__ = '1.12.0'
+__version__ = '1.13.0'
+
+_welcome_shown = False
+_update_checked = False
+
+def show_welcome_message(show_welcome=True):
+    global _welcome_shown, _update_checked
+
+    if show_welcome and not _welcome_shown:
+        _welcome_shown = True
+
+        console = Console()
+        text = Text()
+        text.append("Welcome to MAXRubika library for Rubika & Shad Platforms", style="bold magenta")
+        text.append(f"\nCopyright © {datetime.now().year} MAXRubika Team - All rights reserved.", style="cyan")
+        text.append("\nGithub: ", style="white")
+        text.append("https://github.com/MEH2RAB/maxrubika", style="green underline")
+        text.append("\nChannel: ", style="white")
+        text.append("https://Rubika.ir/TheMAXRubika", style="bright_blue underline")
+        text.append("\nDocument: ", style="white")
+        text.append("https://MEH2RAB.GitHub.io/maxrubika\n", style="yellow underline")
+        console.print(text)
+
+    if not _update_checked:
+        _update_checked = True
+        check_for_updates(__version__)
 
 def check_for_updates(current_version_str):
     try:
@@ -30,19 +60,3 @@ def check_for_updates(current_version_str):
             update_console.print(update_msg)
     except Exception:
         pass
-
-console = Console()
-
-text = Text()
-text.append("Welcome to MAXRubika library for Rubika & Shad Platforms", style="bold magenta")
-text.append(f"\nCopyright © {datetime.now().year} MAXRubika Team - All rights reserved.", style="cyan")
-text.append("\nGithub: ", style="white")
-text.append("https://github.com/MEH2RAB/maxrubika", style="green underline")
-text.append("\nChannel: ", style="white")
-text.append("https://Rubika.ir/TheMAXRubika", style="bright_blue underline")
-text.append("\nDocument: ", style="white")
-text.append("https://MEH2RAB.GitHub.io/maxrubika\n", style="yellow underline")
-
-console.print(text)
-
-check_for_updates(__version__)

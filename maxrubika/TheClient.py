@@ -1,5 +1,6 @@
 from typing import Optional, Union, Literal
 import asyncio
+import os
 import logging
 import re
 from rich.console import Console
@@ -15,7 +16,7 @@ from .client.exceptions import (
     TimeoutError,
     MaxRetriesError,
     ProxyError,
-    SessionError,
+    SessionError
 )
 from .client.core.configs import DEFAULT_PLATFORM, PLATFORMS, VALID_PLATFORMS, USER_AGENT
 
@@ -37,7 +38,8 @@ class Client(Methods):
         api_version: Literal[5, 6] = 6,
         max_retries: int = 5,
         stop_on_first_match: bool = False,
-        continue_on_error: bool = True
+        continue_on_error: bool = True,
+        show_welcome: bool = True
     ) -> None:
         """
         Initialize the Rubika client.
@@ -58,6 +60,7 @@ class Client(Methods):
             max_retries (int, optional): Maximum number of retries for requests (default: 5).
             stop_on_first_match (bool, optional): If True, stop processing handlers after the first match (default: False).
             continue_on_error (bool, optional): If True, continue trying other platforms on auth errors (default: True).
+            show_welcome (bool, optional): If True, show welcome message (default: True).
 
         Raises:
             ApiVersionError: If api_version is invalid.
@@ -68,6 +71,8 @@ class Client(Methods):
             ProxyError: If proxy is invalid.
             SessionError: If session or string_session is invalid.
         """
+        maxrubika.show_welcome_message(show_welcome)
+
         if type(self) is Client:
             err_console = Console(stderr=True)
             warning_msg = Text()
@@ -134,7 +139,8 @@ class Client(Methods):
         if session is not None:
             if not isinstance(session, str):
                 raise SessionError("The 'session' parameter must be a string.")
-            self.session_name = session
+            self.session_name = os.path.basename(session)
+            self.session_path = session
             session = Session(session)
 
         elif string_session is not None:
@@ -144,6 +150,8 @@ class Client(Methods):
                 if info:
                     auth = info[1]
                     private_key = info[4]
+                    self.session_name = f"maxrubika_{auth[:10]}"
+                    self.session_path = self.session_name
             except ValueError:
                 raise SessionError(
                     "String session is invalid or wrong password."
@@ -151,6 +159,7 @@ class Client(Methods):
 
         else:
             self.session_name = f"maxrubika_{auth[:10]}" if auth else None
+            self.session_path = self.session_name
             session = Session(self.session_name) if self.session_name else None
 
         if not isinstance(logger, logging.Logger):
@@ -171,22 +180,12 @@ class Client(Methods):
         self.proxy = proxy
         self.decode_auth = None
         self.import_key = None
-        self.is_sync = False
         self.guid = None
         self.key = None
         self.handlers = {}
         self.max_retries = max_retries
         self.stop_on_first_match = stop_on_first_match
         self.continue_on_error = continue_on_error
-
-        try:
-            asyncio.get_running_loop()
-        except RuntimeError:
-            if self.API_VERSION == 5 and self.auth is not None and self.private_key is None:
-                self.connect()
-                self.key = Cipher.secret_v5(self.auth)
-            else:
-                self.start()
 
     def __del__(self) -> None:
         try:
@@ -212,14 +211,15 @@ class Client(Methods):
 
     async def __aexit__(self, *args, **kwargs):
         try:
-            await self.disconnect()
+            await self.close()
         except Exception:
             pass
 
     async def stop(self) -> None:
-        if self.connection.session.closed:
-            return
-        await self.disconnect()
+        if hasattr(self, 'connection'):
+            if self.connection.session.closed:
+                return
+        await self.close()
 
 class Messenger(Client):
     pass

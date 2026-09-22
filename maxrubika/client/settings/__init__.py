@@ -1,5 +1,7 @@
+from .abort_two_step_setup import AbortTwoStepSetup
 from .add_folder import AddFolder
 from .add_saved_music_playlist import AddSavedMusicPlaylist
+from .add_saved_music_track import AddSavedMusicTrack
 from .auto_delete_account import AutoDeleteAccount
 from .change_password import ChangePassword
 from .check_two_step_passcode import CheckTwoStepPasscode
@@ -21,6 +23,8 @@ from .get_privacy_setting import GetPrivacySetting
 from .get_suggested_folders import GetSuggestedFolders
 from .get_two_passcode_status import GetTwoPasscodeStatus
 from .get_unconfirmed_sessions import GetUnconfirmedSessions
+from .login_disable_two_step import LoginDisableTwoStep
+from .login_two_step_forget_password import LoginTwoStepForgetPassword
 from .logout import Logout
 from .recovery_email import RecoveryEmail
 from .register_device import RegisterDevice
@@ -42,8 +46,10 @@ from .upgrade_to_api6 import UpgradeToApi6
 from .verify_change_phone_number import VerifyChangePhoneNumber
 
 class Settings(
+    AbortTwoStepSetup,
     AddFolder,
     AddSavedMusicPlaylist,
+    AddSavedMusicTrack,
     AutoDeleteAccount,
     ChangePassword,
     CheckTwoStepPasscode,
@@ -65,6 +71,8 @@ class Settings(
     GetSuggestedFolders,
     GetTwoPasscodeStatus,
     GetUnconfirmedSessions,
+    LoginDisableTwoStep,
+    LoginTwoStepForgetPassword,
     Logout,
     RecoveryEmail,
     RegisterDevice,

@@ -38,4 +38,4 @@ class UpdateMyUsername:
         if not re.search(r'[a-zA-Z]', username):
             raise InvalidInput('Username must contain at least one letter.')
 
-        return await self.request(mrthod = 'updateUsername', input = {'username': username})
+        return await self.request(method = 'updateUsername', input = {'username': username})

@@ -1,10 +1,13 @@
 from .add_live_comment import AddLiveComment
 from .add_sticker_set import AddStickerSet
 from .add_to_my_gif_set import AddToMyGifSet
+from .archive_sticker_set import ArchiveStickerSet
+from .delete_all_my_gif_set import DeleteAllMyGifSet
 from .delete_my_gif_set import DeleteMyGifSet
 from .delete_sticker_set import DeleteStickerSet
 from .feedback_voice_transcription import FeedbackVoiceTranscription
 from .get_available_reactions import GetAvailableReactions
+from .get_link_from_app_url import GetLinkFromAppUrl
 from .get_live_comments import GetLiveComments
 from .get_live_play_url import GetLivePlayUrl
 from .get_live_status import GetLiveStatus
@@ -26,10 +29,13 @@ class Exctras(
     AddLiveComment,
     AddStickerSet,
     AddToMyGifSet,
+    ArchiveStickerSet,
+    DeleteAllMyGifSet,
     DeleteMyGifSet,
     DeleteStickerSet,
     FeedbackVoiceTranscription,
     GetAvailableReactions,
+    GetLinkFromAppUrl,
     GetLiveComments,
     GetLivePlayUrl,
     GetLiveStatus,

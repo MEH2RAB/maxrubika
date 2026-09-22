@@ -12,14 +12,14 @@ class GetLastMessages:
 
         Parameters:
             chat (str): The GUID, link, or username of the chat.
-            limit (int): Maximum number of messages to retrieve (max 100).
+            limit (int): Maximum number of messages to retrieve (max 1000).
 
         Returns:
             List of last messages and count.
         """
         chat_guid = await self.get_guid(chat)
 
-        limit = max(1, min(limit, 100))
+        limit = max(1, min(limit, 1000))
 
         max_id = None
         all_messages = []

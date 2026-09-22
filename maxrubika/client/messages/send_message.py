@@ -272,17 +272,4 @@ class SendMessage:
             else:
                 result = await self.request(method='sendMessage', input=input)
 
-        message_id = None
-        if hasattr(result, 'message_update'):
-            message_id = result.message_update.get('message_id')
-        elif hasattr(result, 'message_id'):
-            message_id = result.message_id
-        elif isinstance(result, dict):
-            message_id = result.get('message_id')
-
-        return MessageResult(
-            client=self,
-            chat_guid=chat_guid,
-            message_id=message_id,
-            result_data=result.to_dict() if hasattr(result, 'to_dict') else result
-        )
+        return result

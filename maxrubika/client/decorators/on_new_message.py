@@ -1,3 +1,4 @@
+import inspect
 import maxrubika
 from ..core import handlers
 from ..filters import Filter
@@ -20,7 +21,10 @@ class OnNewMessage:
                         if not await f.evaluate(event):
                             return
 
-                return await func(event)
+                result = func(event)
+                if inspect.isawaitable(result):
+                    result = await result
+                return result
 
             handler = handlers.MessageUpdates()
             self.add_handler(wrapper, handler)

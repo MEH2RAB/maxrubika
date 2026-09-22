@@ -24,6 +24,7 @@ class SetAdmin:
             chat (str): The GUID, link, or username of group/channel.
             member (str): The GUID or username of member to set as admin.
             access (Union[List[str], str]): List of allowed permissions or single permission string.
+                Can also be 'all' or 'All' to grant all permissions.
             custom_title (str): Custom title for admin in groups. (optional)
 
         Returns:
@@ -49,10 +50,13 @@ class SetAdmin:
             access_list = []
 
         if chat_guid.startswith('g0'):
-            invalid_access = [item for item in access_list if item not in self.GROUP_ALLOWEDS]
-            if invalid_access:
-                message = f'Invalid access for group: {invalid_access}. Allowed: {self.GROUP_ALLOWEDS}'
-                raise InvalidInput(message)
+            if any(item.lower() == 'all' for item in access_list):
+                access_list = self.GROUP_ALLOWEDS.copy()
+            else:
+                invalid_access = [item for item in access_list if item not in self.GROUP_ALLOWEDS]
+                if invalid_access:
+                    message = f'Invalid access for group: {invalid_access}. Allowed: {self.GROUP_ALLOWEDS}'
+                    raise InvalidInput(message)
 
             input = {
                 'group_guid': chat_guid,
@@ -66,10 +70,13 @@ class SetAdmin:
             return await self.request(method = 'setGroupAdmin', input = input)
 
         else:
-            invalid_access = [item for item in access_list if item not in self.CHANNEL_ALLOWEDS]
-            if invalid_access:
-                message = f'Invalid access for channel: {invalid_access}. Allowed: {self.CHANNEL_ALLOWEDS}'
-                raise InvalidInput(message)
+            if any(item.lower() == 'all' for item in access_list):
+                access_list = self.CHANNEL_ALLOWEDS.copy()
+            else:
+                invalid_access = [item for item in access_list if item not in self.CHANNEL_ALLOWEDS]
+                if invalid_access:
+                    message = f'Invalid access for channel: {invalid_access}. Allowed: {self.CHANNEL_ALLOWEDS}'
+                    raise InvalidInput(message)
 
             return await self.request(
                 method = 'setChannelAdmin',

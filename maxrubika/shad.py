@@ -20,7 +20,8 @@ class Shad(Messenger):
         api_version: Literal[5, 6] = 6,
         max_retries: int = 5,
         stop_on_first_match: bool = False,
-        continue_on_error: bool = True
+        continue_on_error: bool = True,
+        show_welcome: bool = True
     ) -> None:
         """
         Initialize the Shad client.
@@ -39,6 +40,7 @@ class Shad(Messenger):
             max_retries (int, optional): Maximum number of retries (default: 5).
             stop_on_first_match (bool, optional): Stop on first handler match.
             continue_on_error (bool, optional): Continue on auth errors.
+            show_welcome (bool, optional): If True, show welcome message (default: False).
 
         Raises:
             PlatformError: If platform is not one of 'shad_web', 'shad_pwa', or 'shad_android'.
@@ -61,5 +63,6 @@ class Shad(Messenger):
             api_version=api_version,
             max_retries=max_retries,
             stop_on_first_match=stop_on_first_match,
-            continue_on_error=continue_on_error
+            continue_on_error=continue_on_error,
+            show_welcome=show_welcome
         )

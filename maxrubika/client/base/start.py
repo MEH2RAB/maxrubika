@@ -16,7 +16,7 @@ from ..core.configs import (
     RUBIKA_PLATFORM_ALIASES,
     SHAD_PLATFORM_NAMES,
     SHAD_PLATFORM_ALIASES,
-    PLATFORM_NAME_TO_KEY,
+    PLATFORM_NAME_TO_KEY
 )
 from rich.console import Console
 from rich.text import Text
@@ -28,13 +28,22 @@ def convert_farsi_digits(text):
 
 def normalize_phone_number(phone: str) -> str:
     phone = convert_farsi_digits(phone)
-    phone = phone.strip().replace(" ", "").replace("-", "").replace("(", "").replace(")", "")
+    phone = re.sub(r'[\s\-\.\(\)\+]', '', phone)
 
-    pattern = re.compile(r"^(?:\+|00)?(\d{7,15})$")
+    if phone.startswith('00'):
+        phone = phone[2:]
+
+    if phone.startswith('0'):
+        phone = '98' + phone[1:]
+
+    elif phone.startswith('9') and not phone.startswith('98'):
+        phone = '98' + phone
+
+    pattern = re.compile(r"^(\d{7,15})$")
     match = pattern.match(phone)
 
     if match:
-        return match.group(1) if phone.startswith("00") else f"{match.group(1)}"
+        return match.group(1)
     return None
 
 class Start:
@@ -122,8 +131,6 @@ class Start:
                 phone_number = None
                 continue
 
-            phone_number = f'98{phone_number[1:]}' if phone_number.startswith('09') else phone_number
-
             is_phone_number_true = True
             while is_phone_number_true:
                 confirm_text = Text()
@@ -142,7 +149,6 @@ class Start:
                     if phone_number is None:
                         phone_number = None
                         break
-                    phone_number = f'98{phone_number[1:]}' if phone_number.startswith('09') else phone_number
 
             if phone_number is None:
                 continue
@@ -255,15 +261,18 @@ class Start:
                     private_key=self.private_key
                 )
 
-                session_path = os.path.abspath(f"{self.session_name}.max")
+                session_path = os.path.abspath(f"{self.session_path}.max")
                 session_text = Text()
                 session_text.append("\nSession saved to ", style="green")
                 session_text.append(session_path, style="bold green")
                 session_text.append("\n")
                 console.print(session_text)
 
-                await self.register_device(device_model=self.session_name)
+                device_model = os.path.basename(self.session_name)
+                await self.register_device(device_model)
                 await asyncio.sleep(2)
+                await self.get_me()
+                await self.get_chats(auto_start_id=False)
                 return self
 
             elif result.status == 'CodeIsInvalid':
@@ -271,7 +280,7 @@ class Start:
 
             else:
                 error_text = Text()
-                error_text.append("\nSign in failed: ", style="bold bright_red")
+                error_text.append("\nSign in failed: ", style="bright_red")
                 error_text.append(str(result.status), style="red")
                 console.print(error_text)
                 break

@@ -1,7 +1,8 @@
 from typing import Union, Optional, Dict
 from ..core.cipher import Cipher
-from ...data import Data
+from ...types import Event
 from .. import exceptions
+from ..exceptions import NoConnection
 import maxrubika
 import asyncio
 import json
@@ -25,9 +26,14 @@ class Request:
 
         Returns:
             Data or None: The API response.
+
+        Raises:
+            NoConnection: If the client has not been started.
         """
-        if not hasattr(self, 'connection') or self.connection is None:
-            await self.connect()
+        if not getattr(self, 'connection', None):
+            raise NoConnection(
+                "Client is not connected. Call 'start()' first or use the client as a context manager."
+            )
 
         if not self.connection.api_url:
             await self.connection.get_dcs(max_retries=self.max_retries)
@@ -67,7 +73,9 @@ class Request:
                 if not tmp_session:
                     data["sign"] = Cipher.sign(self.import_key, data["data_enc"])
 
-        result = await self.connection._http_request(data, max_retries=self.max_retries)
+        result = await self.connection._http_request(
+            data, max_retries=self.max_retries
+        )
 
         if result is None:
             return None
@@ -89,8 +97,8 @@ class Request:
                 return Data({})
 
             if isinstance(data_result, dict):
-                data_result['_client'] = self
+                data_result['client'] = self
 
-            return Data(data_result)
+            return Event(data_result)
 
         exceptions.raise_exception(status_det, result, None)

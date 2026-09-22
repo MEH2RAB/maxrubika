@@ -1,12 +1,13 @@
 """Unified envelope for all incoming bot events."""
-
 from __future__ import annotations
+
+from ..hybrid import wrap_methods
 
 import os
 from typing import Any, Dict, List, Optional
 from ..data import Data
 
-class IncomingEnvelope(Data):
+class Events(Data):
     def __init__(self, data: dict, bot: Any = None, **kwargs):
         super().__init__(data)
 
@@ -577,4 +578,6 @@ class IncomingEnvelope(Data):
             return await self.bot.send_message(**kwargs)
 
     def __repr__(self) -> str:
-        return f"<IncomingEnvelope update_type={self.update_type!r} chat={self.chat_id!r}>"
+        return f"<Events update_type={self.update_type!r} chat={self.chat_id!r}>"
+
+wrap_methods(Events)

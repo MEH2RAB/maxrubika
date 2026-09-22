@@ -1,6 +1,4 @@
-"""
-Rubika Messenger Exception Classes for handling API errors.
-"""
+"""Rubika Messenger Exception Classes for handling API errors."""
 import json
 from typing import Optional, Union, Dict
 
@@ -100,6 +98,7 @@ class RequestError(ClientError):
     def __repr__(self) -> str:
         return self.__str__()
 
+
 class ValidationError(ClientError):
     custom_status = "VALIDATION_ERROR"
 
@@ -168,7 +167,6 @@ class InvalidInput(RequestError):
 class InvalidAccess(RequestError):
     custom_status = "INVALID_ACCESS"
     custom_msg = '{"status": "INVALID_ACCESS", "dev_message": "Access denied. You don\'t have permission to perform this action."}'
-
 InvalidAuth = InvalidAccess
 
 class TooRequests(RequestError):
@@ -211,7 +209,11 @@ class CodeIsUsed(RequestError): pass
 class ErrorAction(RequestError): pass
 class ErrorIgnore(RequestError): pass
 class UrlNotFound(RequestError): pass
-class NoConnection(RequestError): pass
+
+class NoConnection(RequestError):
+    custom_status = "NO_CONNECTION"
+    custom_msg = '{"status": "NO_CONNECTION", "dev_message": "Client is not connected."}'
+
 class Undeliverable(RequestError): pass
 class InvalidMethod(RequestError): pass
 class ErrorTryAgain(RequestError): pass
@@ -231,12 +233,12 @@ EXCEPTION_MAP = {
     'TOO_REQUESTS': TooRequests, 'SERVER_ERROR': ServerError,
     'NOT_REGISTERED': NotRegistered, 'URL_NOT_FOUND': UrlNotFound,
     'CODE_IS_USED': CodeIsUsed, 'ERROR_ACTION': ErrorAction,
-    'ERROR_IGNORE': ErrorIgnore, 'NO_CONNECTION': NoConnection,
- 'CODE_IS_EXPIRED': CodeIsExpired,
+    'ERROR_IGNORE': ErrorIgnore,
+    'CODE_IS_EXPIRED': CodeIsExpired,
     'INVALID_METHOD': InvalidMethod, 'USERNAME_EXIST': UsernameExist,
     'ERROR_TRY_AGAIN': ErrorTryAgain, 'ERROR_MESSAGE_TRY': ErrorMessageTry,
     'INTERNAL_PROBLEM': InternalProblem, 'ERROR_MESSAGE_IGN': ErrorMessageIgn,
-    'NOT_SUPPORTED_API_VERSION': NotSupportedApiVersion
+    'NOT_SUPPORTED_API_VERSION': NotSupportedApiVersion,
 }
 
 def get(status_det: str):

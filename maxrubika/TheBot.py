@@ -5,6 +5,7 @@ import re
 import logging
 from aiohttp import web
 from typing import Union, Any, Dict, Optional
+import maxrubika
 from .bot import Methods
 from .bot.token import TokenString
 from .bot.exceptions import (
@@ -16,7 +17,7 @@ from .bot.exceptions import (
 )
 from .bot.registry import HandlerRegistry
 from .bot.bridge import DecoratorBridge
-from .types.incoming import IncomingEnvelope
+from .types.incoming import Events
 from .bot.plugin import PluginManager
 from .data import Data
 
@@ -34,7 +35,8 @@ class Bot(Methods):
         token_string: Optional[str] = None,
         password: Optional[str] = None,
         timeout: Union[int, float] = 30,
-        max_retries: Union[int, float] = 5
+        max_retries: Union[int, float] = 5,
+        show_welcome: bool = True
     ):
         """
         Initialize the Bot instance.
@@ -47,7 +49,10 @@ class Bot(Methods):
             timeout (int): Request timeout in seconds. Defaults to 30.
             max_retries (int): Maximum number of retry attempts on network
                 errors. Defaults to 5.
+            show_welcome (bool, optional): If True, show welcome message (default: True).
         """
+        maxrubika.show_welcome_message(show_welcome)
+
         if token_string:
             token = TokenString(token_string).to_token(password)
             if not token:
@@ -209,11 +214,11 @@ class Bot(Methods):
                 dev_message=f"Failed to call {endpoint} after {self.max_retries} attempts."
             )
 
-    def _parse_raw_update(self, raw: Dict[str, Any]) -> "IncomingEnvelope":
+    def _parse_raw_update(self, raw: Dict[str, Any]) -> "Events":
         update_type = raw.get('type', '')
         chat_id = raw.get('chat_id', '')
 
-        envelope = IncomingEnvelope(data=raw, bot=self)
+        envelope = Events(data=raw, bot=self)
 
         envelope.update_type = update_type
         envelope.chat_id = chat_id

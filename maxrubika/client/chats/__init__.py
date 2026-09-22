@@ -8,14 +8,19 @@ from .ban_members import BanMembers
 from .cancel_change_owner import CancelChangeOwner
 from .change_owner import ChangeOwner
 from .check_join import CheckJoin
+from .clear_all_drafts import ClearAllDrafts
 from .clear_black_list import ClearBlackList
+from .clear_chat_draft import ClearChatDraft
+from .click_chat_ads import ClickChatAds
 from .click_keypad_button import ClickKeypadButton
 from .create_join_link import CreateJoinLink
 from .delete_all_avatars import DeleteAllAvatars
 from .delete_avatar import DeleteAvatar
 from .delete_chat_history import DeleteChatHistory
 from .discard_voice_chat import DiscardVoiceChat
+from .dont_show_chat_ads import DontShowChatAds
 from .download_profile_picture import DownloadProfilePicture
+from .edit_join_link import EditJoinLink
 from .get_all_drafts import GetAllDrafts
 from .get_avatars import GetAvatars
 from .get_banned_members import GetBannedMembers
@@ -48,6 +53,7 @@ from .play_voice_chat import PlayVoiceChat
 from .reject_join_request import RejectJoinRequest
 from .reject_ownership_request import RejectOwnershipRequest
 from .report_chat import ReportChat
+from .report_chat_ads import ReportChatAds
 from .revoke_join_link import RevokeJoinLink
 from .search_global_chats import SearchGlobalChats
 from .seen_chats import SeenChats
@@ -70,6 +76,7 @@ from .unpin_chat import UnpinChat
 from .unpin_chat_in_folder import UnpinChatInFolder
 from .unset_admin import UnsetAdmin
 from .upload_avatar import UploadAvatar
+from .view_chat_ads import ViewChatAds
 
 class Chats(
     AcceptAllJoinRequests,
@@ -82,14 +89,19 @@ class Chats(
     CancelChangeOwner,
     ChangeOwner,
     CheckJoin,
+    ClearAllDrafts,
     ClearBlackList,
+    ClearChatDraft,
+    ClickChatAds,
     ClickKeypadButton,
     CreateJoinLink,
     DeleteAllAvatars,
     DeleteAvatar,
     DeleteChatHistory,
     DiscardVoiceChat,
+    DontShowChatAds,
     DownloadProfilePicture,
+    EditJoinLink,
     GetAllDrafts,
     GetAvatars,
     GetBannedMembers,
@@ -122,6 +134,7 @@ class Chats(
     RejectJoinRequest,
     RejectOwnershipRequest,
     ReportChat,
+    ReportChatAds,
     RevokeJoinLink,
     SearchGlobalChats,
     SeenChats,
@@ -143,6 +156,7 @@ class Chats(
     UnpinChat,
     UnpinChatInFolder,
     UnsetAdmin,
-    UploadAvatar
+    UploadAvatar,
+    ViewChatAds,
 ):
     pass
