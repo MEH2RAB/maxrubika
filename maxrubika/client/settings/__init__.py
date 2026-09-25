@@ -30,6 +30,8 @@ from .recovery_email import RecoveryEmail
 from .register_device import RegisterDevice
 from .reorder_folder import ReorderFolder
 from .request_change_phone_number import RequestChangePhoneNumber
+from .request_forget_password import RequestForgetPassword
+from .request_recovery_email import RequestRecoveryEmail
 from .set_notification import SetNotification
 from .set_saved_music_playlist import SetSavedMusicPlaylist
 from .set_setting import SetSetting
@@ -44,6 +46,7 @@ from .update_my_profile import UpdateMyProfile
 from .update_my_username import UpdateMyUsername
 from .upgrade_to_api6 import UpgradeToApi6
 from .verify_change_phone_number import VerifyChangePhoneNumber
+from .verify_recovery_email import VerifyRecoveryEmail
 
 class Settings(
     AbortTwoStepSetup,
@@ -78,6 +81,8 @@ class Settings(
     RegisterDevice,
     ReorderFolder,
     RequestChangePhoneNumber,
+    RequestForgetPassword,
+    RequestRecoveryEmail,
     SetNotification,
     SetSavedMusicPlaylist,
     SetSetting,
@@ -91,6 +96,7 @@ class Settings(
     UpdateMyProfile,
     UpdateMyUsername,
     UpgradeToApi6,
-    VerifyChangePhoneNumber
+    VerifyChangePhoneNumber,
+    VerifyRecoveryEmail,
 ):
     pass

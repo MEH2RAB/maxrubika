@@ -1,4 +1,4 @@
-from typing import Union, Optional
+from typing import Optional, Union
 import maxrubika
 from ..exceptions import InvalidInput
 
@@ -13,20 +13,18 @@ REPORT_TYPE_MAP = {
     "fraud": 106
 }
 
-class ReportMessage:
-    async def report_message(
+class ReportLive:
+    async def report_live(
         self: "maxrubika.Client",
-        chat: str,
-        message_id: Union[str, int],
+        live_id: str,
         report_type: Union[int, str],
         description: Optional[str] = None
     ):
         """
-        Report a message for a specific reason.
+        Report a live stream.
 
         Parameters:
-            chat (str): The GUID, link, or username of the chat.
-            message_id (Union[str, int]): The ID of the message to be reported.
+            live_id (str): The ID of the live stream to report.
             report_type (Union[int, str]): The report reason.
                 Can be:
                     - Integer code between 100 and 106
@@ -39,8 +37,6 @@ class ReportMessage:
         Returns:
             The result of the API call.
         """
-        chat_guid = await self.get_guid(chat)
-
         if isinstance(report_type, str):
             key = report_type.strip().lower()
             if key.isdigit():
@@ -62,12 +58,11 @@ class ReportMessage:
                 "'description' is required when 'report_type' is 100 (Other).")
 
         input_data = {
-            'object_guid': chat_guid,
-            'report_type': report_type,
-            'report_type_object': 'Message',
-            'message_id': message_id
+            "report_object_type": "Live",
+            "report_type": report_type,
+            "live_id": live_id
         }
         if report_type == 100:
-            input_data['report_description'] = description
+            input_data["report_description"] = description
 
         return await self.request(method = 'reportObject', input = input_data)

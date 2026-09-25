@@ -4,7 +4,7 @@ class DiscardCall:
     async def discard_call(
         self: "maxrubika.Client",
         call_id: str,
-        duration: int,
+        duration: int = 0,
         reason: str = "Disconnect"
     ):
         """

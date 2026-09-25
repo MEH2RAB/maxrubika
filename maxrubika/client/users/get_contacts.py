@@ -10,7 +10,8 @@ class GetContacts:
         Get a list of all contacts.
 
         Parameters:
-            show_user_guids (bool, optional): Show user GUIDs in output. Default is False.
+            show_user_guids (bool, optional): Show user GUIDs in output.
+                Default is False.
 
         Returns:
             The result containing all contacts with total count.
@@ -24,7 +25,7 @@ class GetContacts:
             result = await self.request(
                 method = 'getContacts',
                 input = {'start_id': start_id}
-                )
+            )
 
             data = result.to_dict() if hasattr(result, 'to_dict') else result
 
@@ -57,6 +58,6 @@ class GetContacts:
             "total": total
         }
         if show_user_guids:
-            result_dict["user_guids"] = user_guids
+            result_dict["user_guids"] = list(user_guids)
 
         return Data(result_dict)

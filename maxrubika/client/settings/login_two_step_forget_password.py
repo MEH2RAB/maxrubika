@@ -25,5 +25,6 @@ class LoginTwoStepForgetPassword:
             method = 'loginTwoStepForgetPassword',
             input = {
                 'phone_number': phone_number
-            }
+            },
+            tmp_session = True
         )

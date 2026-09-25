@@ -23,15 +23,15 @@ class MemberIsAdmin:
             message = f"'{chat}' does not point to a valid chat. Expected a chat GUID, chat link, or username."
             raise InvalidInput(message)
 
-        member_guid = await self.get_guid(member)
+        admin_guid = await self.get_guid(member)
 
-        if not member_guid.startswith(("u0", "b0")):
+        if not admin_guid.startswith(("u0", "b0")):
             message = f"'{member}' does not point to a valid member. Expected a user GUID, bot GUID, or username."
             raise InvalidInput(message)
 
         if chat_guid.startswith('g0'):
-            admins = await self.get_group_admins(chat, show_member_guids=True)
+            admins = await self.get_group_admins(chat, show_admin_guids=True)
         else:
-            admins = await self.get_channel_admins(chat, show_member_guids=True)
+            admins = await self.get_channel_admins(chat, show_admin_guids=True)
 
-        return member_guid in admins.member_guids
+        return admin_guid in admins.admin_guids

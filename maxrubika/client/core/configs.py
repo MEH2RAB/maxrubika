@@ -1,8 +1,8 @@
 DEFAULT_PLATFORM = {
     'app_name': 'Main',
-    'app_version': '4.4.33',
-    'platform': 'Web',
-    'package': 'web.rubika.ir',
+    'app_version': '2.5.8',
+    'platform': 'PWA',
+    'package': 'm.rubika.ir',
     'lang_code': 'fa',
 }
 

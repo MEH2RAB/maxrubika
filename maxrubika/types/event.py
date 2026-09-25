@@ -43,13 +43,15 @@ class Event(Data):
     @property
     def file_inline(self):
         """Return inline file data as Data object."""
-        fi = self.find_keys("file_inline")
-        return Data(fi) if isinstance(fi, dict) else None
+        return self.find_keys("file_inline")
 
     @property
     def file_inline_raw(self):
         """Return raw inline file data as dict."""
-        return self.find_keys("file_inline")
+        fi = self.find_keys("file_inline")
+        if isinstance(fi, Data):
+            return fi.to_dict()
+        return fi if isinstance(fi, dict) else None
 
     @property
     def file_type(self):
@@ -60,6 +62,11 @@ class Event(Data):
     def file_name(self):
         """Return the file name."""
         return self.file_inline.find_keys("file_name") if self.file_inline else None
+
+    @property
+    def file_id(self):
+        """Return the file ID."""
+        return self.find_keys("file_id")
 
     @property
     def file_size(self):
@@ -127,14 +134,24 @@ class Event(Data):
         return self.message.find_keys("type") if self.message else None
 
     @property
+    def call_id(self):
+        """Return the call ID."""
+        return self.find_keys("call_id")
+
+    @property
     def author_guid(self):
         """Return the sender GUID."""
         return self.find_keys("author_object_guid")
 
     @property
     def type(self):
-        """Return the event or author type."""
-        return self.find_keys(["type", "author_type"])
+        """Return the event type."""
+        return self.find_keys("type")
+
+    @property
+    def author_type(self):
+        """Return the author type."""
+        return self.find_keys("author_type")
 
     @property
     def chat_type(self):
@@ -175,6 +192,16 @@ class Event(Data):
     def is_bot(self):
         """Check if the chat is a bot."""
         return self.chat_guid.startswith("b0") if self.chat_guid else False
+
+    @property
+    def via_bot(self):
+        """Return the GUID of the bot through which the message was sent."""
+        return self.find_keys("via_bot_guid")
+
+    @property
+    def is_via_bot(self):
+        """Check if the message was sent via a bot."""
+        return self.via_bot is not None
 
     @property
     def is_service(self):
@@ -495,7 +522,7 @@ class Event(Data):
         target = to_chat or self.chat_guid
 
         if self.file_inline:
-            file_data = await self.download()
+            file_data = await self.download(save_as=False)
             if not file_data:
                 return
 
@@ -582,12 +609,8 @@ class Event(Data):
     async def download(self, file: str = None, save_as: bool = True, **extras):
         """Download the file attached to this message."""
         fi = file or self.file_inline_raw
-
-        if not isinstance(fi, dict):
-            if isinstance(fi, Data):
-                fi = fi.to_dict() if hasattr(fi, 'to_dict') else dict(fi)
-            else:
-                return None
+        if fi is None:
+            return None
 
         return await self.client.download_file(
             fi,

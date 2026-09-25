@@ -41,6 +41,6 @@ class SearchGlobalChats:
             input['start_id'] = start_id
 
         return await self.request(
-            method='searchGlobalObjects',
-            input=input
+            method = 'searchGlobalObjects',
+            input = input
         )

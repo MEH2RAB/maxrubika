@@ -22,18 +22,21 @@ class Request:
             method (str): API method name (e.g., 'sendMessage', 'getUserInfo').
             input (dict, optional): Input data for the method.
             tmp_session (bool): Use temporary session instead of auth (default: False).
+                When True, the client will auto-connect if not connected yet.
             encrypt (bool): Encrypt the request data (default: True).
 
         Returns:
             Data or None: The API response.
 
         Raises:
-            NoConnection: If the client has not been started.
+            NoConnection: If the client has not been started and `tmp_session=False`.
         """
         if not getattr(self, 'connection', None):
-            raise NoConnection(
-                "Client is not connected. Call 'start()' first or use the client as a context manager."
-            )
+            if tmp_session:
+                await self.connect()
+            else:
+                raise NoConnection(
+                    "Client is not connected. Call 'start()' first or use the client as a context manager.")
 
         if not self.connection.api_url:
             await self.connection.get_dcs(max_retries=self.max_retries)

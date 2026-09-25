@@ -21,9 +21,13 @@ from .get_stickers_by_emoji import GetStickersByEmoji
 from .get_stickers_by_set_ids import GetStickersBySetIDs
 from .get_time import GetTime
 from .get_trend_sticker_sets import GetTrendStickerSets
+from .get_wallet_transaction_message import GetWalletTransactionMessage
 from .get_wallpapers import GetWallpapers
+from .reorder_sticker_sets import ReorderStickerSets
+from .report_live import ReportLive
 from .reset_wallpapers import ResetWallpapers
 from .search_stickers import SearchStickers
+from .set_current_live_location import SetCurrentLiveLocation
 
 class Exctras(
     AddLiveComment,
@@ -49,8 +53,12 @@ class Exctras(
     GetStickersBySetIDs,
     GetTime,
     GetTrendStickerSets,
+    GetWalletTransactionMessage,
     GetWallpapers,
+    ReorderStickerSets,
+    ReportLive,
     ResetWallpapers,
-    SearchStickers
+    SearchStickers,
+    SetCurrentLiveLocation
 ):
     pass
