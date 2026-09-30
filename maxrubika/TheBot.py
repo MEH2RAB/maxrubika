@@ -28,12 +28,14 @@ class Response(Data):
 
 class Bot(Methods):
     TOKEN_PATTERN = re.compile(r'^[A-Z]{5}[0-9A-Z]{59}$')
+    DEFAULT_URL = "https://botapi.rubika.ir/v3"
 
     def __init__(
         self,
         token: Optional[str] = None,
         token_string: Optional[str] = None,
         password: Optional[str] = None,
+        url: str = DEFAULT_URL,
         timeout: Union[int, float] = 30,
         max_retries: Union[int, float] = 5,
         show_welcome: bool = True
@@ -46,6 +48,7 @@ class Bot(Methods):
                 or invalid, the bot will prompt for it via console input.
             token_string (Optional[str]): Encrypted TokenString. Takes priority over token.
             password (Optional[str]): Password for encrypted TokenString.
+            url (str): Base API URL. Defaults to "https://botapi.rubika.ir/v3".
             timeout (int): Request timeout in seconds. Defaults to 30.
             max_retries (int): Maximum number of retry attempts on network
                 errors. Defaults to 5.
@@ -64,7 +67,7 @@ class Bot(Methods):
         self.token = token
         self.timeout = float(timeout)
         self.max_retries = int(max_retries)
-        self.base_url = f"https://botapi.rubika.ir/v3/{token}"
+        self.base_url = f"{url.rstrip('/')}/{token}"
 
         self._registry = HandlerRegistry(self)
         self._bridge = DecoratorBridge(self._registry)

@@ -7,11 +7,11 @@ requirements = ['aiohttp', 'aiofiles', 'mutagen', 'pycryptodome', 'rich']
 
 setup(
     name = 'maxrubika',
-    version = '1.14.0',
+    version = '1.15.0',
     author = 'MEHRAB Farahmand',
     author_email = 'MEH2RABx@gmail.com',
     description = 'Python async library for Rubika and Shad Platforms - Build bots and userbots effortlessly.',
-    keywords = ['maxrubika', 'rubika', 'bot', 'robot', 'asyncio', 'client', 'shad'],
+    keywords = ['maxrubika', 'rubika', 'bot', 'robot', 'asyncio', 'client', 'shad', 'userbot', 'self-bot'],
     long_description = long_description,
     python_requires = '>=3.8',
     long_description_content_type = 'text/markdown',
