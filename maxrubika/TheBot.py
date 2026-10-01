@@ -28,14 +28,14 @@ class Response(Data):
 
 class Bot(Methods):
     TOKEN_PATTERN = re.compile(r'^[A-Z]{5}[0-9A-Z]{59}$')
-    DEFAULT_URL = "https://botapi.rubika.ir/v3"
+    DEFAULT_BASE_URL = "https://botapi.rubika.ir/v3"
 
     def __init__(
         self,
         token: Optional[str] = None,
         token_string: Optional[str] = None,
         password: Optional[str] = None,
-        url: str = DEFAULT_URL,
+        base_url: str = DEFAULT_BASE_URL,
         timeout: Union[int, float] = 30,
         max_retries: Union[int, float] = 5,
         show_welcome: bool = True
@@ -44,11 +44,11 @@ class Bot(Methods):
         Initialize the Bot instance.
 
         Parameters:
-            token (Optional[str]): Bot authentication token. If not provided
-                or invalid, the bot will prompt for it via console input.
+            token (Optional[str]): Bot authentication token.
+                If not provided or invalid, the bot will prompt for it via console input.
             token_string (Optional[str]): Encrypted TokenString. Takes priority over token.
             password (Optional[str]): Password for encrypted TokenString.
-            url (str): Base API URL. Defaults to "https://botapi.rubika.ir/v3".
+            base_url (str): Base API URL. Defaults to "https://botapi.rubika.ir/v3".
             timeout (int): Request timeout in seconds. Defaults to 30.
             max_retries (int): Maximum number of retry attempts on network
                 errors. Defaults to 5.
@@ -67,7 +67,7 @@ class Bot(Methods):
         self.token = token
         self.timeout = float(timeout)
         self.max_retries = int(max_retries)
-        self.base_url = f"{url.rstrip('/')}/{token}"
+        self.base_url = f"{base_url.rstrip('/')}/{token}"
 
         self._registry = HandlerRegistry(self)
         self._bridge = DecoratorBridge(self._registry)
@@ -190,13 +190,19 @@ class Bot(Methods):
 
                     return Response(data)
 
-            except (BadGateway, ServerError, Timeout) as e:
+            except (BadGateway, ServerError, Timeout, asyncio.TimeoutError) as e:
+
+                if isinstance(e, asyncio.TimeoutError):
+                    e = Timeout(
+                        dev_message=f"Request timed out after {self.timeout}s"
+                    )
+
                 if attempt < self.max_retries - 1:
                     wait = 2 ** attempt
                     logger.warning(f"Request failed - Attempt {attempt + 1}/{self.max_retries}: {type(e).__name__}")
                     await asyncio.sleep(wait)
                     continue
-                raise
+                raise e
 
             except (JSONDecode, InvalidInput, InvalidAccess, TooRequests, APIException) as e:
                 raise

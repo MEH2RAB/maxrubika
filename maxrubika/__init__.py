@@ -15,7 +15,7 @@ from .shad import Shad
 from .shad import Shad as shad
 
 __author__ = 'MEHRAB Farahmand'
-__version__ = '1.15.0'
+__version__ = '1.15.1'
 
 _welcome_shown = False
 _update_checked = False
