@@ -7,7 +7,7 @@ requirements = ['aiohttp', 'aiofiles', 'mutagen', 'pycryptodome', 'rich']
 
 setup(
     name = 'maxrubika',
-    version = '1.16.0',
+    version = '1.16.1',
     author = 'MEHRAB Farahmand',
     author_email = 'MEH2RABx@gmail.com',
     description = 'Python async library for Rubika and Shad Platforms - Build bots and userbots effortlessly.',

@@ -14,7 +14,7 @@ class Data:
         return self.jsonify(indent=2)
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.jsonify(indent=3)})"
+        return f"{self.__class__.__name__}({self._data!r})"
 
     def __getattr__(self, name: str):
         if (
@@ -47,12 +47,24 @@ class Data:
             try:
                 return self._convert_value(self._data[key])
             except KeyError:
-                raise KeyError(
-                    f"Key '{key}' not found. "
-                    f"Available keys: {list(self._data.keys())}"
-                ) from None
+                pass
+
+            if isinstance(key, str):
+                result = self.find_keys(key, default=_MISSING)
+                if result is not _MISSING:
+                    return result
+
+            raise KeyError(
+                f"Key '{key}' not found. "
+                f"Available keys: {list(self._data.keys())}"
+            ) from None
 
         if isinstance(self._data, list):
+            if isinstance(key, str):
+                result = self.find_keys(key, default=_MISSING)
+                if result is not _MISSING:
+                    return result
+
             try:
                 return self._convert_value(self._data[key])
             except (IndexError, TypeError):
