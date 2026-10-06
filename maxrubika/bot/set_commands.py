@@ -22,8 +22,8 @@ class SetCommands:
             dict: API response.
         """
         if not commands:
-            payload: Dict[str, Any] = {'bot_commands': []}
-            return await self._request('POST', 'setCommands', json = payload)
+            payload = {'bot_commands': []}
+            return await self.request('POST', 'setCommands', json = payload)
 
         formatted_commands = []
 
@@ -51,5 +51,5 @@ class SetCommands:
                 message = f"Description for '/{command}' must be <= 256 characters."
                 raise InvalidInput(message)
 
-        payload: Dict[str, Any] = {'bot_commands': formatted_commands}
-        return await self._request('POST', 'setCommands', json = payload)
+        payload = {'bot_commands': formatted_commands}
+        return await self.request('POST', 'setCommands', json = payload)

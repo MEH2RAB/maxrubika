@@ -19,4 +19,4 @@ class GetChatInfo:
             raise InvalidInput("Invalid 'chat_id' format.")
 
         payload = {'chat_id': chat_id}
-        return await self._request('POST', 'getChat', json = payload)
+        return await self.request('POST', 'getChat', json = payload)

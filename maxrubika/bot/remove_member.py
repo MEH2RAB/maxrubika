@@ -34,4 +34,4 @@ class RemoveMember:
             'chat_id': chat_id,
             'user_id': sender_id
         }
-        return await self._request('POST', 'banChatMember', json = payload)
+        return await self.request('POST', 'banChatMember', json = payload)

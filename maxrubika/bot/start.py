@@ -1,9 +1,15 @@
 import asyncio
 import time
 import secrets
+import logging
 from typing import Optional
 from aiohttp import web
 import maxrubika
+
+from rich.console import Console
+
+console = Console(highlight=False)
+logger = logging.getLogger(__name__)
 
 class Start:
     async def _clear_old_updates(self) -> Optional[str]:
@@ -97,15 +103,24 @@ class Start:
                 ]:
                     try:
                         await self.update_bot_endpoints(full_url, endpoint_type)
-                        print(f"Webhook registered: {endpoint_type} → {full_url}")
+                        console.print(
+                            f"Webhook registered: {endpoint_type} → {full_url}",
+                            style="cyan"
+                        )
                     except Exception as e:
-                        print(f"Failed to register {endpoint_type}: {e}")
+                        console.print(
+                            f"Failed to register {endpoint_type}: {e}",
+                            style="cyan"
+                        )
 
                 runner = web.AppRunner(app)
                 await runner.setup()
                 site = web.TCPSite(runner, host, port)
                 await site.start()
-                print(f"Webhook server running on http://{host}:{port}{webhook_base}")
+                console.print(
+                    f"Webhook server running on http://{host}:{port}{webhook_base}",
+                    style="cyan"
+                )
 
                 try:
                     while True:
@@ -116,7 +131,7 @@ class Start:
                     await runner.cleanup()
 
             else:
-                print("Bot started in polling mode...")
+                console.print("Bot started in polling mode...\n", style="cyan")
                 try:
                     await self._poll_loop(poll_interval)
                 except KeyboardInterrupt:

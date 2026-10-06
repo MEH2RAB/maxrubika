@@ -30,7 +30,7 @@ class Run:
                     webhook_url=webhook_url,
                     webhook_path=webhook_path,
                     host=host,
-                    port=port,
+                    port=port
                 ))
             except KeyboardInterrupt:
                 print("Bot stopped.")
@@ -41,5 +41,5 @@ class Run:
             webhook_url=webhook_url,
             webhook_path=webhook_path,
             host=host,
-            port=port,
+            port=port
         )

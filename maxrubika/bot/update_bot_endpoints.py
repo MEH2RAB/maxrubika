@@ -53,4 +53,4 @@ class UpdateBotEndpoints:
 
         payload = {'url': url, 'type': endpoint_type}
 
-        return await self._request('POST', 'updateBotEndpoints', json = payload)
+        return await self.request('POST', 'updateBotEndpoints', json = payload)

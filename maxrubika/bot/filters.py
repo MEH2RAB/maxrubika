@@ -11,6 +11,7 @@ from __future__ import annotations
 import re
 from abc import ABC, abstractmethod
 from typing import Any, List, Optional, Pattern, Union
+from .exceptions import InvalidAccess
 
 class EventConstraint(ABC):
     """Abstract rule that an incoming event must satisfy."""
@@ -19,14 +20,16 @@ class EventConstraint(ABC):
     async def evaluate(self, event: Any) -> bool:
         """Return True when *event* passes this constraint."""
         ...
-    def __and__(self, other: EventConstraint) -> BothConstraint:
+
+    def __and__(self, other: "EventConstraint") -> "BothConstraint":
         return BothConstraint(self, other)
 
-    def __or__(self, other: EventConstraint) -> EitherConstraint:
+    def __or__(self, other: "EventConstraint") -> "EitherConstraint":
         return EitherConstraint(self, other)
 
-    def __invert__(self) -> NegateConstraint:
+    def __invert__(self) -> "NegateConstraint":
         return NegateConstraint(self)
+
 
 class BothConstraint(EventConstraint):
     """Requires two constraints to pass (AND)."""
@@ -90,6 +93,48 @@ class IsStoppedBot(EventConstraint):
     async def evaluate(self, event: Any) -> bool:
         return getattr(event, 'update_type', None) == 'StoppedBot'
 
+class IsEventData(EventConstraint):
+    """
+    Accepts EventData updates, optionally limited to given event types.
+
+    Usage::
+
+        IsEventData()
+        IsEventData("BotJoined")
+        IsEventData(["BotJoined", "BotRemoved"])
+    """
+    def __init__(self, event_types: Union[str, List[str], None] = None) -> None:
+        if isinstance(event_types, str):
+            self._types = [event_types]
+        elif event_types:
+            self._types = list(event_types)
+        else:
+            self._types = None
+
+    async def evaluate(self, event: Any) -> bool:
+        if getattr(event, 'update_type', None) != 'EventData':
+            return False
+        if self._types is None:
+            return True
+        return getattr(event, 'event_type', None) in self._types
+
+class EventType(EventConstraint):
+    """
+    Matches a specific ``event_type`` inside EventData updates.
+
+    Usage::
+
+        EventType("BotJoined")
+        EventType(["BotJoined", "BotRemoved"])
+    """
+    def __init__(self, event_types: Union[str, List[str]]) -> None:
+        self._types: List[str] = (
+            [event_types] if isinstance(event_types, str) else list(event_types)
+        )
+
+    async def evaluate(self, event: Any) -> bool:
+        return getattr(event, 'event_type', None) in self._types
+
 class Text(EventConstraint):
     """
     Matches when the event text contains a substring or regex pattern.
@@ -143,8 +188,9 @@ class Command(EventConstraint):
     Parameters
     ----------
     name : str, list of str, or None
-        The command name(s) without the leading slash (e.g. ``"start"`` or ``["start", "شروع"]``).
-        When None, any text that starts with a slash is accepted.
+        The command name(s) without the leading slash (e.g. ``"start"``
+        or ``["start", "شروع"]``). When None, any text that starts with
+        a slash is accepted.
     prefixes : list of str
         Characters that count as a command prefix (default ``["/"]``).
 
@@ -210,6 +256,39 @@ class ChatType(EventConstraint):
         inferred = self._PREFIX_MAP.get(prefix)
         return inferred in self._allowed if inferred else False
 
+class IsUser(EventConstraint):
+    """
+    Matches events from a user chat (b0...).
+
+    Usage::
+
+        IsUser()
+    """
+    async def evaluate(self, event: Any) -> bool:
+        return bool(getattr(event, 'is_user', False))
+
+class IsGroup(EventConstraint):
+    """
+    Matches events from a group chat (g0...).
+
+    Usage::
+
+        IsGroup()
+    """
+    async def evaluate(self, event: Any) -> bool:
+        return bool(getattr(event, 'is_group', False))
+
+class IsChannel(EventConstraint):
+    """
+    Matches events from a channel (c0...).
+
+    Usage::
+
+        IsChannel()
+    """
+    async def evaluate(self, event: Any) -> bool:
+        return bool(getattr(event, 'is_channel', False))
+
 class FromChat(EventConstraint):
     """Matches when the event comes from one of the specified chat ids."""
     def __init__(self, chat_ids: Union[str, List[str]]) -> None:
@@ -228,204 +307,139 @@ class FromUser(EventConstraint):
         return author in self._ids if author else False
 
 class IsFile(EventConstraint):
-    """Matches any message with a file attachment (generic).
+    """
+    Matches any message with a file attachment (excluding stickers).
 
     Usage::
+
         IsFile()
     """
     async def evaluate(self, event: Any) -> bool:
-        msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
-        if msg is None:
-            return False
-
-        if isinstance(msg, dict):
-            file_data = msg.get('file')
-            if isinstance(file_data, dict) and file_data.get('file_id'):
-                return True
-            if msg.get('file_id'):
-                return True
-            return False
-
-        return bool(getattr(msg, 'file_id', None))
+        return (
+            getattr(event, 'file_id', None) is not None
+            and not getattr(event, 'is_sticker', False)
+        )
 
 class _MediaTypeConstraint(EventConstraint):
-    """Base for media-specific constraints. Checks file extension."""
-    _extensions: List[str] = []
-    _voice_prefix: bool = False
+    """Base for media-specific constraints. Uses ``event.file_type``."""
+    _kind: str = ''
 
     async def evaluate(self, event: Any) -> bool:
-        name = getattr(event, 'file_name', None)
-        if not name:
-            return False
-
-        name_lower = name.lower()
-
-        if self._voice_prefix and name_lower.startswith('voice_'):
-            return True
-
-        return any(name_lower.endswith(ext) for ext in self._extensions)
+        return getattr(event, 'file_type', None) == self._kind
 
 class IsImage(_MediaTypeConstraint):
     """
-    Matches image files (.jpg, .jpeg, .png).
+    Matches image files.
 
     Usage::
+
         IsImage()
     """
-    _extensions = ['.jpg', '.jpeg', '.png',]
+    _kind = 'image'
 
 class IsVideo(_MediaTypeConstraint):
     """
-    Matches video files (.mp4, .avi, .mkv, .mov).
+    Matches video files.
 
     Usage::
+
         IsVideo()
     """
-    _extensions = ['.mp4', '.avi', '.mkv', '.mov']
+    _kind = 'video'
 
 class IsVoice(_MediaTypeConstraint):
     """
-    Matches voice messages (.ogg or starts with voice_).
+    Matches voice messages.
 
     Usage::
+
         IsVoice()
     """
-    _extensions = ['.ogg']
-    _voice_prefix = True
+    _kind = 'voice'
 
 class IsMusic(_MediaTypeConstraint):
     """
-    Matches music files (.mp3, .wav, .flac, .m4a).
+    Matches music files.
 
     Usage::
+
         IsMusic()
     """
-    _extensions = ['.mp3', '.wav', '.flac', '.m4a']
+    _kind = 'music'
 
 class IsSticker(EventConstraint):
     """
     Matches sticker messages.
 
     Usage::
+
         IsSticker()
     """
     async def evaluate(self, event: Any) -> bool:
-        return getattr(event, 'is_sticker', False)
+        return bool(getattr(event, 'is_sticker', False))
 
 class IsPoll(EventConstraint):
     """
     Matches poll messages.
 
     Usage::
+
         IsPoll()
     """
     async def evaluate(self, event: Any) -> bool:
-        return getattr(event, 'is_poll', False)
+        return bool(getattr(event, 'is_poll', False))
 
 class IsLocation(EventConstraint):
     """
     Matches location messages.
 
     Usage::
+
         IsLocation()
     """
     async def evaluate(self, event: Any) -> bool:
-        return getattr(event, 'is_location', False)
+        return bool(getattr(event, 'is_location', False))
 
 class IsReply(EventConstraint):
     """Matches messages that are a reply to another message."""
     async def evaluate(self, event: Any) -> bool:
-        msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
-        if msg is None:
-            return False
-
-        if isinstance(msg, dict):
-            return msg.get('reply_to_message_id') is not None
-
-        return bool(getattr(msg, 'reply_to_message_id', None))
+        return bool(getattr(event, 'is_reply', False))
 
 class IsText(EventConstraint):
-    """Matches only text messages (no file, no sticker, no voice)."""
+    """Matches only plain text messages."""
     async def evaluate(self, event: Any) -> bool:
-        return bool(getattr(event, 'text', None)) and not bool(getattr(event, 'file_id', None))
+        return bool(getattr(event, 'is_text', False))
 
 class IsForwarded(EventConstraint):
-    """Matches any forwarded message (forwarded_from OR forwarded_no_link)."""
+    """Matches any forwarded message."""
     async def evaluate(self, event: Any) -> bool:
-        msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
-        if msg is None:
-            return False
-
-        if isinstance(msg, dict):
-            return msg.get('forwarded_from') is not None or msg.get('forwarded_no_link') is not None
-
-        return bool(getattr(msg, 'forwarded_from', None) or getattr(msg, 'forwarded_no_link', None))
+        return bool(getattr(event, 'is_forwarded', False))
 
 class ForwardedFromUser(EventConstraint):
-    """Matches messages forwarded from a User."""
-    async def evaluate(self, event: Any) -> bool:
-        msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
-        if msg is None:
-            return False
+    """Matches messages forwarded from a User (includes hidden-profile forwards)."""
 
-        if isinstance(msg, dict):
-            fwd = msg.get('forwarded_from')
-            if fwd:
-                return fwd.get('type_from') == 'User'
-            return msg.get('forwarded_no_link') is not None
-        return False
+    async def evaluate(self, event: Any) -> bool:
+        return bool(getattr(event, 'is_forwarded_from_user', False))
 
 class ForwardedFromChannel(EventConstraint):
     """Matches messages forwarded from a Channel."""
     async def evaluate(self, event: Any) -> bool:
-        msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
-        if msg is None:
-            return False
-
-        if isinstance(msg, dict):
-            fwd = msg.get('forwarded_from')
-            if fwd:
-                return fwd.get('type_from') == 'Channel'
-        return False
+        return bool(getattr(event, 'is_forwarded_from_channel', False))
 
 class ForwardedFromBot(EventConstraint):
     """Matches messages forwarded from a Bot."""
     async def evaluate(self, event: Any) -> bool:
-        msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
-        if msg is None:
-            return False
-
-        if isinstance(msg, dict):
-            fwd = msg.get('forwarded_from')
-            if fwd:
-                return fwd.get('type_from') == 'Bot'
-        return False
+        return bool(getattr(event, 'is_forwarded_from_bot', False))
 
 class ForwardedNoLink(EventConstraint):
     """Matches forwarded messages where the sender has hidden their profile."""
     async def evaluate(self, event: Any) -> bool:
-        msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
-        if msg is None:
-            return False
-
-        if isinstance(msg, dict):
-            return msg.get('forwarded_no_link') is not None
-
-        return bool(getattr(msg, 'forwarded_no_link', None))
+        return bool(getattr(event, 'is_forwarded_no_link', False))
 
 class HasMetadata(EventConstraint):
     """Matches messages that contain metadata (Bold, Italic, Quote, etc.)."""
     async def evaluate(self, event: Any) -> bool:
-        meta = getattr(event, 'metadata', None)
-        if meta is not None:
-            return True
-
-        msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
-        if msg is not None and isinstance(msg, dict):
-            if msg.get('metadata'):
-                return True
-
-        return False
+        return getattr(event, 'metadata', None) is not None
 
 class MetadataType(EventConstraint):
     """Matches messages that have specific metadata types.
@@ -434,21 +448,44 @@ class MetadataType(EventConstraint):
     ----------
     types : str or list of str
         ``"Bold"``, ``"Italic"``, ``"Quote"``, ``"Monospace"``, etc.
+
+    Usage::
+
+        MetadataType("Bold")
+        MetadataType(["Bold", "Italic"])
     """
     def __init__(self, types: Union[str, List[str]]) -> None:
         self._types: List[str] = [types] if isinstance(types, str) else list(types)
 
     async def evaluate(self, event: Any) -> bool:
-        part_types = getattr(event, 'metadata_types', None)
-        if part_types is not None:
-            return any(t in self._types for t in part_types)
+        part_types = getattr(event, 'metadata_types', None) or []
+        return any(t in self._types for t in part_types)
 
-        msg = getattr(event, 'message', None) or getattr(event, 'edited_message', None)
-        if msg is not None and isinstance(msg, dict):
-            metadata = msg.get('metadata')
-            if metadata:
-                parts = metadata.get('meta_data_parts', [])
-                part_types = [p.get('type', '') for p in parts]
-                return any(t in self._types for t in part_types)
+class IsJoined(EventConstraint):
+    """
+    Matches when the event author is a member of all the given chats.
 
-        return False
+    Usage::
+
+        IsJoined("c0...")
+        IsJoined(["c0A", "c0B"])
+        ~IsJoined(CHAT_ID)
+    """
+    def __init__(self, chat_ids: Union[str, List[str]]) -> None:
+        if isinstance(chat_ids, str):
+            self._chat_ids: List[str] = [chat_ids]
+        else:
+            self._chat_ids = list(chat_ids)
+
+    async def evaluate(self, event: Any) -> bool:
+        author_id = getattr(event, "author_id", None)
+        bot = getattr(event, "bot", None)
+        if not author_id or bot is None:
+            return False
+
+        for chat_id in self._chat_ids:
+            try:
+                await bot.get_chat_member(chat_id, author_id)
+            except InvalidAccess:
+                return False
+        return True

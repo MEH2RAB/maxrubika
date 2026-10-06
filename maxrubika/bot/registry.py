@@ -1,12 +1,10 @@
 """Core handler registry and dispatch engine."""
-
 from __future__ import annotations
 
 import asyncio
 import inspect
 import logging
-import uuid
-from typing import Any, Callable, Dict, List, Tuple
+from typing import Any, Callable, List, Tuple
 
 from .filters import EventConstraint
 
@@ -25,16 +23,15 @@ class HandlerRegistry:
 
     def __init__(self, bot: Any) -> None:
         self._bot = bot
-        self._handlers: Dict[str, List[Tuple[Tuple[EventConstraint, ...], Callable]]] = {}
+        self._handlers: List[Tuple[Tuple[EventConstraint, ...], Callable]] = []
         self._middlewares: List[Callable] = []
         self._startup_callbacks: List[Callable] = []
         self._shutdown_callbacks: List[Callable] = []
 
     def store(self, func: Callable, *constraints: EventConstraint) -> Callable:
         """Persist a handler function with its constraints."""
-        key = uuid.uuid4().hex
-        self._handlers.setdefault(key, []).append((constraints, func))
-        logger.debug("Stored handler %s (key=%s)", func.__name__, key)
+        self._handlers.append((constraints, func))
+        logger.debug("Stored handler %s", func.__name__)
         return func
 
     def store_middleware(self, func: Callable) -> Callable:
@@ -76,23 +73,34 @@ class HandlerRegistry:
         except Exception:
             logger.exception("Middleware %s crashed", middleware.__name__)
 
+    async def _invoke(self, handler: Callable, event: Any) -> None:
+        """Run one handler; an exception in it never reaches the others."""
+        logger.debug("Dispatching to %s", handler.__name__)
+        try:
+            if inspect.iscoroutinefunction(handler):
+                await handler(self._bot, event)
+            else:
+                handler(self._bot, event)
+        except Exception:
+            logger.exception(
+                "Handler %s raised an exception", handler.__name__
+            )
+
     async def _dispatch(self, event: Any) -> None:
-        for entry_list in self._handlers.values():
-            for constraints, handler in entry_list:
-                if await self._satisfies(event, constraints):
-                    logger.debug("Dispatching to %s", handler.__name__)
-                    try:
-                        if inspect.iscoroutinefunction(handler):
-                            await handler(self._bot, event)
-                        else:
-                            handler(self._bot, event)
-                    except Exception:
-                        logger.exception(
-                            "Handler %s raised an exception", handler.__name__
-                        )
+        # True: every matching handler runs (registration order does not decide
+        # who is skipped). False: only the first matching handler runs.
+        run_all = self._bot.run_all_handlers
+        matched = False
+
+        for constraints, handler in self._handlers:
+            if await self._satisfies(event, constraints):
+                matched = True
+                await self._invoke(handler, event)
+                if not run_all:
                     return
 
-        logger.debug("No handler matched event update_type=%s", getattr(event, 'update_type', '?'))
+        if not matched:
+            logger.debug("No handler matched event update_type=%s", getattr(event, 'update_type', '?'))
 
     @staticmethod
     async def _satisfies(

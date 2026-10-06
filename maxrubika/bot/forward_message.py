@@ -2,6 +2,7 @@ import re
 from typing import Union
 import maxrubika
 from .exceptions import InvalidInput
+from .message_result import MessageResult
 
 class ForwardMessage:
     async def forward_message(
@@ -45,4 +46,15 @@ class ForwardMessage:
             'to_chat_id': to_chat_id,
             'disable_notification': disable_notification
         }
-        return await self._request('POST', 'forwardMessage', json = payload)
+        result = await self.request('POST', 'forwardMessage', json = payload)
+
+        message_id = result.find_keys("new_message_id")
+        if message_id is not None:
+            message_id = str(message_id)
+
+        return MessageResult(
+            bot=self,
+            chat_id=to_chat_id,
+            message_id=message_id,
+            result_data=result
+        )

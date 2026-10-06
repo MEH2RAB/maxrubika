@@ -65,4 +65,4 @@ class EditChatKeypad(KeypadMixin):
         }
         payload = {k: v for k, v in payload.items() if v is not None}
 
-        return await self._request('POST', 'editChatKeypad', json = payload)
+        return await self.request('POST', 'editChatKeypad', json = payload)

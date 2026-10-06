@@ -24,8 +24,4 @@ class GetUpdates:
             payload['limit'] = limit
 
         while True:
-            try:
-                return await self._request('POST', 'getUpdates', json = payload)
-
-            except Exception:
-                pass
+                return await self.request('POST', 'getUpdates', json = payload)

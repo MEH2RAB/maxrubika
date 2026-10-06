@@ -3,6 +3,7 @@ from typing import Union, Dict, Any, Optional, List
 import maxrubika
 from .keypad_mixin import KeypadMixin
 from .exceptions import InvalidInput
+from .message_result import MessageResult
 
 class Sendlocation(KeypadMixin):
     async def send_location(
@@ -72,4 +73,15 @@ class Sendlocation(KeypadMixin):
             payload['reply_to_message_id'] = reply_to_message_id
 
         payload = {k: v for k, v in payload.items() if v is not None}
-        return await self._request('POST', 'sendLocation', json = payload)
+        result = await self.request('POST', 'sendLocation', json = payload)
+
+        message_id = result.find_keys("message_id")
+        if message_id is not None:
+            message_id = str(message_id)
+
+        return MessageResult(
+            bot=self,
+            chat_id=chat_id,
+            message_id=message_id,
+            result_data=result
+        )

@@ -17,7 +17,7 @@ class SendMessage(KeypadMixin):
         disable_notification: bool = False,
         resize_keyboard: bool = True,
         one_time_keyboard: bool = False
-    ) -> "MessageResult":
+    ):
         """
         Sends a text message to a chat.
 
@@ -74,19 +74,15 @@ class SendMessage(KeypadMixin):
 
         payload = {k: v for k, v in payload.items() if v is not None}
 
-        result = await self._request('POST', 'sendMessage', json=payload)
+        result = await self.request('POST', 'sendMessage', json = payload)
 
-        message_id = None
-        if hasattr(result, 'message_id'):
-            message_id = result.message_id
-        elif isinstance(result, dict):
-            message_id = result.get('message_id')
-        elif hasattr(result, 'data'):
-            message_id = result.data.get('message_id')
+        message_id = result.find_keys("message_id")
+        if message_id is not None:
+            message_id = str(message_id)
 
         return MessageResult(
             bot=self,
             chat_id=chat_id,
             message_id=message_id,
-            result_data=result.to_dict() if hasattr(result, 'to_dict') else result
+            result_data=result
         )

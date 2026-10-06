@@ -1,11 +1,11 @@
 import re
-import base64 as b64
 from pathlib import Path
 from typing import Optional, Union, Dict, Any, Literal, List
 import maxrubika
 from .metadata import to_metadata
 from .keypad_mixin import KeypadMixin
 from .exceptions import InvalidInput
+from .message_result import MessageResult
 
 _DEFAULT_NAMES = {
     "Voice": "voice.ogg",
@@ -38,10 +38,10 @@ class SendFile(KeypadMixin):
 
         Parameters:
             chat_id (str): Target chat ID.
-            file (str | bytes, optional): Path to file OR raw bytes.
+            file (str | bytes, optional): Path to file, URL, or raw bytes.
             file_type (str): Type of file ('File', 'Image', 'Voice', 'Video', 'Music', 'Gif').
             text (str, optional): Caption text.
-            file_id (str, optional): Already uploaded file_id.
+            file_id (str, optional): Already uploaded file_id (skips upload).
             base64 (str, optional): Base64 encoded file data.
             file_name (str, optional): Custom file name. If not provided, auto-generated.
             metadata (dict, optional): Pre-formatted metadata (Bold, Italic, etc.).
@@ -58,51 +58,33 @@ class SendFile(KeypadMixin):
         if not re.match(r"^(c0|g0|b0)[a-zA-Z0-9]{30}$", chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
 
-        if base64 and not file_id:
-            try:
-                file_bytes = b64.b64decode(base64)
-            except Exception:
-                raise InvalidInput("Invalid base64 data.")
+        if not file_id:
+            if file_name is None:
+                if isinstance(file, str) and not file.startswith(("http://", "https://")):
 
-            file_name = file_name or _DEFAULT_NAMES.get(file_type, "file.bin")
-
-            upload_url = await self.request_send_file(file_type)
-
-            file_id = await self.upload_file(
-                url=upload_url,
-                file_name=file_name,
-                file_bytes=file_bytes
-            )
-
-        elif file and not file_id:
-            if isinstance(file, bytes):
-                file_bytes = file
-                file_name = file_name or _DEFAULT_NAMES.get(file_type, "file.bin")
-
-            else:
-                file_path = Path(file)
-
-                if file_name is None:
-                    file_name = file_path.name
-
+                    path = Path(file)
                     if file_type == "Voice":
-                        file_name = file_path.stem + ".ogg"
+                        file_name = path.stem + ".ogg"
                     elif file_type == "Music":
-                        file_name = file_path.stem + ".mp3"
-
-                file_bytes = file_path.read_bytes()
+                        file_name = path.stem + ".mp3"
+                    else:
+                        file_name = path.name
+                else:
+                    file_name = _DEFAULT_NAMES.get(file_type, "file.bin")
 
             upload_url = await self.request_send_file(file_type)
 
             file_id = await self.upload_file(
                 url=upload_url,
-                file_name=file_name,
-                file_bytes=file_bytes
+                file=file,
+                base64=base64,
+                file_name=file_name
             )
 
         if not file_id:
-            message = "Either 'file', 'file_id', or 'base64' must be provided."
-            raise InvalidInput(message)
+            raise InvalidInput(
+                "Either 'file', 'file_id', or 'base64' must be provided."
+            )
 
         normalized_chat_keypad = self._normalize_keypad(chat_keypad, is_inline=False)
         normalized_inline_keypad = self._normalize_keypad(inline_keypad, is_inline=True)
@@ -134,15 +116,21 @@ class SendFile(KeypadMixin):
 
         if reply_to_message_id is not None:
             payload['reply_to_message_id'] = str(reply_to_message_id)
+
         if metadata:
             payload['metadata'] = metadata
 
         payload = {k: v for k, v in payload.items() if v is not None}
 
-        result = await self._request('POST', 'sendFile', json = payload)
+        result = await self.request('POST', 'sendFile', json = payload)
 
-        if isinstance(result, dict):
-            result["chat_id"] = chat_id
-            result["file_id"] = file_id
+        message_id = result.find_keys("message_id")
+        if message_id is not None:
+            message_id = str(message_id)
 
-        return result
+        return MessageResult(
+            bot=self,
+            chat_id=chat_id,
+            message_id=message_id,
+            result_data=result
+        )

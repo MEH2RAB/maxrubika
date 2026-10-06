@@ -9,6 +9,7 @@ from .edit_inline_keypad import EditInlineKeypad
 from .edit_message import EditMessage
 from .forward_message import ForwardMessage
 from .get_chat_info import GetChatInfo
+from .get_chat_member import GetChatMember
 from .get_file import GetFile
 from .get_me import GetMe
 from .get_token_string import GetTokenString
@@ -16,6 +17,7 @@ from .get_updates import GetUpdates
 from .register_all_endpoints import RegisterAllEndpoints
 from .remove_chat_keypad import RemoveChatKeypad
 from .remove_member import RemoveMember
+from .request import Request
 from .request_send_file import RequestSendFile
 from .run import Run
 from .send_contact import SendContact
@@ -45,6 +47,7 @@ class Methods(
     EditMessage,
     ForwardMessage,
     GetChatInfo,
+    GetChatMember,
     GetFile,
     GetMe,
     GetTokenString,
@@ -52,6 +55,7 @@ class Methods(
     RegisterAllEndpoints,
     RemoveChatKeypad,
     RemoveMember,
+    Request,
     RequestSendFile,
     Run,
     SendContact,

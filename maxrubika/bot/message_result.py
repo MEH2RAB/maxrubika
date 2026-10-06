@@ -1,10 +1,11 @@
 from ..data import Data
 
-
 class MessageResult(Data):
     """Wrapper for bot message results with action methods."""
-
     def __init__(self, bot, chat_id, message_id, result_data=None):
+        if hasattr(result_data, "_data"):
+            result_data = result_data._data
+
         super().__init__(result_data or {})
         self.bot = bot
         self.chat_id = chat_id

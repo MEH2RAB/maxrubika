@@ -9,5 +9,4 @@ class GetFile:
             file_id (str): The identifier of the file to retrieve. This should be a valid file ID within the system.
         """
         payload = {'file_id': file_id}
-
-        return await self._request('POST', 'getFile', json = payload)
+        return await self.request('POST', 'getFile', json = payload)

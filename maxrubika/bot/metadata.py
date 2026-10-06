@@ -2,7 +2,16 @@ import re
 from typing import Dict, List, Any
 
 MARKDOWN_RE = re.compile(
-    r"(?:^(?:> ?[^\n]*\n?)+)|```([\s\S]*?)```|\*\*([^\n*]+?)\*\*|`([^\n`]+?)`|__([^\n_]+?)__|--([^\n-]+?)--|~~([^\n~]+?)~~|\|\|([^\n|]+?)\|\||\[([^\]]+?)\]\((\S+)\)",
+    r"(?:^(?:> ?[^\n]*\n?)+)"
+    r"|```([\s\S]*?)```"
+    r"|\*\*([^\n]+?)\*\*"
+    r"|`([^\n`]+?)`"
+    r"|__([^\n]+?)__"
+    r"|==([^\n=]+?)=="
+    r"|--([^\n]+?)--"
+    r"|~~([^\n]+?)~~"
+    r"|\|\|([^\n]+?)\|\|"
+    r"|\[([^\]]+?)\]\((\S+)\)",
     flags=re.DOTALL | re.MULTILINE,
 )
 
@@ -12,10 +21,11 @@ MARKDOWN_TYPES = {
     "**": ("Bold", 2),
     "`": ("Mono", 3),
     "__": ("Italic", 4),
-    "--": ("Underline", 5),
-    "~~": ("Strike", 6),
-    "||": ("Spoiler", 7),
-    "[": ("Link", 8),
+    "==": ("Underline", 5),
+    "--": ("Underline", 6),
+    "~~": ("Strike", 7),
+    "||": ("Spoiler", 8),
+    "[": ("Link", 9),
 }
 
 MARKDOWN_TYPE_SEQUENCE = tuple(MARKDOWN_TYPES.items())
@@ -50,7 +60,7 @@ def _is_in_username(text: str, position: int) -> bool:
     return position < j
 
 def to_metadata(text: str) -> Dict[str, Any]:
-    """تبدیل Markdown به metadata برای Rubika API"""
+    """Convert Markdown to metadata for Rubika API"""
     parts = []
     current = text
     offset = 0
@@ -102,7 +112,7 @@ def to_metadata(text: str) -> Dict[str, Any]:
 
             elif md_type == "Link":
                 content = match.group(idx) or ""
-                url = match.group(9) or ""
+                url = match.group(10) or ""
 
             else:
                 raw_content = match.group(idx) or ""

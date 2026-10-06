@@ -2,6 +2,7 @@ from typing import Union, Dict, Any, Optional, List
 import re; import maxrubika
 from .keypad_mixin import KeypadMixin
 from .exceptions import InvalidInput
+from .message_result import MessageResult
 
 class SendQuiz(KeypadMixin):
     async def send_quiz(
@@ -43,6 +44,9 @@ class SendQuiz(KeypadMixin):
 
         if not re.match(chat_id_regex, chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
+
+        if not isinstance(options, (list, tuple)):
+            raise InvalidInput("'options' must be a list of strings.")
 
         if len(options) < 2:
             raise InvalidInput("The 'options' argument must have more than two string values.")
@@ -116,4 +120,15 @@ class SendQuiz(KeypadMixin):
             payload['inline_keypad'] = normalized_inline_keypad
 
         payload = {k: v for k, v in payload.items() if v is not None}
-        return await self._request('POST', 'sendPoll', json = payload)
+        result = await self.request('POST', 'sendPoll', json = payload)
+
+        message_id = result.find_keys("message_id")
+        if message_id is not None:
+            message_id = str(message_id)
+
+        return MessageResult(
+            bot=self,
+            chat_id=chat_id,
+            message_id=message_id,
+            result_data=result
+        )

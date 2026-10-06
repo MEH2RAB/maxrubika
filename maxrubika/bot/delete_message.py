@@ -33,5 +33,4 @@ class DeleteMessage:
             raise InvalidInput("'message_id' must be str or int.")
 
         payload = {'chat_id': chat_id, 'message_id': message_id}
-
-        return await self._request('POST', 'deleteMessage', json = payload)
+        return await self.request('POST', 'deleteMessage', json = payload)

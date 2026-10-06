@@ -25,4 +25,4 @@ class RemoveChatKeypad:
             'chat_id': chat_id,
             'chat_keypad_type': 'Remove'
         }
-        return await self._request('POST', 'editChatKeypad', json = payload)
+        return await self.request('POST', 'editChatKeypad', json = payload)

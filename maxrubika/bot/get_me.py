@@ -8,5 +8,4 @@ class GetMe:
         Returns:
             dict: Information about the authenticated bot.
         """
-        payload = {}
-        return await self._request('POST', 'getMe', json = payload)
+        return await self.request('POST', 'getMe', json = {})

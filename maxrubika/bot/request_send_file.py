@@ -1,6 +1,6 @@
 from typing import Literal
 import maxrubika
-from .exceptions import InvalidInput, InvalidAccess
+from .exceptions import InvalidInput, ServerError
 
 class RequestSendFile:
     async def request_send_file(
@@ -31,10 +31,12 @@ class RequestSendFile:
             raise InvalidInput(message)
 
         payload = {'type': file_type}
-        result = await self._request('POST', 'requestSendFile', json = payload)
+        result = await self.request('POST', 'requestSendFile', json = payload)
 
         try:
             return result["data"]["upload_url"]
 
         except KeyError:
-            raise InvalidAccess("Failed to get upload URL.")
+            raise ServerError(
+                "Failed to get upload URL."
+            ) from None

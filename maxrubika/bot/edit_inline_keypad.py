@@ -54,7 +54,7 @@ class EditInlineKeypad(KeypadMixin):
 
         normalized_inline_keypad = self._normalize_keypad(inline_keypad, is_inline = True)
 
-        payload: Dict[str, Any] = {
+        payload = {
             'chat_id': chat_id,
             'message_id': message_id
         }
@@ -62,4 +62,4 @@ class EditInlineKeypad(KeypadMixin):
             payload['inline_keypad'] = normalized_inline_keypad
 
         payload = {k: v for k, v in payload.items() if v is not None}
-        return await self._request('POST', 'editMessageKeypad', json = payload)
+        return await self.request('POST', 'editMessageKeypad', json = payload)
