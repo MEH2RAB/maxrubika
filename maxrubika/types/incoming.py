@@ -619,7 +619,7 @@ class Events(Data):
                         "file": file_path,
                         "file_type": file_type,
                         "text": self.text,
-                        "metadata": self.metadata,
+                        "metadata": self._unwrap(self.metadata)
                     }
                     if not is_copy_to_other and self.reply_to_message_id:
                         kwargs["reply_to_message_id"] = self.reply_to_message_id
@@ -632,11 +632,36 @@ class Events(Data):
             kwargs = {
                 "chat_id": target_chat,
                 "text": self.text,
-                "metadata": self.metadata,
+                "metadata": self._unwrap(self.metadata)
             }
             if not is_copy_to_other and self.reply_to_message_id:
                 kwargs["reply_to_message_id"] = self.reply_to_message_id
             return await self.bot.send_message(**kwargs)
+
+    async def is_admin(self) -> bool:
+        """True if the author is an admin or creator of the chat."""
+        if self.chat_id and self.author_id and self.bot:
+            return await self.bot.member_is_admin(self.chat_id, self.author_id)
+        return False
+
+    async def is_owner(self) -> bool:
+        """True if the author is the owner (creator) of the chat."""
+        if self.chat_id and self.author_id and self.bot:
+            return await self.bot.member_is_owner(self.chat_id, self.author_id)
+        return False
+
+    async def is_joined(self, chat_id: str) -> bool:
+        """Check if the author is a member of the given chat."""
+        if self.author_id and self.bot:
+            return await self.bot.member_is_joined(chat_id, self.author_id)
+        return False
+
+    async def get_chat_info(self, chat_id: str = None):
+        """Get info about this chat (or another)."""
+        target = chat_id or self.chat_id
+        if target and self.bot:
+            return await self.bot.get_chat_info(target)
+        return None
 
     def __repr__(self) -> str:
         return f"<Events update_type={self.update_type!r} chat={self.chat_id!r}>"

@@ -11,7 +11,6 @@ from __future__ import annotations
 import re
 from abc import ABC, abstractmethod
 from typing import Any, List, Optional, Pattern, Union
-from .exceptions import InvalidAccess
 
 class EventConstraint(ABC):
     """Abstract rule that an incoming event must satisfy."""
@@ -417,7 +416,6 @@ class IsForwarded(EventConstraint):
 
 class ForwardedFromUser(EventConstraint):
     """Matches messages forwarded from a User (includes hidden-profile forwards)."""
-
     async def evaluate(self, event: Any) -> bool:
         return bool(getattr(event, 'is_forwarded_from_user', False))
 
@@ -442,7 +440,8 @@ class HasMetadata(EventConstraint):
         return getattr(event, 'metadata', None) is not None
 
 class MetadataType(EventConstraint):
-    """Matches messages that have specific metadata types.
+    """
+    Matches messages that have specific metadata types.
 
     Parameters
     ----------
@@ -469,23 +468,56 @@ class IsJoined(EventConstraint):
 
         IsJoined("c0...")
         IsJoined(["c0A", "c0B"])
-        ~IsJoined(CHAT_ID)
+        ~IsJoined("c0...")
     """
-    def __init__(self, chat_ids: Union[str, List[str]]) -> None:
+    def __init__(self, chat_ids) -> None:
         if isinstance(chat_ids, str):
-            self._chat_ids: List[str] = [chat_ids]
+            self._chat_ids = [chat_ids]
         else:
             self._chat_ids = list(chat_ids)
 
-    async def evaluate(self, event: Any) -> bool:
+    async def evaluate(self, event) -> bool:
         author_id = getattr(event, "author_id", None)
         bot = getattr(event, "bot", None)
         if not author_id or bot is None:
             return False
 
         for chat_id in self._chat_ids:
-            try:
-                await bot.get_chat_member(chat_id, author_id)
-            except InvalidAccess:
+            if not await bot.member_is_joined(chat_id, author_id):
                 return False
         return True
+
+class IsAdmin(EventConstraint):
+    """
+    Matches when the event author is an admin or creator of the chat.
+
+    Usage::
+
+        IsAdmin()
+    """
+    async def evaluate(self, event: Any) -> bool:
+        author_id = getattr(event, "author_id", None)
+        chat_id = getattr(event, "chat_id", None)
+        bot = getattr(event, "bot", None)
+        if not author_id or not chat_id or bot is None:
+            return False
+
+        return await bot.member_is_admin(chat_id, author_id)
+
+
+class IsOwner(EventConstraint):
+    """
+    Matches when the event author is the owner (creator) of the chat.
+
+    Usage::
+
+        IsOwner()
+    """
+    async def evaluate(self, event: Any) -> bool:
+        author_id = getattr(event, "author_id", None)
+        chat_id = getattr(event, "chat_id", None)
+        bot = getattr(event, "bot", None)
+        if not author_id or not chat_id or bot is None:
+            return False
+
+        return await bot.member_is_owner(chat_id, author_id)

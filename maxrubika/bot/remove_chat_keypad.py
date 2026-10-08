@@ -1,5 +1,4 @@
-import re
-import maxrubika
+import re; import maxrubika
 from .exceptions import InvalidInput
 
 class RemoveChatKeypad:
@@ -13,13 +12,10 @@ class RemoveChatKeypad:
         Returns:
             The API response after removing the chat keypad.
         """
-        chat_id_regex = r"^(c0|g0|b0)[a-zA-Z0-9]{30}$"
+        chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
 
         if not re.match(chat_id_regex, chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
-
-        if chat_id.startswith('c0') or chat_id.startswith('g0'):
-            raise InvalidInput("Chat keypad can only be removed from private chats (b0).")
 
         payload = {
             'chat_id': chat_id,

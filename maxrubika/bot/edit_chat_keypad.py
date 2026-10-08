@@ -17,37 +17,53 @@ class EditChatKeypad(KeypadMixin):
         Parameters:
             chat_id (str): chat_id of the group (starts with 'g0') or user (starts with 'b0').
             chat_keypad (Dict[str, Any] or List): The keyboard layout to set.
-            resize_keyboard (bool, optional): Requests clients to resize the keyboard vertically. 
+                Supports three formats:
+
+                1. Simple list of strings:
+                    [
+                        ["Button 1", "Button 2"],
+                        ["Button 3"]
+                    ]
+                    Each inner list is a row. Buttons are strings.
+                    The type is set to "Simple" and IDs are assigned automatically
+                    starting from 100.
+
+                2. List of tuples: (button_text, button_id, button_type)
+                    [
+                        [("راهنما", "help")],
+                        [("تلاش مجدد", "retry"), ("بستن", "close")],
+                        [("پنل مدیریت", "panel", "Simple"), ("تنظیمات", "settings", "Simple")],
+                        [("درباره", None), ("پشتیبانی", None)],
+                        [("✅ تایید", "confirm"), ("❌ لغو", "cancel"), ("🔄 بازگشت", "back")],
+                    ]
+                    Tuple structure: (text, id, type)
+                        - text: button text
+                        - id: button ID (if None, auto-assigned starting from 100)
+                        - type: button type (if omitted, defaults to "Simple")
+                    Note: comma after text is required for single-item tuples.
+
+                3. Full dictionary (raw API format):
+                    {
+                        "rows": [
+                            {"buttons": [{"id": "1", "button_text": "Button 1", "type": "Simple"}]},
+                            {"buttons": [{"id": "2", "button_text": "Button 2", "type": "Simple"}]}
+                        ]
+                    }
+
+            resize_keyboard (bool, optional): Requests clients to resize the keyboard vertically.
                 Defaults to True.
-            one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used. 
+            one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used.
                 Defaults to False.
 
         Returns:
             The API response after editing the chat keypad.
 
-        Examples:
-            # روش 1: لیست دو بعدی ساده
-            chat_keypad = [
-                ["Button 1"],
-                ["Button 2"]
-            ]
-            bot.edit_chat_keypad("b0abc123...", chat_keypad)
-
-            # روش 2: دیکشنری کامل
-            chat_keypad = {
-                "rows": [
-                    {"buttons": [{"id": "1", "button_text": "Button 1", "type": "Simple"}]},
-                    {"buttons": [{"id": "2", "button_text": "Button 2", "type": "Simple"}]}
-                ]
-            }
-            bot.edit_chat_keypad("b0abc123...", chat_keypad)
+        Raises:
+            InvalidInput: If 'chat_id' format is invalid, or if 'chat_keypad' is empty/None.
         """
-        chat_id_regex = r"^(c0|g0|b0)[a-zA-Z0-9]{30}$"
+        chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
         if not re.match(chat_id_regex, chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
-
-        if chat_id.startswith('c0') or chat_id.startswith('g0'):
-            raise InvalidInput("Chat keypad cannot be set for groups or channels.")
 
         if not chat_keypad:
             raise InvalidInput("'chat_keypad' is required. Use remove_chat_keypad() to remove keypad.")

@@ -24,7 +24,7 @@ class ForwardMessage:
         Returns:
             dict: API response with message information.
         """
-        chat_id_regex = r"^(c0|g0|b0)[a-zA-Z0-9]{30}$"
+        chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
 
         if not re.match(chat_id_regex, from_chat_id):
             raise InvalidInput("Invalid 'from_chat_id' format.")

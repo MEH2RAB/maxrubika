@@ -24,7 +24,7 @@ class EditMessage:
         Returns:
             dict: API response with message information.
         """
-        if not re.match(r"^(c0|g0|b0)[a-zA-Z0-9]{30}$", chat_id):
+        if not re.match(r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$", chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
 
         if not isinstance(text, str) or not text.strip() or len(text) > 4096:

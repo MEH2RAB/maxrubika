@@ -18,7 +18,7 @@ class GetChatMember:
         Returns:
             dict: API response.
         """
-        chat_id_regex = r"^(c0|g0|b0)[a-zA-Z0-9]{30}$"
+        chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
         user_id_regex = r"^u0[a-zA-Z0-9]{30}$"
 
         if not re.match(chat_id_regex, chat_id):
@@ -32,6 +32,6 @@ class GetChatMember:
 
         payload = {
             'chat_id': chat_id,
-            'user_id': user_id,
+            'user_id': user_id
         }
         return await self.request('POST', 'getChatMember', json = payload)

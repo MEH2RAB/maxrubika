@@ -1,7 +1,7 @@
 from typing import List, Union, Optional
 import json; import re; import maxrubika
 from ...data import Data
-from ..exceptions import InvalidInput
+from ..exceptions import InvalidInput, InvalidUsername
 
 class GetMessages:
     async def get_messages(
@@ -80,7 +80,7 @@ class GetMessages:
             result = await self.get_info_by_username(username)
             info = result if isinstance(result, dict) else json.loads(str(result))
             if not info.get("exist"):
-                raise ValueError(f"Invalid username: {username}")
+                raise InvalidUsername(f"Invalid username: {username}")
             obj_type = info.get("type")
             if obj_type == "User":
                 member_guids.add(info["user"]["user_guid"])
@@ -109,7 +109,7 @@ class GetMessages:
             my_guid = self.guid
 
         all_data = await self.get_all_messages(chat_guid)
-        all_messages = all_data["messages"]
+        all_messages = all_data.original_data["messages"]
 
         if not filter_types and not member_guids:
             filtered = all_messages

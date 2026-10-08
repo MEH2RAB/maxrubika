@@ -14,6 +14,9 @@ from .get_file import GetFile
 from .get_me import GetMe
 from .get_token_string import GetTokenString
 from .get_updates import GetUpdates
+from .member_is_admin import MemberIsAdmin
+from .member_is_joined import MemberIsJoined
+from .member_is_owner import MemberIsOwner
 from .register_all_endpoints import RegisterAllEndpoints
 from .remove_chat_keypad import RemoveChatKeypad
 from .remove_member import RemoveMember
@@ -52,6 +55,9 @@ class Methods(
     GetMe,
     GetTokenString,
     GetUpdates,
+    MemberIsAdmin,
+    MemberIsJoined,
+    MemberIsOwner,
     RegisterAllEndpoints,
     RemoveChatKeypad,
     RemoveMember,
