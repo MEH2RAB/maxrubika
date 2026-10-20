@@ -25,6 +25,72 @@ with Messenger("mySession") as app:
 
 ---
 
+<a id="messenger_examples_show_chat_counts"></a>
+## [نمایش تعداد چت‌ها](#messenger_examples_show_chat_counts)
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    chats = app.get_chats(show_chat_guids=True)
+    guids = chats.chat_guids
+
+    print("تعداد کل گفتگوهای شما:", chats.total)
+    print("تعداد کانال‌ها:", sum(g.startswith("c0") for g in guids))
+    print("تعداد گروه‌ها:", sum(g.startswith("g0") for g in guids))
+    print("تعداد کاربران:", sum(g.startswith("u0") for g in guids))
+    print("تعداد بات‌ها:", sum(g.startswith("b0") for g in guids))
+    print("تعداد سرویس‌ها:", sum(g.startswith("s0") for g in guids))
+```
+
+---
+
+<a id="messenger_examples_send_hello"></a>
+## [پاسخ خودکار به سلام با افکت متحرک قلب](#messenger_examples_send_hello)
+
+```python
+import asyncio, time
+from maxrubika import Messenger
+from maxrubika.client.filters import IsMe, Text
+
+app = Messenger("mySession")
+
+last_reply = {}
+sleep = 90
+
+@app.on_new_message(Text("^سلام") |  Text("^درود") & ~IsMe())
+async def i(event):
+    user_guid = event.author_guid
+
+    now = time.time()
+    if user_guid in last_reply:
+        if now - last_reply[user_guid] < sleep:
+            return
+        else:
+            del last_reply[user_guid]
+
+    last_reply[user_guid] = now
+
+    send = await event.reply("درود! ❤")
+
+    hearts = ["🩵", "💙", "💖", "🩶", "💚", "💛", "💜", "🖤", "🤍", "🤎"]
+    delay = 0.5
+    total_time = 30
+    steps = int(total_time / delay)
+
+    for i in range(steps):
+        heart = hearts[i % len(hearts)]
+        try:
+            await send.edit(f"درود! {heart}")
+        except Exception:
+            break
+        await asyncio.sleep(delay)
+
+app.run()
+```
+
+---
+
 <a id="messenger_examples_self_bot_combined"></a>
 ## [ترکیب بات و سلف‌بات - دریافت لینک پست](#messenger_examples_self_bot_combined)
 

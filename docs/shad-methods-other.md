@@ -100,7 +100,7 @@ with Shad("mySession") as app:
 ---
 
 <a id="shad_register_device"></a>
-## [register_device](#shad_register_device)
+### [register_device](#shad_register_device)
 
 این متد برای ثبت دستگاه فعلی در سرور به کار می‌رود.
 

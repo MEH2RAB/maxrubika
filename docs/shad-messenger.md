@@ -18,7 +18,7 @@
 
 <a href="../shad-properties/" class="md-button md-button--primary" style="background: linear-gradient(135deg, #10B981, #059669); border: none; border-radius: 10px; flex: 1; min-width: 140px; text-align: center; padding: 12px 20px; font-weight: bold; box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3); transition: all 0.3s ease; color: #fff;">پراپرتی‌ها</a>
 
-<a href="#" class="md-button md-button--primary" onclick="alert('این بخش به زودی آماده می‌شود.'); return false;" style="background: linear-gradient(135deg, #10B981, #059669); border: none; border-radius: 10px; flex: 1; min-width: 140px; text-align: center; padding: 12px 20px; font-weight: bold; box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3); transition: all 0.3s ease; color: #fff;">مثال‌ها</a>
+<a href="../shad-examples/" class="md-button md-button--primary" style="background: linear-gradient(135deg, #10B981, #059669); border: none; border-radius: 10px; flex: 1; min-width: 140px; text-align: center; padding: 12px 20px; font-weight: bold; box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3); transition: all 0.3s ease; color: #fff;">مثال‌ها</a>
 
 <a href="../shad-more/" class="md-button md-button--primary" style="background: linear-gradient(135deg, #10B981, #059669); border: none; border-radius: 10px; flex: 1; min-width: 140px; text-align: center; padding: 12px 20px; font-weight: bold; box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3); transition: all 0.3s ease; color: #fff;">توضیحات بیشتر</a>
 
