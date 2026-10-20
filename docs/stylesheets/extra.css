@@ -412,6 +412,15 @@ code, pre, .highlight code, .highlight pre, .md-code__content {
     font-weight: 500;
 }
 
+/* تم روشن: متن جستجو سیاه */
+[data-md-color-scheme="default"] .md-search__input {
+    color: #1d1b20 !important;
+}
+
+[data-md-color-scheme="default"] .md-search__input::placeholder {
+    color: rgba(29, 27, 32, 0.6) !important;
+}
+
 .md-search__output {
     border-radius: 20px !important;
     box-shadow: 

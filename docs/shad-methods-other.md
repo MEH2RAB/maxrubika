@@ -99,6 +99,27 @@ with Shad("mySession") as app:
 
 ---
 
+<a id="shad_register_device"></a>
+## [register_device](#shad_register_device)
+
+این متد برای ثبت دستگاه فعلی در سرور به کار می‌رود.
+
+**پارامتر:**
+
+- **device_model:** نام مدل دستگاه سفارشی. (پیش‌فرض: None - تشخیص خودکار)
+
+**مثال:**
+
+```python
+from maxrubika import Shad
+
+with Shad("mySession") as app:
+    result = app.register_device()
+    print(result)
+```
+
+---
+
 <a id="shad_run"></a>
 ### [run](#shad_run)
 
