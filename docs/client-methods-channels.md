@@ -19,12 +19,8 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        check = app.check_channel_username("@Undefined")
-        print(check)
-
-    except Exception as e:
-        print(e)
+    check = app.check_channel_username("@Undefined")
+    print(check)
 ```
 
 ---
@@ -37,11 +33,15 @@ with Messenger("mySession") as app:
 **پارامترها:**
 
 - **title:** عنوان کانال. (حداکثر ۶۰ کاراکتر، نمی‌تواند خالی باشد)
-- **members:** لیست اعضای اولیه کانال. نام‌کاربری و GUID هر دو قابل قبول هستند. (پیش‌فرض: None)
+- **members:** لیست اعضای اولیه کانال. نام‌کاربری و GUID هر دو قابل قبول هستند. فقط کاربران (`u0`) و بات‌ها (`b0`) مجاز هستند. (پیش‌فرض: None)
 - **channel_type:** نوع کانال. مقادیر قابل قبول: `Public` یا `Private`. (پیش‌فرض: Public)
 - **description:** متن بیوگرافی کانال. (حداکثر ۳۰۰ کاراکتر، پیش‌فرض: None)
+- **avatar:** تصویر آواتار کانال. مسیر فایل، رشته یا bytes. (پیش‌فرض: None)
+- **thumbnail_avatar:** تصویر بندانگشتی آواتار کانال. مسیر فایل، رشته یا bytes. (پیش‌فرض: None)
 
 **نکته:** تفاوتی ندارد که نام‌کاربری با `@` نوشته شود یا بدون آن؛ کتابخانه هر دو حالت را می‌پذیرد.
+
+**نکته:** اگر فقط `avatar` داده شود، بندانگشتی از همان تصویر گرفته می‌شود. اگر هیچ‌کدام داده نشود، آواتاری تنظیم نمی‌شود.
 
 **مثال:**
 
@@ -49,17 +49,14 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        action = app.create_channel(
-            title="کانال تست",
-            members=["Online_User", "@ShowInfoBot", "@Cipher", "ir_maxware", "u0HryBf03dbfba68374497983bc850a0"],
-            channel_type="Public",
-            description="این یک کانال تست است."
-        )
-        print(action)
-
-    except Exception as e:
-        print(e)
+    action = app.create_channel(
+        title="کانال تست",
+        members=["Online_User", "@ShowInfoBot", "@Cipher", "ir_maxware", "u0HryBf03dbfba68374497983bc850a0"],
+        channel_type="Public",
+        description="این یک کانال تست است.",
+        avatar="avatar.jpg"
+    )
+    print(action)
 ```
 
 ---
@@ -69,13 +66,14 @@ with Messenger("mySession") as app:
 
 این متد برای حذف یک کانال به کار می‌رود.
 
-**پارامتر:**
+**پارامترها:**
 
 - **channel:** لینک، نام‌کاربری یا شناسه (GUID) کانال هدف.
+- **confirm:** در صورت True بودن، قبل از حذف از کاربر تأیید گرفته می‌شود (`y/n`). در صورت False بودن، بدون پرسش حذف می‌شود. (پیش‌فرض: True)
 
 **نکته:** تفاوتی ندارد که نام‌کاربری با `@` نوشته شود یا بدون آن؛ کتابخانه هر دو حالت را می‌پذیرد.
 
-**توجه:** پس از اجرای این متد، برای تکمیل عملیات حذف، باید حرف `y` را در کنسول وارد نمایید.
+**توجه:** در حالت `confirm=True`، برای تکمیل عملیات حذف باید حرف `y` را در کنسول وارد نمایید.
 
 **مثال:**
 
@@ -83,12 +81,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        action = app.delete_channel("c0CyVlK0cae995e5b46031170a358a4e")
-        print(action)
+    action = app.delete_channel("c0CyVlK0cae995e5b46031170a358a4e")
+    print(action)
 
-    except Exception as e:
-        print(e)
+    # حذف بدون تأیید
+    action = app.delete_channel("c0CyVlK0cae995e5b46031170a358a4e", confirm=False)
+    print(action)
 ```
 
 ---
@@ -117,20 +115,16 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        action = app.edit_channel_info(
-            channel="https://rubika.ir/joinc/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD",
-            title="کانال من",
-            username="infoChannel1234",
-            channel_type="Public",
-            description="درباره‌ی من.",
-            reactions=[1, 2, 3, 5, 7, 9, 12, 20],
-            sign_messages=True
-        )
-        print(action)
-
-    except Exception as e:
-        print(e)
+    action = app.edit_channel_info(
+        channel="https://rubika.ir/joinc/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD",
+        title="کانال من",
+        username="infoChannel1234",
+        channel_type="Public",
+        description="درباره‌ی من.",
+        reactions=[1, 2, 3, 5, 7, 9, 12, 20],
+        sign_messages=True
+    )
+    print(action)
 ```
 
 ---
@@ -153,12 +147,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        action = app.edit_channel_title("@TheProgrammer", "new title")
-        print(action)
-
-    except Exception as e:
-        print(e)
+    action = app.edit_channel_title("@TheProgrammer", "new title")
+    print(action)
 ```
 
 ---
@@ -184,12 +174,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        action = app.get_channel_admin_access("@TheProgrammer", "@Online_User")
-        print(action)
-
-    except Exception as e:
-        print(e)
+    action = app.get_channel_admin_access("@TheProgrammer", "@Online_User")
+    print(action)
 ```
 
 ---
@@ -212,12 +198,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        action = app.get_channel_admins("CodeYaran")
-        print(action)
-
-    except Exception as e:
-        print(e)
+    action = app.get_channel_admins("CodeYaran")
+    print(action)
 ```
 
 ---
@@ -239,12 +221,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        action = app.get_channel_info("MEH2RAB")
-        print(action)
-
-    except Exception as e:
-        print(e)
+    action = app.get_channel_info("MEH2RAB")
+    print(action)
 ```
 
 ---
@@ -266,12 +244,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        action = app.get_channel_link("c0G3R19035f77574adc0127ab97c999c")
-        print(action)
-
-    except Exception as e:
-        print(e)
+    action = app.get_channel_link("c0G3R19035f77574adc0127ab97c999c")
+    print(action)
 ```
 
 ---
@@ -300,12 +274,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        action = app.get_channel_members("c0G3R19035f77574adc0127ab97c999c")
-        print(action)
-
-    except Exception as e:
-        print(e)
+    action = app.get_channel_members("c0G3R19035f77574adc0127ab97c999c")
+    print(action)
 ```
 
 جستجوی یک کاربر خاص:
@@ -314,12 +284,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        action = app.get_channel_members("PythonChannel", search_text="@ir_MAXWare")
-        print(action)
-
-    except Exception as e:
-        print(e)
+    action = app.get_channel_members("PythonChannel", search_text="@ir_MAXWare")
+    print(action)
 ```
 
 ---
@@ -342,12 +308,31 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        info = app.get_channel_post_by_link("https://rubika.ir/RubiFAQ/BICEGHDGFBGJHCCD")
-        print(info)
+    info = app.get_channel_post_by_link("https://rubika.ir/RubiFAQ/BICEGHDGFBGJHCCD")
+    print(info)
+```
 
-    except Exception as e:
-        print(e)
+---
+
+<a id="messenger_get_post_by_ask_link"></a>
+## [get_post_by_ask_link](#messenger_get_post_by_ask_link)
+
+این متد برای دریافت اطلاعات یک پیام کانال از طریق لینک‌های `go.rubika.ir` (لینک‌های Ask) به کار می‌رود.
+
+**پارامتر:**
+
+- **url:** لینک `go.rubika.ir`.
+
+**نکته:** این لینک‌ها معمولاً به شکل `https://go.rubika.ir/...*...` هستند و از base64 برای کدگذاری اطلاعات استفاده می‌کنند.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    info = app.get_post_by_ask_link("https://go.rubika.ir/...*...")
+    print(info)
 ```
 
 ---
@@ -371,12 +356,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.get_channel_seen_count("CodeYaran", 157896351047, 189720063713)
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.get_channel_seen_count("CodeYaran", 157896351047, 189720063713)
+    print(result)
 ```
 
 ---
@@ -398,12 +379,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        stats = app.get_channel_statistics("CodeYaran")
-        print(stats)
-
-    except Exception as e:
-        print(e)
+    stats = app.get_channel_statistics("CodeYaran")
+    print(stats)
 ```
 
 ---
@@ -411,7 +388,7 @@ with Messenger("mySession") as app:
 <a id="messenger_join_channel"></a>
 ## [join_channel](#messenger_join_channel)
 
-این متد برای عضویت در یک کانال به کار می‌رود. هم لینک دعوت و هم روش مستقیم را پشتیبانی می‌کند.
+این متد برای عضویت در یک کانال به کار می‌رود.
 
 **پارامتر:**
 
@@ -425,12 +402,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.join_channel("@TheComputeriha")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.join_channel("@TheComputeriha")
+    print(result)
 ```
 
 ---
@@ -452,12 +425,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.leave_channel("@Rubika")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.leave_channel("@Rubika")
+    print(result)
 ```
 
 ---
@@ -481,12 +450,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.seen_channel_messages("@PythonChannel", 11231014101, 52415414554)
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.seen_channel_messages("@PythonChannel", 11231014101, 52415414554)
+    print(result)
 ```
 
 ---
@@ -508,12 +473,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_channel_link("@PC_and_Mobile")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_channel_link("@PC_and_Mobile")
+    print(result)
 ```
 
 ---
@@ -536,12 +497,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_channel_type("@Undefined", channel_type="Private")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_channel_type("@Undefined", channel_type="Private")
+    print(result)
 ```
 
 ---
@@ -560,6 +517,7 @@ with Messenger("mySession") as app:
 
 1. تفاوتی ندارد که نام‌کاربری با `@` نوشته شود یا بدون آن؛ کتابخانه هر دو حالت را می‌پذیرد.
 2. نام‌کاربری نمی‌تواند با عدد یا زیرخط شروع شود یا به زیرخط ختم شود و باید حداقل شامل یک حرف باشد.
+3. اگر `username` رشته خالی باشد، نام‌کاربری کانال حذف می‌شود.
 
 **مثال:**
 
@@ -567,12 +525,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.update_channel_username("TheProgrammer", username="TheProgrammer2")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.update_channel_username("TheProgrammer", username="TheProgrammer2")
+    print(result)
 ```
 
 ---

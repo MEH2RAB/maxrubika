@@ -19,12 +19,8 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        guid = app.get_guid("@Online_User")
-        print(guid)
-
-    except Exception as e:
-        print(e)
+    guid = app.get_guid("@Online_User")
+    print(guid)
 ```
 
 ---
@@ -40,12 +36,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        my_guid = app.get_my_guid()
-        print(my_guid)
-
-    except Exception as e:
-        print(e)
+    my_guid = app.get_my_guid()
+    print(my_guid)
 ```
 
 ---
@@ -57,9 +49,9 @@ with Messenger("mySession") as app:
 
 **پارامتر:**
 
-- **username:** نام‌کاربری مورد نظر. (حداقل ۳ و حداکثر ۳۲ کاراکتر)
+- **username:** نام‌کاربری مورد نظر. (حداقل ۳ و حداکثر ۳۲ کاراکتر، فقط حروف انگلیسی، اعداد و زیرخط)
 
-**نکته:** تفاوتی ندارد که نام‌کاربری با `@` نوشته شود یا بدون آن.
+**نکته:** نام‌کاربری نمی‌تواند با عدد یا زیرخط شروع شود یا به زیرخط ختم شود و باید حداقل شامل یک حرف باشد.
 
 **مثال:**
 
@@ -67,12 +59,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        info = app.get_info_by_username("Online_User")
-        print(info)
-
-    except Exception as e:
-        print(e)
+    info = app.get_info_by_username("Online_User")
+    print(info)
 ```
 
 ---
@@ -92,12 +80,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        info = app.get_info_by_link("https://rubika.ir/joing/ABC123")
-        print(info)
-
-    except Exception as e:
-        print(e)
+    info = app.get_info_by_link("https://rubika.ir/joing/ABC123")
+    print(info)
 ```
 
 ---
@@ -121,12 +105,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        info = app.get_chat_info("@Online_User")
-        print(info)
-
-    except Exception as e:
-        print(e)
+    info = app.get_chat_info("@Online_User")
+    print(info)
 ```
 
 ۲. دریافت اطلاعات گروه از لینک:
@@ -135,12 +115,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        info = app.get_chat_info("https://rubika.ir/joing/ABC123")
-        print(info)
-
-    except Exception as e:
-        print(e)
+    info = app.get_chat_info("https://rubika.ir/joing/ABC123")
+    print(info)
 ```
 
 ---
@@ -160,12 +136,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        info = app.get_chats_info(["u0abc123...", "g0xyz789...", "c0def456..."])
-        print(info)
-
-    except Exception as e:
-        print(e)
+    info = app.get_chats_info(["u0abc123...", "g0xyz789...", "c0def456..."])
+    print(info)
 ```
 
 ---
@@ -175,9 +147,11 @@ with Messenger("mySession") as app:
 
 این متد برای دریافت لیست تمام چت‌های حساب کاربری است. به صورت خودکار تمام صفحات را پیمایش می‌کند.
 
-**پارامتر:**
+**پارامترها:**
 
 - **show_chat_guids:** در صورت True بودن، GUID چت‌ها در خروجی نمایش داده می‌شود. (پیش‌فرض: False)
+- **auto_start_id:** در صورت True بودن، تمام صفحات به صورت خودکار دریافت می‌شوند. در صورت False بودن، فقط یک صفحه با `start_id` دریافت می‌شود. (پیش‌فرض: True)
+- **start_id:** شناسه شروع برای صفحه‌بندی. فقط زمانی استفاده می‌شود که `auto_start_id=False` باشد. (پیش‌فرض: None)
 
 **مثال:**
 
@@ -185,12 +159,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        chats = app.get_chats()
-        print(chats)
-
-    except Exception as e:
-        print(e)
+    chats = app.get_chats()
+    print(chats)
 ```
 
 ---
@@ -210,12 +180,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        updates = app.get_chats_updates()
-        print(updates)
-
-    except Exception as e:
-        print(e)
+    updates = app.get_chats_updates()
+    print(updates)
 ```
 
 ---
@@ -235,12 +201,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        related = app.get_related_chats("g0abc123...")
-        print(related)
-
-    except Exception as e:
-        print(e)
+    related = app.get_related_chats("g0abc123...")
+    print(related)
 ```
 
 ---
@@ -260,12 +222,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        items = app.get_profile_link_items("u0abc123...")
-        print(items)
-
-    except Exception as e:
-        print(e)
+    items = app.get_profile_link_items("u0abc123...")
+    print(items)
 ```
 
 ---
@@ -285,12 +243,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        ads = app.get_chat_ads()
-        print(ads)
-
-    except Exception as e:
-        print(e)
+    ads = app.get_chat_ads()
+    print(ads)
 ```
 
 ---
@@ -314,12 +268,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        results = app.search_global_chats("برنامه‌نویس")
-        print(results)
-
-    except Exception as e:
-        print(e)
+    results = app.search_global_chats("برنامه‌نویس")
+    print(results)
 ```
 
 جستجو با فیلتر نوع:
@@ -328,15 +278,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        results = app.search_global_chats(
-            "برنامه‌نویس",
-            filter_type=["Channel", "Bot"]
-        )
-        print(results)
-
-    except Exception as e:
-        print(e)
+    results = app.search_global_chats(
+        "برنامه‌نویس",
+        filter_type=["Channel", "Bot"]
+    )
+    print(results)
 ```
 
 ---

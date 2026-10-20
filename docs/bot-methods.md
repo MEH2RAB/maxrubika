@@ -10,13 +10,9 @@
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     print(bot.get_me())
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -31,14 +27,29 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.get_chat_info("chat_id")
     print(a)
+```
 
-except Exception as e:
-    print(e)
+---
+
+## [get_chat_member](#get_chat_member)
+
+این متد برای دریافت اطلاعات یک عضو خاص در یک گروه یا کانال استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:
+
+- **chat_id:** شناسه (چت آیدی) گروه (با g0) یا کانال (با c0).
+- **user_id:** شناسه کاربر (با u0).
+
+**مثال:**
+
+```python
+from maxrubika import Bot
+
+with Bot("token") as bot:
+    a = bot.get_chat_member("g0xxxxxxxxxxxxxxx", "u0xxxxxxxxxxxxxxx")
+    print(a)
 ```
 
 ---
@@ -54,14 +65,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.get_updates(limit=50)
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -72,6 +79,7 @@ except Exception as e:
 
 - **chat_id:** شناسه (چت آیدی) گفتگوی مقصد.
 - **text:** متن پیام.
+- **metadata:** متادیتای قالب‌بندی‌شده (اختیاری).
 - **chat_keypad:** تنظیم کیبورد سفارشی برای گفتگو. (پیش‌فرض: None)
 - **inline_keypad:** تنظیم دکمه‌های شیشه‌ای (Inline) برای پیام. (پیش‌فرض: None)
 - **reply_to_message_id:** شناسه (مسیج آیدی) پیامی که می‌خواهید به آن ریپلای بزنید. (پیش‌فرض: None)
@@ -81,11 +89,12 @@ except Exception as e:
 
 **نکات:**
 
-1. شناسه گفتگو (chat_id) باید با g0 (برای گروه)، c0 (برای کانال) یا b0 (برای کاربر) شروع شود و مجموعاً ۳۲ کاراکتر باشد. دقت کنید که chat_id کاربر (که با b0 شروع می‌شود) با sender_id کاربر (که با u0 شروع می‌شود) متفاوت است. همچنین از وارد کردن GUID که ظاهری مشابه دارد، خودداری کنید. برای دریافت chat_id گفتگوی مورد نظر، [اینجا](bot-examples.md/#bot_examples_user_info) کلیک کنید.
+1. شناسه گفتگو (chat_id) باید با g0 (برای گروه)، c0 (برای کانال) یا b0 (برای کاربر) شروع شود و مجموعاً ۳۲ کاراکتر باشد. دقت کنید که chat_id کاربر (که با b0 شروع می‌شود) با sender_id کاربر (که با u0 شروع می‌شود) متفاوت است. همچنین از وارد کردن GUID که ظاهری مشابه دارد، خودداری کنید. برای دریافت chat_id گفتگوی مورد نظر، [اینجا](bot-examples.md/#bot_examples_get_info) کلیک کنید.
 2. حداکثر تعداد کاراکتر مجاز برای متن پیام ۴۰۹۶ کاراکتر است.
 3. برای ساخت chat_keypad و inline_keypad، می‌توانید از روش ساده‌سازی‌شده کتابخانه استفاده کنید. در این روش، نیازی به تنظیم دستی button_id و type نیست. کتابخانه به طور خودکار button_id را از عدد ۱۰۰ به ترتیب چینش دکمه‌ها مقداردهی می‌کند و نوع (type) دکمه را نیز Simple در نظر می‌گیرد. برای مشاهده انواع دکمه‌ها، [اینجا](bot-more.md/#bot_button_types) کلیک کنید.
 4. پارامترهای resize_keyboard و one_time_keyboard تنها زمانی تأثیرگذار هستند که chat_keypad مقداردهی شده باشد.
 5. برای استفاده از متادیتا در متن پیام (مانند برجسته، کج، منشن، هایپرلینک و...)، [اینجا](bot-more.md/#bot_metadata_guide) کلیک کنید.
+6. در صورتی که به روش تاپل از کیبوردها استفاده نمایید، ترتیب آن به ترتیب (متن، آیدی، و نوع دکمه) است؛ در صورتی که نمی‌خواهید نوع دکمه و آیدی آن را تنظیم کنید، کافی‌ست صرفاً متن دکمه را وارد کنید. (کامای بعد از متن فراموش نشود). اگر می‌خواهید فقط متن دکمه و نوع آن را وارد کنید، در قسمت آیدی، None وارد کنید؛ کتابخانه به ترتیب از عدد ۱۰۰ آیدی دکمه‌ها را ثبت خواهد کرد.
 
 **مثال‌ها:**
 
@@ -93,54 +102,64 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_message("chat_id", "این یک پیام تستی است.")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ارسال پیام با استفاده از متادیتا:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_message("chat_id", "> **سلام** به __کتابخانه__ ||MAXRubika|| ~~خوش آمدید.~~")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ارسال پیام همراه با chat_keypad و inline_keypad (روش ساده):
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_message(
         chat_id="chat_id", text="این یک پیام تستی است.",
         inline_keypad=[["دکمه 1"], ["دکمه 2"]],
         chat_keypad=[["ارتباط با مدیر", "خروج"]])
     print(a)
-
-except Exception as e:
-    print(e)
 ```
+
+ارسال پیام همراه با chat_keypad و inline_keypad (به صورت تاپل):
+
+```python
+from maxrubika import Bot
+
+with Bot("token") as bot:
+    a = bot.send_message(
+        chat_id="chat_id", text="این یک پیام تستی است.",
+        inline_keypad=[
+            [("Help", "help")],
+            [("Retry", "retry"), ("Close", "close")],
+            [("Admin Panel", "panel", "Simple"), ("Settings", "settings", "Simple")],
+            [("About", None), ("Support", None)],
+            [("✅ Confirm", "confirm"), ("❌ Cancel", "cancel"), ("🔄 Back", "back")],
+        ],
+        chat_keypad=[
+            [("ارتباط با مدیر", None)],
+            [("خروج", None)],
+        ])
+    print(a)
+```
+
 
 ارسال پیام همراه با chat_keypad و inline_keypad (روش سفارشی):
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_message(
         chat_id="chat_id", text="این یک پیام تستی است.",
         inline_keypad={
@@ -168,9 +187,6 @@ try:
             ]
         })
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -182,6 +198,7 @@ except Exception as e:
 - **chat_id:** شناسه (چت آیدی) گفتگویی که پیام در آن قرار دارد.
 - **message_id:** شناسه (مسیج آیدی) پیامی که باید ویرایش شود.
 - **text:** متن جدید جایگزین.
+- **metadata:** متادیتای قالب‌بندی‌شده (اختیاری).
 
 **نکات:**
 
@@ -194,14 +211,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.edit_message("chat_id", "message_id", "متن جدید")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -226,26 +239,36 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     inline_keypad = [
         ["Button 1", "Button 2"],
         ["Button 3"]
     ]
     bot.edit_inline_keypad("chat_id", "message_id", inline_keypad)
+```
 
-except Exception as e:
-    print(e)
+ویرایش inline_keypad به روش تاپل:
+```python
+from maxrubika import Bot
+
+with Bot("token") as bot:
+    inline_keypad = [
+        [("Help", "help")],
+        [("Retry", "retry"), ("Close", "close")],
+        [("Admin Panel", "panel", "Simple"), ("Settings", "settings", "Simple")],
+        [("About", None), ("Support", None)],
+        [("✅ Confirm", "confirm"), ("❌ Cancel", "cancel"), ("🔄 Back", "back")],
+    ]
+    bot.edit_inline_keypad("chat_id", "message_id", inline_keypad)
 ```
 
 ویرایش inline_keypad به روش سفارشی (دیکشنری):
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     inline_keypad = {
         "rows": [
             {"buttons": [{"id": "1", "button_text": "Button 1", "type": "Simple"}]},
@@ -253,22 +276,15 @@ try:
         ]
     }
     bot.edit_inline_keypad("chat_id", "message_id", inline_keypad)
-
-except Exception as e:
-    print(e)
 ```
 
 حذف کامل inline_keypad از یک پیام (با ارسال یک لیست خالی):
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     bot.edit_inline_keypad("chat_id", "message_id", inline_keypad=[])
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -291,9 +307,8 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     chat_keypad = {
         "rows": [
             {"buttons": [{"id": "1", "button_text": "Button 1", "type": "Simple"}]},
@@ -301,9 +316,6 @@ try:
         ]
     }
     bot.edit_chat_keypad("chat_id", chat_keypad)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -320,14 +332,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.remove_chat_keypad("chat_id")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -348,14 +356,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.delete_message("chat_id", "message_id")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -374,9 +378,8 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     chat_id = "chat_id"
 
     message = bot.send_message(chat_id, "**This is a test message!**")
@@ -384,9 +387,6 @@ try:
 
     delete = bot.auto_delete_message(chat_id, message.message_id, time=50)
     print(delete)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -404,17 +404,13 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     from_chat_id = "c0asc...."
     to_chat_id = "b0adf...."
 
     a = bot.forward_message(from_chat_id, "message_id", to_chat_id)
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -440,17 +436,13 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_contact(
         phone_number="+989123456789",
         first_name="MEHRAB", last_name="Farahmand",
         chat_id="chat_id")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -475,14 +467,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_location(chat_id="chat_id", latitude=32.6546, longitude=51.6680)
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -509,17 +497,13 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_poll(
         chat_id="chat_id", question= "شما کدام رنگ را بیشتر دوست دارید؟",
         options=["آبی", "صورتی", "زرد", "سبز", "نارنجی", "قرمز", "بنفش"],
         is_anonymous=False, multi_select=True)
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -547,18 +531,14 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     b = bot.send_quiz(
         chat_id= "chat_id",
         question= "پایتخت کشور کره جنوبی کدام گزینه است؟",
         options= ["بوسان", "اینچئون", "سئول", "دائگو"], correct_option= "سئول",
         hint= "پایتخت و بزرگترین شهر کره جنوبی سئول می‌باشد.", is_anonymous= False)
     print(b)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -569,9 +549,12 @@ except Exception as e:
 
 - **chat_id:** شناسه (چت آیدی) گفتگوی مقصد.
 - **file:** نام و پسوند فایل برای ارسال. (در صورت استفاده از file_id، این پارامتر نیاز نیست.)
-- **file_id:** شناسه فایلی که از طریق متد upload_file دریافت شده است. (در صورت استفاده از file، این پارامتر نیاز نیست.)
-- **type:** نوع فایل. (پیش‌فرض: File)
+- **file_type:** نوع فایل ('File', 'Image', 'Voice', 'Video', 'Music', 'Gif'). (پیش‌فرض: 'File')
 - **text:** کپشن یا توضیح فایل (حداکثر ۲۰۴۸ کاراکتر).
+- **file_id:** شناسه فایلی که از طریق متد upload_file دریافت شده است. (در صورت استفاده از file، این پارامتر نیاز نیست.)
+- **base64:** داده فایل به صورت Base64. (در صورت استفاده از file یا file_id نیاز نیست.)
+- **file_name:** نام سفارشی برای فایل. (اختیاری)
+- **metadata:** متادیتای کپشن. (اختیاری)
 - **chat_keypad:** کیبورد سفارشی. (پیش‌فرض: None)
 - **inline_keypad:** دکمه‌های شیشه‌ای. (پیش‌فرض: None)
 - **reply_to_message_id:** شناسه (مسیج آیدی) پیام برای ریپلای. (پیش‌فرض: None)
@@ -585,14 +568,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_file(chat_id= "chat_id", file= "newfile.py", text= "فایل پایتونی تقدیم به شما")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -604,6 +583,8 @@ except Exception as e:
 - **chat_id:** شناسه (چت آیدی) گفتگوی مقصد.
 - **image:** نام و پسوند فایل تصویری (مانند .jpg یا .png). (در صورت استفاده از file_id نیاز نیست.)
 - **file_id:** شناسه تصویر دریافت‌شده از upload_file. (در صورت استفاده از image نیاز نیست.)
+- **base64:** داده تصویر به صورت Base64. (اختیاری)
+- **file_name:** نام سفارشی تصویر. (اختیاری)
 - **text:** کپشن یا توضیح تصویر (حداکثر ۲۰۴۸ کاراکتر).
 - **chat_keypad:** کیبورد سفارشی. (پیش‌فرض: None)
 - **inline_keypad:** دکمه‌های شیشه‌ای. (پیش‌فرض: None)
@@ -621,14 +602,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_image(chat_id= "chat_id", image= "1.jpg", disable_notification= True)
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -640,6 +617,8 @@ except Exception as e:
 - **chat_id:** شناسه (چت آیدی) گفتگوی مقصد.
 - **video:** نام و پسوند فایل ویدئویی (مانند .mp4). (در صورت استفاده از file_id نیاز نیست.)
 - **file_id:** شناسه ویدئو دریافت‌شده از upload_file. (در صورت استفاده از video نیاز نیست.)
+- **base64:** داده ویدئو به صورت Base64. (اختیاری)
+- **file_name:** نام سفارشی ویدئو. (اختیاری)
 - **text:** کپشن یا توضیح ویدئو (حداکثر ۲۰۴۸ کاراکتر).
 - **chat_keypad:** کیبورد سفارشی. (پیش‌فرض: None)
 - **inline_keypad:** دکمه‌های شیشه‌ای. (پیش‌فرض: None)
@@ -657,14 +636,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_video(chat_id= "chat_id", video= "20260531.mp4", text= "این یک ویدئو است.")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -676,6 +651,8 @@ except Exception as e:
 - **chat_id:** شناسه (چت آیدی) گفتگوی مقصد.
 - **voice:** نام و پسوند فایل صوتی (فقط .mp3). (در صورت استفاده از file_id نیاز نیست.)
 - **file_id:** شناسه فایل صوتی دریافت‌شده از upload_file. (در صورت استفاده از voice نیاز نیست.)
+- **base64:** داده صوتی به صورت Base64. (اختیاری)
+- **file_name:** نام سفارشی فایل صوتی. (اختیاری)
 - **text:** کپشن یا توضیح پیام صوتی (حداکثر ۲۰۴۸ کاراکتر).
 - **chat_keypad:** کیبورد سفارشی. (پیش‌فرض: None)
 - **inline_keypad:** دکمه‌های شیشه‌ای. (پیش‌فرض: None)
@@ -693,14 +670,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_voice(chat_id= "chat_id", voice= "20260531.mp3")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -712,6 +685,8 @@ except Exception as e:
 - **chat_id:** شناسه (چت آیدی) گفتگوی مقصد.
 - **music:** نام و پسوند فایل موسیقی (مانند .mp3). (در صورت استفاده از file_id نیاز نیست.)
 - **file_id:** شناسه موسیقی دریافت‌شده از upload_file. (در صورت استفاده از music نیاز نیست.)
+- **base64:** داده موسیقی به صورت Base64. (اختیاری)
+- **file_name:** نام سفارشی فایل موسیقی. (اختیاری)
 - **text:** کپشن یا توضیح موسیقی (حداکثر ۲۰۴۸ کاراکتر).
 - **chat_keypad:** کیبورد سفارشی. (پیش‌فرض: None)
 - **inline_keypad:** دکمه‌های شیشه‌ای. (پیش‌فرض: None)
@@ -729,14 +704,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_music(chat_id= "chat_id", music= "Hamid Hiraad - Khaste Shodam (320).mp3")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -748,6 +719,8 @@ except Exception as e:
 - **chat_id:** شناسه (چت آیدی) گفتگوی مقصد.
 - **gif:** نام و پسوند فایل گیف (فقط .mp4 بی‌صدا). (در صورت استفاده از file_id نیاز نیست.)
 - **file_id:** شناسه گیف دریافت‌شده از upload_file. (در صورت استفاده از gif نیاز نیست.)
+- **base64:** داده گیف به صورت Base64. (اختیاری)
+- **file_name:** نام سفارشی فایل گیف. (اختیاری)
 - **text:** کپشن یا توضیح گیف (حداکثر ۲۰۴۸ کاراکتر).
 - **chat_keypad:** کیبورد سفارشی. (پیش‌فرض: None)
 - **inline_keypad:** دکمه‌های شیشه‌ای. (پیش‌فرض: None)
@@ -765,14 +738,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.send_gif(chat_id= "chat_id", gif= "2_5352595205864328454.mp4")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -787,14 +756,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.request_send_file(file_type="Image")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -804,24 +769,23 @@ except Exception as e:
 این متد برای آپلود فایل روی سرورهای روبیکا با استفاده از URL دریافت‌شده از متد request_send_file به کار می‌رود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:
 
 - **url:** آدرس آپلود دریافت‌شده از مرحله قبل.
-- **file_path:** مسیر فایل در سیستم شما (می‌تواند str یا Path باشد).
+- **file:** مسیر فایل، URL یا بایت‌های خام. (اختیاری)
+- **base64:** داده فایل به صورت Base64. (اختیاری)
 - **file_name:** نام فایل. (اگر این پارامتر وارد نشود، نام فایل از file_path گرفته می‌شود.)
+
+**نکته:** یکی از `file` یا `base64` الزامی است.
 
 **مثال:**
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     # مرحله اول: دریافت URL آپلود برای نوع فایل "Image"
     upload_info = bot.request_send_file(file_type="Image")
     # مرحله دوم: آپلود فایل به سرور
-    b = bot.upload_file(url= upload_info.upload_url, file_path= "IMG_20250911_220142_592.jpg")
+    b = bot.upload_file(url= upload_info.upload_url, file= "IMG_20250911_220142_592.jpg")
     print(b)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -834,25 +798,23 @@ except Exception as e:
 - **name:** نام سفارشی برای فایل ذخیره‌شده (بدون پسوند).
 - **path:** مسیر سفارشی برای ذخیره‌سازی.
 - **save_as:** در صورت True بودن، فایل روی دیسک ذخیره می‌شود. در صورت False بودن، محتوای فایل به صورت بایت (bytes) بازگردانده می‌شود. (پیش‌فرض: False)
+- **as_base64:** در صورت True بودن، فایل به صورت Base64 بازگردانده می‌شود. فقط وقتی save_as=False کار می‌کند. (پیش‌فرض: False)
 - **callback:** تابعی برای گزارش پیشرفت دانلود که سه آرگومان downloaded, total, percent دریافت می‌کند. (پیش‌فرض: None)
 
 **خروجی:**
 
-- اگر save_as=True باشد: دیکشنری شامل وضعیت و file_path.
-- اگر save_as=False باشد: محتوای فایل به صورت bytes.
+- اگر save_as=True باشد: دیکشنری شامل وضعیت، file_path و size.
+- اگر save_as=False و as_base64=False باشد: محتوای فایل به صورت bytes.
+- اگر save_as=False و as_base64=True باشد: رشته Base64.
 
 **مثال:**
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
-    b = bot.download_file("file_id", save_as= True)
+with Bot("token") as bot:
+    b = bot.download_file("file_id", save_as= True, path="/home/user/downloads")
     print(b)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -867,21 +829,17 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     b = bot.get_file("file_id")
     print(b)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
 
-## [ban_member](#ban_member) یا [remove_member](#remove_member)
+## [ban_member](#ban_member)
 
-این متدها برای مسدود کردن (بن کردن) یک عضو از یک گروه یا کانال استفاده می‌شوند. پارامترهای پذیرفته‌شده توسط این متدها به شرح زیر هستند:
+این متدها برای مسدود کردن (بن کردن) یک عضو از یک گروه یا کانال استفاده می‌شوند. (متد `remove_member` دقیقاً میانبری برای `ban_member` است). پارامترهای پذیرفته‌شده توسط این متدها به شرح زیر هستند:
 
 - **chat_id:** شناسه (چت آیدی) گروه (با g0) یا کانال (با c0).
 - **sender_id:** شناسه (سندر آیدی) کاربری که باید مسدود شود (با u0).
@@ -892,14 +850,10 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.ban_member(chat_id="g0xxxxxxxxxxxxxxx", sender_id="u0xxxxxxxxxxxxxxx")
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -917,14 +871,73 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.unban_member(chat_id="g0xxxxxxxxxxxxxxx", sender_id="u0xxxxxxxxxxxxxxx")
     print(a)
+```
 
-except Exception as e:
-    print(e)
+---
+
+## [member_is_admin](#member_is_admin)
+
+این متد برای بررسی ادمین یا مالک بودن یک عضو در یک گروه یا کانال استفاده می‌شود.
+
+- **chat_id:** شناسه (چت آیدی) گروه (با g0) یا کانال (با c0).
+- **user_id:** شناسه کاربر (با u0).
+
+**خروجی:** مقدار `True` اگر وضعیت کاربر `Admin` یا `Creator` باشد، در غیر این صورت `False`.
+
+**مثال:**
+
+```python
+from maxrubika import Bot
+
+with Bot("token") as bot:
+    is_admin = bot.member_is_admin("g0xxxxxxxxxxxxxxx", "u0xxxxxxxxxxxxxxx")
+    print(is_admin)
+```
+
+---
+
+## [member_is_owner](#member_is_owner)
+
+این متد برای بررسی مالک بودن یک عضو در یک گروه یا کانال استفاده می‌شود.
+
+- **chat_id:** شناسه (چت آیدی) گروه (با g0) یا کانال (با c0).
+- **user_id:** شناسه کاربر (با u0).
+
+**خروجی:** مقدار `True` اگر وضعیت کاربر `Creator` باشد، در غیر این صورت `False`.
+
+**مثال:**
+
+```python
+from maxrubika import Bot
+
+with Bot("token") as bot:
+    is_owner = bot.member_is_owner("g0xxxxxxxxxxxxxxx", "u0xxxxxxxxxxxxxxx")
+    print(is_owner)
+```
+
+---
+
+## [member_is_joined](#member_is_joined)
+
+این متد برای بررسی عضویت یک کاربر در یک گروه یا کانال استفاده می‌شود.
+
+- **chat_id:** شناسه (چت آیدی) گروه (با g0) یا کانال (با c0).
+- **user_id:** شناسه کاربر (با u0).
+
+**خروجی:** مقدار `True` اگر کاربر عضو باشد، در غیر این صورت `False`.
+
+**مثال:**
+
+```python
+from maxrubika import Bot
+
+with Bot("token") as bot:
+    is_joined = bot.member_is_joined("g0xxxxxxxxxxxxxxx", "u0xxxxxxxxxxxxxxx")
+    print(is_joined)
 ```
 
 ---
@@ -935,32 +948,26 @@ except Exception as e:
 
 - **commands:** تنظیم کامندها. می‌تواند یک لیست از دیکشنری‌ها یا یک دیکشنری ساده باشد. (اگر این پارامتر وارد نشود یا خالی باشد، تمام کامندهای قبلی حذف خواهند شد.)
 
+**نکته:** نام دستور باید با حرف یا `_` شروع شود و حداکثر ۳۲ کاراکتر باشد. توضیحات حداکثر ۲۵۶ کاراکتر.
+
 **مثال‌ها:**
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
 # روش اول: ارسال یک لیست از دیکشنری‌ها
-try:
+with Bot("token") as bot:
     b = bot.set_commands([{"command": "start", "description": "Start the bot"}, {"command": "help", "description": "help of bot"}])
     print(b)
-
-except Exception as e:
-    print(e)
 ```
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
 # روش دوم: ارسال یک دیکشنری ساده
-try:
+with Bot("token") as bot:
     b = bot.set_commands({"start": "Start the bot", "help": "Show help"})
     print(b)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -981,17 +988,13 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.update_bot_endpoints(
         url="https://myserver.com/wk",
         endpoint_type="ReceiveUpdate"
     )
     print(a)
-
-except Exception as e:
-    print(e)
 ```
 
 ---
@@ -1007,14 +1010,28 @@ except Exception as e:
 
 ```python
 from maxrubika import Bot
-bot = Bot("token")
 
-try:
+with Bot("token") as bot:
     a = bot.register_all_endpoints("https://myserver.com")
     print(a)
+```
 
-except Exception as e:
-    print(e)
+---
+
+## [get_token_string](#get_token_string)
+
+این متد توکن فعلی بات را به صورت یک TokenString رمزنگاری‌شده برمی‌گرداند. با این کار می‌توانید توکن خود را در محیط‌های ناامن (مثل فایل‌های تنظیمات یا مخزن گیت) ذخیره کنید بدون اینکه توکن خام در معرض دید قرار گیرد.
+
+- **password:** رمز عبور اختیاری برای رمزنگاری. اگر ارائه شود، TokenString فقط با همین رمز باز می‌شود.
+
+**مثال:**
+
+```python
+from maxrubika import Bot
+
+with Bot("token") as bot:
+    token_string = bot.get_token_string(password="my_pass")
+    print(token_string)
 ```
 
 ---
@@ -1066,6 +1083,75 @@ async def handle_message(bot, event):
 
 bot.run()
 ```
+
+---
+
+## [request](#request)
+
+این متد یک درخواست HTTP خام به API بات ارسال می‌کند. اگر متدی در مستندات پیدا نکردید یا نیاز به استفاده از قابلیت‌های جدید API دارید که هنوز به صورت متد اختصاصی پیاده‌سازی نشده‌اند، می‌توانید از این متد استفاده کنید.
+
+- **method:** نوع درخواست HTTP (مثلاً `"POST"` یا `"GET"`).
+- **endpoint:** نام متد API که به `base_url` اضافه می‌شود (مثلاً `"getMe"`).
+- **kwargs:** آرگومان‌های اضافی که به `aiohttp` پاس داده می‌شود (مانند `json=` یا `data=`).
+
+**نکته:** این متد به طور خودکار خطاهای شبکه را مدیریت کرده و در صورت خطا، چندین بار تلاش مجدد می‌کند. خروجی آن یک شیء `Response` است.
+
+**مثال:**
+
+```python
+from maxrubika import Bot
+
+with Bot("token") as bot:
+    # ارسال یک درخواست سفارشی به API
+    response = bot.request("POST", "getMe", json={})
+    print(response)
+```
+
+---
+
+## [disconnect](#disconnect)
+
+این متد برای قطع دستی اتصال از سرورهای روبیکا استفاده می‌شود. اگر از Context Manager (`with` یا `async with`) استفاده نکرده‌اید، باید در پایان کار ربات، این متد را فراخوانی کنید تا اتصال به درستی بسته شود و منابع آزاد شوند.
+
+**پارامترها:** ندارد.
+
+**مثال (Sync):**
+
+```python
+from maxrubika import Bot
+
+bot = Bot("token")
+
+me = bot.get_me()
+print(me)
+
+bot.disconnect()  # قطع اتصال
+```
+
+---
+
+## [close](#close)
+
+این متد نسخهٔ ناهمگام (Async) برای قطع اتصال است. در محیط‌های Async باید از این متد به همراه `await` استفاده کنید.
+
+**پارامترها:** ندارد.
+
+**مثال (Async):**
+
+```python
+import asyncio
+from maxrubika import Bot
+
+async def main():
+    bot = Bot("token")
+    me = await bot.get_me()
+    print(me)
+    await bot.close()  # قطع اتصال در حالت Async
+
+asyncio.run(main())
+```
+
+**نکته مهم:** اگر از `bot.run()` یا `await bot.start()` استفاده می‌کنید، خود کتابخانه مدیریت اتصال را در طول اجرا به عهده دارد و نیازی به فراخوانی دستی `disconnect` یا `close` نیست.
 
 ---
 

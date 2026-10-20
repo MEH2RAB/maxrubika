@@ -26,7 +26,6 @@ from .get_unconfirmed_sessions import GetUnconfirmedSessions
 from .login_disable_two_step import LoginDisableTwoStep
 from .login_two_step_forget_password import LoginTwoStepForgetPassword
 from .logout import Logout
-from .recovery_email import RecoveryEmail
 from .register_device import RegisterDevice
 from .reorder_folder import ReorderFolder
 from .request_change_phone_number import RequestChangePhoneNumber
@@ -77,7 +76,6 @@ class Settings(
     LoginDisableTwoStep,
     LoginTwoStepForgetPassword,
     Logout,
-    RecoveryEmail,
     RegisterDevice,
     ReorderFolder,
     RequestChangePhoneNumber,

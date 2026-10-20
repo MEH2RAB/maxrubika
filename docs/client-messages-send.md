@@ -13,7 +13,6 @@
 - **text:** متن پیام. (پیش‌فرض: None)
 - **reply_to_message_id:** شناسه پیامی که می‌خواهید به آن ریپلای بزنید. (پیش‌فرض: None)
 - **via_bot:** شناسه (GUID) یا نام‌کاربری بات برای ارسال از طریق آن. (پیش‌فرض: None)
-- **auto_delete:** مدت زمان حذف خودکار پیام به ثانیه. (پیش‌فرض: None)
 - **metadata:** متادیتای اضافی برای قالب‌بندی متن.
 - **schedule_time:** زمان‌بندی ارسال پیام. می‌تواند Unix timestamp، timedelta یا datetime باشد.
 - **schedule_type:** نوع زمان‌بندی. `Default` یا `WhenOnline` (فقط برای چت کاربر).
@@ -31,12 +30,8 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_message("@Online_User", text="سلام! چطوری؟")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_message("@Online_User", text="سلام! چطوری؟")
+    print(result)
 ```
 
 ارسال پیام با ریپلای:
@@ -45,16 +40,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_message(
-            "u0abc123...",
-            text="پاسخ شما",
-            reply_to_message_id="123456"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_message(
+        "u0abc123...",
+        text="پاسخ شما",
+        reply_to_message_id="123456"
+    )
+    print(result)
 ```
 
 ارسال پیام زمان‌بندی شده:
@@ -64,34 +55,12 @@ from datetime import timedelta
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_message(
-            "https://rubika.ir/joing/GROUP123",
-            text="این پیام ۱ ساعت دیگر ارسال می‌شود",
-            schedule_time=timedelta(hours=1)
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
-```
-
-ارسال پیام با حذف خودکار:
-
-```python
-from maxrubika import Messenger
-
-with Messenger("mySession") as app:
-    try:
-        result = app.send_message(
-            "@Online_User",
-            text="این پیام ۶۰ ثانیه دیگر حذف می‌شود",
-            auto_delete=60
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_message(
+        "https://rubika.ir/joing/GROUP123",
+        text="این پیام ۱ ساعت دیگر ارسال می‌شود",
+        schedule_time=timedelta(hours=1)
+    )
+    print(result)
 ```
 
 ---
@@ -112,9 +81,9 @@ with Messenger("mySession") as app:
 - **thumb:** تصویر بندانگشتی. (پیش‌فرض: None)
 - **width:** عرض سفارشی. (پیش‌فرض: None - تشخیص خودکار)
 - **height:** ارتفاع سفارشی. (پیش‌فرض: None - تشخیص خودکار)
-- **auto_delete:** مدت زمان حذف خودکار به ثانیه. (پیش‌فرض: None)
 - **schedule_time:** زمان‌بندی ارسال.
 - **schedule_type:** نوع زمان‌بندی.
+- **base64:** داده‌های تصویر به صورت base64. (به جای `image`)
 
 **مثال:**
 
@@ -122,16 +91,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_image(
-            "https://rubika.ir/joinc/CHANNEL123",
-            image="photo.jpg",
-            text="عکس من"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_image(
+        "https://rubika.ir/joinc/CHANNEL123",
+        image="photo.jpg",
+        text="عکس من"
+    )
+    print(result)
 ```
 
 ---
@@ -153,9 +118,9 @@ with Messenger("mySession") as app:
 - **width:** عرض سفارشی. (پیش‌فرض: None - تشخیص خودکار)
 - **height:** ارتفاع سفارشی. (پیش‌فرض: None - تشخیص خودکار)
 - **time:** مدت زمان ویدئو به ثانیه. (پیش‌فرض: None - تشخیص خودکار)
-- **auto_delete:** مدت زمان حذف خودکار به ثانیه. (پیش‌فرض: None)
 - **schedule_time:** زمان‌بندی ارسال.
 - **schedule_type:** نوع زمان‌بندی.
+- **base64:** داده‌های ویدئو به صورت base64. (به جای `video`)
 
 **مثال:**
 
@@ -163,16 +128,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_video(
-            "u0abc123...",
-            video="video.mp4",
-            text="ویدئوی من"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_video(
+        "u0abc123...",
+        video="video.mp4",
+        text="ویدئوی من"
+    )
+    print(result)
 ```
 
 ---
@@ -182,7 +143,7 @@ with Messenger("mySession") as app:
 
 این متد برای ارسال پیام ویدئویی (ویدئوی گرد) به یک چت است.
 
-**پارامترها:** مشابه `send_video`.
+**پارامترها:** مشابه `send_video` (به جای `video` از `video_message` استفاده می‌شود).
 
 **مثال:**
 
@@ -190,15 +151,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_video_message(
-            "https://rubika.ir/joing/GROUP123",
-            video_message="round_video.mp4"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_video_message(
+        "https://rubika.ir/joing/GROUP123",
+        video_message="round_video.mp4"
+    )
+    print(result)
 ```
 
 ---
@@ -219,9 +176,9 @@ with Messenger("mySession") as app:
 - **width:** عرض سفارشی. (پیش‌فرض: None - تشخیص خودکار)
 - **height:** ارتفاع سفارشی. (پیش‌فرض: None - تشخیص خودکار)
 - **time:** مدت زمان گیف به ثانیه. (پیش‌فرض: None - تشخیص خودکار)
-- **auto_delete:** مدت زمان حذف خودکار به ثانیه. (پیش‌فرض: None)
 - **schedule_time:** زمان‌بندی ارسال.
 - **schedule_type:** نوع زمان‌بندی.
+- **base64:** داده‌های گیف به صورت base64. (به جای `gif`)
 
 **مثال:**
 
@@ -229,16 +186,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_gif(
-            "@Online_User",
-            gif="animation.mp4",
-            text="گیف بامزه"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_gif(
+        "@Online_User",
+        gif="animation.mp4",
+        text="گیف بامزه"
+    )
+    print(result)
 ```
 
 ---
@@ -256,9 +209,9 @@ with Messenger("mySession") as app:
 - **reply_to_message_id:** شناسه پیام برای ریپلای. (پیش‌فرض: None)
 - **via_bot:** ارسال از طریق بات. (پیش‌فرض: None)
 - **time:** مدت زمان ویس به ثانیه. (پیش‌فرض: None - تشخیص خودکار)
-- **auto_delete:** مدت زمان حذف خودکار به ثانیه. (پیش‌فرض: None)
 - **schedule_time:** زمان‌بندی ارسال.
 - **schedule_type:** نوع زمان‌بندی.
+- **base64:** داده‌های ویس به صورت base64. (به جای `voice`)
 
 **مثال:**
 
@@ -266,15 +219,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_voice(
-            "https://rubika.ir/joing/GROUP123",
-            voice="voice.mp3"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_voice(
+        "https://rubika.ir/joing/GROUP123",
+        voice="voice.mp3"
+    )
+    print(result)
 ```
 
 ---
@@ -293,9 +242,9 @@ with Messenger("mySession") as app:
 - **via_bot:** ارسال از طریق بات. (پیش‌فرض: None)
 - **performer:** نام هنرمند. (پیش‌فرض: None - تشخیص خودکار)
 - **time:** مدت زمان آهنگ به ثانیه. (پیش‌فرض: None - تشخیص خودکار)
-- **auto_delete:** مدت زمان حذف خودکار به ثانیه. (پیش‌فرض: None)
 - **schedule_time:** زمان‌بندی ارسال.
 - **schedule_type:** نوع زمان‌بندی.
+- **base64:** داده‌های موسیقی به صورت base64. (به جای `music`)
 
 **مثال:**
 
@@ -303,16 +252,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_music(
-            "me",
-            music="song.mp3",
-            performer="خواننده مورد علاقه"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_music(
+        "me",
+        music="song.mp3",
+        performer="خواننده مورد علاقه"
+    )
+    print(result)
 ```
 
 ---
@@ -329,9 +274,9 @@ with Messenger("mySession") as app:
 - **text:** متن همراه فایل. (پیش‌فرض: None)
 - **reply_to_message_id:** شناسه پیام برای ریپلای. (پیش‌فرض: None)
 - **via_bot:** ارسال از طریق بات. (پیش‌فرض: None)
-- **auto_delete:** مدت زمان حذف خودکار به ثانیه. (پیش‌فرض: None)
 - **schedule_time:** زمان‌بندی ارسال.
 - **schedule_type:** نوع زمان‌بندی.
+- **base64:** داده‌های فایل به صورت base64. (به جای `file`)
 
 **مثال:**
 
@@ -339,16 +284,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_file(
-            "Online_User",
-            file="document.pdf",
-            text="فایل مورد نظر"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_file(
+        "Online_User",
+        file="document.pdf",
+        text="فایل مورد نظر"
+    )
+    print(result)
 ```
 
 ---
@@ -367,7 +308,7 @@ with Messenger("mySession") as app:
 - **file:** دیکشنری داده‌های فایل استیکر.
 - **w_h_ratio:** نسبت عرض به ارتفاع. (پیش‌فرض: 1.0)
 - **reply_to_message_id:** شناسه پیام برای ریپلای. (پیش‌فرض: None)
-- **auto_delete:** مدت زمان حذف خودکار به ثانیه. (پیش‌فرض: None)
+- **via_bot:** ارسال از طریق بات. (پیش‌فرض: None)
 - **schedule_time:** زمان‌بندی ارسال.
 - **schedule_type:** نوع زمان‌بندی.
 
@@ -377,18 +318,14 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_sticker(
-            "https://rubika.ir/joing/GROUP123",
-            emoji_character="😊",
-            sticker_id="sticker_123",
-            sticker_set_id="set_123",
-            file={"file_id": "abc", "dc_id": 1, "access_hash_rec": "hash", "mime": "image/webp", "file_name": "sticker.webp", "size": 1234}
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_sticker(
+        "https://rubika.ir/joing/GROUP123",
+        emoji_character="😊",
+        sticker_id="sticker_123",
+        sticker_set_id="set_123",
+        file={"file_id": "abc", "dc_id": 1, "access_hash_rec": "hash", "mime": "image/webp", "file_name": "sticker.webp", "size": 1234}
+    )
+    print(result)
 ```
 
 ---
@@ -406,7 +343,6 @@ with Messenger("mySession") as app:
 - **is_anonymous:** ناشناس بودن رای‌ها. (پیش‌فرض: True)
 - **multiple_answers:** امکان انتخاب چند گزینه. (پیش‌فرض: False)
 - **reply_to_message_id:** شناسه پیام برای ریپلای. (پیش‌فرض: None)
-- **auto_delete:** مدت زمان حذف خودکار به ثانیه. (پیش‌فرض: None)
 
 **مثال:**
 
@@ -414,18 +350,14 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_poll(
-            "https://rubika.ir/joing/GROUP123",
-            question="رنگ مورد علاقه شما چیست؟",
-            options=["قرمز", "آبی", "سبز", "زرد"],
-            is_anonymous=False,
-            multiple_answers=True
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_poll(
+        "https://rubika.ir/joing/GROUP123",
+        question="رنگ مورد علاقه شما چیست؟",
+        options=["قرمز", "آبی", "سبز", "زرد"],
+        is_anonymous=False,
+        multiple_answers=True
+    )
+    print(result)
 ```
 
 ---
@@ -444,7 +376,6 @@ with Messenger("mySession") as app:
 - **hint:** راهنمایی برای پاسخ صحیح. (حداکثر ۲۰۰ کاراکتر، پیش‌فرض: None)
 - **is_anonymous:** ناشناس بودن پاسخ‌ها. (پیش‌فرض: True)
 - **reply_to_message_id:** شناسه پیام برای ریپلای. (پیش‌فرض: None)
-- **auto_delete:** مدت زمان حذف خودکار به ثانیه. (پیش‌فرض: None)
 
 **مثال:**
 
@@ -452,18 +383,14 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_quiz(
-            "https://rubika.ir/joinc/CHANNEL123",
-            question="پایتخت ایران کدام است؟",
-            options=["تهران", "اصفهان", "شیراز", "تبریز"],
-            correct_option="تهران",
-            hint="بزرگترین شهر ایران"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_quiz(
+        "https://rubika.ir/joinc/CHANNEL123",
+        question="پایتخت ایران کدام است؟",
+        options=["تهران", "اصفهان", "شیراز", "تبریز"],
+        correct_option="تهران",
+        hint="بزرگترین شهر ایران"
+    )
+    print(result)
 ```
 
 ---
@@ -486,16 +413,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_location(
-            "@Online_User",
-            latitude=35.6892,
-            longitude=51.3890
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_location(
+        "@Online_User",
+        latitude=35.6892,
+        longitude=51.3890
+    )
+    print(result)
 ```
 
 ---
@@ -510,7 +433,7 @@ with Messenger("mySession") as app:
 - **chat:** شناسه (GUID)، لینک یا نام‌کاربری چت مقصد.
 - **title:** عنوان پخش زنده. (پیش‌فرض: Live stream)
 - **reply_to_message_id:** شناسه پیام برای ریپلای. (پیش‌فرض: None)
-- **thumbnail:** تصویر بندانگشتی به صورت Base64. (پیش‌فرض: None - تصویر پیش‌فرض)
+- **thumb:** تصویر بندانگشتی. می‌تواند Base64، مسیر فایل، URL یا bytes باشد. (پیش‌فرض: None - تصویر پیش‌فرض)
 
 **مثال:**
 
@@ -518,15 +441,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_live(
-            "@TheMAXRubika",
-            title="پخش زنده تستی"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_live(
+        "@TheMAXRubika",
+        title="پخش زنده تستی"
+    )
+    print(result)
 ```
 
 ---
@@ -548,16 +467,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_message_api_call(
-            chat="@RubiGuardBot",
-            message_id="1499338519906784",
-            button_id="101"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_message_api_call(
+        chat="@RubiGuardBot",
+        message_id="1499338519906784",
+        button_id="101"
+    )
+    print(result)
 ```
 
 ---
@@ -580,16 +495,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_rubino_post(
-            "@Online_User",
-            post_id="post_123",
-            post_profile_id="profile_123"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_rubino_post(
+        "@Online_User",
+        post_id="post_123",
+        post_profile_id="profile_123"
+    )
+    print(result)
 ```
 
 ---
@@ -614,17 +525,13 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_rubino_story(
-            "u0abc123...",
-            story_id="story_123",
-            story_profile_id="profile_123",
-            reply_text="استوری قشنگی بود!"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_rubino_story(
+        "u0abc123...",
+        story_id="story_123",
+        story_profile_id="profile_123",
+        reply_text="استوری قشنگی بود!"
+    )
+    print(result)
 ```
 
 ---
@@ -640,7 +547,6 @@ with Messenger("mySession") as app:
 - **store_id:** شناسه فروشگاه.
 - **product_id:** شناسه محصول.
 - **product_varieties:** لیست تنوع‌های محصول.
-- **rnd:** عدد تصادفی. (در صورت عدم ارسال، به صورت خودکار تولید می‌شود)
 
 **مثال:**
 
@@ -648,17 +554,13 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_rubino_product(
-            chat="@Online_User",
-            store_id="store_123",
-            product_id="product_456",
-            product_varieties=[{"id": "var_1", "price": 100000}]
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_rubino_product(
+        chat="@Online_User",
+        store_id="store_123",
+        product_id="product_456",
+        product_varieties=[{"id": "var_1", "price": 100000}]
+    )
+    print(result)
 ```
 
 ---
@@ -679,15 +581,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_now_scheduled_message(
-            "@Online_User",
-            message_id="123456"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_now_scheduled_message(
+        "@Online_User",
+        message_id="123456"
+    )
+    print(result)
 ```
 
 ---
@@ -699,10 +597,12 @@ with Messenger("mySession") as app:
 
 **پارامترها:**
 
-- **chat:** شناسه (GUID)، لینک یا نام‌کاربری چت مقصد.
+- **chat:** شناسه (GUID) یا نام‌کاربری کاربر یا بات مقصد. **فقط چت خصوصی** (`u0` یا `b0`) مجاز است.
 - **phone_number:** شماره تلفن مخاطب.
+- **user:** شناسه (GUID) یا نام‌کاربری کاربر مخاطب. باید `u0` باشد.
 - **first_name:** نام مخاطب.
 - **last_name:** نام خانوادگی مخاطب. (پیش‌فرض: خالی)
+- **vcard:** رشته vCard سفارشی. (پیش‌فرض: None)
 - **reply_to_message_id:** شناسه پیام برای ریپلای. (پیش‌فرض: None)
 
 **مثال:**
@@ -711,17 +611,14 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_contact(
-            "https://rubika.ir/joing/GROUP123",
-            phone_number="09123456789",
-            first_name="علی",
-            last_name="حسینی"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_contact(
+        "u0abc123...",
+        phone_number="09123456789",
+        user="@Online_User",
+        first_name="علی",
+        last_name="حسینی"
+    )
+    print(result)
 ```
 
 ---

@@ -29,6 +29,22 @@ class MyPlugin(Plugin):
         pass
 ```
 
+### فیلدهای `PluginMeta`
+
+| فیلد | نوع | پیش‌فرض | توضیح |
+|------|------|:------:|------|
+| `name` | str | (الزامی) | شناسه یکتای پلاگین |
+| `version` | str | `"1.0.0"` | نسخه پلاگین |
+| `description` | str | `""` | توضیحات پلاگین |
+| `author` | str | `"Unknown"` | نام نویسنده |
+| `homepage` | str | `None` | آدرس صفحه پروژه |
+| `dependencies` | tuple | `()` | شناسه پلاگین‌های وابسته |
+| `required_permissions` | tuple | `()` | دسترسی‌های مورد نیاز (فقط اطلاعاتی) |
+| `default_config` | dict | `{}` | تنظیمات پیش‌فرض پلاگین |
+| `enabled_by_default` | bool | `False` | فعال بودن خودکار هنگام راه‌اندازی |
+
+> **نکته:** فیلد `required_permissions` فقط جنبه اطلاعاتی دارد و توسط مدیر پلاگین اعتبارسنجی نمی‌شود.
+
 ---
 
 <a id="bot_plugin_methods"></a>
@@ -74,6 +90,35 @@ class AdminPlugin(Plugin):
             if event.author_id in admins:
                 await bot.ban_member(event.chat_id, "sender_id")
                 await event.reply("کاربر مورد نظر باموفقیت بن شد.")
+```
+
+---
+
+<a id="bot_plugin_class"></a>
+## [متدهای کلاس `Plugin`](#bot_plugin_class)
+
+| متد / پراپرتی | توضیح |
+|------|------|
+| `setup()` | هوک فعال‌سازی. در انتها پراپرتی `is_ready` را `True` می‌کند. |
+| `teardown()` | هوک غیرفعال‌سازی. پراپرتی `is_ready` را `False` می‌کند. |
+| `configure(config)` | اعتبارسنجی یا اصلاح تنظیمات قبل از ذخیره. باید دیکشنری برگرداند. |
+| `get_config(key, default)` | خواندن یک مقدار از تنظیمات. |
+| `update_config(config)` | جایگزینی تنظیمات فعلی (ادغام با پیش‌فرض‌ها). |
+| `is_ready` | آیا پلاگین آماده و فعال است؟ |
+| `bot` | نمونه ربات برای دسترسی به متدها. |
+| `config` | دیکشنری تنظیمات فعلی. |
+| `identifier()` | (classmethod) دریافت شناسه یکتای پلاگین. |
+
+**مثال `configure` برای اعتبارسنجی تنظیمات:**
+
+```python
+class MyPlugin(Plugin):
+    meta = PluginMeta(name="myplugin", default_config={"level": 5})
+
+    def configure(self, config):
+        # محدود کردن مقدار level بین ۱ تا ۱۰
+        config["level"] = max(1, min(int(config.get("level", 5)), 10))
+        return config
 ```
 
 ---
@@ -124,7 +169,17 @@ async def startup(bot):
 bot.run()
 ```
 
-پلاگین‌ها خودکار از پوشه `plugins/` کشف و فعال می‌شوند.
+پلاگین‌ها خودکار از پوشه `plugins/` کشف و فعال می‌شوند. مدیر پلاگین تنها کلاس‌هایی را کشف می‌کند که **در همان فایل تعریف شده باشند** (نه کلاس‌های ایمپورت‌شده).
+
+### کشف خودکار از Entry Points (برای پکیج‌های نصب‌شده)
+
+اگر کتابخانه یا پلاگین شما به صورت پکیج نصب می‌شود، می‌توانید از Entry Points استفاده کنید:
+
+```toml
+# pyproject.toml
+[project.entry-points."rubika.plugins"]
+myplugin = "my_package.plugins:MyPlugin"
+```
 
 ---
 
@@ -141,11 +196,23 @@ await bot.plugin_manager.disable("greeter")
 # فعال کردن همه
 await bot.plugin_manager.enable_all()
 
+# فعال کردن چند پلاگین مشخص
+await bot.plugin_manager.enable_many(["greeter", "admin"])
+
+# فعال کردن پلاگین‌های enabled_by_default
+await bot.plugin_manager.enable_defaults()
+
 # غیرفعال کردن همه
 await bot.plugin_manager.disable_all()
 
-# بارگذاری مجدد
+# بارگذاری مجدد (کد فایل دوباره اجرا می‌شود)
 await bot.plugin_manager.reload("greeter")
+
+# ثبت پلاگین جدید
+bot.plugin_manager.register_plugin(MyPlugin)
+
+# حذف پلاگین از رجیستری (فقط اگر غیرفعال باشد)
+bot.plugin_manager.unregister_plugin("myplugin")
 
 # بررسی وضعیت
 bot.plugin_manager.is_enabled("greeter")      # True/False
@@ -156,6 +223,13 @@ bot.plugin_manager.registered_plugins         # ['greeter', 'admin', 'logger']
 # گرفتن نمونه پلاگین
 plugin = bot.plugin_manager.get_plugin("greeter")
 print(plugin.is_ready)  # True/False
+
+# گرفتن همه پلاگین‌های فعال
+all_plugins = bot.plugin_manager.get_all_plugins()
+
+# دریافت اطلاعات کامل یک پلاگین
+info = bot.plugin_manager.get_plugin_info("greeter")
+print(info["version"], info["dependencies"], info["enabled"])
 ```
 
 ---
@@ -202,6 +276,7 @@ class StatsPlugin(Plugin):
 - پلاگین‌های وابسته را اول فعال می‌کند
 - از وابستگی دایره‌ای جلوگیری می‌کند
 - اگر وابستگی فعال نشود، پلاگین فعال نمی‌شود
+- اگر پلاگینی که پلاگین‌های دیگر به آن وابسته‌اند فعال باشد، **غیرفعال نمی‌شود**
 
 ---
 
@@ -280,9 +355,11 @@ class TimerPlugin(Plugin):
 ## [چرخه حیات پلاگین](#bot_plugin_lifecycle)
 
 ```
-register_plugin → enable → setup() → فعال و آماده
+register_plugin → enable → setup() → فعال و آماده (is_ready=True)
                         ↓
-                  disable → teardown() → غیرفعال
+                  disable → teardown() → غیرفعال (is_ready=False)
+                        ↓
+                     reload → اجرای دوباره فایل + enable
 ```
 
 ---
@@ -297,6 +374,8 @@ register_plugin → enable → setup() → فعال و آماده
 ۵. برای اشتراک‌گذاری، فقط فایل پلاگین را کپی کنید
 ۶. هر پلاگین می‌تواند داده‌های خود را در `self` ذخیره کند
 ۷. `is_ready` نشان می‌دهد پلاگین فعال و آماده است
+۸. هر فایل پلاگین فقط باید **یک** کلاس پلاگین داشته باشد که در همان فایل تعریف شده است
+۹. برای اعتبارسنجی تنظیمات، متد `configure()` را بازنویسی کنید
 
 ---
 

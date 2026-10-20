@@ -20,12 +20,8 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.mute_chat("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.mute_chat("g0abc123...")
+    print(result)
 ```
 
 ۲. بی‌صدا برای ۲ ساعت:
@@ -35,12 +31,8 @@ from datetime import timedelta
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.mute_chat("g0abc123...", duration=timedelta(hours=2))
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.mute_chat("g0abc123...", duration=timedelta(hours=2))
+    print(result)
 ```
 
 ---
@@ -60,12 +52,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unmute_chat("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unmute_chat("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -85,12 +73,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.pin_chat("u0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.pin_chat("u0abc123...")
+    print(result)
 ```
 
 ---
@@ -110,12 +94,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unpin_chat("u0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unpin_chat("u0abc123...")
+    print(result)
 ```
 
 ---
@@ -136,12 +116,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.pin_chat_in_folder("u0abc123...", folder_id="folder_123")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.pin_chat_in_folder("u0abc123...", folder_id="folder_123")
+    print(result)
 ```
 
 ---
@@ -162,12 +138,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unpin_chat_in_folder("u0abc123...", folder_id="folder_123")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unpin_chat_in_folder("u0abc123...", folder_id="folder_123")
+    print(result)
 ```
 
 ---
@@ -187,12 +159,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.archive_chat("u0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.archive_chat("u0abc123...")
+    print(result)
 ```
 
 ---
@@ -212,40 +180,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unarchive_chat("u0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
-```
-
----
-
-<a id="messenger_seen_chats"></a>
-## [seen_chats](#messenger_seen_chats)
-
-این متد برای علامت‌گذاری چند چت به عنوان دیده‌شده است.
-
-**پارامتر:**
-
-- **seen_list:** دیکشنری شامل GUID چت‌ها و آخرین شناسه پیام دیده‌شده.
-
-**مثال:**
-
-```python
-from maxrubika import Messenger
-
-with Messenger("mySession") as app:
-    try:
-        result = app.seen_chats({
-            "u0abc123...": "123456",
-            "g0xyz789...": "789012"
-        })
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unarchive_chat("u0abc123...")
+    print(result)
 ```
 
 ---
@@ -266,12 +202,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_chat_protected_content("g0abc123...", enabled=True)
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_chat_protected_content("g0abc123...", enabled=True)
+    print(result)
 ```
 
 ---
@@ -295,38 +227,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_chat_auto_delete("g0abc123...", auto_delete="7d")
-        print(result)
-
-    except Exception as e:
-        print(e)
-```
-
----
-
-<a id="messenger_set_chat_use_time"></a>
-## [set_chat_use_time](#messenger_set_chat_use_time)
-
-این متد برای ارسال زمان استفاده از چت به سرور است. این کار به سرور کمک می‌کند رفتار طبیعی کاربر را تشخیص دهد.
-
-**پارامترها:**
-
-- **chat:** GUID، لینک یا نام‌کاربری چت.
-- **use_time:** زمان سپری‌شده در چت به میلی‌ثانیه.
-
-**مثال:**
-
-```python
-from maxrubika import Messenger
-
-with Messenger("mySession") as app:
-    try:
-        result = app.set_chat_use_time("u0abc123...", use_time=5000)
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_chat_auto_delete("g0abc123...", auto_delete="7d")
+    print(result)
 ```
 
 ---
@@ -346,43 +248,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_chat_history("u0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
-```
-
----
-
-<a id="messenger_report_chat"></a>
-## [report_chat](#messenger_report_chat)
-
-این متد برای گزارش یک چت (کاربر، گروه، کانال) است.
-
-**پارامترها:**
-
-- **chat:** GUID، لینک یا نام‌کاربری چت.
-- **report_type:** نوع گزارش.
-- **description:** توضیحات اضافی. (پیش‌فرض: None)
-
-**مثال:**
-
-```python
-from maxrubika import Messenger
-
-with Messenger("mySession") as app:
-    try:
-        result = app.report_chat(
-            "u0abc123...",
-            report_type="Spam",
-            description="کاربر اسپمر"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_chat_history("u0abc123...")
+    print(result)
 ```
 
 ---
@@ -405,12 +272,98 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_ask_spam("u0abc123...", action="BlockUser")
-        print(result)
+    result = app.set_ask_spam("u0abc123...", action="BlockUser")
+    print(result)
+```
 
-    except Exception as e:
-        print(e)
+---
+
+<a id="messenger_upload_avatar"></a>
+## [upload_avatar](#messenger_upload_avatar)
+
+این متد برای آپلود تصویر پروفایل (آواتار) برای یک چت (خود، گروه یا کانال) است.
+
+**پارامترها:**
+
+- **chat:** GUID، لینک یا نام‌کاربری چت. همچنین می‌توان از `me`، `cloud`، `self` یا `myself` برای پروفایل خود استفاده کرد.
+- **main_image:** مسیر فایل یا داده‌های بایتی تصویر اصلی.
+- **thumbnail_image:** مسیر فایل یا داده‌های بایتی تصویر بندانگشتی. (پیش‌فرض: None - استفاده از تصویر اصلی)
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.upload_avatar(
+        "me",
+        main_image="/path/to/avatar.jpg"
+    )
+    print(result)
+```
+
+---
+
+<a id="messenger_get_avatars"></a>
+## [get_avatars](#messenger_get_avatars)
+
+این متد برای دریافت لیست آواتارهای یک چت است.
+
+**پارامتر:**
+
+- **chat:** GUID، لینک یا نام‌کاربری چت. همچنین می‌توان از `me`، `cloud`، `self` یا `myself` برای پروفایل خود استفاده کرد.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    avatars = app.get_avatars("g0abc123...")
+    print(avatars)
+```
+
+---
+
+<a id="messenger_delete_avatar"></a>
+## [delete_avatar](#messenger_delete_avatar)
+
+این متد برای حذف یک آواتار خاص از چت است.
+
+**پارامترها:**
+
+- **chat:** GUID، لینک یا نام‌کاربری چت. همچنین می‌توان از `me`، `cloud`، `self` یا `myself` برای پروفایل خود استفاده کرد.
+- **avatar_id:** شناسه آواتار مورد نظر.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.delete_avatar("me", avatar_id="avatar_123")
+    print(result)
+```
+
+---
+
+<a id="messenger_delete_all_avatars"></a>
+## [delete_all_avatars](#messenger_delete_all_avatars)
+
+این متد برای حذف تمام آواتارهای یک چت است.
+
+**پارامتر:**
+
+- **chat:** GUID، لینک یا نام‌کاربری چت. همچنین می‌توان از `me`، `cloud`، `self` یا `myself` برای پروفایل خود استفاده کرد.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.delete_all_avatars("g0abc123...")
+    print(result)
 ```
 
 ---

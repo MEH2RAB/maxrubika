@@ -13,7 +13,7 @@ class GetChannelAdmins:
 
         Parameters:
             channel (str): The GUID, link, or username of the channel.
-            show_member_guids (bool, optional): Show member GUIDs in output. Default is False.
+            show_admin_guids (bool, optional): Show member GUIDs in output. Default is False.
 
         Returns:
             Result containing all admins with total count and optionally member_guids.

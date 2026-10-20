@@ -36,12 +36,16 @@ MAXRubika یک کتابخانه متن‌باز و غیررسمی برای تع�
 
 ## شروع کنید
 
-<div style="display: flex; gap: 12px; flex-wrap: wrap;">
+<div style="display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;">
 
-<a href="bot-guide" class="md-button md-button--primary" style="flex: 1; min-width: 200px; text-align: center; background: linear-gradient(135deg, #42A5F5, #1E88E5) !important; border: none !important;">مشاهده مستندات ربات</a>
+<a href="bot-guide" class="md-button md-button--primary" style="flex: 1; min-width: 200px; text-align: center; background: linear-gradient(135deg, #42A5F5, #1E88E5) !important; border: none !important;">مشاهده مستندات ربات روبیکا</a>
 
-<a href="client-guide" class="md-button md-button--primary" style="flex: 1; min-width: 200px; text-align: center; background: linear-gradient(135deg, #42A5F5, #1E88E5) !important; border: none !important;">مشاهده مستندات حساب کاربری</a>
+<a href="client-guide" class="md-button md-button--primary" style="flex: 1; min-width: 200px; text-align: center; background: linear-gradient(135deg, #42A5F5, #1E88E5) !important; border: none !important;">مشاهده مستندات حساب کاربری روبیکا</a>
 
 </div>
 
----
+<div style="display: flex; gap: 12px; flex-wrap: wrap;">
+
+<a href="shad-guide" class="md-button md-button--primary" style="flex: 1; min-width: 200px; text-align: center; background: linear-gradient(135deg, #42A5F5, #1E88E5) !important; border: none !important;">مشاهده مستندات پیام‌رسان شاد</a>
+
+</div>

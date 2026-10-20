@@ -1,6 +1,6 @@
 # پراپرتی‌ها
 
-همه هندلرها یک شیء `event` از نوع `IncomingEnvelope` دریافت می‌کنند با پراپرتی‌های زیر:
+همه هندلرها یک شیء `event` دریافت می‌کنند با پراپرتی‌های زیر:
 
 ---
 
@@ -9,17 +9,18 @@
 
 | پراپرتی | توضیح | نوع |
 |------|------|------|
-| `event.update_type` | نوع رویداد | `"NewMessage"`, `"UpdatedMessage"`, `"RemovedMessage"`, `"InlineMessage"`, `"StartedBot"`, `"StoppedBot"` |
+| `event.update_type` | نوع رویداد | `"NewMessage"`, `"UpdatedMessage"`, `"RemovedMessage"`, `"InlineMessage"`, `"StartedBot"`, `"StoppedBot"`, `"EventData"` |
 | `event.chat_id` | آیدی چت | str |
-| `event.bot` | نمونه ربات | Any |
-| `event.timestamp` | زمان آپدیت | int |
-| `event.text` | متن پیام (برای message, edit و callback کار می‌کند) | str یا None |
-| `event.author_id` | آیدی فرستنده در روبیکا | str یا None |
+| `event.text` | متن پیام | str یا None |
+| `event.msg_id` | آیدی پیام | str یا None |
+| `event.message_id` | مترادف `msg_id` | str یا None |
+| `event.author_id` | آیدی فرستنده | str یا None |
+| `event.sender_id` | مترادف `author_id` | str یا None |
 | `event.sender_type` | نوع فرستنده | `"User"`, `"Bot"` یا None |
-| `event.msg_id` | آیدی پیام (برای حذف شده هم کار می‌کند) | str یا None |
 | `event.is_edited` | ویرایش شده؟ | bool |
-| `event.message_time` | زمان پیام (از سرور) | str یا None |
-| `event.reply_to_message_id` | آیدی پیامی که به آن ریپلای زده شده | str یا None |
+| `event.is_deleted` | پاک شده؟ | bool |
+| `event.timestamp` | زمان آپدیت (سرور) | int |
+| `event.message_time` | زمان پیام | str یا None |
 
 ---
 
@@ -32,6 +33,39 @@
 | `event.file_name` | نام اصلی فایل | str یا None |
 | `event.file_size` | سایز فایل به بایت | int یا None |
 | `event.file_type` | نوع فایل | `"image"`, `"video"`, `"voice"`, `"music"`, `"sticker"`, `"file"` یا None |
+| `event.is_image` | عکس است؟ | bool |
+| `event.is_video` | ویدیو است؟ | bool |
+| `event.is_voice` | ویس است؟ | bool |
+| `event.is_music` | موزیک است؟ | bool |
+
+---
+
+<a id="bot_media_properties"></a>
+## [استیکر، موقعیت مکانی و نظرسنجی](#bot_media_properties)
+
+| پراپرتی | توضیح | نوع |
+|------|------|------|
+| `event.sticker` | دیتای استیکر | dict یا None |
+| `event.sticker_id` | آیدی استیکر | str یا None |
+| `event.is_sticker` | استیکر است؟ | bool |
+| `event.poll` | دیتای نظرسنجی | dict یا None |
+| `event.poll_options` | گزینه‌های نظرسنجی | list یا None |
+| `event.is_poll` | نظرسنجی است؟ | bool |
+| `event.location` | دیتای موقعیت مکانی | dict یا None |
+| `event.is_location` | موقعیت مکانی است؟ | bool |
+
+---
+
+<a id="bot_button_properties"></a>
+## [دکمه‌های کیبورد](#bot_button_properties)
+
+| پراپرتی | توضیح | نوع |
+|------|------|------|
+| `event.button_id` | آیدی دکمه | str یا None |
+| `event.aux_data` | دیکشنری aux_data | dict یا None |
+| `event.callback_payload` | کل payload کلیک دکمه | dict یا None |
+| `event.callback_data` | مترادف `callback_payload` | dict یا None |
+| `event.callback_button_id` | آیدی دکمه (فقط InlineMessage) | str یا None |
 
 ---
 
@@ -41,25 +75,17 @@
 | پراپرتی | توضیح | نوع |
 |------|------|------|
 | `event.is_forwarded` | فوروارد شده؟ (هر نوع) | bool |
-| `event.forwarded_from` | اطلاعات فوروارد (با لینک) | dict یا None |
-| `event.forwarded_no_link` | اطلاعات فوروارد (پروفایل مخفی) | dict یا None |
 | `event.forward_type` | نوع فوروارد | `"User"`, `"Channel"`, `"Bot"`, `"NoLink"` یا None |
-| `event.forward_sender_id` | آیدی فرستنده اصلی (از forwarded_from) | str یا None |
-| `event.forward_chat_id` | آیدی چت اصلی (از forwarded_from) | str یا None |
+| `event.forward_sender_id` | آیدی فرستنده اصلی | str یا None |
+| `event.forward_chat_id` | آیدی چت اصلی | str یا None |
 | `event.forward_message_id` | آیدی پیام اصلی فوروارد شده | str یا None |
-| `event.forward_title` | عنوان (از forwarded_no_link) | str یا None |
-
----
-
-<a id="bot_button_properties"></a>
-## [دکمه](#bot_button_properties)
-
-| پراپرتی | توضیح | نوع |
-|------|------|------|
-| `event.button_id` | آیدی دکمه (از aux_data برای کیپاد و اینلاین) | str یا None |
-| `event.aux_data` | دیکشنری داده‌های کمکی (شامل button_id) | dict یا None |
-| `event.callback_data` | محموله کامل کالبک برای کلیک دکمه اینلاین | dict یا None |
-| `event.callback_button_id` | آیدی دکمه از کالبک (وقتی update_type=InlineMessage) | str یا None |
+| `event.forward_title` | عنوان (هدایت بسته) | str یا None |
+| `event.forwarded_from` | اطلاعات فوروارد (با لینک) | dict یا None |
+| `event.forwarded_no_link` | اطلاعات فوروارد (هدایت بسته) | dict یا None |
+| `event.is_forwarded_from_user` | فوروارد از کاربر؟ | bool |
+| `event.is_forwarded_from_channel` | فوروارد از کانال؟ | bool |
+| `event.is_forwarded_from_bot` | فوروارد از بات؟ | bool |
+| `event.is_forwarded_no_link` | هدایت بسته؟ | bool |
 
 ---
 
@@ -68,36 +94,98 @@
 
 | پراپرتی | توضیح | نوع |
 |------|------|------|
-| `event.metadata` | دیکشنری متادیتا (فرمت‌های Bold, Italic و...) | dict یا None |
-| `event.metadata_types` | لیست انواع متادیتای استفاده شده | `["Bold", "Italic", "Quote", "Monospace", "Strikethrough", "Underline", ...]` |
+| `event.metadata` | دیکشنری متادیتا (Bold, Italic و...) | dict یا None |
+| `event.metadata_types` | لیست انواع متادیتا | `["Bold", "Italic", "Quote", "Monospace", "Strikethrough", "Underline", ...]` |
 | `event.metadata_parts` | آرایه کامل بخش‌های متادیتا | List[dict] |
+| `event.metadata_type` | اولین نوع متادیتا | str یا None |
+
+---
+
+<a id="bot_chat_user_properties"></a>
+## [چت و کاربر](#bot_chat_user_properties)
+
+| پراپرتی | توضیح | نوع |
+|------|------|------|
+| `event.is_user` | پیوی کاربر؟ | bool |
+| `event.is_group` | گروه؟ | bool |
+| `event.is_channel` | کانال؟ | bool |
+| `event.is_text` | متن خالص؟ | bool |
+| `event.is_reply` | ریپلای؟ | bool |
+| `event.is_command` | با `/` شروع می‌شود؟ | bool |
+
+---
+
+<a id="bot_command_properties"></a>
+## [دستورات](#bot_command_properties)
+
+| پراپرتی | توضیح | نوع |
+|------|------|------|
+| `event.command` | نام دستور (بدون `/`) | str یا None |
+| `event.command_args` | آرگومان‌های بعد از دستور | str یا None |
+| `event.is_command` | با `/` شروع می‌شود؟ | bool |
+
+---
+
+<a id="bot_reply_properties"></a>
+## [ریپلای](#bot_reply_properties)
+
+| پراپرتی | توضیح | نوع |
+|------|------|------|
+| `event.reply_to_message_id` | آیدی پیام ریپلای شده | str یا None |
+| `event.reply_to_msg_id` | مترادف `reply_to_message_id` | str یا None |
+| `event.is_reply` | ریپلای است؟ | bool |
+
+---
+
+<a id="bot_event_properties"></a>
+## [الگو و رویداد](#bot_event_properties)
+
+| پراپرتی | توضیح | نوع |
+|------|------|------|
+| `event.pattern_match` | آبجکت match از فیلتر regex | Match یا None |
+| `event.event_data` | payload رویداد EventData | dict یا None |
+| `event.event_type` | نوع رویداد داخل `event_data` | str یا None |
+| `event.message` | payload پیام جدید (NewMessage) | dict یا None |
+| `event.edited_message` | payload پیام ویرایش‌شده (UpdatedMessage) | dict یا None |
+| `event.deleted_message_id` | آیدی پیام پاک‌شده | str یا None |
 
 ---
 
 <a id="bot_utility_methods"></a>
 ## [متدهای کاربردی](#bot_utility_methods)
 
-| متد | توضیح | پارامترها |
-|------|------|------|
-| `await event.reply("متن")` | ارسال ریپلای به پیام | content: str, **extras |
-| `await event.delete()` | حذف پیام | message_id: str (اختیاری) |
-| `await event.copy()` | کپی پیام در همان چت | to_chat_id: str (اختیاری) |
-| `await event.forward()` | فوروارد پیام در همان چت | to_chat_id: str (اختیاری) |
-| `await event.ban_member()` | بن کردن فرستنده | sender_id: str (اختیاری) |
-| `event.pattern_match` | آبجکت match ریجکس (اگر توسط فیلتر ذخیره شده باشد) | - |
-| `event.original_data` | دیتای خام API | - |
+| متد | توضیح |
+|------|------|
+| `await event.reply("متن")` | ریپلای سریع |
+| `await event.delete()` | حذف پیام |
+| `await event.copy()` | کپی پیام در همان چت |
+| `await event.copy("chat_id")` | کپی پیام به چت دیگر |
+| `await event.forward()` | فوروارد پیام در همان چت |
+| `await event.forward("chat_id")` | فوروارد پیام به چت دیگر |
+| `await event.ban_member()` | بن کردن کاربر |
+| `await event.is_admin()` | آیا ادمین است؟ |
+| `await event.is_owner()` | آیا سازنده است؟ |
+| `await event.is_joined("chat_id")` | آیا عضو چت است؟ |
+| `await event.get_chat_info()` | دریافت اطلاعات چت |
+| `event.original_data` | دیتای خام API |
 
 ---
 
-<a id="bot_internal_properties"></a>
-## [پراپرتی‌های داخلی](#bot_internal_properties)
+<a id="bot_reply_methods"></a>
+## [متدهای ریپلای تخصصی](#bot_reply_methods)
 
-| پراپرتی | توضیح |
+| متد | توضیح |
 |------|------|
-| `event.message` | دیتای پیام جدید |
-| `event.edited_message` | دیتای پیام ویرایش شده |
-| `event.deleted_message_id` | آیدی پیام حذف شده |
-| `event.callback_payload` | محموله کالبک (برای InlineMessage) |
+| `await event.reply_image()` | ریپلای عکس |
+| `await event.reply_video()` | ریپلای ویدیو |
+| `await event.reply_gif()` | ریپلای گیف |
+| `await event.reply_music()` | ریپلای موزیک |
+| `await event.reply_voice()` | ریپلای ویس |
+| `await event.reply_file()` | ریپلای فایل |
+| `await event.reply_contact()` | ریپلای مخاطب |
+| `await event.reply_location()` | ریپلای موقعیت مکانی |
+| `await event.reply_poll()` | ریپلای نظرسنجی |
+| `await event.reply_quiz()` | ریپلای کوییز |
 
 ---
 

@@ -13,12 +13,8 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        me = app.get_me()
-        print(me)
-
-    except Exception as e:
-        print(e)
+    me = app.get_me()
+    print(me)
 ```
 
 ---
@@ -40,12 +36,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        info = app.get_user_info("@Online_User")
-        print(info)
-
-    except Exception as e:
-        print(e)
+    info = app.get_user_info("@Online_User")
+    print(info)
 ```
 
 ---
@@ -67,12 +59,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        check = app.check_user_username("@Undefined")
-        print(check)
-
-    except Exception as e:
-        print(e)
+    check = app.check_user_username("@Undefined")
+    print(check)
 ```
 
 ---
@@ -92,12 +80,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        online = app.get_last_online("@Online_User")
-        print(online)
-
-    except Exception as e:
-        print(e)
+    online = app.get_last_online("@Online_User")
+    print(online)
 ```
 
 ---
@@ -117,12 +101,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        online = app.get_contacts_last_online(["@User1", "@User2", "u0abc123..."])
-        print(online)
-
-    except Exception as e:
-        print(e)
+    online = app.get_contacts_last_online(["@User1", "@User2", "u0abc123..."])
+    print(online)
 ```
 
 ---
@@ -142,12 +122,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        contacts = app.get_contacts()
-        print(contacts)
-
-    except Exception as e:
-        print(e)
+    contacts = app.get_contacts()
+    print(contacts)
 ```
 
 ---
@@ -171,16 +147,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.add_contact(
-            phone_number="09123456789",
-            first_name="علی",
-            last_name="حسینی"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.add_contact(
+        phone_number="09123456789",
+        first_name="علی",
+        last_name="حسینی"
+    )
+    print(result)
 ```
 
 ---
@@ -200,12 +172,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_contact("@Online_User")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_contact("@Online_User")
+    print(result)
 ```
 
 ---
@@ -221,12 +189,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.reset_contacts()
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.reset_contacts()
+    print(result)
 ```
 
 ---
@@ -246,12 +210,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        updates = app.get_contacts_updates()
-        print(updates)
-
-    except Exception as e:
-        print(e)
+    updates = app.get_contacts_updates()
+    print(updates)
 ```
 
 ---
@@ -271,12 +231,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.block_user("@SpamUser")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.block_user("@SpamUser")
+    print(result)
 ```
 
 ---
@@ -296,12 +252,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unblock_user("@SpamUser")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unblock_user("@SpamUser")
+    print(result)
 ```
 
 ---
@@ -321,12 +273,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        blocked = app.get_blocked_users()
-        print(blocked)
-
-    except Exception as e:
-        print(e)
+    blocked = app.get_blocked_users()
+    print(blocked)
 ```
 
 ---
@@ -348,12 +296,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unblock_all_users()
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unblock_all_users()
+    print(result)
 ```
 
 رفع مسدودیت همه به جز یک کاربر خاص:
@@ -362,12 +306,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unblock_all_users(exclude="@ImportantUser")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unblock_all_users(exclude="@ImportantUser")
+    print(result)
 ```
 
 ---
@@ -387,12 +327,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        groups = app.get_common_groups("@Online_User")
-        print(groups)
-
-    except Exception as e:
-        print(e)
+    groups = app.get_common_groups("@Online_User")
+    print(groups)
 ```
 
 ---
@@ -402,10 +338,11 @@ with Messenger("mySession") as app:
 
 این متد برای حذف تاریخچه چت با یک کاربر به کار می‌رود.
 
-**پارامترها:**
+**پارامتر:**
 
 - **user:** شناسه (GUID) یا نام‌کاربری کاربر مورد نظر.
-- **last_deleted_message_id:** شناسه آخرین پیام حذف‌شده.
+
+**نکته:** شناسه آخرین پیام حذف‌شده به‌صورت خودکار توسط کتابخانه از آخرین پیام چت استخراج می‌شود و نیازی به پاس دادن دستی آن نیست.
 
 **مثال:**
 
@@ -413,12 +350,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_user_chat("@TestUser", last_deleted_message_id="123456")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_user_chat("@TestUser")
+    print(result)
 ```
 
 ---
@@ -443,12 +376,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        call = app.request_voice_call("@Online_User")
-        print(call)
-
-    except Exception as e:
-        print(e)
+    call = app.request_voice_call("@Online_User")
+    print(call)
 ```
 
 ---
@@ -473,12 +402,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        call = app.request_video_call("@Online_User")
-        print(call)
-
-    except Exception as e:
-        print(e)
+    call = app.request_video_call("@Online_User")
+    print(call)
 ```
 
 ---
@@ -491,7 +416,7 @@ with Messenger("mySession") as app:
 **پارامترها:**
 
 - **call_id:** شناسه تماس.
-- **duration:** مدت زمان تماس به ثانیه.
+- **duration:** مدت زمان تماس به ثانیه. (پیش‌فرض: 0)
 - **reason:** دلیل پایان تماس. مقادیر رایج: `Missed` و `Disconnect`. (پیش‌فرض: Disconnect)
 
 **مثال:**
@@ -500,16 +425,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.discard_call(
-            call_id="call_abc123",
-            duration=120,
-            reason="Disconnect"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.discard_call(
+        call_id="call_abc123",
+        duration=120,
+        reason="Disconnect"
+    )
+    print(result)
 ```
 
 ---
@@ -525,12 +446,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        top = app.get_top_users()
-        print(top)
-
-    except Exception as e:
-        print(e)
+    top = app.get_top_users()
+    print(top)
 ```
 
 ---
@@ -550,56 +467,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.remove_from_top_users("@TestUser")
-        print(result)
-
-    except Exception as e:
-        print(e)
-```
-
----
-
-<a id="messenger_set_ask_spam"></a>
-## [set_ask_spam](#messenger_set_ask_spam)
-
-این متد برای انجام عملیات روی یک درخواست اسپم معلق به کار می‌رود.
-
-**پارامترها:**
-
-- **chat:** شناسه (GUID)، لینک یا نام‌کاربری کاربر، گروه یا کانال.
-- **action:** عملیات مورد نظر:
-    - برای کاربر: `AddToContact`، `BlockUser`، `Cancel`.
-    - برای گروه/کانال: `ReportAndLeave`، `Cancel`.
-
-**مثال‌ها:**
-
-افزودن کاربر به مخاطبین:
-
-```python
-from maxrubika import Messenger
-
-with Messenger("mySession") as app:
-    try:
-        result = app.set_ask_spam("@UnknownUser", action="AddToContact")
-        print(result)
-
-    except Exception as e:
-        print(e)
-```
-
-مسدود کردن کاربر:
-
-```python
-from maxrubika import Messenger
-
-with Messenger("mySession") as app:
-    try:
-        result = app.set_ask_spam("@SpamUser", action="BlockUser")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.remove_from_top_users("@TestUser")
+    print(result)
 ```
 
 ---
@@ -611,7 +480,7 @@ with Messenger("mySession") as app:
 
 **پارامتر:**
 
-- **user:** شناسه (GUID) یا نام‌کاربری کاربر مورد نظر. همچنین می‌توان از `me` برای دریافت لیست خود استفاده کرد.
+- **user:** شناسه (GUID) یا نام‌کاربری کاربر مورد نظر. همچنین می‌توان از مقادیر `me`، `cloud`، `self` یا `myself` برای دریافت لیست خود استفاده کرد.
 
 **مثال:**
 
@@ -619,12 +488,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        playlist = app.get_saved_music_playlist("me")
-        print(playlist)
-
-    except Exception as e:
-        print(e)
+    playlist = app.get_saved_music_playlist("me")
+    print(playlist)
 ```
 
 ---
@@ -640,12 +505,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        stories = app.get_contacts_stories()
-        print(stories)
-
-    except Exception as e:
-        print(e)
+    stories = app.get_contacts_stories()
+    print(stories)
 ```
 
 ---

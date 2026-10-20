@@ -18,15 +18,11 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.add_members(
-            "g0abc123...",
-            members=["@User1", "@User2", "u0xyz789..."]
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.add_members(
+        "g0abc123...",
+        members=["@User1", "@User2", "u0xyz789..."]
+    )
+    print(result)
 ```
 
 ---
@@ -47,12 +43,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.ban_member("g0abc123...", member="@SpamUser")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.ban_member("g0abc123...", member="@SpamUser")
+    print(result)
 ```
 
 ---
@@ -73,12 +65,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.ban_members("g0abc123...", members=["@User1", "@User2"])
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.ban_members("g0abc123...", members=["@User1", "@User2"])
+    print(result)
 ```
 
 ---
@@ -99,12 +87,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unban_member("g0abc123...", member="@SpamUser")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unban_member("g0abc123...", member="@SpamUser")
+    print(result)
 ```
 
 ---
@@ -125,12 +109,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unban_members("g0abc123...", members=["@User1", "@User2"])
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unban_members("g0abc123...", members=["@User1", "@User2"])
+    print(result)
 ```
 
 ---
@@ -145,18 +125,16 @@ with Messenger("mySession") as app:
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
 - **exclude:** GUID یا نام‌کاربری اعضایی که نباید رفع مسدود شوند. (پیش‌فرض: None)
 
+**خروجی:** یک شیء `Data` شامل `status`، `total_banned`، `excluded` و `unbanned`.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unban_all_members("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unban_all_members("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -171,18 +149,16 @@ with Messenger("mySession") as app:
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
 - **show_member_guids:** نمایش GUID اعضا در خروجی. (پیش‌فرض: False)
 
+**خروجی:** یک شیء `Data` شامل `members`، `total`، `chat_guid` و (در صورت `show_member_guids=True`) `member_guids`.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        banned = app.get_banned_members("g0abc123...")
-        print(banned)
-
-    except Exception as e:
-        print(e)
+    banned = app.get_banned_members("g0abc123...")
+    print(banned)
 ```
 
 ---
@@ -197,18 +173,16 @@ with Messenger("mySession") as app:
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
 - **exclude:** GUID یا نام‌کاربری اعضایی که نباید رفع مسدود شوند. (پیش‌فرض: None)
 
+**خروجی:** یک شیء `Data` شامل `status`، `total_banned`، `excluded` و `unbanned`.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.clear_black_list("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.clear_black_list("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -222,7 +196,7 @@ with Messenger("mySession") as app:
 
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
 - **member:** GUID یا نام‌کاربری عضو.
-- **access:** لیست دسترسی‌های مجاز یا یک دسترسی تکی.
+- **access:** لیست دسترسی‌های مجاز، یک دسترسی تکی، یا `'All'`/`'all'` برای اعطای همه دسترسی‌ها.
     - **گروه:** `SetAdmin`, `BanMember`, `ChangeInfo`, `PinMessages`, `SetJoinLink`, `SetMemberAccess`, `DeleteGlobalAllMessages`
     - **کانال:** `ChangeInfo`, `DeleteGlobalAllMessages`, `PinMessages`, `SetAdmin`, `ViewAdmins`, `SetJoinLink`, `AddMember`, `ViewMembers`, `SendMessages`, `EditAllMessages`
 - **custom_title:** عنوان سفارشی برای ادمین (فقط گروه). (پیش‌فرض: خالی)
@@ -233,17 +207,13 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_admin(
-            "g0abc123...",
-            member="@NewAdmin",
-            access=["BanMember", "PinMessages", "ChangeInfo"],
-            custom_title="مدیر ارشد"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_admin(
+        "g0abc123...",
+        member="@NewAdmin",
+        access=["BanMember", "PinMessages", "ChangeInfo"],
+        custom_title="مدیر ارشد"
+    )
+    print(result)
 ```
 
 ---
@@ -264,12 +234,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unset_admin("g0abc123...", member="@OldAdmin")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unset_admin("g0abc123...", member="@OldAdmin")
+    print(result)
 ```
 
 ---
@@ -290,12 +256,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        is_admin = app.member_is_admin("g0abc123...", member="@TestUser")
-        print(is_admin)
-
-    except Exception as e:
-        print(e)
+    is_admin = app.member_is_admin("g0abc123...", member="@TestUser")
+    print(is_admin)
 ```
 
 ---
@@ -308,7 +270,7 @@ with Messenger("mySession") as app:
 **پارامترها:**
 
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
-- **new_owner:** GUID یا نام‌کاربری مالک جدید.
+- **new_owner:** GUID یا نام‌کاربری مالک جدید. فقط کاربران (`u0`) مجاز هستند؛ بات‌ها قابل قبول نیستند.
 
 **نکته:** فقط مالک فعلی می‌تواند این درخواست را ارسال کند. مالک جدید باید درخواست را بپذیرد. این عملیات غیرقابل بازگشت است.
 
@@ -318,12 +280,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.change_owner("g0abc123...", new_owner="@NewOwner")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.change_owner("g0abc123...", new_owner="@NewOwner")
+    print(result)
 ```
 
 ---
@@ -343,12 +301,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.accept_ownership_request("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.accept_ownership_request("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -368,12 +322,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.reject_ownership_request("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.reject_ownership_request("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -393,12 +343,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.cancel_change_owner("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.cancel_change_owner("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -418,12 +364,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        pending = app.get_pending_owner("g0abc123...")
-        print(pending)
-
-    except Exception as e:
-        print(e)
+    pending = app.get_pending_owner("g0abc123...")
+    print(pending)
 ```
 
 ---

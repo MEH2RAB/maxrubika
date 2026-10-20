@@ -11,18 +11,16 @@
 
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
 
+**نکته:** اگر ویس چت فعالی وجود نداشته باشد، پیام مناسبی بازگردانده می‌شود.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        voice = app.get_chat_voice_chat("g0abc123...")
-        print(voice)
-
-    except Exception as e:
-        print(e)
+    voice = app.get_chat_voice_chat("g0abc123...")
+    print(voice)
 ```
 
 ---
@@ -42,12 +40,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.start_voice_chat("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.start_voice_chat("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -62,18 +56,16 @@ with Messenger("mySession") as app:
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
 - **sdp_offer_data:** داده‌های SDP offer. (پیش‌فرض: None - استفاده از پیش‌فرض)
 
+**نکته:** اگر ویس چت فعالی وجود نداشته باشد، پیام مناسبی بازگردانده می‌شود.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.join_voice_chat("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.join_voice_chat("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -87,18 +79,16 @@ with Messenger("mySession") as app:
 
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
 
+**نکته:** اگر ویس چت فعالی وجود نداشته باشد، پیام مناسبی بازگردانده می‌شود.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.leave_voice_chat("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.leave_voice_chat("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -115,20 +105,18 @@ with Messenger("mySession") as app:
 
 **نکته:** نصب پیش‌نیاز: `pip install aiortc`
 
+**خروجی:** یک شیء `VoiceChatConnection` که متدهای `stop()`، `pause()` و `resume()` دارد.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        connection = app.play_voice_chat("g0abc123...", media="/path/to/audio.mp3")
-        # برای توقف: connection.stop()
-        # برای توقف موقت: connection.pause()
-        # برای ادامه: connection.resume()
-
-    except Exception as e:
-        print(e)
+    connection = app.play_voice_chat("g0abc123...", media="/path/to/audio.mp3")
+    # برای توقف: connection.stop()
+    # برای توقف موقت: connection.pause()
+    # برای ادامه: connection.resume()
 ```
 
 ---
@@ -142,18 +130,16 @@ with Messenger("mySession") as app:
 
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
 
+**نکته:** اگر ویس چت فعالی وجود نداشته باشد، پیام مناسبی بازگردانده می‌شود.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.discard_voice_chat("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.discard_voice_chat("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -168,18 +154,16 @@ with Messenger("mySession") as app:
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
 - **show_user_guids:** نمایش GUID کاربران در خروجی. (پیش‌فرض: False)
 
+**نکته:** اگر ویس چت فعالی وجود نداشته باشد، پیام مناسبی بازگردانده می‌شود.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        participants = app.get_voice_chat_participants("g0abc123...")
-        print(participants)
-
-    except Exception as e:
-        print(e)
+    participants = app.get_voice_chat_participants("g0abc123...")
+    print(participants)
 ```
 
 ---
@@ -194,18 +178,16 @@ with Messenger("mySession") as app:
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
 - **state:** وضعیت زمانی برای دریافت به‌روزرسانی‌ها. (پیش‌فرض: ۱۵۰ ثانیه قبل از زمان فعلی)
 
+**نکته:** اگر ویس چت فعالی وجود نداشته باشد، پیام مناسبی بازگردانده می‌شود.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        updates = app.get_voice_chat_updates("g0abc123...")
-        print(updates)
-
-    except Exception as e:
-        print(e)
+    updates = app.get_voice_chat_updates("g0abc123...")
+    print(updates)
 ```
 
 ---
@@ -221,18 +203,16 @@ with Messenger("mySession") as app:
 - **activity:** نوع فعالیت. (فقط `Speaking`، پیش‌فرض: Speaking)
 - **participant_chat_guid:** GUID شرکت‌کننده. (پیش‌فرض: خود کاربر)
 
+**نکته:** اگر ویس چت فعالی وجود نداشته باشد، پیام مناسبی بازگردانده می‌شود.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.send_voice_chat_activity("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.send_voice_chat_activity("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -248,22 +228,20 @@ with Messenger("mySession") as app:
 - **title:** عنوان جدید ویس چت. (پیش‌فرض: None)
 - **join_muted:** آیا اعضای جدید بی‌صدا وارد شوند؟ (فقط گروه، پیش‌فرض: None)
 
+**نکته:** اگر ویس چت فعالی وجود نداشته باشد، پیام مناسبی بازگردانده می‌شود.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_voice_chat_setting(
-            "g0abc123...",
-            title="ویس چت عمومی",
-            join_muted=True
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_voice_chat_setting(
+        "g0abc123...",
+        title="ویس چت عمومی",
+        join_muted=True
+    )
+    print(result)
 ```
 
 ---
@@ -271,13 +249,15 @@ with Messenger("mySession") as app:
 <a id="messenger_set_voice_chat_state"></a>
 ## [set_voice_chat_state](#messenger_set_voice_chat_state)
 
-این متد برای تنظیم وضعیت ویس چت (Mute/Unmute) است.
+این متد برای تنظیم وضعیت ویس چت (Mute/Unmute/درخواست صحبت) است.
 
 **پارامترها:**
 
 - **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
-- **action:** عملیات. مقادیر: `Mute`، `Unmute`. (پیش‌فرض: Unmute)
+- **action:** عملیات. مقادیر: `Mute`، `Unmute`، `RequestSpeak`، `CancelRequestSpeak`. (پیش‌فرض: Unmute)
 - **participant_chat_guid:** GUID شرکت‌کننده. (پیش‌فرض: خود کاربر)
+
+**نکته:** اگر ویس چت فعالی وجود نداشته باشد، پیام مناسبی بازگردانده می‌شود.
 
 **مثال:**
 
@@ -285,12 +265,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_voice_chat_state("g0abc123...", action="Mute")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_voice_chat_state("g0abc123...", action="Mute")
+    print(result)
 ```
 
 ---

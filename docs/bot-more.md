@@ -23,6 +23,203 @@
 
 ---
 
+<a id="bot_init_params"></a>
+## [راهنمای ساخت و پیکربندی بات](#bot_init_params)
+
+هنگام ساخت نمونه ربات، می‌توانید پارامترهای زیر را به سازنده کلاس `Bot` بدهید:
+
+| پارامتر | نوع | پیش‌فرض | توضیح |
+|------|------|:------:|------|
+| `token` | str | `None` | توکن احراز هویت بات. اگر خالی یا نامعتبر باشد، از کاربر در ترمینال درخواست می‌شود. |
+| `token_string` | str | `None` | نسخهٔ رمزنگاری‌شدهٔ توکن. **اولویت آن از `token` بیشتر است.** |
+| `password` | str | `None` | رمز عبور برای رمزگشایی `token_string` (در صورت استفاده). |
+| `base_url` | str | `"https://botapi.rubika.ir/v3"` | آدرس پایهٔ API. |
+| `timeout` | int/float | `30` | مدت زمان انتظار برای هر درخواست (ثانیه). |
+| `max_retries` | int | `5` | حداکثر تعداد تلاش مجدد در صورت خطای شبکه. |
+| `show_welcome` | bool | `True` | نمایش پیام خوش‌آمدگویی کتابخانه هنگام راه‌اندازی. |
+| `run_all_handlers` | bool | `True` | اگر `True` باشد، همهٔ هندلرهایی که شرطشان با رویداد مطابقت دارد اجرا می‌شوند. اگر `False` باشد، تنها اولین هندلر مطابق اجرا می‌شود. |
+
+**نکات مهم:**
+
+1. **اولویت `token_string`:** اگر هم `token` و هم `token_string` را بدهید، `token_string` استفاده می‌شود (و در صورت نیاز با `password` رمزگشایی می‌شود).
+2. **`run_all_handlers`:** اگر چند هندلر با یک رویداد مطابقت داشته باشند، با `True` همه اجرا می‌شوند و با `False` فقط اولی.
+
+---
+
+<a id="bot_token_string"></a>
+## [توکن استرینگ (TokenString) و امنیت آن](#bot_token_string)
+
+توکن بات یکی از حساس‌ترین اطلاعات پروژه است. اگر توکن شما به دست شخص دیگری بیفتد، می‌تواند از طرف بات شما به کاربران پیام بفرستد، اطلاعات گروه‌ها را بخواند یا حتی بات را مختل کند.
+
+**TokenString** یک راهکار امنیتی برای ذخیره و انتقال توکن است. این قابلیت توکن خام بات را به یک رشتهٔ رمزنگاری‌شده تبدیل می‌کند و می‌توانید آن را جای توکن اصلی استفاده کنید.
+
+### مزایای امنیتی TokenString:
+
+1. **رمزنگاری:** توکن اصلی بات هرگز به‌صورت متن ساده ذخیره یا ارسال نمی‌شود.
+2. **رمز عبور اختیاری:** می‌توانید TokenString را با یک رمز عبور محافظت کنید. در این صورت، حتی اگر رشتهٔ رمزنگاری‌شده لو برود، بدون رمز عبور قابل استفاده نیست.
+3. **دور ماندن از مخازن:** می‌توانید TokenString را در فایل‌های تنظیمات، متغیرهای محیطی یا مخزن کد قرار دهید بدون نگرانی از افشای توکن اصلی.
+4. **چرخش توکن:** در صورت نیاز، می‌توانید TokenString جدید بسازید بدون اینکه توکن اصلی بات تغییر کند.
+
+### ساخت TokenString از توکن فعلی:
+
+با متد `get_token_string()` می‌توانید توکن فعلی بات را به یک TokenString رمزنگاری‌شده تبدیل کنید:
+
+```python
+from maxrubika import Bot
+
+with Bot("TOKEN") as bot:
+    # بدون رمز عبور
+    token_string = bot.get_token_string()
+
+    # با رمز عبور (امن‌تر)
+    token_string = bot.get_token_string(password="my_secret_password")
+
+    print(token_string)
+```
+
+### استفاده از TokenString برای ساخت ربات:
+
+```python
+from maxrubika import Bot
+
+with Bot(token_string="ENCRYPTED_STRING", password="my_secret_password") as bot:
+    print(bot.get_me())
+```
+
+**پارامترهای `get_token_string`:**
+
+| پارامتر | نوع | پیش‌فرض | توضیح |
+|------|------|:------:|------|
+| `password` | str | `None` | رمز عبور اختیاری برای رمزنگاری. اگر بدهید، TokenString فقط با همین رمز قابل باز شدن است. |
+
+**نکات مهم:**
+
+1. اگر TokenString را با رمز عبور بسازید، **حتماً رمز را جای امنی نگه دارید.** بدون آن، TokenString قابل بازیابی نیست.
+2. TokenString در واقع توکن اصلی نیست، بلکه یک نسخهٔ رمزنگاری‌شده است. توکن اصلی همچنان در سمت سرور روبیکا معتبر است.
+
+---
+
+<a id="bot_connect_disconnect"></a>
+## [نحوه اتصال و قطع اتصال](#bot_connect_disconnect)
+
+برای برقراری و قطع اتصال در کتابخانه MAXRubika، دو روش اصلی وجود دارد که بسته به نوع استفاده (Sync یا Async) و نیاز پروژه، می‌توانید یکی را انتخاب کنید.
+
+### روش اول: استفاده از Context Manager
+
+در این روش نیازی به صدا زدن متد اضافه‌ای برای قطع اتصال نیست؛ کافی است از `with` (در حالت Sync) یا `async with` (در حالت Async) استفاده کنید. اتصال به‌صورت خودکار برقرار می‌شود و در پایان بلوک، به‌درستی بسته خواهد شد.
+
+#### حالت Sync:
+
+```python
+from maxrubika import Bot
+
+with Bot("Token") as bot:
+    me = bot.get_me()
+    print(me)
+```
+
+همچنین می‌توانید ابتدا شیء را بسازید و سپس از `with` استفاده کنید:
+
+```python
+from maxrubika import Bot
+
+bot = Bot("Token")
+
+with bot:
+    me = bot.get_me()
+    print(me)
+```
+
+#### حالت Async:
+
+```python
+import asyncio
+from maxrubika import Bot
+
+async def main():
+    async with Bot("Token") as bot:
+        me = await bot.get_me()
+        print(me)
+
+asyncio.run(main())
+```
+
+یا ساخت جداگانه‌ی شیء و سپس استفاده از `async with`:
+
+```python
+import asyncio
+from maxrubika import Bot
+
+async def main():
+    bot = Bot("Token")
+
+    async with bot:
+        me = await bot.get_me()
+        print(me)
+
+asyncio.run(main())
+```
+
+### روش دوم: صدا زدن متد disconnect یا close
+
+در این روش، خودتان به‌صورت دستی اتصال را برقرار می‌کنید و در انتهای عملیات، با صدا زدن متد مناسب، اتصال را می‌بندید.
+
+#### حالت Sync:
+
+در کدهای Sync از متد `disconnect` استفاده کنید:
+
+```python
+from maxrubika import Bot
+
+bot = Bot("Token")
+
+me = bot.get_me()
+print(me)
+
+bot.disconnect()  # قطع اتصال در پایان عملیات
+```
+
+#### حالت Async:
+
+در کدهای Async از متد `close` استفاده کنید:
+
+```python
+import asyncio
+from maxrubika import Bot
+
+async def main():
+    bot = Bot("Token")
+    me = await bot.get_me()
+    print(me)
+    await bot.close()  # قطع اتصال در پایان عملیات
+
+asyncio.run(main())
+```
+
+**نکته مهم:**
+
+استفاده از این روش‌ها فقط زمانی لازم است که بخواهید یک عملیات موقت با کتابخانه انجام دهید (مثلاً دریافت اطلاعات یک‌باره‌ی یک شیء).
+
+اگر از دکوراتورها، لانگ‌پولینگ یا وب‌هوک استفاده می‌کنید، نیازی به صدا زدن `disconnect` یا `close` یا استفاده از Context Manager نیست؛ زیرا کتابخانه خودش مدیریت اتصال را در طول اجرا به عهده دارد.
+
+#### مثال: استفاده از دکوراتور (بدون نیاز به قطع دستی)
+
+```python
+from maxrubika import Bot
+
+bot = Bot("Token")
+
+@bot.on_command("start")
+async def start(bot, event):
+    await event.reply("سلام، پیام شما دریافت شد.")
+
+bot.run()
+```
+
+در این حالت، کتابخانه به‌طور خودکار اتصال را در طول اجرای ربات مدیریت می‌کند و نیازی به فراخوانی متدهای `disconnect` یا `close` نخواهد بود.
+
+---
+
 <a id="bot_metadata_guide"></a>
 ## [راهنمای متادیتا در متن پیام](#bot_metadata_guide)
 
@@ -38,8 +235,8 @@
 | خط‌خورده (Strikethrough) | `~~` | `~~عالی و قوی~~` |
 | مونو (Monospace) | `` ` `` | `` `بی‌نظیر` `` |
 | بلاک کد (Code Block) | `` ``` `` | `` ``` کد ``` `` |
-| هایپرلینک | `(متن)[لینک]` | `(کلیک کنید)[https://example.com]` |
-| منشن (Mention) | `(متن)[sender_id]` | `(مدیر)[u0...]` |
+| هایپرلینک | `[متن](لینک)` | `[کلیک کنید](https://example.com)` |
+| منشن (Mention) | `[متن](sender_id)` | `[مدیر](u0...)` |
 
 ### نمونه‌های ترکیبی پیشرفته
 
@@ -53,12 +250,16 @@
 
 **مثال ۳ - بلاک کد کامل:**
 
-    """```from maxrubika import Client
-    client = Client("mySession")
-    info = client.get_channel_post_by_link("https://rubika.ir/RubiFAQ/BEFIDIFGBJHJECCD")
-    print(info)```"""
+    """```from maxrubika import Messenger
+    with Messenger("mySession") as app:
+        info = client.get_channel_post_by_link("https://rubika.ir/RubiFAQ/BEFIDIFGBJHJECCD")
+        print(info)```"""
 
-**توجه:** حداکثر تعداد متادیتا در هر پیام ۳۰ مورد است و می‌توانید از ترکیب‌های مختلف به‌صورت همزمان استفاده کنید.
+**توجه:**
+
+- حداکثر تعداد متادیتا در هر پیام ۳۰ مورد است و می‌توانید از ترکیب‌های مختلف به‌صورت همزمان استفاده کنید.
+
+- برای اعمال متادیتا بر روی پیام، می‌بایست علامت‌ها را اول و آخر **جمله** قرار دهید، اگر در اول و آخر متن قرار دهید، متادیتا اعمال نمی‌شود. (به جز علامت های بلاک کد)
 
 ---
 

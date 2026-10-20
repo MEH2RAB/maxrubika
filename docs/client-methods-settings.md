@@ -13,12 +13,8 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        privacy = app.get_privacy_setting()
-        print(privacy)
-
-    except Exception as e:
-        print(e)
+    privacy = app.get_privacy_setting()
+    print(privacy)
 ```
 
 ---
@@ -34,12 +30,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        notifications = app.get_notification_setting()
-        print(notifications)
-
-    except Exception as e:
-        print(e)
+    notifications = app.get_notification_setting()
+    print(notifications)
 ```
 
 ---
@@ -67,16 +59,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_notification(
-            user_notification=True,
-            group_notification=False,
-            in_app_sound=True
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_notification(
+        user_notification=True,
+        group_notification=False,
+        in_app_sound=True
+    )
+    print(result)
 ```
 
 ---
@@ -100,9 +88,19 @@ with Messenger("mySession") as app:
 
 هر کدام می‌توانند یک دیکشنری با کلیدهای `include_users` و `exclude_users` باشند.
 
+**نکته:** قوانین استثناها:
+- برای `Everybody` فقط `exclude_users` مجاز است.
+- برای `Nobody` فقط `include_users` مجاز است.
+- برای `MyContacts` هر دو مجاز هستند.
+- برای پاک کردن استثناها، `{'exclude_users': []}` بفرستید.
+
 **پارامترهای حذف خودکار:**
 
-- **auto_delete_messages:** مدت زمان حذف خودکار پیام‌ها.
+- **auto_delete_messages:** مدت زمان حذف خودکار پیام‌ها. مقادیر قابل قبول:
+  - `Off` (غیرفعال)
+  - عدد (۱ تا ۳۶۵ روز)
+  - رشته‌هایی مثل `1d`، `7d`، `30d`، `1w`، `1m`، `1y`
+  - کلمات کلیدی: `never`، `disabled`، `day`، `week`، `month`، `year`
 - **inactive_account_delete:** حذف حساب پس از چند ماه عدم فعالیت. (مقادیر: 3، 6، 12، 24)
 
 **مثال‌ها:**
@@ -113,12 +111,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_setting(show_my_last_online="MyContacts")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_setting(show_my_last_online="MyContacts")
+    print(result)
 ```
 
 ۲. تنظیم با استثنا:
@@ -127,17 +121,13 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_setting(
-            show_my_last_online="Nobody",
-            show_my_last_online_exceptions={
-                "include_users": ["u0abc123..."]
-            }
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_setting(
+        show_my_last_online="Nobody",
+        show_my_last_online_exceptions={
+            "include_users": ["u0abc123..."]
+        }
+    )
+    print(result)
 ```
 
 ---
@@ -158,12 +148,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_show_last_online("MyContacts")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_show_last_online("MyContacts")
+    print(result)
 ```
 
 ---
@@ -184,12 +170,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_show_phone_number("Nobody")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_show_phone_number("Nobody")
+    print(result)
 ```
 
 ---
@@ -210,12 +192,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_show_profile_photo("MyContacts")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_show_profile_photo("MyContacts")
+    print(result)
 ```
 
 ---
@@ -236,12 +214,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_show_birthday("Nobody")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_show_birthday("Nobody")
+    print(result)
 ```
 
 ---
@@ -262,12 +236,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_can_join_chat_by("MyContacts")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_can_join_chat_by("MyContacts")
+    print(result)
 ```
 
 ---
@@ -288,12 +258,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_can_called_by("Nobody")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_can_called_by("Nobody")
+    print(result)
 ```
 
 ---
@@ -305,7 +271,7 @@ with Messenger("mySession") as app:
 
 **پارامتر:**
 
-- **setting:** تعداد ماه‌ها. مقادیر قابل قبول: 3، 6، 12 یا 24.
+- **setting:** تعداد ماه‌ها. مقادیر قابل قبول: `3`، `6`، `12`، `24` یا رشته‌هایی مثل `"3m"`، `"6m"`، `"12m"`، `"24m"`.
 
 **مثال:**
 
@@ -313,12 +279,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.auto_delete_account(6)
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.auto_delete_account(6)
+    print(result)
 ```
 
 ---
@@ -339,12 +301,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.update_my_name(first_name="علی", last_name="حسینی")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.update_my_name(first_name="علی", last_name="حسینی")
+    print(result)
 ```
 
 ---
@@ -366,12 +324,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.update_my_username("new_username")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.update_my_username("new_username")
+    print(result)
 ```
 
 ---
@@ -391,12 +345,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.update_my_bio("این بیوگرافی من است.")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.update_my_bio("این بیوگرافی من است.")
+    print(result)
 ```
 
 ---
@@ -408,7 +358,7 @@ with Messenger("mySession") as app:
 
 **پارامتر:**
 
-- **birthday:** تاریخ تولد با فرمت YYYY-MM-DD.
+- **birthday:** تاریخ تولد با فرمت `YYYY-MM-DD` یا یک شیء `datetime`.
 
 **مثال:**
 
@@ -416,12 +366,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.update_my_birthday("2000-05-20")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.update_my_birthday("2000-05-20")
+    print(result)
 ```
 
 ---
@@ -436,8 +382,11 @@ with Messenger("mySession") as app:
 - **first_name:** نام جدید.
 - **last_name:** نام خانوادگی جدید.
 - **bio:** بیوگرافی جدید.
-- **birthday:** تاریخ تولد با فرمت YYYY-MM-DD.
-- **location:** اطلاعات موقعیت مکانی شامل longitude، latitude و map_view.
+- **birthday:** تاریخ تولد با فرمت `YYYY-MM-DD`.
+- **location:** اطلاعات موقعیت مکانی شامل:
+  - `longitude`: طول جغرافیایی
+  - `latitude`: عرض جغرافیایی
+  - `map_view`: دیکشنری شامل `tile_side_count`، `tile_urls`، `x_loc`، `y_loc`
 
 **مثال:**
 
@@ -445,15 +394,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.update_my_profile(
-            first_name="علی",
-            bio="برنامه‌نویس پایتون"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.update_my_profile(
+        first_name="علی",
+        bio="برنامه‌نویس پایتون"
+    )
+    print(result)
 ```
 
 ---
@@ -469,12 +414,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        status = app.get_two_passcode_status()
-        print(status)
-
-    except Exception as e:
-        print(e)
+    status = app.get_two_passcode_status()
+    print(status)
 ```
 
 ---
@@ -496,15 +437,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_two_step_verification(
-            password="current_password",
-            hint="رمز من"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_two_step_verification(
+        password="current_password",
+        hint="رمز من"
+    )
+    print(result)
 ```
 
 ---
@@ -524,12 +461,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.check_two_step_passcode("my_password")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.check_two_step_passcode("my_password")
+    print(result)
 ```
 
 ---
@@ -549,12 +482,25 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.turn_off_two_step("my_password")
-        print(result)
+    result = app.turn_off_two_step("my_password")
+    print(result)
+```
 
-    except Exception as e:
-        print(e)
+---
+
+<a id="messenger_abort_two_step_setup"></a>
+## [abort_two_step_setup](#messenger_abort_two_step_setup)
+
+این متد برای لغو فرایند راه‌اندازی تأیید دو مرحله‌ای به کار می‌رود.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.abort_two_step_setup()
+    print(result)
 ```
 
 ---
@@ -576,31 +522,20 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.change_password(
-            password="old_pass",
-            new_password="new_pass",
-            new_hint="راهنمایی جدید"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.change_password(
+        password="old_pass",
+        new_password="new_pass",
+        new_hint="راهنمایی جدید"
+    )
+    print(result)
 ```
 
 ---
 
-<a id="messenger_recovery_email"></a>
-## [recovery_email](#messenger_recovery_email)
+<a id="messenger_request_forget_password"></a>
+## [request_forget_password](#messenger_request_forget_password)
 
-این متد برای بازیابی حساب با استفاده از ایمیل بازیابی به کار می‌رود.
-
-**پارامترها:**
-
-- **password:** رمز عبور فعلی.
-- **recovery_email:** ایمیل بازیابی.
-
-**نکته:** این متد یک کد به ایمیل ارسال می‌کند و سپس از کاربر درخواست وارد کردن کد را می‌کند.
+این متد برای درخواست بازنشانی رمز عبور فراموش‌شده به کار می‌رود.
 
 **مثال:**
 
@@ -608,15 +543,106 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.recovery_email(
-            password="my_password",
-            recovery_email="example@email.com"
-        )
-        print(result)
+    result = app.request_forget_password()
+    print(result)
+```
 
-    except Exception as e:
-        print(e)
+---
+
+<a id="messenger_request_recovery_email"></a>
+## [request_recovery_email](#messenger_request_recovery_email)
+
+این متد برای درخواست ارسال کد بازیابی به ایمیل بازیابی به کار می‌رود.
+
+**پارامترها:**
+
+- **password:** رمز عبور فعلی.
+- **recovery_email:** ایمیل بازیابی.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.request_recovery_email(
+        password="my_password",
+        recovery_email="example@email.com"
+    )
+    print(result)
+```
+
+---
+
+<a id="messenger_verify_recovery_email"></a>
+## [verify_recovery_email](#messenger_verify_recovery_email)
+
+این متد برای تأیید کد ارسال‌شده به ایمیل بازیابی به کار می‌رود.
+
+**پارامترها:**
+
+- **password:** رمز عبور فعلی.
+- **code:** کد تأیید دریافتی در ایمیل. (می‌تواند رشته یا عدد باشد)
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.verify_recovery_email(
+        password="my_password",
+        code="123456"
+    )
+    print(result)
+```
+
+---
+
+<a id="messenger_login_disable_two_step"></a>
+## [login_disable_two_step](#messenger_login_disable_two_step)
+
+این متد برای غیرفعال کردن تأیید دو مرحله‌ای در فرایند ورود به حساب به کار می‌رود.
+
+**پارامترها:**
+
+- **phone_number:** شماره تلفن مرتبط با حساب.
+- **email_code:** کد تأیید ارسال‌شده به ایمیل.
+- **forget_password_code_hash:** هش کد بازیابی رمز عبور.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.login_disable_two_step(
+        phone_number="09123456789",
+        email_code="123456",
+        forget_password_code_hash="hash_here"
+    )
+    print(result)
+```
+
+---
+
+<a id="messenger_login_two_step_forget_password"></a>
+## [login_two_step_forget_password](#messenger_login_two_step_forget_password)
+
+این متد برای شروع فرایند بازیابی رمز تأیید دو مرحله‌ای فراموش‌شده به کار می‌رود.
+
+**پارامتر:**
+
+- **phone_number:** شماره تلفن مرتبط با حساب.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.login_two_step_forget_password("09123456789")
+    print(result)
 ```
 
 ---
@@ -636,12 +662,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.request_change_phone_number("09123456789")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.request_change_phone_number("09123456789")
+    print(result)
 ```
 
 ---
@@ -662,15 +684,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.verify_change_phone_number(
-            code="12345",
-            hash="hash_from_request"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.verify_change_phone_number(
+        code="12345",
+        hash="hash_from_request"
+    )
+    print(result)
 ```
 
 ---
@@ -686,12 +704,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        sessions = app.get_my_sessions()
-        print(sessions)
-
-    except Exception as e:
-        print(e)
+    sessions = app.get_my_sessions()
+    print(sessions)
 ```
 
 ---
@@ -707,12 +721,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        pending = app.get_unconfirmed_sessions()
-        print(pending)
-
-    except Exception as e:
-        print(e)
+    pending = app.get_unconfirmed_sessions()
+    print(pending)
 ```
 
 ---
@@ -732,12 +742,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.confirm_unconfirmed_session("session_key_123")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.confirm_unconfirmed_session("session_key_123")
+    print(result)
 ```
 
 ---
@@ -757,12 +763,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.deny_unconfirmed_session("session_key_123")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.deny_unconfirmed_session("session_key_123")
+    print(result)
 ```
 
 ---
@@ -782,12 +784,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.terminate_session("session_key_123")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.terminate_session("session_key_123")
+    print(result)
 ```
 
 ---
@@ -803,12 +801,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.terminate_other_sessions()
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.terminate_other_sessions()
+    print(result)
 ```
 
 ---
@@ -816,7 +810,7 @@ with Messenger("mySession") as app:
 <a id="messenger_register_device"></a>
 ## [register_device](#messenger_register_device)
 
-این متد برای ثبت دستگاه فعلی در سرور روبیکا به کار می‌رود.
+این متد برای ثبت دستگاه فعلی در سرور به کار می‌رود.
 
 **پارامتر:**
 
@@ -828,12 +822,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.register_device()
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.register_device()
+    print(result)
 ```
 
 ---
@@ -843,7 +833,11 @@ with Messenger("mySession") as app:
 
 این متد برای خروج از نشست فعلی به کار می‌رود.
 
-**توجه:** پس از اجرا، باید حرف `y` را برای تأیید وارد نمایید.
+**پارامترها:**
+
+- **confirm:** در صورت True بودن، قبل از خروج از کاربر تأیید گرفته می‌شود (`y/n`). در صورت False بودن، بدون پرسش خارج می‌شود. (پیش‌فرض: True)
+
+**توجه:** در حالت `confirm=True`، برای تکمیل عملیات خروج باید حرف `y` را در کنسول وارد نمایید.
 
 **مثال:**
 
@@ -851,12 +845,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.logout()
-        print(result)
+    result = app.logout()
+    print(result)
 
-    except Exception as e:
-        print(e)
+    # خروج بدون تأیید
+    result = app.logout(confirm=False)
+    print(result)
 ```
 
 ---
@@ -864,7 +858,7 @@ with Messenger("mySession") as app:
 <a id="messenger_delete_account"></a>
 ## [delete_account](#messenger_delete_account)
 
-این متد برای درخواست حذف دائمی حساب روبیکا به کار می‌رود.
+این متد برای درخواست حذف دائمی حساب به کار می‌رود.
 
 **توجه:** پس از اجرا، یک پیامک تأیید حاوی لینک حذف حساب به شماره شما ارسال خواهد شد.
 
@@ -874,12 +868,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_account()
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_account()
+    print(result)
 ```
 
 ---
@@ -899,12 +889,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        folders = app.get_folders()
-        print(folders)
-
-    except Exception as e:
-        print(e)
+    folders = app.get_folders()
+    print(folders)
 ```
 
 ---
@@ -920,12 +906,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        suggested = app.get_suggested_folders()
-        print(suggested)
-
-    except Exception as e:
-        print(e)
+    suggested = app.get_suggested_folders()
+    print(suggested)
 ```
 
 ---
@@ -940,8 +922,8 @@ with Messenger("mySession") as app:
 - **name:** نام پوشه.
 - **include_chats:** چت‌هایی که در پوشه قرار گیرند (GUID، لینک یا نام‌کاربری).
 - **exclude_chats:** چت‌هایی که از پوشه مستثنی شوند.
-- **include_chat_types:** انواع چت برای شمول (مانند `User`، `Group`، `Channel`، `Bot`).
-- **exclude_chat_types:** انواع چت برای استثنا.
+- **include_chat_types:** انواع چت برای شمول (مانند `Contacts`، `Users`، `Groups`، `Channels`، `Bots`، `Services`).
+- **exclude_chat_types:** انواع چت برای استثنا (مانند `Mute`، `Read`، `Archive`).
 - **is_add_to_top:** افزودن پوشه به بالای لیست. (پیش‌فرض: True)
 - **suggestion_folder_id:** شناسه پوشه پیشنهادی.
 - **folder_id:** شناسه پوشه.
@@ -952,15 +934,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.add_folder(
-            name="دوستان",
-            include_chats=["@User1", "@User2"]
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.add_folder(
+        name="دوستان",
+        include_chats=["@User1", "@User2"]
+    )
+    print(result)
 ```
 
 ---
@@ -980,12 +958,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_folder("folder_id_123")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_folder("folder_id_123")
+    print(result)
 ```
 
 ---
@@ -1005,12 +979,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.reorder_folder(["id3", "id1", "id2"])
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.reorder_folder(["id3", "id1", "id2"])
+    print(result)
 ```
 
 ---
@@ -1034,14 +1004,37 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.add_saved_music_playlist(
-            files=["song1.mp3", "song2.mp3"]
-        )
-        print(result)
+    result = app.add_saved_music_playlist(
+        files=["song1.mp3", "song2.mp3"]
+    )
+    print(result)
+```
 
-    except Exception as e:
-        print(e)
+---
+
+<a id="messenger_add_saved_music_track"></a>
+## [add_saved_music_track](#messenger_add_saved_music_track)
+
+این متد برای افزودن یک آهنگ تکی به لیست موسیقی ذخیره شده در پروفایل به کار می‌رود.
+
+**پارامترها:**
+
+- **track:** مسیر فایل موسیقی یا bytes خام.
+- **file_inline:** دیکشنری file_inline از پیش آپلود شده.
+- **time:** مدت زمان سفارشی به ثانیه. (در صورت عدم ارسال، تشخیص خودکار)
+- **performer:** نام خواننده سفارشی. (در صورت عدم ارسال، تشخیص خودکار)
+- **file_name:** نام فایل سفارشی.
+
+**نکته:** باید یا `track` یا `file_inline` ارسال شود.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.add_saved_music_track("song.mp3")
+    print(result)
 ```
 
 ---
@@ -1065,14 +1058,10 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_saved_music_playlist(
-            files=["song1.mp3", "song2.mp3"]
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_saved_music_playlist(
+        files=["song1.mp3", "song2.mp3"]
+    )
+    print(result)
 ```
 
 ---
@@ -1094,12 +1083,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_saved_music_playlist(position=1)
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_saved_music_playlist(position=1)
+    print(result)
 ```
 
 حذف تمام آهنگ‌ها:
@@ -1108,12 +1093,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_saved_music_playlist()
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_saved_music_playlist()
+    print(result)
 ```
 
 ---
@@ -1136,12 +1117,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger(auth = "ahkjbsawthnh...", api_version=5) as app:
-    try:
-        result = app.upgrade_to_api6()
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.upgrade_to_api6()
+    print(result)
 ```
 
 ---

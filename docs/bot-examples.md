@@ -11,16 +11,16 @@ from maxrubika import Bot
 bot = Bot("Token")
 
 @bot.on_command("start")
-async def info(bot, event):
-    await event.reply(f"سلام، پیام شما دریافت شد.")
+async def start(bot, event):
+    await event.reply("سلام، پیام شما دریافت شد.")
 
 bot.run()
 ```
 
 ---
 
-<a id="bot_examples_user_info"></a>
-## [نمایش اطلاعات کاربر](#bot_examples_user_info)
+<a id="bot_examples_get_info"></a>
+## [دریافت چت آیدی و سندر آیدی](#bot_examples_get_info)
 
 ```python
 from maxrubika import Bot
@@ -68,7 +68,7 @@ import random
 
 bot = Bot("Token")
 
-@bot.on_message(Text("^تاس"))
+@bot.on_new_message(Text("^تاس"))
 async def roll_dice(bot, event):
     dice = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"]
     result = random.choice(dice)
@@ -101,7 +101,7 @@ SENDER_ID = ""
 
 bot = Bot(TOKEN)
 
-@bot.on_message(ChatType("group") & FromUser(SENDER_ID) & IsForwarded())
+@bot.on_new_message(ChatType("group") & FromUser(SENDER_ID) & IsForwarded())
 async def l(bot, event):
    await event.forward()
    await event.delete()
@@ -110,6 +110,31 @@ async def l(bot, event):
 async def i(bot, event):
    await event.copy()
    await event.delete()
+
+bot.run(0)
+```
+
+---
+
+<a id="bot_examples_echo_messages2"></a>
+## [اکو کردن پیام‌ها با استفاده از پراپرتی‌ها](#bot_examples_echo_messages2)
+
+```python
+from maxrubika import Bot
+from maxrubika.bot.filters import FromUser
+
+TOKEN = "Token"
+SENDER_ID = ""
+
+bot = Bot(TOKEN)
+@bot.on_new_message(FromUser(SENDER_ID))
+async def i(bot, event):
+    if event.is_forwarded or event.is_sticker or event.is_poll or event.is_location:
+        await event.forward()
+        await event.delete()
+    else:
+        await event.delete()
+        await event.copy()
 
 bot.run(0)
 ```
@@ -390,119 +415,137 @@ import re
 from maxrubika import Bot, Messenger
 from maxrubika.bot.filters import Text
 
+bot = Bot("Token") # توکن بات خود را اینجا وارد کنید.
+app = Messenger("mySession") # سشن اکانت خود را اینجا وارد کنید.
+
+app.start()
+@bot.on_message(Text(re.compile(r'https://rubika\.ir/\w+/[A-Z]+', re.IGNORECASE)))
+async def get_post(bot, event):
+    link = event.text.strip()
+
+    try:
+        result = await app.get_channel_post_by_link(link)
+        ask_spam_link = result.ask_spam_link
+
+        if ask_spam_link:
+            await event.reply(f"**لینک پست مورد نظر آماده شد:\n\n>**{ask_spam_link}")
+        else:
+            await event.reply("**خطایی رخ داد.**")
+
+    except Exception as e:
+        print(e)
+        await event.reply(f"**لطفاً لینک معتبر وارد شود.**")
+
+bot.run()
+```
+
+---
+
+<a id="bot_examples_check_join"></a>
+## [کد بررسی عضویت به صورت مستقیم](#bot_examples_check_join)
+
+```python
+from maxrubika import Bot
+from maxrubika.bot.filters import IsUser
+from maxrubika.bot.exceptions import InvalidAccess
+
+bot = Bot("Token") # توکن بات خود اینجا وارد شود
+
+channel_id = "" # چت آیدی کانال اینجا وارد شود
+username = "" # یوزرنیم کانال اینجا وارد شود
+
+info = bot.get_chat_info(channel_id)
+@bot.on_command("start", IsUser())
+async def start(bot, event):
+	try:
+		await bot.get_chat_member(channel_id, event.sender_id)
+	except InvalidAccess:
+		await event.reply(f"‼ **ابتدا در کانال {username} عضو شوید و سپس مجدد بات را استارت کنید.**")
+		return
+
+	await event.reply(f"✅ **عضویت شما در کانال {info.title} تایید شد.**")
+
+bot.run()
+```
+
+---
+
+<a id="bot_examples_check_join2"></a>
+## [کد بررسی عضویت با استفاده از فیلتر](#bot_examples_check_join2)
+
+```python
+from maxrubika import Bot
+from maxrubika.bot.filters import IsJoined, IsUser
+
 bot = Bot("Token")  # توکن بات خود را اینجا وارد کنید
 
-with Messenger("mySession") as app:  # سشن اکانت خود را اینجا وارد کنید
+chat_ids = [  # چت آیدی گفتگو های مورد نظر را اینجا وارد کنید
+    "",
+    "",
+]
 
-    @bot.on_message(Text(re.compile(r'https://rubika\.ir/\w+/[A-Z]+', re.IGNORECASE)))
-    async def get_post(bot, event):
-        link = event.text.strip()
+usernames = ["", ""]  # نام کاربری یا لینک گفتگوهای مورد نظر خود را اینجا وارد کنید
 
-        try:
-            result = await app.get_channel_post_by_link(link)
-            ask_spam_link = result.ask_spam_link
+@bot.on_command("start", ~IsJoined(chat_ids), IsUser())
+async def not_joined(bot, event):
+    links = "\n".join(f"👉 {link}" for link in usernames)
+    await event.reply(f"‼ **ابتدا در کانال‌های زیر عضو شوید و سپس مجدد بات را استارت کنید.**\n{links}")
 
-            if ask_spam_link:
-                await event.reply(f"**لینک پست مورد نظر آماده شد:**\n\n{ask_spam_link}")
-            else:
-                await event.reply("**خطایی رخ داد.**")
+@bot.on_command("start", IsJoined(chat_ids), IsUser())
+async def joined(bot, event):
+    await event.reply("✅ **عضویت شما تایید شد.**")
 
-        except Exception:
-            await event.reply("**لطفاً لینک معتبر وارد شود.**")
-
-    bot.run()
+bot.run()
 ```
 
 ---
 
-<a id="bot_examples_check_join_channel"></a>
-## [ترکیب بات و سلف‌بات - بررسی عضویت کانال](#bot_examples_check_join_channel)
+<a id="bot_examples_check_join3"></a>
+## [کد بررسی عضویت و اجازه‌ی ارسال پیام در گروه](#bot_examples_check_join3)
 
 ```python
-from maxrubika import Bot, Messenger
-from maxrubika.bot.filters import ChatType
+import asyncio
+import time
+from maxrubika import Bot
+from maxrubika.bot.filters import IsGroup, IsJoined, FromChat
 
-bot = Bot("Token")
+bot = Bot("Token") # توکن بات خود را اینجا وارد کنید
 
-with Messenger("mySession") as app:
-    channel = "@TheMAXRubika"
+CHANNEL_LINK = ["@TheMAXRubika", "@TheProgrammer"] # نام کاربری کانال‌های مورد نظر را اینجا وارد کنید
 
-    guid = app.get_guid(channel)
-    info = app.get_channel_info(guid)
-    title = info.channel.channel_title
+GROUP_ID = "" # چت آیدی گروه خود را اینجا وارد کنید
 
-    @bot.on_command("start", ChatType("user"))
-    async def handler(bot, event):
-        sender = event.author_id
-        chat_info = await bot.get_chat_info(event.chat_id)
-        username = getattr(chat_info.data.chat, 'username', None)
+info = bot.get_chat_info(GROUP_ID)
+channels = "\n".join(f"👉 {link}" for link in CHANNEL_LINK)
+sleep = 100
+warned_users = {}
 
-        if username:
-            is_member = await app.check_join(guid, username)
-            if is_member:
-                await event.reply(f"✅ **شما در کانال {title} عضو هستید.**")
-                return
-            else:
-                await event.reply(f"❌ **ابتدا در کانال زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{channel}")
-                return
+@bot.on_new_message(IsGroup() & ~IsJoined(CHANNEL_LINK) & FromChat(GROUP_ID))
+async def not_joined(bot, event):
+    chat_id = event.chat_id
+    author_id = event.author_id
+    now = time.time()
 
-        members = await app.get_channel_members(guid)
-        sender_prefix = sender[:7]
+    last_warn = warned_users.get(chat_id, {}).get(author_id, 0)
 
-        for member in members.in_chat_members:
-            if member.member_guid[:7] == sender_prefix:
-                await event.reply(f"✅ **شما در کانال {title} عضو هستید.**")
-                return
+    if now - last_warn < sleep:
+        await event.delete()
+        return
 
-        await event.reply(f"❌ **ابتدا در کانال زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{channel}\n\n**اگر از قبل عضو بودید، ابتدا کانال را ترک کنید و دوباره عضو کانال شوید.**")
+    warned_users.setdefault(chat_id, {})[author_id] = now
 
-    bot.run(0)
-```
+    await event.delete()
 
----
+    warn = await bot.send_message(
+        chat_id,
+        f"⚠ **[کاربر گرامی]({author_id})**\n\n"
+        f"برای ارسال پیام در گروه {info.title} ابتدا در کانال‌های زیر عضو شوید:\n\n"
+        f"{channels}"
+    )
 
-<a id="bot_examples_check_join_group"></a>
-## [ترکیب بات و سلف‌بات - بررسی عضویت گروه](#bot_examples_check_join_group)
+    asyncio.create_task(bot.auto_delete_message(event.chat_id, warn.message_id, 60))
 
-```python
-from maxrubika import Bot, Messenger
-from maxrubika.bot.filters import ChatType
-
-bot = Bot("Token")
-
-with Messenger("mySession") as app:
-    group = "https://rubika.ir/joing/..."
-
-    guid = app.get_guid(group)
-    info = app.get_group_info(guid)
-    title = info.group.group_title
-
-    @bot.on_command("start", ChatType("user"))
-    async def handler(bot, event):
-        sender = event.author_id
-        chat_info = await bot.get_chat_info(event.chat_id)
-        username = getattr(chat_info.data.chat, 'username', None)
-
-        if username:
-            is_member = await app.check_join(guid, username)
-            if is_member:
-                await event.reply(f"✅ **شما در گروه {title} عضو هستید.**")
-                return
-            else:
-                await event.reply(f"❌ **ابتدا در گروه زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{group}")
-                return
-
-        members = await app.get_group_members(guid)
-        sender_prefix = sender[:7]
-
-        for member in members.in_chat_members:
-            if member.member_guid[:7] == sender_prefix:
-                await event.reply(f"✅ **شما در گروه {title} عضو هستید.**")
-                return
-
-        await event.reply(f"❌ **ابتدا در گروه زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{group}\n\n**اگر از قبل عضو بودید، ابتدا گروه را ترک کنید و دوباره عضو گروه شوید.**")
-
-    bot.run(0)
+bot.run()
 ```
 
 ---

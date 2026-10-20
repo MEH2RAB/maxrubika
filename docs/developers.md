@@ -8,7 +8,6 @@
 |:------:|------|
 | سازنده | [MEHRAB Farahmand](https://github.com/MEH2RAB) |
 | توسعه‌دهنده | [Yaser Ghaljaei](https://github.com/Yaser-gh) |
-| طراحی مستندات | [MAXWare](https://t.me/The_MAXWare) |
 
 ---
 
@@ -27,6 +26,7 @@
 | راه ارتباطی | آیدی / آدرس |
 |:------:|------|
 | ایمیل | [YaserGhaljaei1@gmail.com](mailto:YaserGhaljaei1@gmail.com) |
+| روبیکا | [@YaserDev](https://rubika.ir/YaserDev) |
 
 ---
 
@@ -37,7 +37,7 @@
 |:------:|------|
 | کانال روبیکا | [@TheMAXRubika](https://rubika.ir/TheMAXRubika) |
 | مخزن گیت‌هاب | [MEH2RAB/maxrubika](https://github.com/MEH2RAB/maxrubika) |
-| وب‌سایت رسمی | [MAXRubi.ir](https://maxrubi.ir/documents) |
+| وب‌سایت رسمی | [MEH2RAB.GitHub.io/maxrubika](https://MEH2RAB.GitHub.io/maxrubika) |
 
 ---
 

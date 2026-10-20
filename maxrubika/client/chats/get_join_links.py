@@ -27,6 +27,6 @@ class GetJoinLinks:
         if creator:
             creator_guid = await self.get_guid(creator)
             if not creator_guid.startswith("u0"):
-                message = f"'{user}' does not point to a valid user. Expected a user GUID or username."
+                message = f"'{creator}' does not point to a valid user. Expected a user GUID or username."
             input['creator_guid'] = creator_guid
         return await self.request(method = 'getJoinLinks', input = input)

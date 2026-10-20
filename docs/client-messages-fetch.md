@@ -18,12 +18,8 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        info = app.get_message_info("@Online_User", message_id="12345678900")
-        print(info)
-
-    except Exception as e:
-        print(e)
+    info = app.get_message_info("@Online_User", message_id="12345678900")
+    print(info)
 ```
 
 ---
@@ -42,7 +38,10 @@ with Messenger("mySession") as app:
     - `sticker`, `me`, `bots`, `users`
     - همچنین می‌توانید GUID یا نام‌کاربری یک عضو را برای فیلتر پیام‌های او وارد کنید.
 
-**نکته:** فیلتر `contact` تنها در چت‌های خصوصی قابل استفاده است.
+**نکات:**
+
+1. فیلتر `contact` تنها در چت‌های خصوصی قابل استفاده است.
+2. در کانال‌ها (`c0`) نمی‌توان بر اساس `member_guids` (GUID اعضا) فیلتر کرد.
 
 **مثال‌ها:**
 
@@ -52,26 +51,18 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        messages = app.get_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD")
-        print(messages)
-
-    except Exception as e:
-        print(e)
+    messages = app.get_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD")
+    print(messages)
 ```
 
-دریافت فقط تصاویر و فقط ویدیو:
+دریافت فقط تصاویر و ویدیوها:
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        images = app.get_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", types=["image", "vodeo"])
-        print(images)
-
-    except Exception as e:
-        print(e)
+    images = app.get_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", types=["image", "video"])
+    print(images)
 ```
 
 دریافت پیام‌های یک کاربر خاص:
@@ -80,12 +71,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        user_msgs = app.get_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", types="u0xyz789...")
-        print(user_msgs)
-
-    except Exception as e:
-        print(e)
+    user_msgs = app.get_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", types="u0xyz789...")
+    print(user_msgs)
 ```
 
 ---
@@ -108,12 +95,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        all_msgs = app.get_all_messages("u0abc123...")
-        print(all_msgs)
-
-    except Exception as e:
-        print(e)
+    all_msgs = app.get_all_messages("u0abc123...")
+    print(all_msgs)
 ```
 
 ---
@@ -133,12 +116,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        first = app.get_first_message("@MyGroup")
-        print(first)
-
-    except Exception as e:
-        print(e)
+    first = app.get_first_message("@MyGroup")
+    print(first)
 ```
 
 ---
@@ -159,12 +138,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        first_msgs = app.get_first_messages("@MyGroup", limit=50)
-        print(first_msgs)
-
-    except Exception as e:
-        print(e)
+    first_msgs = app.get_first_messages("@MyGroup", limit=50)
+    print(first_msgs)
 ```
 
 ---
@@ -184,12 +159,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        last = app.get_last_message("Cipher")
-        print(last)
-
-    except Exception as e:
-        print(e)
+    last = app.get_last_message("Cipher")
+    print(last)
 ```
 
 ---
@@ -202,7 +173,7 @@ with Messenger("mySession") as app:
 **پارامترها:**
 
 - **chat:** شناسه (GUID)، لینک یا نام‌کاربری چت.
-- **limit:** حداکثر تعداد پیام. (حداکثر ۱۰۰، پیش‌فرض: ۱۰۰)
+- **limit:** حداکثر تعداد پیام. (حداکثر ۵۰۰، پیش‌فرض: ۱۰۰)
 
 **مثال:**
 
@@ -210,12 +181,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        last_msgs = app.get_last_messages("Cipher", limit=20)
-        print(last_msgs)
-
-    except Exception as e:
-        print(e)
+    last_msgs = app.get_last_messages("Cipher", limit=20)
+    print(last_msgs)
 ```
 
 ---
@@ -236,12 +203,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        msgs = app.get_messages_by_id("https://rubika.ir/joing/CHAT123", message_ids=["12345678099", "45612378900", "12288762148"])
-        print(msgs)
-
-    except Exception as e:
-        print(e)
+    msgs = app.get_messages_by_id("https://rubika.ir/joing/CHAT123", message_ids=["12345678099", "45612378900", "12288762148"])
+    print(msgs)
 ```
 
 ---
@@ -262,12 +225,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        interval = app.get_messages_interval("u0abc123...", middle_message_id="14523674102")
-        print(interval)
-
-    except Exception as e:
-        print(e)
+    interval = app.get_messages_interval("u0abc123...", middle_message_id="14523674102")
+    print(interval)
 ```
 
 ---
@@ -288,12 +247,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        updates = app.get_messages_updates("Undefined")
-        print(updates)
-
-    except Exception as e:
-        print(e)
+    updates = app.get_messages_updates("Undefined")
+    print(updates)
 ```
 
 ---
@@ -306,6 +261,7 @@ with Messenger("mySession") as app:
 **پارامترها:**
 
 - **chat:** شناسه (GUID)، لینک یا نام‌کاربری چت.
+- **max_id:** حداکثر شناسه پیام برای شروع صفحه‌بندی. (پیش‌فرض: None)
 - **sort:** جهت مرتب‌سازی. `FromMax` یا `FromMin`. (پیش‌فرض: FromMin)
 - **filter_type:** فیلتر بر اساس نوع. مقادیر: `Voice`, `File`, `Music`, `Gif`, `Media`, `Link`. (پیش‌فرض: None)
 - **limit:** حداکثر تعداد پیام. (پیش‌فرض: None - دریافت همه)
@@ -318,12 +274,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        msgs = app.get_chat_messages("u0abc123...", sort="FromMax", limit=50)
-        print(msgs)
-
-    except Exception as e:
-        print(e)
+    msgs = app.get_chat_messages("u0abc123...", sort="FromMax", limit=50)
+    print(msgs)
 ```
 
 دریافت فقط فایل‌ها:
@@ -332,12 +284,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        files = app.get_chat_messages("@MyChannel", filter_type="File")
-        print(files)
-
-    except Exception as e:
-        print(e)
+    files = app.get_chat_messages("@MyChannel", filter_type="File")
+    print(files)
 ```
 
 ---
@@ -358,12 +306,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        results = app.search_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", text="سلام")
-        print(results)
-
-    except Exception as e:
-        print(e)
+    results = app.search_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", text="سلام")
+    print(results)
 ```
 
 ---
@@ -384,12 +328,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        results = app.search_chat_messages("u0abc123...", search_text="#مهم")
-        print(results)
-
-    except Exception as e:
-        print(e)
+    results = app.search_chat_messages("u0abc123...", search_text="#مهم")
+    print(results)
 ```
 
 ---
@@ -410,12 +350,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        results = app.search_global_messages("#مهم")
-        print(results)
-
-    except Exception as e:
-        print(e)
+    results = app.search_global_messages("#مهم")
+    print(results)
 ```
 
 ---
@@ -436,12 +372,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        url = app.get_message_url("@Online_User", message_id="12345674187")
-        print(url)
-
-    except Exception as e:
-        print(e)
+    url = app.get_message_url("@Online_User", message_id="12345674187")
+    print(url)
 ```
 
 ---
@@ -462,12 +394,52 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        scheduled = app.get_scheduled_messages("@CodeYaran")
-        print(scheduled)
+    scheduled = app.get_scheduled_messages("@CodeYaran")
+    print(scheduled)
+```
 
-    except Exception as e:
-        print(e)
+---
+
+<a id="messenger_get_pinned_messages"></a>
+## [get_pinned_messages](#messenger_get_pinned_messages)
+
+این متد برای دریافت پیام‌های پین‌شده یک چت است.
+
+**پارامتر:**
+
+- **chat:** شناسه (GUID)، لینک یا نام‌کاربری چت.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    pinned = app.get_pinned_messages("@MyGroup")
+    print(pinned)
+```
+
+---
+
+<a id="messenger_get_messages_reactions"></a>
+## [get_messages_reactions](#messenger_get_messages_reactions)
+
+این متد برای دریافت ری‌اکشن‌های پیام‌های یک چت در یک بازه مشخص است.
+
+**پارامترها:**
+
+- **chat:** شناسه (GUID)، لینک یا نام‌کاربری چت.
+- **min_id:** حداقل شناسه پیام (کران پایین).
+- **max_id:** حداکثر شناسه پیام (کران بالا).
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    reactions = app.get_messages_reactions("u0abc123...", min_id="100", max_id="200")
+    print(reactions)
 ```
 
 ---

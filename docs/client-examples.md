@@ -1,19 +1,19 @@
 # مثال‌ها
 
-<a id="create-session"></a>
-## [ساخت سشن (Session)](#create-session)
+<a id="messenger_examples_create_session"></a>
+## [ساخت سشن (Session)](#messenger_examples_create_session)
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    print(app.get_me())
+    pass
 ```
 
 ---
 
-<a id="get-chats"></a>
-## [گرفتن همه چت‌ها](#get-chats)
+<a id="messenger_examples_get_chats"></a>
+## [گرفتن همه چت‌ها](#messenger_examples_get_chats)
 
 ```python
 from maxrubika import Messenger
@@ -25,41 +25,42 @@ with Messenger("mySession") as app:
 
 ---
 
-<a id="self-bot"></a>
-## [ترکیب سلف‌بات و بات (Self + Bot)](#self-bot)
+<a id="messenger_examples_self_bot_combined"></a>
+## [ترکیب بات و سلف‌بات - دریافت لینک پست](#messenger_examples_self_bot_combined)
 
 ```python
 import re
 from maxrubika import Bot, Messenger
 from maxrubika.bot.filters import Text
 
-bot = Bot("Token")  # توکن بات خود را اینجا وارد کنید
+bot = Bot("Token") # توکن بات خود را اینجا وارد کنید.
+app = Messenger("mySession") # سشن اکانت خود را اینجا وارد کنید.
 
-with Messenger("mySession") as app:  # سشن اکانت خود را اینجا وارد کنید
+app.start()
+@bot.on_message(Text(re.compile(r'https://rubika\.ir/\w+/[A-Z]+', re.IGNORECASE)))
+async def get_post(bot, event):
+    link = event.text.strip()
 
-    @bot.on_message(Text(re.compile(r'https://rubika\.ir/\w+/[A-Z]+', re.IGNORECASE)))
-    async def get_post(bot, event):
-        link = event.text.strip()
+    try:
+        result = await app.get_channel_post_by_link(link)
+        ask_spam_link = result.ask_spam_link
 
-        try:
-            result = await app.get_channel_post_by_link(link)
-            ask_spam_link = result.ask_spam_link
+        if ask_spam_link:
+            await event.reply(f"**لینک پست مورد نظر آماده شد:\n\n>**{ask_spam_link}")
+        else:
+            await event.reply("**خطایی رخ داد.**")
 
-            if ask_spam_link:
-                await event.reply(f"**لینک پست مورد نظر آماده شد:**\n\n{ask_spam_link}")
-            else:
-                await event.reply("**خطایی رخ داد.**")
+    except Exception as e:
+        print(e)
+        await event.reply(f"**لطفاً لینک معتبر وارد شود.**")
 
-        except Exception:
-            await event.reply("**لطفاً لینک معتبر وارد شود.**")
-
-    bot.run()
+bot.run()
 ```
 
 ---
 
-<a id="dual-avatar"></a>
-## [پروفایل دو تایی (Dual Avatar)](#dual-avatar)
+<a id="messenger_examples_dual_avatar"></a>
+## [پروفایل دو تایی (Dual Avatar)](#messenger_examples_dual_avatar)
 
 ```python
 from maxrubika import Messenger
@@ -77,8 +78,28 @@ with Messenger("mySession") as app:  # نام سشن خود را اینجا وا
 
 ---
 
-<a id="check-join"></a>
-## [بررسی عضویت کاربر (Check Join)](#check-join)
+<a id="messenger_examples_fake_action"></a>
+## [نمایش چت اکشن فیک](#messenger_examples_fake_action)
+
+```python
+from maxrubika import Messenger
+from maxrubika.client.filters import IsMe
+
+app= Messenger("mySession") # نام سشن اکانت خود را اینجا وارد کنید
+
+activity = "Typing" # نوع فعالیت را اینجا وارد کنید، می‌توانید کلمه Recording برای ضبط پیام صوتی یا Uploading را برای ارسال فایل، وارد کنید
+
+@app.on_new_message(~IsMe())
+async def i(event):
+    await event.send_activity(activity)
+
+app.run()
+```
+
+---
+
+<a id="messenger_examples_check_join"></a>
+## [بررسی عضویت کاربر (Check Join)](#messenger_examples_check_join)
 
 ```python
 from maxrubika import Messenger
@@ -94,164 +115,109 @@ with Messenger("mySession") as app:
 
 ---
 
-<a id="check-join-channel-bot"></a>
-## [ترکیب بات و سلف‌بات - بررسی عضویت کانال](#check-join-channel-bot)
+<a id="messenger_examples_group_clock_title"></a>
+## [ساعت زنده در عنوان گروه](#messenger_examples_group_clock_title)
 
 ```python
-from maxrubika import Bot, Messenger
-from maxrubika.bot.filters import ChatType
-
-bot = Bot("Token")
-
-with Messenger("mySession") as app:
-    channel = "@TheMAXRubika"
-
-    guid = app.get_guid(channel)
-    info = app.get_channel_info(guid)
-    title = info.channel.channel_title
-
-    @bot.on_command("start", ChatType("user"))
-    async def handler(bot, event):
-        sender = event.author_id
-        chat_info = await bot.get_chat_info(event.chat_id)
-        username = getattr(chat_info.data.chat, 'username', None)
-
-        if username:
-            is_member = await app.check_join(guid, username)
-            if is_member:
-                await event.reply(f"✅ **شما در کانال {title} عضو هستید.**")
-                return
-            else:
-                await event.reply(f"❌ **ابتدا در کانال زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{channel}")
-                return
-
-        members = await app.get_channel_members(guid)
-        sender_prefix = sender[:7]
-
-        for member in members.in_chat_members:
-            if member.member_guid[:7] == sender_prefix:
-                await event.reply(f"✅ **شما در کانال {title} عضو هستید.**")
-                return
-
-        await event.reply(f"❌ **ابتدا در کانال زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{channel}\n\n**اگر از قبل عضو بودید، ابتدا کانال را ترک کنید و دوباره عضو کانال شوید.**")
-
-    bot.run(0)
-```
-
----
-
-<a id="check-join-group-bot"></a>
-## [ترکیب بات و سلف‌بات - بررسی عضویت گروه](#check-join-group-bot)
-
-```python
-from maxrubika import Bot, Messenger
-from maxrubika.bot.filters import ChatType
-
-bot = Bot("Token")
-
-with Messenger("mySession") as app:
-    group = "https://rubika.ir/joing/..."
-
-    guid = app.get_guid(group)
-    info = app.get_group_info(guid)
-    title = info.group.group_title
-
-    @bot.on_command("start", ChatType("user"))
-    async def handler(bot, event):
-        sender = event.author_id
-        chat_info = await bot.get_chat_info(event.chat_id)
-        username = getattr(chat_info.data.chat, 'username', None)
-
-        if username:
-            is_member = await app.check_join(guid, username)
-            if is_member:
-                await event.reply(f"✅ **شما در گروه {title} عضو هستید.**")
-                return
-            else:
-                await event.reply(f"❌ **ابتدا در گروه زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{group}")
-                return
-
-        members = await app.get_group_members(guid)
-        sender_prefix = sender[:7]
-
-        for member in members.in_chat_members:
-            if member.member_guid[:7] == sender_prefix:
-                await event.reply(f"✅ **شما در گروه {title} عضو هستید.**")
-                return
-
-        await event.reply(f"❌ **ابتدا در گروه زیر عضو شوید و سپس مجدد دستور /start را وارد کنید:**\n{group}\n\n**اگر از قبل عضو بودید، ابتدا گروه را ترک کنید و دوباره عضو گروه شوید.**")
-
-    bot.run(0)
-```
-
----
-
-<a id="group-clock-title"></a>
-## [ساعت زنده در عنوان گروه](#group-clock-title)
-
-```python
-import time
-from datetime import datetime
+import asyncio, pytz
+from datetime import datetime, timedelta
 from maxrubika import Messenger
 
-with Messenger("mySession") as app:
-    GROUP = "link"
-    TITLE = "اسم ثابت"
+SESSION = "mySession" # نام سشن اکانت خود اینجا وارد شود
+CHAT_LINK = "" # لینک گروه خود اینجا وارد شود
 
-    GUID = app.get_guid(GROUP)
+SHOW_SECONDS = True # اگر می‌خواهید ثانیه نمایش داده نشود، False وارد کنید
 
-    show_seconds = input("آیا می‌خواهید ثانیه هم نمایش داده شود؟ (y/n): ").lower() == 'y'
+IRAN_TZ = pytz.timezone("Asia/Tehran")
 
-    def update_time():
-        time.sleep(0.5)
+def now_iran() -> datetime:
+    return datetime.now(IRAN_TZ)
+
+async def main():
+    async with Messenger(SESSION) as app:
+        chat_guid = await app.get_guid(CHAT_LINK)
+
+        info = await app.get_group_info(chat_guid)
+        name = info.group_title
+
+        try:
+            await app.edit_group_info(chat_guid, event_messages=False)
+            print("✅ پیام‌های شیشه‌ای غیرفعال شد.")
+        except Exception as e:
+            print(f"⚠️ خطا در غیرفعال کردن پیام شیشه‌ای: {e}")
+
+        print(f"⏳ ساعت زنده روی اسم گروه '{name}' فعال شد...")
+
         while True:
-            app.edit_group_info(GUID, event_messages=False)
-            now = datetime.now()
+            current_time = now_iran()
             
-            if show_seconds:
-                time_str = now.strftime("%H:%M:%S")
-                wait = 1
+            if SHOW_SECONDS:
+                time_str = current_time.strftime("%H:%M:%S")
+                new_title = f"{name} | {time_str}"
+                try:
+                    await app.edit_group_title(chat_guid, new_title)
+                except Exception as e:
+                    print(f"❌ خطا در تغییر نام گروه: {e}")
+                await asyncio.sleep(1)
+                
             else:
-                target = now.replace(second=0, microsecond=0)
-                time_str = target.strftime("%H:%M")
-                wait = 60 - (now - target).total_seconds()
-            
-            app.edit_group_title(GUID, f"{TITLE} | {time_str}")
-            time.sleep(wait)
+                time_str = current_time.strftime("%H:%M")
+                new_title = f"{name} | {time_str}"
+                try:
+                    await app.edit_group_title(chat_guid, new_title)
+                except Exception as e:
+                    print(f"❌ خطا در تغییر نام گروه: {e}")
 
-    update_time()
+                next_minute = (current_time + timedelta(minutes=1)).replace(second=0, microsecond=0)
+                await asyncio.sleep((next_minute - current_time).total_seconds())
+
+asyncio.run(main())
 ```
 
 ---
 
-<a id="channel-clock-title"></a>
-## [ساعت زنده در عنوان کانال](#channel-clock-title)
+<a id="messenger_examples_channel_clock_title"></a>
+## [ساعت زنده در عنوان کانال](#messenger_examples_channel_clock_title)
 
 ```python
-import time
-from datetime import datetime
+import asyncio, pytz
+from datetime import datetime, timedelta
 from maxrubika import Messenger
 
-with Messenger("mySession") as app:
-    CHANNEL = "@CodeYaran"
-    TITLE = "نام ثابت"
+SESSION = "mySession" # نام سشن اکانت خود اینجا وارد شود
+CHAT_LINK = "" # لینک کانال خود اینجا وارد شود
 
-    GUID = app.get_guid(CHANNEL)
+IRAN_TZ = pytz.timezone("Asia/Tehran")
 
-    def update_time():
-        time.sleep(0.5)
+def now_iran() -> datetime:
+    return datetime.now(IRAN_TZ)
+
+async def main():
+    async with Messenger(SESSION) as app:
+        chat_guid = await app.get_guid(CHAT_LINK)
+
+        info = await app.get_channel_info(chat_guid)
+        name = info.channel.channel_title
+
+        print(f"⏳ ساعت زنده روی اسم کانال '{name}' فعال شد...")
+
         while True:
-            now = datetime.now()
-            target = now.replace(second=0, microsecond=0)
-            wait = 60 - (now - target).total_seconds()
+            current_time = now_iran()
+            time_str = current_time.strftime("%H:%M")
+            new_title = f"{name} | {time_str}"
 
-            time_str = target.strftime("%H:%M")
-            result = app.edit_channel_title(GUID, f"{TITLE} | {time_str}")
-            app.delete_messages(GUID, result.message_id)
+            try:
+                result = await app.edit_channel_title(chat_guid, new_title)
+                msg_id = result.message_id
+                await app.delete_messages(chat_guid, [msg_id])
+                
+            except Exception as e:
+                print(f"❌ خطا در تغییر نام کانال: {e}")
 
-            time.sleep(wait)
+            next_minute = (current_time + timedelta(minutes=1)).replace(second=0, microsecond=0)
+            await asyncio.sleep((next_minute - current_time).total_seconds())
 
-    update_time()
+asyncio.run(main())
 ```
 
 ---

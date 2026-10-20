@@ -20,12 +20,8 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        text = app.transcribe_voice("u0abc123...", message_id="123456")
-        print(text)
-
-    except Exception as e:
-        print(e)
+    text = app.transcribe_voice("u0abc123...", message_id="123456")
+    print(text)
 ```
 
 ---
@@ -45,12 +41,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        status = app.get_poll_status("poll_123")
-        print(status)
-
-    except Exception as e:
-        print(e)
+    status = app.get_poll_status("poll_123")
+    print(status)
 ```
 
 ---
@@ -72,12 +64,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        voters = app.get_poll_option_voters("poll_123", selection_index=0)
-        print(voters)
-
-    except Exception as e:
-        print(e)
+    voters = app.get_poll_option_voters("poll_123", selection_index=0)
+    print(voters)
 ```
 
 ---
@@ -98,12 +86,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.vote_poll("poll_123", selection_index=0)
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.vote_poll("poll_123", selection_index=0)
+    print(result)
 ```
 
 ---
@@ -123,12 +107,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.stop_poll("poll_123")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.stop_poll("poll_123")
+    print(result)
 ```
 
 ---
@@ -136,7 +116,7 @@ with Messenger("mySession") as app:
 <a id="messenger_retract_poll"></a>
 ## [retract_poll](#messenger_retract_poll)
 
-این متد برای بازپس‌گیری (حذف) یک نظرسنجی به کار می‌رود.
+این متد برای بازپس‌گیری رای در یک نظرسنجی به کار می‌رود.
 
 **پارامتر:**
 
@@ -148,12 +128,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.retract_poll("poll_123")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.retract_poll("poll_123")
+    print(result)
 ```
 
 ---
@@ -175,15 +151,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.request_send_file(
-            file_name="document.pdf",
-            size=1024000
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.request_send_file(
+        file_name="document.pdf",
+        size=1024000
+    )
+    print(result)
 ```
 
 ---

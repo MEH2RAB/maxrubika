@@ -11,7 +11,7 @@
 
 - **bot:** شناسه (GUID) یا نام‌کاربری بات مورد نظر.
 
-**نکته:** تفاوتی ندارد که نام‌کاربری با `@` نوشته شود یا بدون آن؛ کتابخانه هر دو حالت را می‌پذیرد.
+**نکته:** تفاوتی ندارد که نام‌کاربری با `@` نوشته شود یا بدون آن؛ کتابخانه هر دو حالت را می‌پذیرد. همچنین می‌توانید مستقیماً GUID بات (که با `b0` شروع می‌شود) را نیز پاس دهید.
 
 **مثال:**
 
@@ -19,12 +19,36 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        info = app.get_bot_info("@ShowInfoBot")
-        print(info)
+    info = app.get_bot_info("@ShowInfoBot")
+    print(info)
+```
 
-    except Exception as e:
-        print(e)
+---
+
+<a id="messenger_get_inline_bots"></a>
+## [get_inline_bots](#messenger_get_inline_bots)
+
+این متد برای دریافت اطلاعات یک یا چند بات اینلاین به کار می‌رود.
+
+**پارامتر:**
+
+- **bots:** یک بات یا لیستی از بات‌ها (شناسه GUID یا نام‌کاربری).
+
+**نکته:** اگر یک رشته پاس دهید، کتابخانه به‌صورت خودکار آن را در یک لیست قرار می‌دهد.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    # یک بات
+    info = app.get_inline_bots("@ShowInfoBot")
+    print(info)
+
+    # چند بات
+    infos = app.get_inline_bots(["@ShowInfoBot", "@TestBot"])
+    print(infos)
 ```
 
 ---
@@ -36,7 +60,7 @@ with Messenger("mySession") as app:
 
 **پارامتر:**
 
-- **service:** شناسه (GUID) سرویس مورد نظر. باید با `s0` شروع شده و ۳۲ کاراکتر باشد.
+- **service:** شناسه (GUID) سرویس مورد نظر. باید با `s0` شروع شده و مجموعاً ۳۲ کاراکتر باشد.
 
 **مثال:**
 
@@ -44,12 +68,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        info = app.get_service_info("s0abcdefghijklmnopqrstuvwxyz12")
-        print(info)
-
-    except Exception as e:
-        print(e)
+    info = app.get_service_info("s0abcdefghijklmnopqrstuvwxyz12")
+    print(info)
 ```
 
 ---
@@ -63,18 +83,16 @@ with Messenger("mySession") as app:
 
 - **bot:** شناسه (GUID) یا نام‌کاربری بات مورد نظر.
 
+**نکته:** تفاوتی ندارد که نام‌کاربری با `@` نوشته شود یا بدون آن؛ کتابخانه هر دو حالت را می‌پذیرد.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.start_bot("@TestBot")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.start_bot("@TestBot")
+    print(result)
 ```
 
 ---
@@ -88,18 +106,16 @@ with Messenger("mySession") as app:
 
 - **bot:** شناسه (GUID) یا نام‌کاربری بات مورد نظر.
 
+**نکته:** تفاوتی ندارد که نام‌کاربری با `@` نوشته شود یا بدون آن؛ کتابخانه هر دو حالت را می‌پذیرد.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.stop_bot("@TestBot")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.stop_bot("@TestBot")
+    print(result)
 ```
 
 ---
@@ -109,10 +125,9 @@ with Messenger("mySession") as app:
 
 این متد برای حذف تاریخچه چت با یک بات به کار می‌رود.
 
-**پارامترها:**
+**پارامتر:**
 
 - **bot:** شناسه (GUID) یا نام‌کاربری بات مورد نظر.
-- **last_deleted_message_id:** شناسه آخرین پیام حذف‌شده.
 
 **مثال:**
 
@@ -120,12 +135,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_bot_chat("@TestBot", last_deleted_message_id="12345678900")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_bot_chat("@TestBot")
+    print(result)
 ```
 
 ---
@@ -135,10 +146,9 @@ with Messenger("mySession") as app:
 
 این متد برای حذف تاریخچه چت با یک سرویس به کار می‌رود.
 
-**پارامترها:**
+**پارامتر:**
 
-- **service:** شناسه (GUID) سرویس مورد نظر. باید با `s0` شروع شده و ۳۲ کاراکتر باشد.
-- **last_deleted_message_id:** شناسه آخرین پیام حذف‌شده.
+- **service:** شناسه (GUID) سرویس مورد نظر. باید با `s0` شروع شده و مجموعاً ۳۲ کاراکتر باشد.
 
 **مثال:**
 
@@ -146,12 +156,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_service_chat("s0abcdefghijklmnopqrstuvwxyz12", last_deleted_message_id="12345678900")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_service_chat("s0abcdefghijklmnopqrstuvwxyz12")
+    print(result)
 ```
 
 ---

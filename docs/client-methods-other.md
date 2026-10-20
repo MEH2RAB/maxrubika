@@ -48,6 +48,57 @@ with Messenger("mySession") as app:
 
 ---
 
+<a id="messenger_send_code"></a>
+### [send_code](#messenger_send_code)
+
+ارسال کد تأیید به یک شماره تلفن.
+
+**پارامترها:**
+
+- **phone_number** (str): شماره تلفن مقصد.
+- **pass_key** (str, optional): رمز عبور حساب (در صورت وجود).
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.send_code("+989123456789")
+    print(result)
+```
+
+---
+
+<a id="messenger_sign_in"></a>
+### [sign_in](#messenger_sign_in)
+
+ورود به حساب با استفاده از کد تأیید.
+
+**پارامترها:**
+
+- **phone_number** (str): شماره تلفن.
+- **phone_code** (str): کد تأیید.
+- **phone_code_hash** (str): هش کد تأیید.
+- **public_key** (str): کلید عمومی کلاینت.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.sign_in(
+        phone_number="+989123456789",
+        phone_code="12345",
+        phone_code_hash="hash_here",
+        public_key="public_key_here"
+    )
+    print(result)
+```
+
+---
+
 <a id="messenger_run"></a>
 ### [run](#messenger_run)
 
@@ -84,7 +135,7 @@ async with Messenger("mySession") as app:
 <a id="messenger_disconnect"></a>
 ### [disconnect](#messenger_disconnect)
 
-قطع ارتباط با سرور روبیکا.
+قطع ارتباط با سرور روبیکا (نسخه sync). این متد در واقع متد `close` را در پس‌زمینه فراخوانی می‌کند.
 
 **مثال:**
 
@@ -95,6 +146,49 @@ with Messenger("mySession") as app:
     app.start()
     # ... انجام عملیات ...
     app.disconnect()
+```
+
+---
+
+<a id="messenger_close"></a>
+### [close](#messenger_close)
+
+بستن اتصال به سرور (نسخه async). این متد معادل async متد `disconnect` است.
+
+**نکته:** برای قطع ارتباط در محیط async از این متد استفاده کنید. برای محیط sync از `disconnect` استفاده کنید.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+async with Messenger("mySession") as app:
+    await app.close()
+```
+
+---
+
+<a id="messenger_get_string_session"></a>
+### [get_string_session](#messenger_get_string_session)
+
+خروجی گرفتن از نشست فعلی به صورت یک StringSession رمزنگاری‌شده.
+
+**پارامترها:**
+
+- **password** (str, optional): رمز اختیاری برای رمزنگاری. در صورت ارائه، StringSession فقط با همین رمز باز می‌شود.
+
+**خروجی:**
+
+- **str:** StringSession رمزنگاری‌شده که می‌توان بعداً با `Messenger(string_session=..., password=...)` استفاده کرد.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    string_session = app.get_string_session()
+    print(string_session)
 ```
 
 ---
@@ -112,12 +206,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        # این متد به صورت نامحدود اجرا می‌شود و به‌روزرسانی‌ها را دریافت می‌کند
-        app.get_updates()
-
-    except Exception as e:
-        print(e)
+    # این متد به صورت نامحدود اجرا می‌شود و به‌روزرسانی‌ها را دریافت می‌کند
+    app.get_updates()
 ```
 
 ---
@@ -133,7 +223,7 @@ with Messenger("mySession") as app:
 
 - **method** (str): نام متد API (مانند 'sendMessage', 'getUserInfo').
 - **input** (dict, optional): داده‌های ورودی برای متد.
-- **tmp_session** (bool): استفاده از نشست موقت به جای auth (پیش‌فرض: False).
+- **tmp_session** (bool): استفاده از نشست موقت به جای auth (پیش‌فرض: False). در صورت True بودن، اگر کلاینت متصل نباشد، خودکار متصل می‌شود.
 - **encrypt** (bool): رمزگذاری داده‌های درخواست (پیش‌فرض: True).
 
 **خروجی:**
@@ -146,15 +236,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.request(
-            method="getUserInfo",
-            input={"user_guid": "u0abc123..."}
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.request(
+        method="getUserInfo",
+        input={"user_guid": "u0abc123..."}
+    )
+    print(result)
 ```
 
 ---
@@ -168,11 +254,14 @@ with Messenger("mySession") as app:
 
 **پارامترها:**
 
-- **file** (str or bytes): مسیر فایل یا bytes برای آپلود.
+- **file** (str or bytes or None): مسیر فایل، bytes، یا URL برای آپلود.
+- **base64_data** (str, optional): داده‌های فایل به صورت base64.
 - **mime** (str, optional): نوع MIME فایل.
 - **file_name** (str, optional): نام فایل.
 - **chunk** (int, optional): اندازه هر بخش به بایت (پیش‌فرض: 1MB).
 - **callback** (callable, optional): تابع پیشرفت آپلود (total_size, uploaded_bytes).
+
+**نکته:** باید یا `file` یا `base64_data` ارسال شود.
 
 **خروجی:**
 
@@ -184,16 +273,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.upload_file(
-            file="file.jpg",
-            mime="image/jpeg",
-            file_name="my_image.jpg"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.upload_file(
+        file="file.jpg",
+        mime="image/jpeg",
+        file_name="my_image.jpg"
+    )
+    print(result)
 ```
 
 ---
@@ -205,7 +290,7 @@ with Messenger("mySession") as app:
 
 **پارامترها:**
 
-- **file_inline:** دیکشنری یا Data حاوی اطلاعات فایل (dc_id, file_id, access_hash_rec, size, file_name).
+- **file_inline:** دیکشنری حاوی اطلاعات فایل (dc_id, file_id, access_hash_rec, size, file_name).
 - **dc_id** (int, optional): شناسه دیتاسنتر (در صورت عدم ارسال file_inline).
 - **file_id** (int, optional): شناسه یکتای فایل.
 - **access_hash** (str, optional): هش دسترسی مرتبط با فایل.
@@ -229,16 +314,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.download_file(
-            file_inline={"dc_id": 1, "file_id": 123456, "access_hash_rec": "hash_example", "size": 1024000},
-            save_as=True,
-            file_name="my_file.jpg"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.download_file(
+        file_inline={"dc_id": 1, "file_id": 123456, "access_hash_rec": "hash_example", "size": 1024000},
+        save_as=True,
+        file_name="my_file.jpg"
+    )
+    print(result)
 ```
 
 ۲. دانلود با پارامترهای جداگانه و دریافت bytes:
@@ -247,17 +328,13 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.download_file(
-            dc_id=1,
-            file_id=123456,
-            access_hash="hash_example",
-            size=1024000
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.download_file(
+        dc_id=1,
+        file_id=123456,
+        access_hash="hash_example",
+        size=1024000
+    )
+    print(result)
 ```
 
 ---
@@ -275,12 +352,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        time = app.get_time()
-        print(time)
-
-    except Exception as e:
-        print(e)
+    time = app.get_time()
+    print(time)
 ```
 
 ---
@@ -296,12 +369,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        reactions = app.get_available_reactions()
-        print(reactions)
-
-    except Exception as e:
-        print(e)
+    reactions = app.get_available_reactions()
+    print(reactions)
 ```
 
 ---
@@ -322,12 +391,41 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        view = app.get_location_view(latitude=35.6892, longitude=51.3890)
-        print(view)
+    view = app.get_location_view(latitude=35.6892, longitude=51.3890)
+    print(view)
+```
 
-    except Exception as e:
-        print(e)
+---
+
+<a id="messenger_set_current_live_location"></a>
+### [set_current_live_location](#messenger_set_current_live_location)
+
+این متد برای تنظیم موقعیت زنده فعلی به کار می‌رود.
+
+**پارامترها:**
+
+- **longitude:** طول جغرافیایی.
+- **latitude:** عرض جغرافیایی.
+- **tile_side_count:** تعداد تایل‌ها در هر ضلع.
+- **tile_urls:** لیست URLهای تایل‌های نقشه.
+- **x_loc:** موقعیت X روی نقشه.
+- **y_loc:** موقعیت Y روی نقشه.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.set_current_live_location(
+        longitude=51.3890,
+        latitude=35.6892,
+        tile_side_count=1,
+        tile_urls=["https://..."],
+        x_loc=0.5,
+        y_loc=0.5
+    )
+    print(result)
 ```
 
 ---
@@ -343,12 +441,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        wallpapers = app.get_wallpapers()
-        print(wallpapers)
-
-    except Exception as e:
-        print(e)
+    wallpapers = app.get_wallpapers()
+    print(wallpapers)
 ```
 
 ---
@@ -364,17 +458,59 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.reset_wallpapers()
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.reset_wallpapers()
+    print(result)
 ```
 
 ---
 
-## متدهای استیکر و گیف
+<a id="messenger_get_link_from_app_url"></a>
+### [get_link_from_app_url](#messenger_get_link_from_app_url)
+
+این متد برای دریافت لینک مستقیم از یک URL اپلیکیشن به کار می‌رود.
+
+**پارامتر:**
+
+- **url:** URL اپلیکیشن برای استخراج لینک.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.get_link_from_app_url("https://...")
+    print(result)
+```
+
+---
+
+<a id="messenger_get_wallet_transaction_message"></a>
+### [get_wallet_transaction_message](#messenger_get_wallet_transaction_message)
+
+این متد برای دریافت پیام مرتبط با یک تراکنش کیف پول به کار می‌رود.
+
+**پارامترها:**
+
+- **transfer_id:** شناسه تراکنش کیف پول.
+- **access_transfer:** هش دسترسی تراکنش.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.get_wallet_transaction_message(
+        transfer_id="transfer_123",
+        access_transfer="access_hash_here"
+    )
+    print(result)
+```
+
+---
+
+## متدهای استیکر
 
 <a id="messenger_get_sticker_setting"></a>
 ### [get_sticker_setting](#messenger_get_sticker_setting)
@@ -387,12 +523,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        settings = app.get_sticker_setting()
-        print(settings)
-
-    except Exception as e:
-        print(e)
+    settings = app.get_sticker_setting()
+    print(settings)
 ```
 
 ---
@@ -408,12 +540,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        stickers = app.get_my_sticker_sets()
-        print(stickers)
-
-    except Exception as e:
-        print(e)
+    stickers = app.get_my_sticker_sets()
+    print(stickers)
 ```
 
 ---
@@ -433,12 +561,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        archived = app.get_my_archived_sticker_sets()
-        print(archived)
-
-    except Exception as e:
-        print(e)
+    archived = app.get_my_archived_sticker_sets()
+    print(archived)
 ```
 
 ---
@@ -458,12 +582,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        sticker_set = app.get_sticker_set_by_id("sticker_set_id_123")
-        print(sticker_set)
-
-    except Exception as e:
-        print(e)
+    sticker_set = app.get_sticker_set_by_id("sticker_set_id_123")
+    print(sticker_set)
 ```
 
 ---
@@ -483,12 +603,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        stickers = app.get_stickers_by_set_ids(["id1", "id2", "id3"])
-        print(stickers)
-
-    except Exception as e:
-        print(e)
+    stickers = app.get_stickers_by_set_ids(["id1", "id2", "id3"])
+    print(stickers)
 ```
 
 ---
@@ -509,12 +625,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        stickers = app.get_stickers_by_emoji("😊")
-        print(stickers)
-
-    except Exception as e:
-        print(e)
+    stickers = app.get_stickers_by_emoji("😊")
+    print(stickers)
 ```
 
 ---
@@ -535,12 +647,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        results = app.search_stickers(search_text="سلام")
-        print(results)
-
-    except Exception as e:
-        print(e)
+    results = app.search_stickers(search_text="سلام")
+    print(results)
 ```
 
 ---
@@ -560,12 +668,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        trending = app.get_trend_sticker_sets()
-        print(trending)
-
-    except Exception as e:
-        print(e)
+    trending = app.get_trend_sticker_sets()
+    print(trending)
 ```
 
 ---
@@ -585,12 +689,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.add_sticker_set("sticker_set_id_123")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.add_sticker_set("sticker_set_id_123")
+    print(result)
 ```
 
 ---
@@ -610,15 +710,55 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_sticker_set("sticker_set_id_123")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_sticker_set("sticker_set_id_123")
+    print(result)
 ```
 
 ---
+
+<a id="messenger_archive_sticker_set"></a>
+### [archive_sticker_set](#messenger_archive_sticker_set)
+
+این متد برای آرشیو کردن یک مجموعه استیکر به کار می‌رود.
+
+**پارامتر:**
+
+- **sticker_set_id:** شناسه مجموعه استیکر.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.archive_sticker_set("sticker_set_id_123")
+    print(result)
+```
+
+---
+
+<a id="messenger_reorder_sticker_sets"></a>
+### [reorder_sticker_sets](#messenger_reorder_sticker_sets)
+
+این متد برای تغییر ترتیب مجموعه استیکرها در مجموعه کاربر به کار می‌رود.
+
+**پارامتر:**
+
+- **ordered_sticker_set_ids:** یک شناسه یا لیستی از شناسه‌های مجموعه استیکر به ترتیب دلخواه.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.reorder_sticker_sets(["id3", "id1", "id2"])
+    print(result)
+```
+
+---
+
+## متدهای گیف
 
 <a id="messenger_get_my_gif_set"></a>
 ### [get_my_gif_set](#messenger_get_my_gif_set)
@@ -631,12 +771,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        gifs = app.get_my_gif_set()
-        print(gifs)
-
-    except Exception as e:
-        print(e)
+    gifs = app.get_my_gif_set()
+    print(gifs)
 ```
 
 ---
@@ -657,12 +793,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.add_to_my_gif_set("g0abc123...", message_id="123456")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.add_to_my_gif_set("g0abc123...", message_id="123456")
+    print(result)
 ```
 
 ---
@@ -682,12 +814,25 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_my_gif_set("file_id_123")
-        print(result)
+    result = app.delete_my_gif_set("file_id_123")
+    print(result)
+```
 
-    except Exception as e:
-        print(e)
+---
+
+<a id="messenger_delete_all_my_gif_set"></a>
+### [delete_all_my_gif_set](#messenger_delete_all_my_gif_set)
+
+این متد برای حذف تمام گیف‌ها از مجموعه گیف‌های شخصی کاربر به کار می‌رود.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.delete_all_my_gif_set()
+    print(result)
 ```
 
 ---
@@ -710,12 +855,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        status = app.get_live_status(live_id="live_123", access_token="token_abc")
-        print(status)
-
-    except Exception as e:
-        print(e)
+    status = app.get_live_status(live_id="live_123", access_token="token_abc")
+    print(status)
 ```
 
 ---
@@ -736,12 +877,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        comments = app.get_live_comments(live_id="live_123", access_token="token_abc")
-        print(comments)
-
-    except Exception as e:
-        print(e)
+    comments = app.get_live_comments(live_id="live_123", access_token="token_abc")
+    print(comments)
 ```
 
 ---
@@ -762,12 +899,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        url = app.get_live_play_url(access_token="token_abc", live_id="live_123")
-        print(url)
-
-    except Exception as e:
-        print(e)
+    url = app.get_live_play_url(access_token="token_abc", live_id="live_123")
+    print(url)
 ```
 
 ---
@@ -789,16 +922,40 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.add_live_comment(
-            access_token="token_abc",
-            live_id="live_123",
-            comment="نظر تستی"
-        )
-        print(result)
+    result = app.add_live_comment(
+        access_token="token_abc",
+        live_id="live_123",
+        comment="نظر تستی"
+    )
+    print(result)
+```
 
-    except Exception as e:
-        print(e)
+---
+
+<a id="messenger_report_live"></a>
+### [report_live](#messenger_report_live)
+
+این متد برای گزارش یک پخش زنده به کار می‌رود.
+
+**پارامترها:**
+
+- **live_id:** شناسه پخش زنده برای گزارش.
+- **report_type:** دلیل گزارش. می‌تواند:
+  - عدد بین ۱۰۰ تا ۱۰۶
+  - نام رشته‌ای (بدون حساسیت به حروف بزرگ/کوچک): `Other`، `Violence`، `Spam`، `Porn`، `ChildAbuse`، `Copyright`، `Fraud`
+- **description:** توضیحات گزارش. **الزامی** وقتی `report_type` برابر ۱۰۰ (Other) باشد.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.report_live(
+        live_id="live_123",
+        report_type="Spam"
+    )
+    print(result)
 ```
 
 ---
@@ -815,6 +972,7 @@ with Messenger("mySession") as app:
 - **chat:** شناسه (GUID)، لینک یا نام‌کاربری چت.
 - **message_id:** شناسه پیام صوتی.
 - **feedback_type:** نوع بازخورد. مقادیر قابل قبول: `OK` یا `Incorrect`.
+- **feedback_text:** متن بازخورد. (اختیاری - در صورت عدم ارسال، از متن تبدیل‌شده استفاده می‌شود)
 
 **مثال:**
 
@@ -822,16 +980,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.feedback_voice_transcription(
-            chat="u0abc123...",
-            message_id="123456",
-            feedback_type="OK"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.feedback_voice_transcription(
+        chat="u0abc123...",
+        message_id="123456",
+        feedback_type="OK"
+    )
+    print(result)
 ```
 
 ---

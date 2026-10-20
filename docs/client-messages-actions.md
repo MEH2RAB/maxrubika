@@ -22,16 +22,12 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_message(
-            "@Online_User",
-            message_id="12345678090",
-            text="متن ویرایش شده جدید"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_message(
+        "@Online_User",
+        message_id="12345678090",
+        text="متن ویرایش شده جدید"
+    )
+    print(result)
 ```
 
 ---
@@ -53,15 +49,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_messages(
-            "https://rubika.ir/joing/ABC123",
-            message_ids=["123", "456", "789"]
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_messages(
+        "https://rubika.ir/joing/ABC123",
+        message_ids=["123", "456", "789"]
+    )
+    print(result)
 ```
 
 ---
@@ -82,12 +74,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_all_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_all_messages("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD")
+    print(result)
 ```
 
 ---
@@ -108,12 +96,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_my_messages("@MyGroup")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.delete_my_messages("@MyGroup")
+    print(result)
 ```
 
 ---
@@ -135,16 +119,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.auto_delete_message(
-            "u0abc123...",
-            message_id="12345674103",
-            time=60
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.auto_delete_message(
+        "u0abc123...",
+        message_id="12345674103",
+        time=60
+    )
+    print(result)
 ```
 
 ---
@@ -170,16 +150,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.forward_messages(
-            from_chat="@SourceUser",
-            message_ids=["123", "456"],
-            to_chat="https://rubika.ir/joing/DEST123"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.forward_messages(
+        from_chat="@SourceUser",
+        message_ids=["123", "456"],
+        to_chat="https://rubika.ir/joing/DEST123"
+    )
+    print(result)
 ```
 
 ---
@@ -200,12 +176,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.pin_message("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", message_id=147503987410)
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.pin_message("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", message_id=147503987410)
+    print(result)
 ```
 
 ---
@@ -226,12 +198,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unpin_message("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", message_id=12345636971)
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unpin_message("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDLCD", message_id=12345636971)
+    print(result)
 ```
 
 ---
@@ -251,37 +219,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unpin_all_messages("@MyChannel")
-        print(result)
-
-    except Exception as e:
-        print(e)
-```
-
----
-
-<a id="messenger_get_pinned_messages"></a>
-## [get_pinned_messages](#messenger_get_pinned_messages)
-
-این متد برای دریافت تمام پیام‌های سنجاق شده یک چت به کار می‌رود.
-
-**پارامتر:**
-
-- **chat:** شناسه (GUID)، لینک یا نام‌کاربری چت.
-
-**مثال:**
-
-```python
-from maxrubika import Messenger
-
-with Messenger("mySession") as app:
-    try:
-        pinned = app.get_pinned_messages("https://rubika.ir/joinc/CH123")
-        print(pinned)
-
-    except Exception as e:
-        print(e)
+    result = app.unpin_all_messages("@MyChannel")
+    print(result)
 ```
 
 ---
@@ -303,16 +242,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.add_reaction(
-            "@Online_User",
-            message_id="123456",
-            reaction_id=1
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.add_reaction(
+        "@Online_User",
+        message_id="123456",
+        reaction_id=1
+    )
+    print(result)
 ```
 
 ---
@@ -334,47 +269,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.remove_reaction(
-            "https://rubika.ir/joing/GROUP123",
-            message_id="123456",
-            reaction_id=1
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
-```
-
----
-
-<a id="messenger_get_messages_reactions"></a>
-## [get_messages_reactions](#messenger_get_messages_reactions)
-
-این متد برای دریافت ری‌اکشن‌های پیام‌ها در یک بازه مشخص به کار می‌رود.
-
-**پارامترها:**
-
-- **chat:** شناسه (GUID)، لینک یا نام‌کاربری چت.
-- **min_id:** حداقل شناسه پیام (کران پایین).
-- **max_id:** حداکثر شناسه پیام (کران بالا).
-
-**مثال:**
-
-```python
-from maxrubika import Messenger
-
-with Messenger("mySession") as app:
-    try:
-        reactions = app.get_messages_reactions(
-            "u0abc123...",
-            min_id="100",
-            max_id="200"
-        )
-        print(reactions)
-
-    except Exception as e:
-        print(e)
+    result = app.remove_reaction(
+        "https://rubika.ir/joing/GROUP123",
+        message_id="123456",
+        reaction_id=1
+    )
+    print(result)
 ```
 
 ---
@@ -388,8 +288,10 @@ with Messenger("mySession") as app:
 
 - **chat:** شناسه (GUID)، لینک یا نام‌کاربری چت.
 - **message_id:** شناسه پیام.
-- **report_type:** نوع گزارش.
-- **description:** توضیحات اضافی. (پیش‌فرض: None)
+- **report_type:** نوع گزارش. می‌تواند:
+    - عدد بین ۱۰۰ تا ۱۰۶
+    - نام رشته‌ای (بدون حساسیت به حروف بزرگ/کوچک): `Other`، `Violence`، `Spam`، `Porn`، `ChildAbuse`، `Copyright`، `Fraud`
+- **description:** توضیحات اضافی. **الزامی** وقتی `report_type` برابر ۱۰۰ (Other) باشد. (پیش‌فرض: None)
 
 **مثال:**
 
@@ -397,17 +299,13 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.report_message(
-            "@Spammer",
-            message_id="123456",
-            report_type="Spam",
-            description="پیام اسپم"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.report_message(
+        "@Spammer",
+        message_id="123456",
+        report_type="Other",
+        description="پیام اسپم"
+    )
+    print(result)
 ```
 
 ---
@@ -427,12 +325,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.mark_as_read("u0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.mark_as_read("u0abc123...")
+    print(result)
 ```
 
 ---
@@ -453,12 +347,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.mark_as_seen("@MyFriend", message_id="123456")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.mark_as_seen("@MyFriend", message_id="123456")
+    print(result)
 ```
 
 ---
@@ -480,16 +370,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.click_message_url(
-            "https://rubika.ir/joing/CHAT123",
-            message_id="123456",
-            link_url="https://example.com"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.click_message_url(
+        "https://rubika.ir/joing/CHAT123",
+        message_id="123456",
+        link_url="https://example.com"
+    )
+    print(result)
 ```
 
 ---
@@ -511,16 +397,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.click_inline_button(
-            "@MyBot",
-            message_id="1499338519906784",
-            button_id="b0SPm00c8gb83b689ac2eeffe16ec7db"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.click_inline_button(
+        "@MyBot",
+        message_id="1499338519906784",
+        button_id="b0SPm00c8gb83b689ac2eeffe16ec7db"
+    )
+    print(result)
 ```
 
 ---

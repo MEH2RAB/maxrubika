@@ -3,8 +3,10 @@
 فیلترها با `&` (AND)، `|` (OR) و `~` (NOT) ترکیب می‌شوند.
 
 ```python
-# AND - پیام شامل "سلام" و در گروه
-@bot.on_new_message(Text("سلام") & ChatType("group"))
+# ترکیبِ چند فیلتر
+@bot.on_message((Text("سلام") | Command("start")) & ChatType("group") & ~IsForwarded())
+async def handler(bot, event):
+    await event.reply("سلام!")
 
 # OR - گروه یا کانال
 @bot.on_new_message(ChatType("group") | ChatType("channel"))
@@ -21,11 +23,13 @@
 | فیلتر | توضیح |
 |------|------|
 | `IsMessage()` | پیام جدید |
-| `IsEditedMessage()` | پیام ویرایش شده |
+| `IsEdited()` | پیام ویرایش شده |
 | `IsDeleted()` | پیام پاک شده |
 | `IsCallback()` | کلیک دکمه اینلاین |
 | `IsStartedBot()` | شروع بات توسط کاربر |
 | `IsStoppedBot()` | توقف بات توسط کاربر |
+| `IsEventData()` | رویدادهای EventData (مثل اضافه / حذف شدن بات) |
+| `EventType("BotJoined")` | نوع خاص رویداد داخل EventData |
 
 **مثال:**
 
@@ -37,6 +41,10 @@ async def new_msg(bot, event):
 @bot.on_callback(IsCallback())
 async def callback_handler(bot, event):
     await event.reply("روی دکمه کلیک شد!")
+
+@bot.on_message(EventType("BotJoined"))
+async def bot_joined(bot, event):
+    await event.reply("بات به چت اضافه شد!")
 ```
 
 ---
@@ -47,19 +55,20 @@ async def callback_handler(bot, event):
 | فیلتر | توضیح | مثال |
 |------|------|------|
 | `IsText()` | فقط پیام متنی (بدون فایل) | - |
-| `Text("pattern")` | متن شامل الگو باشد | `Text("سلام")` |
+| `Text("pattern")` | متن شامل الگو باشد (regex) | `Text("سلام")` |
 | `TextMatch("pattern")` | مانند Text + ذخیره match | `TextMatch(r"اسم (\w+)")` |
 | `Command("name")` | متن با / شروع شود | `Command("start")` |
+| `Command()` | هر دستوری | - |
+| `Command(["start", "شروع"])` | چند نام | - |
+| `Command("help", prefixes=["/", "!"])` | با prefix دلخواه | - |
 
 **مثال:**
 
 ```python
-# فقط متن
 @bot.on_new_message(IsText())
 async def text_only(bot, event):
     await event.reply(f"متن: {event.text}")
 
-# تشخیص نام با TextMatch
 @bot.on_new_message(TextMatch(r"اسم من (\w+) هست"))
 async def name_catcher(bot, event):
     name = event.pattern_match.group(1)
@@ -73,10 +82,16 @@ async def name_catcher(bot, event):
 
 | فیلتر | توضیح | مثال |
 |------|------|------|
-| `ChatType("user")` | فقط پیوی | `ChatType("group")` |
+| `ChatType("user")` | فقط پیوی | - |
+| `ChatType("group")` | فقط گروه | - |
+| `ChatType("channel")` | فقط کانال | - |
 | `ChatType(["group", "channel"])` | گروه یا کانال | - |
-| `FromChat("id")` | چت خاص | `FromChat("g0abc...")` |
-| `FromUser("id")` | کاربر خاص | `FromUser("u0abc...")` |
+| `FromChat("g0abc...")` | چت خاص | - |
+| `FromUser("u0abc...")` | کاربر خاص | - |
+| `FromUser(["u0A", "u0B"])` | چند کاربر | - |
+| `IsUser()` | پیوی کاربر | - |
+| `IsGroup()` | گروه | - |
+| `IsChannel()` | کانال | - |
 
 **مثال:**
 
@@ -97,12 +112,14 @@ async def specific_group(bot, event):
 
 | فیلتر | توضیح |
 |------|------|
-| `IsFile()` | هر نوع فایل |
-| `IsImage()` | عکس (.jpg, .png, .gif, .webp) |
-| `IsVideo()` | ویدیو (.mp4, .avi, .mkv, .mov) |
-| `IsVoice()` | ویس (.ogg, voice_) |
-| `IsMusic()` | موزیک (.mp3, .wav, .flac, .m4a) |
-| `IsSticker()` | استیکر (.webm) |
+| `IsFile()` | هر نوع فایل (به جز استیکر) |
+| `IsImage()` | عکس |
+| `IsVideo()` | ویدیو |
+| `IsVoice()` | پیام صوتی |
+| `IsMusic()` | موسیقی |
+| `IsSticker()` | استیکر |
+| `IsPoll()` | نظرسنجی |
+| `IsLocation()` | موقعیت مکانی |
 
 **مثال:**
 
@@ -111,13 +128,9 @@ async def specific_group(bot, event):
 async def image_handler(bot, event):
     await event.reply(f"عکس {event.file_name} دریافت شد!")
 
-@bot.on_new_message(IsVideo())
-async def video_handler(bot, event):
-    await event.reply(f"ویدیو {event.file_name} دریافت شد!")
-
-@bot.on_new_message(IsSticker())
-async def sticker_handler(bot, event):
-    await event.reply("یک استیکر دریافت شد!")
+@bot.on_new_message(IsPoll())
+async def poll_handler(bot, event):
+    await event.reply("یک نظرسنجی دریافت شد!")
 ```
 
 ---
@@ -132,7 +145,7 @@ async def sticker_handler(bot, event):
 | `ForwardedFromUser()` | فوروارد از کاربر |
 | `ForwardedFromChannel()` | فوروارد از کانال |
 | `ForwardedFromBot()` | فوروارد از بات |
-| `ForwardedNoLink()` | فوروارد با هدایت بسته |
+| `ForwardedNoLink()` | فوروارد با هدایت بسته (پروفایل مخفی) |
 
 **مثال:**
 
@@ -140,10 +153,6 @@ async def sticker_handler(bot, event):
 @bot.on_new_message(IsReply())
 async def reply_handler(bot, event):
     await event.reply("این پیام به پیام دیگری ریپلای زده!")
-
-@bot.on_new_message(IsForwarded())
-async def forward_handler(bot, event):
-    await event.reply("این یک پیام فوروارد شده است!")
 
 @bot.on_new_message(ForwardedFromBot())
 async def forward_from_bot(bot, event):
@@ -158,7 +167,8 @@ async def forward_from_bot(bot, event):
 | فیلتر | توضیح | مثال |
 |------|------|------|
 | `HasMetadata()` | پیام فرمت‌دار (Bold, Italic) | - |
-| `MetadataType("Bold")` | نوع خاص | `MetadataType(["Bold", "Italic"])` |
+| `MetadataType("Bold")` | نوع خاص | - |
+| `MetadataType(["Bold", "Italic"])` | چند نوع | - |
 
 **مثال:**
 
@@ -170,6 +180,35 @@ async def metadata_handler(bot, event):
 @bot.on_new_message(MetadataType("Bold"))
 async def bold_handler(bot, event):
     await event.reply("این پیام دارای متن پررنگ است!")
+```
+
+---
+
+<a id="bot_access_filters"></a>
+## [فیلترهای عضویت و دسترسی](#bot_access_filters)
+
+| فیلتر | توضیح |
+|------|------|
+| `IsJoined("c0...")` | کاربر عضو چت خاصی باشد |
+| `IsJoined(["c0A", "c0B"])` | عضو چند چت باشد |
+| `~IsJoined("c0...")` | عضو نباشد |
+| `IsAdmin()` | ادمین یا مالک چت |
+| `IsOwner()` | فقط مالک چت |
+
+**مثال:**
+
+```python
+@bot.on_message(IsJoined("c0abc123def456ghi789jklmno123456") & Command("start"))
+async def joined_user(bot, event):
+    await event.reply("شما عضو کانال هستید، خوش آمدید!")
+
+@bot.on_new_message(IsAdmin())
+async def admin_handler(bot, event):
+    await event.reply("شما ادمین این چت هستید!")
+
+@bot.on_new_message(IsOwner())
+async def owner_handler(bot, event):
+    await event.reply("شما مالک این چت هستید!")
 ```
 
 ---

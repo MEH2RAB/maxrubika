@@ -31,12 +31,12 @@ async def handler(bot, event):
 <a id="bot_on_delete_message"></a>
 ## [`on_delete_message`](#bot_on_delete_message)
 
-فقط پیام‌های پاک شده را دریافت می‌کند.
+فقط پیام‌های حذف شده را دریافت می‌کند.
 
 ```python
 @bot.on_delete_message()
 async def handler(bot, event):
-    print(f"پیام {event.deleted_message_id} پاک شد")
+    print(f"پیام {event.deleted_message_id} حذف شد.")
 ```
 
 ---
@@ -44,7 +44,7 @@ async def handler(bot, event):
 <a id="bot_on_message"></a>
 ## [`on_message`](#bot_on_message)
 
-همه نوع پیام (جدید، ویرایش، پاک، callback، شروع بات، توقف بات) را دریافت می‌کند.
+همه نوع پیام (جدید، ویرایش شده، حذف شده، callback) را دریافت می‌کند.
 
 ```python
 @bot.on_message()
@@ -76,10 +76,97 @@ async def handler(bot, event):
 @bot.on_command("start")
 async def start(bot, event):
     await event.reply("شروع!")
+```
 
-@bot.on_command(["start", "شروع"], ChatType("user"))
-async def start_user(bot, event):
-    await event.reply("شروع فقط در پیوی!")
+---
+
+<a id="bot_on_update"></a>
+## [`on_update`](#bot_on_update)
+
+همه نوع آپدیت‌ها را دریافت می‌کند.
+
+```python
+@bot.on_update()
+async def update(bot, event):
+    print(event)
+```
+
+---
+
+<a id="bot_on_event_data"></a>
+## [`on_event_data`](#bot_on_event_data)
+
+رویدادهای مربوط به بات را دریافت می‌کند.
+
+```python
+@bot.on_event_data()
+async def handler(bot, event):
+    print(event)
+```
+
+---
+
+<a id="bot_on_bot_joined"></a>
+## [`on_bot_joined`](#bot_on_bot_joined)
+
+رویداد مربوط به اضافه شدنِ بات در چت را دریافت می‌کند.
+
+```python
+@bot.on_bot_joined()
+async def handler(bot, event):
+    print(f"بات به چت {event.chat_id} اضافه شد.")
+```
+
+---
+
+<a id="bot_on_bot_removed"></a>
+## [`on_bot_removed`](#bot_on_bot_removed)
+
+رویداد مربوط به حذف شدنِ بات از چت را دریافت می‌کند.
+
+```python
+@bot.on_bot_removed()
+async def handler(bot, event):
+    print(f"بات از چت {event.chat_id} حذف شد.")
+```
+
+---
+
+<a id="bot_on_bot_permissions_changed"></a>
+## [`on_bot_permissions_changed`](#bot_on_bot_permissions_changed)
+
+رویداد مربوط به تغییر دسترسی بات در چت را دریافت می‌کند.
+
+```python
+@bot.on_bot_permissions_changed()
+async def handler(bot, event):
+    print(f"دسترسی بات در چت {event.chat_id} تغییر کرد.")
+```
+
+---
+
+<a id="bot_on_started_bot"></a>
+## [`on_started_bot`](#bot_on_started_bot)
+
+رویداد مربوط به شروع بات را دریافت می‌کند.
+
+```python
+@bot.on_started_bot()
+async def handler(bot, event):
+    print("بات شروع شد.")
+```
+
+---
+
+<a id="bot_on_stopped_bot"></a>
+## [`on_stopped_bot`](#bot_on_stopped_bot)
+
+رویداد مربوط به توقف بات را دریافت می‌کند.
+
+```python
+@bot.on_stopped_bot()
+async def handler(bot, event):
+    print("بات متوقف شد.")
 ```
 
 ---

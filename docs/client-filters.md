@@ -32,11 +32,17 @@
 | <div style="text-align:center">فیلتر</div> | <div style="text-align:center">توضیح</div> | <div style="text-align:center">مثال</div> |
 |------|------|------|
 | `ChatType("user")` | نوع چت | `ChatType("group")` |
+| `ChatType("bot")` | فقط بات | `ChatType("bot")` |
+| `ChatType("service")` | فقط سرویس | `ChatType("service")` |
 | `ChatType(["group", "channel"])` | چند نوع | |
 | `FromChat("id")` | چت خاص (GUID، نام‌کاربری یا لینک) | `FromChat("g0abc...")` |
+| `FromChat(["id1", "id2"])` | چند چت | |
 | `FromUser("id")` | کاربر خاص | `FromUser("@Online_User")` |
+| `FromUser(["id1", "id2"])` | چند کاربر | |
 | `FromBot("id")` | بات خاص | `FromBot("@MyBot")` |
+| `FromBot(["id1", "id2"])` | چند بات | |
 | `FromActivity("id")` | فعالیت از کاربر خاص | `FromActivity("u0abc...")` |
+| `FromActivity(["id1", "id2"])` | فعالیت از چند کاربر | |
 | `IsMe()` | پیام‌های خود کاربر | |
 
 ---
@@ -98,6 +104,7 @@
 | `Command("name")` | دستور با / شروع شود | `Command("start")` |
 | `Command()` | هر دستوری | |
 | `Command(["start", "help"])` | چند دستور | |
+| `Command("help", prefixes=["/", "!"])` | با پیشوند دلخواه | |
 
 ---
 
@@ -131,6 +138,11 @@ async def text_from_user(event):
 async def commands(event):
     await event.reply("در خدمتم!")
 
+# دستور با پیشوند دلخواه (مثلاً !help)
+@client.on_new_message(Command("help", prefixes=["/", "!"]))
+async def custom_prefix(event):
+    await event.reply("دستور با پیشوند دلخواه!")
+
 # تشخیص نام با TextMatch
 @client.on_new_message(TextMatch(r"اسم من (\w+) هست"))
 async def name_catcher(event):
@@ -146,6 +158,16 @@ async def new_member(event):
 @client.on_new_message(IsForwarded() & ForwardedFromChannel())
 async def forwarded_from_channel(event):
     print("فوروارد از کانال")
+
+# چند کاربر خاص
+@client.on_new_message(FromUser(["u0abc...", "u0xyz..."]))
+async def multiple_users(event):
+    print(f"پیام از یکی از کاربران خاص: {event.text}")
+
+# پیام از بات یا سرویس
+@client.on_new_message(ChatType(["bot", "service"]))
+async def bot_or_service(event):
+    print("پیام از بات یا سرویس")
 ```
 
 ---

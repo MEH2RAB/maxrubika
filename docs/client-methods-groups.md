@@ -19,12 +19,8 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        info = app.get_group_info("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
-        print(info)
-
-    except Exception as e:
-        print(e)
+    info = app.get_group_info("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
+    print(info)
 ```
 
 ---
@@ -44,12 +40,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        link = app.get_group_link("g0G3R19035f77574adc0127ab97c999c")
-        print(link)
-
-    except Exception as e:
-        print(e)
+    link = app.get_group_link("g0G3R19035f77574adc0127ab97c999c")
+    print(link)
 ```
 
 ---
@@ -69,12 +61,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_group_link("g0G3R19035f77574adc0127ab97c999c")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_group_link("g0G3R19035f77574adc0127ab97c999c")
+    print(result)
 ```
 
 ---
@@ -94,12 +82,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        count = app.get_group_online_count("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
-        print(count)
-
-    except Exception as e:
-        print(e)
+    count = app.get_group_online_count("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
+    print(count)
 ```
 
 ---
@@ -112,10 +96,14 @@ with Messenger("mySession") as app:
 **پارامترها:**
 
 - **title:** عنوان گروه. (حداکثر ۶۰ کاراکتر، نمی‌تواند خالی باشد)
-- **members:** یک عضو یا لیستی از اعضا (GUID یا نام‌کاربری). حداقل یک عضو الزامی است.
+- **members:** یک عضو یا لیستی از اعضا (GUID یا نام‌کاربری). حداقل یک عضو الزامی است. فقط کاربران (`u0`) و بات‌ها (`b0`) مجاز هستند.
 - **description:** متن توضیحات گروه. (حداکثر ۳۰۰ کاراکتر، پیش‌فرض: None)
+- **avatar:** تصویر آواتار گروه. مسیر فایل، رشته یا bytes. (پیش‌فرض: None)
+- **thumbnail_avatar:** تصویر بندانگشتی آواتار گروه. مسیر فایل، رشته یا bytes. (پیش‌فرض: None)
 
 **نکته:** تفاوتی ندارد که نام‌کاربری با `@` نوشته شود یا بدون آن؛ کتابخانه هر دو حالت را می‌پذیرد.
+
+**نکته:** اگر فقط `avatar` داده شود، بندانگشتی از همان تصویر گرفته می‌شود. اگر هیچ‌کدام داده نشود، آواتاری تنظیم نمی‌شود.
 
 **مثال:**
 
@@ -123,16 +111,13 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.create_group(
-            title="گروه تست",
-            members=["Online_User", "@ShowInfoBot", "u0HryBf03dbfba68374497983bc850a0"],
-            description="این یک گروه تست است."
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.create_group(
+        title="گروه تست",
+        members=["Online_User", "@ShowInfoBot", "u0HryBf03dbfba68374497983bc850a0"],
+        description="این یک گروه تست است.",
+        avatar="avatar.jpg"
+    )
+    print(result)
 ```
 
 ---
@@ -142,11 +127,12 @@ with Messenger("mySession") as app:
 
 این متد برای حذف یک گروه به کار می‌رود.
 
-**پارامتر:**
+**پارامترها:**
 
 - **group:** شناسه (GUID) یا لینک گروه هدف.
+- **confirm:** در صورت True بودن، قبل از حذف از کاربر تأیید گرفته می‌شود (`y/n`). در صورت False بودن، بدون پرسش حذف می‌شود. (پیش‌فرض: True)
 
-**توجه:** پس از اجرای این متد، برای تکمیل عملیات حذف، باید حرف `y` را در کنسول وارد نمایید.
+**توجه:** در حالت `confirm=True`، برای تکمیل عملیات حذف باید حرف `y` را در کنسول وارد نمایید.
 
 **مثال:**
 
@@ -154,12 +140,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.delete_group("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
-        print(result)
+    result = app.delete_group("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
+    print(result)
 
-    except Exception as e:
-        print(e)
+    # حذف بدون تأیید
+    result = app.delete_group("g0CyVlK0cae995e5b46031170a358a4e", confirm=False)
+    print(result)
 ```
 
 ---
@@ -173,18 +159,16 @@ with Messenger("mySession") as app:
 
 - **group:** لینک دعوت گروه. باید با `https://rubika.ir/joing/` شروع شود.
 
+**نکته:** این متد فقط لینک دعوت را می‌پذیرد؛ نه GUID و نه نام‌کاربری.
+
 **مثال:**
 
 ```python
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.join_group("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.join_group("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
+    print(result)
 ```
 
 ---
@@ -204,12 +188,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.leave_group("g0CyVlK0cae995e5b46031170a358a4e")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.leave_group("g0CyVlK0cae995e5b46031170a358a4e")
+    print(result)
 ```
 
 ---
@@ -231,6 +211,11 @@ with Messenger("mySession") as app:
 - **chat_history_for_new_members:** نمایش تاریخچه چت برای اعضای جدید. مقادیر: `Visible` یا `Hidden`.
 - **restricted_period:** محدودیت زمانی برای ارسال پیام. لیستی از دیکشنری‌ها شامل `days_of_week`، `from_time` و `to_time`.
 
+**نکته:** برای `restricted_period` قوانین زیر اعمال می‌شود:
+- روزهای مجاز: `Saturday`, `Sunday`, `Monday`, `Tuesday`, `Wednesday`, `Thursday`, `Friday`
+- فرمت زمان: `HH:MM` (۲۴ ساعته)
+- بازه‌ها می‌توانند از نیمه‌شب عبور کنند (مثلاً `22:00` تا `04:00`)
+
 **مثال‌ها:**
 
 ویرایش عنوان و توضیحات:
@@ -239,16 +224,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_group_info(
-            group="g0G3R19035f77574adc0127ab97c999c",
-            title="گروه جدید",
-            description="توضیحات جدید گروه"
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_group_info(
+        group="g0G3R19035f77574adc0127ab97c999c",
+        title="گروه جدید",
+        description="توضیحات جدید گروه"
+    )
+    print(result)
 ```
 
 تنظیم ری‌اکشن‌های خاص:
@@ -257,15 +238,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_group_info(
-            group="g0G3R19035f77574adc0127ab97c999c",
-            reactions=[1, 2, 6, 7, 8, 23, 44]
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_group_info(
+        group="g0G3R19035f77574adc0127ab97c999c",
+        reactions=[1, 2, 6, 7, 8, 23, 44]
+    )
+    print(result)
 ```
 
 تنظیم محدودیت زمانی:
@@ -274,19 +251,15 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_group_info(
-            group="g0G3R19035f77574adc0127ab97c999c",
-            restricted_period=[{
-                "days_of_week": ["Saturday", "Sunday"],
-                "from_time": "00:00",
-                "to_time": "06:00"
-            }]
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_group_info(
+        group="g0G3R19035f77574adc0127ab97c999c",
+        restricted_period=[{
+            "days_of_week": ["Saturday", "Sunday"],
+            "from_time": "00:00",
+            "to_time": "06:00"
+        }]
+    )
+    print(result)
 ```
 
 ---
@@ -307,12 +280,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_group_title("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD", "عنوان جدید")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_group_title("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD", "عنوان جدید")
+    print(result)
 ```
 
 ---
@@ -333,12 +302,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_group_timer("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD", "30")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_group_timer("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD", "30")
+    print(result)
 ```
 
 ---
@@ -359,12 +324,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.edit_slow_mode("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD", "60")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.edit_slow_mode("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD", "60")
+    print(result)
 ```
 
 ---
@@ -385,12 +346,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        admins = app.get_group_admins("g0G3R19035f37574adc0127ab97c999c")
-        print(admins)
-
-    except Exception as e:
-        print(e)
+    admins = app.get_group_admins("g0G3R19035f37574adc0127ab97c999c")
+    print(admins)
 ```
 
 ---
@@ -403,7 +360,7 @@ with Messenger("mySession") as app:
 **پارامترها:**
 
 - **group:** شناسه (GUID) یا لینک گروه هدف.
-- **admin:** شناسه (GUID) یا نام‌کاربری ادمین مورد نظر.
+- **admin:** شناسه (GUID) یا نام‌کاربری ادمین مورد نظر. فقط کاربران (`u0`) و بات‌ها (`b0`) مجاز هستند.
 
 **نکته:** تنها در صورتی می‌توانید دسترسی‌های یک ادمین را مشاهده کنید که خودتان ادمین یا مالک گروه باشید.
 
@@ -413,12 +370,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        access = app.get_group_admin_access("g0G3R19035f77574adc0127ab97c999c", "@Online_User")
-        print(access)
-
-    except Exception as e:
-        print(e)
+    access = app.get_group_admin_access("g0G3R19035f77574adc0127ab97c999c", "@Online_User")
+    print(access)
 ```
 
 ---
@@ -438,12 +391,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        access = app.get_group_default_access("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
-        print(access)
-
-    except Exception as e:
-        print(e)
+    access = app.get_group_default_access("https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD")
+    print(access)
 ```
 
 ---
@@ -471,15 +420,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_group_default_access(
-            "https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD",
-            ["SendMessages"]
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_group_default_access(
+        "https://rubika.ir/joing/JGDJDBDJ0SRHELBQEBMZQFTPTKWSHDSD",
+        ["SendMessages"]
+    )
+    print(result)
 ```
 
 بستن کامل گروه:
@@ -488,15 +433,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.set_group_default_access(
-            "g0G3R19035f77574adc0127ab97c999c",
-            []
-        )
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.set_group_default_access(
+        "g0G3R19035f77574adc0127ab97c999c",
+        []
+    )
+    print(result)
 ```
 
 ---
@@ -518,12 +459,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.lock_group("g0G3R19035f77574adc0127ab97c999c")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.lock_group("g0G3R19035f77574adc0127ab97c999c")
+    print(result)
 ```
 
 ---
@@ -545,12 +482,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.unlock_group("g0G3R19035f77574adc0127ab97c999c")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.unlock_group("g0G3R19035f77574adc0127ab97c999c")
+    print(result)
 ```
 
 ---
@@ -574,12 +507,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        members = app.get_group_members("g0G3R19035f77574adc0127ab97c999c")
-        print(members)
-
-    except Exception as e:
-        print(e)
+    members = app.get_group_members("g0G3R19035f77574adc0127ab97c999c")
+    print(members)
 ```
 
 ۲. جستجوی یک کاربر خاص:
@@ -588,12 +517,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        members = app.get_group_members("g0G3R19035f77574adc0127ab97c999c", search_text="@Online_User")
-        print(members)
-
-    except Exception as e:
-        print(e)
+    members = app.get_group_members("g0G3R19035f77574adc0127ab97c999c", search_text="@Online_User")
+    print(members)
 ```
 
 ---
@@ -614,12 +539,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        mentions = app.get_group_mention_list("g0G3R19035f77574adc0127ab97c999c")
-        print(mentions)
-
-    except Exception as e:
-        print(e)
+    mentions = app.get_group_mention_list("g0G3R19035f77574adc0127ab97c999c")
+    print(mentions)
 ```
 
 ---
@@ -642,16 +563,12 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        mentions = app.get_unread_mentions(
-            "g0G3R19035f77574adc0127ab97c999c",
-            max_id="1000",
-            min_id="1"
-        )
-        print(mentions)
-
-    except Exception as e:
-        print(e)
+    mentions = app.get_unread_mentions(
+        "g0G3R19035f77574adc0127ab97c999c",
+        max_id="1000",
+        min_id="1"
+    )
+    print(mentions)
 ```
 
 ---
@@ -672,15 +589,11 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        participants = app.get_group_message_read_participants(
-            "g0G3R19035f77574adc0127ab97c999c",
-            message_id="123456"
-        )
-        print(participants)
-
-    except Exception as e:
-        print(e)
+    participants = app.get_group_message_read_participants(
+        "g0G3R19035f77574adc0127ab97c999c",
+        message_id="123456"
+    )
+    print(participants)
 ```
 
 ---

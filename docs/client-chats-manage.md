@@ -17,12 +17,8 @@
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.join_chat("https://rubika.ir/joing/ABC123")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.join_chat("https://rubika.ir/joing/ABC123")
+    print(result)
 ```
 
 ---
@@ -42,12 +38,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.leave_chat("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.leave_chat("g0abc123...")
+    print(result)
 ```
 
 ---
@@ -68,12 +60,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        is_member = app.check_join("g0abc123...", member="@Online_User")
-        print(is_member)
-
-    except Exception as e:
-        print(e)
+    is_member = app.check_join("g0abc123...", member="@Online_User")
+    print(is_member)
 ```
 
 ---
@@ -97,17 +85,71 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        link = app.create_join_link(
-            "g0abc123...",
-            request_needed=True,
-            title="لینک ویژه",
-            usage_limit=10
-        )
-        print(link)
+    link = app.create_join_link(
+        "g0abc123...",
+        request_needed=True,
+        title="لینک ویژه",
+        usage_limit=10
+    )
+    print(link)
+```
 
-    except Exception as e:
-        print(e)
+---
+
+<a id="messenger_edit_join_link"></a>
+## [edit_join_link](#messenger_edit_join_link)
+
+این متد برای ویرایش یک لینک دعوت موجود در گروه یا کانال است.
+
+**پارامترها:**
+
+- **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
+- **join_link:** لینک دعوتی که باید ویرایش شود.
+- **title:** عنوان جدید لینک دعوت. (اختیاری)
+- **expire_time:** مدت زمان اعتبار جدید لینک به ثانیه. (اختیاری)
+- **request_needed:** نیاز به تأیید درخواست عضویت. (اختیاری)
+- **usage_limit:** حداکثر تعداد استفاده جدید از لینک. (اختیاری)
+
+**نکته:** حداقل یکی از پارامترهای `title`، `expire_time`، `request_needed` یا `usage_limit` باید ارائه شود.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.edit_join_link(
+        "g0abc123...",
+        join_link="https://rubika.ir/joing/ABC123",
+        title="لینک جدید",
+        usage_limit=20
+    )
+    print(result)
+```
+
+---
+
+<a id="messenger_revoke_join_link"></a>
+## [revoke_join_link](#messenger_revoke_join_link)
+
+این متد برای لغو (باطل کردن) یک لینک دعوت در گروه یا کانال است.
+
+**پارامترها:**
+
+- **chat:** GUID، لینک یا نام‌کاربری گروه یا کانال.
+- **join_link:** لینک دعوتی که باید لغو شود.
+
+**مثال:**
+
+```python
+from maxrubika import Messenger
+
+with Messenger("mySession") as app:
+    result = app.revoke_join_link(
+        "g0abc123...",
+        join_link="https://rubika.ir/joing/ABC123"
+    )
+    print(result)
 ```
 
 ---
@@ -128,12 +170,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        links = app.get_join_links("g0abc123...")
-        print(links)
-
-    except Exception as e:
-        print(e)
+    links = app.get_join_links("g0abc123...")
+    print(links)
 ```
 
 ---
@@ -154,12 +192,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        requests = app.get_join_requests("g0abc123...")
-        print(requests)
-
-    except Exception as e:
-        print(e)
+    requests = app.get_join_requests("g0abc123...")
+    print(requests)
 ```
 
 ---
@@ -180,12 +214,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.accept_join_request("g0abc123...", user="@NewUser")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.accept_join_request("g0abc123...", user="@NewUser")
+    print(result)
 ```
 
 ---
@@ -206,12 +236,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.reject_join_request("g0abc123...", user="@SpamUser")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.reject_join_request("g0abc123...", user="@SpamUser")
+    print(result)
 ```
 
 ---
@@ -232,12 +258,8 @@ with Messenger("mySession") as app:
 from maxrubika import Messenger
 
 with Messenger("mySession") as app:
-    try:
-        result = app.accept_all_join_requests("g0abc123...")
-        print(result)
-
-    except Exception as e:
-        print(e)
+    result = app.accept_all_join_requests("g0abc123...")
+    print(result)
 ```
 
 ---
