@@ -1,9 +1,11 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetLocationView:
     async def get_location_view(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         latitude: float,
         longitude: float
     ):
@@ -17,6 +19,8 @@ class GetLocationView:
         Returns:
             Map view data.
         """
+        from ..exceptions import InvalidInput
+
         if not isinstance(latitude, (int, float)):
             raise InvalidInput('latitude must be a number.')
 
@@ -29,12 +33,13 @@ class GetLocationView:
         if not (-180 <= longitude <= 180):
             raise InvalidInput('longitude must be between -180 and 180 degrees.')
 
+        input_data = {
+            'location': {
+                'latitude': latitude,
+                'longitude': longitude
+            }
+        }
         return await self.request(
-            method = 'getMapView',
-            input = {
-                'location': {
-                    'latitude': latitude,
-                    'longitude': longitude
-                    }
-                }
-            )
+            method='getMapView',
+            input=input_data
+        )

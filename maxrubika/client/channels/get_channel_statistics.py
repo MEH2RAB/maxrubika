@@ -1,9 +1,11 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetChannelStatistics:
     async def get_channel_statistics(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         channel: str
     ):
         """
@@ -15,6 +17,8 @@ class GetChannelStatistics:
         Returns:
             The result of the API call containing channel statistics.
         """
+        from ..exceptions import InvalidInput
+
         channel_guid = await self.get_guid(channel)
 
         if not channel_guid.startswith("c0"):
@@ -22,6 +26,6 @@ class GetChannelStatistics:
             raise InvalidInput(message)
 
         return await self.request(
-            method = 'getAllStatistics',
-            input = {'channel_guid': channel_guid}
+            method='getAllStatistics',
+            input={'channel_guid': channel_guid}
         )

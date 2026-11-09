@@ -1,10 +1,12 @@
-from typing import Union
-import re; import maxrubika
-from ..exceptions import InvalidInput
+import re
+from typing import Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class AddContact:
     async def add_contact(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         phone_number: Union[str, int],
         first_name: str,
         last_name: str = ''
@@ -21,10 +23,10 @@ class AddContact:
             The result of the API call.
 
         Note:
-            The `phone_number` parameter should be a valid phone number.
-            The `first_name` and `last_name` parameters represent the name of the contact.
-            If the contact has no last name, `last_name` can be an empty string.
+            The `phone_number` parameter should be a valid phone number. The `first_name` and `last_name` parameters represent the name of the contact. If the contact has no last name, `last_name` can be an empty string.
         """
+        from ..exceptions import InvalidInput
+
         phone = re.sub(r'[^\d+]', '', phone_number)
 
         if phone.startswith('+'):
@@ -42,9 +44,9 @@ class AddContact:
         if len(phone) > 15:
             raise InvalidInput("Phone number is too long (maximum 15 digits).")
 
-        input = {
+        input_data = {
             'phone': phone,
             'first_name': first_name,
             'last_name': last_name
         }
-        return await self.request(method = 'addAddressBook', input = input)
+        return await self.request(method='addAddressBook', input=input_data)

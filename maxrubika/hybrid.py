@@ -50,14 +50,15 @@ class SyncLoop:
                 f"Expected a coroutine, got {type(coro).__name__}."
             )
 
-        if threading.current_thread() is self._thread:
-            raise RuntimeError(
-                "Cannot run a synchronous call from inside the SyncLoop worker."
-            )
         try:
+            if threading.current_thread() is self._thread:
+                raise RuntimeError(
+                    "Cannot run a synchronous call from inside the SyncLoop worker."
+                )
             loop = self.start()
         except BaseException:
-            coro.close()
+            with suppress(Exception):
+                coro.close()
             raise
 
         future = asyncio.run_coroutine_threadsafe(coro, loop)
@@ -81,8 +82,9 @@ class SyncLoop:
             with suppress(Exception):
                 loop.call_soon_threadsafe(loop.stop)
 
-        if thread is not None and thread.is_alive():
-            thread.join(timeout=5.0)
+        if thread is not None and thread.is_alive() \
+                and thread is not threading.current_thread():
+            thread.join(timeout=10.0)
 
         self._loop = None
         self._thread = None
@@ -109,8 +111,20 @@ class SyncLoop:
         executor: concurrent.futures.ThreadPoolExecutor,
     ) -> None:
         with suppress(Exception):
+            pending = [t for t in asyncio.all_tasks(loop) if not t.done()]
+            for t in pending:
+                t.cancel()
+            if pending:
+                loop.run_until_complete(asyncio.wait(pending, timeout=3.0))
+
+        with suppress(Exception):
             loop.run_until_complete(
                 asyncio.wait_for(loop.shutdown_asyncgens(), timeout=3.0)
+            )
+
+        with suppress(Exception):
+            loop.run_until_complete(
+                asyncio.wait_for(loop.shutdown_default_executor(), timeout=3.0)
             )
 
         with suppress(Exception):
@@ -135,7 +149,6 @@ def _has_running_loop() -> bool:
 def _run_sync(coro) -> Any:
     return _sync_loop.run(coro)
 
-
 def _close_coro(coro) -> None:
     with suppress(Exception):
         coro.close()
@@ -146,18 +159,27 @@ def _sync_async_generator(
     try:
         while True:
             try:
-                yield _run_sync(agen.__anext__())
+                async def _next():
+                    return await agen.__anext__()
+                yield _run_sync(_next())
             except StopAsyncIteration:
                 return
     finally:
-        aclose = agen.aclose()
+        async def _close():
+            await agen.aclose()
+        coro = _close()
         try:
-            _run_sync(aclose)
+            _run_sync(coro)
         except BaseException:
-            _close_coro(aclose)
+            _close_coro(coro)
 
 def async_to_sync(obj: Any, name: str) -> None:
-    raw = inspect.getattr_static(obj, name, None)
+    raw = None
+    for cls in obj.__mro__:
+        if name in cls.__dict__:
+            raw = cls.__dict__[name]
+            break
+
     if raw is None:
         return
 
@@ -171,7 +193,7 @@ def async_to_sync(obj: Any, name: str) -> None:
     if not (is_coro or is_agen):
         return
 
-    bound = getattr(obj, name)
+    bound = func
 
     if is_agen:
         @functools.wraps(bound)
@@ -200,17 +222,15 @@ def async_to_sync(obj: Any, name: str) -> None:
         setattr(obj, name, wrapper)
 
 def wrap_methods(source: Any) -> None:
-    for name in dir(source):
+    for name, method in inspect.getmembers(
+        source,
+        predicate=lambda m: (
+            inspect.isfunction(m)
+            or inspect.ismethod(m)
+            or inspect.iscoroutinefunction(m)
+            or inspect.isasyncgenfunction(m)
+        ),
+    ):
         if name.startswith("_"):
             continue
-
-        try:
-            method = getattr(source, name)
-        except (AttributeError, TypeError):
-            continue
-
-        if (
-            inspect.iscoroutinefunction(method)
-            or inspect.isasyncgenfunction(method)
-        ):
-            async_to_sync(source, name)
+        async_to_sync(source, name)

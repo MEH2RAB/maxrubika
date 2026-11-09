@@ -1,12 +1,14 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetGroupMembers:
     async def get_group_members(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         group: str,
-        search_text: str = None,
-        start_id: str = None
+        search_text: Optional[str] = None,
+        start_id: Optional[str] = None
     ):
         """
         Get members of a group.
@@ -19,18 +21,20 @@ class GetGroupMembers:
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         group_guid = await self.get_guid(group)
 
         if not group_guid.startswith("g0"):
             message = f"'{group}' does not point to a valid group. Expected a group GUID or group link."
             raise InvalidInput(message)
 
-        input = {'group_guid': group_guid}
+        input_data = {'group_guid': group_guid}
 
         if search_text:
-            input['search_text'] = search_text.replace("@", "")
+            input_data['search_text'] = search_text.replace("@", "")
 
         if start_id:
-            input['start_id'] = start_id
+            input_data['start_id'] = start_id
 
-        return await self.request(method = 'getGroupAllMembers', input = input)
+        return await self.request(method='getGroupAllMembers', input=input_data)

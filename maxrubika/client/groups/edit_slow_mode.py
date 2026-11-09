@@ -1,11 +1,13 @@
-import typing
-import maxrubika
+from typing import Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class EditSlowMode:
     async def edit_slow_mode(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         group: str,
-        slow_mode: typing.Union[str, int]
+        slow_mode: Union[str, int]
     ):
         """
         Parameters:
@@ -15,4 +17,4 @@ class EditSlowMode:
         Returns:
             The result of the API call.
         """
-        return await self.edit_group_info(group = group, slow_mode = slow_mode)
+        return await self.edit_group_info(group=group, slow_mode=slow_mode)

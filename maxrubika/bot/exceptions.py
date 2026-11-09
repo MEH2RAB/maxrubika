@@ -36,6 +36,7 @@ class APIException(Exception):
             "INVALID_ACCESS": "Access denied. You don't have permission to perform this action.",
             "TOO_REQUESTS": "Too many requests. Please slow down and try again later.",
             "TOKEN_ERROR": "Invalid token or token string.",
+            "INVALID_URL": "The provided URL is invalid or not properly formatted.",
         }
 
         if status in default_messages:
@@ -91,3 +92,7 @@ class TooRequests(APIException):
 class TokenError(APIException):
     def __init__(self, dev_message: any = None):
         super().__init__(status="TOKEN_ERROR", dev_message=dev_message)
+
+class InvalidURL(APIException):
+    def __init__(self, dev_message: any = None):
+        super().__init__(status="INVALID_URL", dev_message=dev_message)

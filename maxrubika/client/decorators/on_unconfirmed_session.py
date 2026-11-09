@@ -1,10 +1,14 @@
 import inspect
-import maxrubika
+from typing import TYPE_CHECKING
+
 from ..core import handlers
 from ..filters import Filter
 
+if TYPE_CHECKING:
+    import maxrubika
+
 class OnUnconfirmedSession:
-    def on_unconfirmed_session(self: "maxrubika.Client", *filters: Filter):
+    def on_unconfirmed_session(self: "maxrubika.Messenger", *filters: Filter):
         """Decorator for unconfirmed session updates (anti-login)."""
         def MetaHandler(func):
             async def wrapper(event):

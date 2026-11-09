@@ -1,10 +1,11 @@
-from typing import List, Optional
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class RequestVideoCall:
     async def request_video_call(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         user: str,
         library_versions: Optional[List[str]] = None,
         max_layer: int = 92,
@@ -26,6 +27,8 @@ class RequestVideoCall:
         Returns:
             Call request result containing session info.
         """
+        from ..exceptions import InvalidInput
+
         user_guid = await self.get_guid(user)
 
         if not user_guid.startswith("u0"):
@@ -35,15 +38,16 @@ class RequestVideoCall:
         if library_versions is None:
             library_versions = ['2.7.7', '2.4.4']
 
+        input_data = {
+            'call_type': 'Video',
+            'library_versions': library_versions,
+            'max_layer': max_layer,
+            'min_layer': min_layer,
+            'sip_version': sip_version,
+            'support_call_out': support_call_out,
+            'user_guid': user_guid
+        }
         return await self.request(
-            method = 'requestCall',
-            input = {
-                'call_type': 'Video',
-                'library_versions': library_versions,
-                'max_layer': max_layer,
-                'min_layer': min_layer,
-                'sip_version': sip_version,
-                'support_call_out': support_call_out,
-                'user_guid': user_guid
-            }
+            method='requestCall',
+            input=input_data
         )

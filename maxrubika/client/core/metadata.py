@@ -11,7 +11,7 @@ MARKDOWN_RE = re.compile(
     r"|--([^\n]+?)--"
     r"|~~([^\n]+?)~~"
     r"|\|\|([^\n]+?)\|\|"
-    r"|\[([^\]]+?)\]\((\S+)\)",
+    r"|\[([^\n]+?)\]\((\S+)\)",
     flags=re.DOTALL | re.MULTILINE,
 )
 
@@ -101,14 +101,8 @@ def to_metadata(text: str) -> Dict[str, Any]:
                         parts.append(p)
 
             elif md_type == "Pre":
-                raw = match.group(idx) or ""
-                lines = raw.split('\n', 1)
-                if len(lines) > 1 and lines[0].strip() and not lines[0].strip()[0].isalnum():
-                    lang = lines[0].strip()
-                    content = lines[1]
-                else:
-                    lang = ""
-                    content = raw
+                content = (match.group(idx) or "").strip('\n')
+                lang = ""
 
             elif md_type == "Link":
                 content = match.group(idx) or ""
@@ -174,7 +168,7 @@ def to_metadata(text: str) -> Dict[str, Any]:
             char_offset += char_markup - len(content)
             break
 
-    result = {"text": current.strip()}
+    result = {"text": current}
     if parts:
         result["metadata"] = {"meta_data_parts": parts}
     return result

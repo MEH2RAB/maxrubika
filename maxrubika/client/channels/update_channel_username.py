@@ -1,9 +1,12 @@
-import re; import maxrubika
-from ..exceptions import InvalidUsername
+import re
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class UpdateChannelUsername:
     async def update_channel_username(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         channel: str,
         username: str
     ):
@@ -12,15 +15,13 @@ class UpdateChannelUsername:
 
         Parameters:
             channel (str): The GUID or username of the channel.
-            username (str): The new username for the channel.
-                Must be between 7 and 32 characters
-                Can only contain English letters (a-z, A-Z), numbers (0-9), and underscore (_)
-                Should not start with number or underscore
-                Should not end with underscore
+            username (str): The new username. 7-32 chars, letters/numbers/underscore, cannot start with number/underscore, cannot end with underscore.
 
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidUsername
+
         channel_guid = await self.get_guid(channel)
 
         if not channel_guid.startswith("c0"):
@@ -29,10 +30,12 @@ class UpdateChannelUsername:
 
         username = username.replace('@', '').strip()
 
+        input_data = {'channel_guid': channel_guid, 'username': username}
+
         if username == "":
             return await self.request(
-                method = 'updateChannelUsername', 
-                input = {'channel_guid': channel_guid, 'username': username}
+                method='updateChannelUsername',
+                input=input_data
             )
 
         if len(username) < 7:
@@ -54,5 +57,6 @@ class UpdateChannelUsername:
             raise InvalidUsername('Username must contain at least one letter.')
 
         return await self.request(
-            method = 'updateChannelUsername', input = {'channel_guid': channel_guid, 'username': username}
+            method='updateChannelUsername',
+            input=input_data
         )

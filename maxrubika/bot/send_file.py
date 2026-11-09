@@ -1,18 +1,19 @@
 import re
 from pathlib import Path
-from typing import Optional, Union, Dict, Any, Literal, List
-import maxrubika
-from .metadata import to_metadata
+from typing import Optional, Union, Dict, Any, Literal, List, TYPE_CHECKING
+
 from .keypad_mixin import KeypadMixin
-from .exceptions import InvalidInput
 from .message_result import MessageResult
+
+if TYPE_CHECKING:
+    import maxrubika
 
 _DEFAULT_NAMES = {
     "Voice": "voice.ogg",
     "Music": "music.mp3",
     "Image": "image.jpg",
     "Video": "video.mp4",
-    "Gif": "gif.mp4",
+    "Gif": "gif.mp4"
 }
 
 class SendFile(KeypadMixin):
@@ -39,7 +40,7 @@ class SendFile(KeypadMixin):
         Parameters:
             chat_id (str): Target chat ID.
             file (str | bytes, optional): Path to file, URL, or raw bytes.
-            file_type (str): Type of file ('File', 'Image', 'Voice', 'Video', 'Music', 'Gif').
+            file_type (Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif']): Type of file. Default is 'File'.
             text (str, optional): Caption text.
             file_id (str, optional): Already uploaded file_id (skips upload).
             base64 (str, optional): Base64 encoded file data.
@@ -53,15 +54,18 @@ class SendFile(KeypadMixin):
             one_time_keyboard (bool): Hide keyboard after use.
 
         Returns:
-            dict: API response with message information.
+            API response with message information.
         """
+        from ..data import Data
+        from .metadata import to_metadata
+        from .exceptions import InvalidInput
+
         if not re.match(r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$", chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
 
         if not file_id:
             if file_name is None:
                 if isinstance(file, str) and not file.startswith(("http://", "https://")):
-
                     path = Path(file)
                     if file_type == "Voice":
                         file_name = path.stem + ".ogg"
@@ -82,9 +86,7 @@ class SendFile(KeypadMixin):
             )
 
         if not file_id:
-            raise InvalidInput(
-                "Either 'file', 'file_id', or 'base64' must be provided."
-            )
+            raise InvalidInput("Either 'file', 'file_id', or 'base64' must be provided.")
 
         normalized_chat_keypad = self._normalize_keypad(chat_keypad, is_inline=False)
         normalized_inline_keypad = self._normalize_keypad(inline_keypad, is_inline=True)
@@ -99,30 +101,37 @@ class SendFile(KeypadMixin):
                 processed_text = text
                 metadata = None
 
-        payload = {
+        input_data = {
             'chat_id': chat_id,
             'file_id': file_id,
             'text': processed_text,
             'disable_notification': disable_notification
         }
+
         if normalized_chat_keypad:
             normalized_chat_keypad['resize_keyboard'] = resize_keyboard
             normalized_chat_keypad['one_time_keyboard'] = one_time_keyboard
-            payload['chat_keypad'] = normalized_chat_keypad
-            payload['chat_keypad_type'] = 'New'
+            input_data['chat_keypad'] = normalized_chat_keypad
+            input_data['chat_keypad_type'] = 'New'
 
         if normalized_inline_keypad:
-            payload['inline_keypad'] = normalized_inline_keypad
+            input_data['inline_keypad'] = normalized_inline_keypad
 
         if reply_to_message_id is not None:
-            payload['reply_to_message_id'] = str(reply_to_message_id)
+            input_data['reply_to_message_id'] = str(reply_to_message_id)
 
         if metadata:
-            payload['metadata'] = metadata
+            input_data['metadata'] = metadata
 
-        payload = {k: v for k, v in payload.items() if v is not None}
+        input_data = {k: v for k, v in input_data.items() if v is not None}
 
-        result = await self.request('POST', 'sendFile', json = payload)
+        result = await self.request(
+            method='sendFile',
+            input=input_data
+        )
+
+        if isinstance(result, dict):
+            result = Data(result)
 
         message_id = result.find_keys("message_id")
         if message_id is not None:

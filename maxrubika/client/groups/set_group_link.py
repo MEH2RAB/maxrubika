@@ -1,8 +1,10 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class SetGroupLink:
-    async def set_group_link(self: "maxrubika.Client", group: str):
+    async def set_group_link(self: "maxrubika.Messenger", group: str):
         """
         Set private link for group.
 
@@ -12,10 +14,12 @@ class SetGroupLink:
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         group_guid = await self.get_guid(group)
 
         if not group_guid.startswith("g0"):
             message = f"'{group}' does not point to a valid group. Expected a group GUID or group link."
             raise InvalidInput(message)
 
-        return await self.request(method = 'setGroupLink', input = {'group_guid': group_guid})
+        return await self.request(method='setGroupLink', input={'group_guid': group_guid})

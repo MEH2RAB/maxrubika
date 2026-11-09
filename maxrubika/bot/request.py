@@ -1,15 +1,12 @@
-import asyncio
 import json
+import asyncio
 import logging
-import maxrubika
+from typing import Optional, Dict, Any, TYPE_CHECKING
+
 from ..data import Data
-from .exceptions import (
-    APIException, Network,
-    Timeout, BadGateway,
-    JSONDecode, ServerError,
-    InvalidInput, InvalidAccess,
-    TooRequests,
-)
+
+if TYPE_CHECKING:
+    import maxrubika
 
 logger = logging.getLogger(__name__)
 
@@ -20,27 +17,33 @@ class Request:
     async def request(
         self: "maxrubika.Bot",
         method: str,
-        endpoint: str,
-        **kwargs
+        input: Optional[Dict[str, Any]] = None
     ):
         """
-        Send an HTTP request to the Bot API with automatic retry and error mapping.
+        Send a request to the Bot API with automatic retry and error mapping.
 
         Parameters:
-            method (str): HTTP method, e.g. "POST" or "GET" (case-insensitive).
-            endpoint (str): API method name appended to `base_url`, e.g. "getMe".
-            **kwargs: Extra arguments passed to `aiohttp.ClientSession.request`, such as `json=` or `data=`.
+            method (str): The API method name, appended to `base_url`, e.g. "getMe".
+            input (dict, optional): The request payload sent as JSON body.
 
         Returns:
-            Response: The parsed API response.
+            The parsed API response.
         """
-        url = f"{self.base_url}/{endpoint}"
+        from .exceptions import (
+            APIException, Network,
+            Timeout, BadGateway,
+            JSONDecode, ServerError,
+            InvalidInput, InvalidAccess,
+            TooRequests,
+        )
+
+        url = f"{self.base_url}/{method}"
         session = await self._get_session()
         last_error = None
 
         for attempt in range(self.max_retries):
             try:
-                async with session.request(method.upper(), url, **kwargs) as resp:
+                async with session.post(url, json=input or {}) as resp:
                     text = (await resp.text()).strip()
 
                     if resp.status == 502:
@@ -75,11 +78,11 @@ class Request:
                                 raise InvalidAccess(dev_message=error_message)
                             elif api_status == 'TOO_REQUESTS':
                                 raise TooRequests(dev_message=error_message)
-                            elif api_status == 'Timeout':
-                                raise Timeout(dev_message=error_message)
                             else:
                                 raise APIException(status=api_status, dev_message=error_message)
 
+                    if getattr(self, 'as_dict', False):
+                        return data
                     return Response(data)
 
             except (BadGateway, ServerError, Timeout, asyncio.TimeoutError) as e:
@@ -109,5 +112,5 @@ class Request:
                 dev_message=f"Request failed after {self.max_retries} attempts."
             ) from last_error
         raise Network(
-            dev_message=f"Failed to call {endpoint} after {self.max_retries} attempts."
+            dev_message=f"Failed to call {method} after {self.max_retries} attempts."
         )

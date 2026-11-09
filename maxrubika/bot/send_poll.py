@@ -1,8 +1,11 @@
-from typing import Union, Dict, Any, Optional, List
-import re; import maxrubika
+import re
+from typing import Union, Dict, Any, Optional, List, TYPE_CHECKING
+
 from .keypad_mixin import KeypadMixin
-from .exceptions import InvalidInput
 from .message_result import MessageResult
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class SendPoll(KeypadMixin):
     async def send_poll(
@@ -36,8 +39,11 @@ class SendPoll(KeypadMixin):
             one_time_keyboard (bool): Hide keyboard after use.
 
         Returns:
-            dict: API response with message information.
+            API response with message information.
         """
+        from ..data import Data
+        from .exceptions import InvalidInput
+
         chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
 
         if not re.match(chat_id_regex, chat_id):
@@ -65,7 +71,7 @@ class SendPoll(KeypadMixin):
         normalized_chat_keypad = self._normalize_keypad(chat_keypad, is_inline=False)
         normalized_inline_keypad = self._normalize_keypad(inline_keypad, is_inline=True)
 
-        payload = {
+        input_data = {
             'chat_id': chat_id,
             'question': question,
             'options': options,
@@ -76,19 +82,26 @@ class SendPoll(KeypadMixin):
         }
 
         if reply_to_message_id is not None:
-            payload['reply_to_message_id'] = reply_to_message_id
+            input_data['reply_to_message_id'] = reply_to_message_id
 
         if normalized_chat_keypad:
             normalized_chat_keypad['resize_keyboard'] = resize_keyboard
             normalized_chat_keypad['one_time_keyboard'] = one_time_keyboard
-            payload['chat_keypad'] = normalized_chat_keypad
-            payload['chat_keypad_type'] = 'New'
+            input_data['chat_keypad'] = normalized_chat_keypad
+            input_data['chat_keypad_type'] = 'New'
 
         if normalized_inline_keypad:
-            payload['inline_keypad'] = normalized_inline_keypad
+            input_data['inline_keypad'] = normalized_inline_keypad
 
-        payload = {k: v for k, v in payload.items() if v is not None}
-        result = await self.request('POST', 'sendPoll', json = payload)
+        input_data = {k: v for k, v in input_data.items() if v is not None}
+
+        result = await self.request(
+            method='sendPoll',
+            input=input_data
+        )
+
+        if isinstance(result, dict):
+            result = Data(result)
 
         message_id = result.find_keys("message_id")
         if message_id is not None:

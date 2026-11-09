@@ -6,29 +6,9 @@ import os
 import typing
 import base64
 import tempfile
-import mutagen
 import warnings
 
 DEFAULT_THUMB_BASE64 = "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"
-
-try:
-    from moviepy.editor import VideoFileClip
-except (ImportError, RuntimeError):
-    VideoFileClip = None
-
-try:
-    import cv2
-    import numpy as np
-except ImportError:
-    cv2 = None
-    np = None
-
-try:
-    from PIL import Image as PILImage
-    PIL_AVAILABLE = True
-except ImportError:
-    PILImage = None
-    PIL_AVAILABLE = False
 
 class ResultMedia:
     def __repr__(self) -> str:
@@ -44,18 +24,23 @@ class ResultMedia:
         self.height = height
         self.seconds = seconds
 
-        if hasattr(cv2, 'imdecode'):
-            try:
+        try:
+            import cv2
+            import numpy as np
+            if hasattr(cv2, 'imdecode'):
                 if not isinstance(image, np.ndarray):
                     image = np.frombuffer(image, dtype=np.uint8)
                     image = cv2.imdecode(image, flags=1)
 
                 if image is not None:
                     self.image = self.ndarray_to_bytes(image)
-            except Exception:
-                pass
+        except ImportError:
+            pass
+        except Exception:
+            pass
 
     def ndarray_to_bytes(self, image, *args, **kwargs) -> str:
+        import cv2
         if hasattr(cv2, 'resize'):
             self.width = image.shape[1]
             self.height = image.shape[0]
@@ -99,6 +84,20 @@ class MediaThumbnail:
 
     @classmethod
     def from_image(cls, image: bytes) -> typing.Union[ResultMedia, str]:
+        try:
+            from PIL import Image as PILImage
+            PIL_AVAILABLE = True
+        except ImportError:
+            PILImage = None
+            PIL_AVAILABLE = False
+
+        try:
+            import cv2
+            import numpy as np
+        except ImportError:
+            cv2 = None
+            np = None
+
         if PIL_AVAILABLE:
             try:
                 img = PILImage.open(io.BytesIO(image))
@@ -141,6 +140,17 @@ class MediaThumbnail:
 
     @classmethod
     def from_video(cls, video: bytes) -> typing.Union[ResultMedia, str]:
+        try:
+            from moviepy.editor import VideoFileClip
+        except (ImportError, RuntimeError):
+            VideoFileClip = None
+
+        try:
+            import cv2
+            import numpy as np
+        except ImportError:
+            cv2 = None
+            np = None
 
         if VideoFileClip is not None:
             file_name = None
@@ -205,6 +215,20 @@ class MediaThumbnail:
 
     @classmethod
     def from_manual(cls, data: bytes) -> typing.Union[ResultMedia, str]:
+        try:
+            from PIL import Image as PILImage
+            PIL_AVAILABLE = True
+        except ImportError:
+            PILImage = None
+            PIL_AVAILABLE = False
+
+        try:
+            import cv2
+            import numpy as np
+        except ImportError:
+            cv2 = None
+            np = None
+
         if PIL_AVAILABLE:
             try:
                 img = PILImage.open(io.BytesIO(data))
@@ -213,7 +237,7 @@ class MediaThumbnail:
                 if img.mode in ('RGBA', 'LA', 'P'):
                     img = img.convert('RGB')
 
-                img.thumbnail((100, 100), PILImage.LANCZOS)
+                img.thumbnail((max(width // 20, 100), max(height // 20, 100)))
 
                 output = io.BytesIO()
                 img.save(output, format='JPEG', quality=30)
@@ -245,6 +269,8 @@ class MediaThumbnail:
 class Audio:
     @classmethod
     def get_audio_info(cls, audio: bytes) -> AudioResult:
+        import mutagen
+        
         filename = None
         try:
             with tempfile.NamedTemporaryFile('wb', suffix='.rpa', delete=False) as file:

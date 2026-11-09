@@ -1,15 +1,19 @@
-from .. import exceptions
-import maxrubika
 import asyncio
 import logging
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 logger = logging.getLogger(__name__)
 
 class Disconnect:
-    async def close(self: "maxrubika.Client") -> None:
+    async def close(self: "maxrubika.Messenger"):
         """
         Close the connection to the MAXRubika server (async version).
         """
+        from .. import exceptions
+
         try:
             if self.connection is not None:
                 await self.connection.close()
@@ -25,7 +29,7 @@ class Disconnect:
             except Exception:
                 pass
 
-    def disconnect(self: "maxrubika.Client") -> None:
+    def disconnect(self: "maxrubika.Messenger") -> None:
         """
         Disconnect from the MAXRubika server (sync version).
         """

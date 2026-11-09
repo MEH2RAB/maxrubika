@@ -1,6 +1,8 @@
-from typing import Any, Dict, Union
-import re; import maxrubika
-from .exceptions import InvalidInput
+import re
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetChatMember:
     async def get_chat_member(
@@ -16,8 +18,10 @@ class GetChatMember:
             user_id (str): user_id of member to look up (starts with 'u0').
 
         Returns:
-            dict: API response.
+            The API response.
         """
+        from .exceptions import InvalidInput
+
         chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
         user_id_regex = r"^u0[a-zA-Z0-9]{30}$"
 
@@ -30,8 +34,12 @@ class GetChatMember:
         if not re.match(user_id_regex, user_id):
             raise InvalidInput("Invalid 'user_id' format.")
 
-        payload = {
+        input_data = {
             'chat_id': chat_id,
             'user_id': user_id
         }
-        return await self.request('POST', 'getChatMember', json = payload)
+
+        return await self.request(
+            method='getChatMember',
+            input=input_data
+        )

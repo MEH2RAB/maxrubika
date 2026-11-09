@@ -1,8 +1,10 @@
 import re
-from typing import Union
-import maxrubika
-from .exceptions import InvalidInput
+from typing import Union, TYPE_CHECKING
+
 from .message_result import MessageResult
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class ForwardMessage:
     async def forward_message(
@@ -13,17 +15,20 @@ class ForwardMessage:
         disable_notification: bool = False
     ):
         """
-        Provides a method to forward messages.
+        Forward a message from one chat to another.
 
         Parameters:
             from_chat_id (str): chat_id of the source object from which messages are forwarded.
-            message_id (str): message_id of the message to be frowarded.
+            message_id (Union[str, int]): message_id of the message to be forwarded.
             to_chat_id (str): chat_id of the destination object to which messages are forwarded.
             disable_notification (bool): If set to True, the message will be sent silently without triggering a notification for users. Defaults to False.
 
         Returns:
-            dict: API response with message information.
+            API response with message information.
         """
+        from ..data import Data
+        from .exceptions import InvalidInput
+
         chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
 
         if not re.match(chat_id_regex, from_chat_id):
@@ -36,17 +41,23 @@ class ForwardMessage:
             if not message_id.isdigit():
                 raise InvalidInput("'message_id' string must contain only digits.")
             message_id = int(message_id)
-
         elif not isinstance(message_id, int):
             raise InvalidInput("'message_id' must be str or int.")
 
-        payload = {
+        input_data = {
             'from_chat_id': from_chat_id,
             'message_id': message_id,
             'to_chat_id': to_chat_id,
             'disable_notification': disable_notification
         }
-        result = await self.request('POST', 'forwardMessage', json = payload)
+
+        result = await self.request(
+            method='forwardMessage',
+            input=input_data
+        )
+
+        if isinstance(result, dict):
+            result = Data(result)
 
         message_id = result.find_keys("new_message_id")
         if message_id is not None:

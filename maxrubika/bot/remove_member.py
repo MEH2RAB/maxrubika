@@ -1,5 +1,7 @@
-import re; import maxrubika
-from .exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class RemoveMember:
     async def remove_member(
@@ -8,7 +10,7 @@ class RemoveMember:
         sender_id: str
     ):
         """
-        Remove (Ban) a member from a group or channel.
+        Remove (ban) a member from a group or channel.
 
         Parameters:
             chat_id (str): chat_id of group (starts with 'g0') or channel (starts with 'c0').
@@ -17,16 +19,4 @@ class RemoveMember:
         Returns:
             The API response.
         """
-        chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
-        sender_id_regex = r"^u0[a-zA-Z0-9]{30}$"
-
-        if not re.match(chat_id_regex, chat_id):
-            raise InvalidInput("Invalid 'chat_id' format.")
-
-        if chat_id.startswith('b0'):
-            raise InvalidInput("'chat_id' must not start with 'b0'.")
-
-        if not re.match(sender_id_regex, sender_id):
-            raise InvalidInput("Invalid 'sender_id' format.")
-
         return await self.ban_member(chat_id, sender_id)

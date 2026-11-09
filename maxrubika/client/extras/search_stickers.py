@@ -1,21 +1,30 @@
-import maxrubika
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class SearchStickers:
     async def search_stickers(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         search_text: str = '',
-        start_id: str = None
+        start_id: Optional[str] = None
     ):
         """
         Search for stickers.
 
         Parameters:
             search_text (str): The search text.
-            start_id (str): The start ID for pagination.
+            start_id (str, optional): The start ID for pagination. Defaults to None.
 
         Returns:
             Stickers matching the search criteria.
         """
+        input_data = {'search_text': search_text}
+
+        if start_id:
+            input_data['start_id'] = start_id
+
         return await self.request(
-            method = 'searchStickers',
-            input = {'search_text': search_text, 'start_id': start_id})
+            method='searchStickers',
+            input=input_data
+        )

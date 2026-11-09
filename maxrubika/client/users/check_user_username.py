@@ -1,7 +1,10 @@
-import maxrubika
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class CheckUserUsername:
-    async def check_user_username(self: "maxrubika.Client", username: str):
+    async def check_user_username(self: "maxrubika.Messenger", username: str):
         """
         Check the availability of a username for a user.
 
@@ -11,4 +14,4 @@ class CheckUserUsername:
         Returns:
             The result of the username availability check.
         """
-        return await self.request(method = 'checkUserUsername', input = {'username': username.replace('@', '')})
+        return await self.request(method='checkUserUsername', input={'username': username.replace('@', '')})

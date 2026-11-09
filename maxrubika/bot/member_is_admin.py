@@ -1,4 +1,7 @@
-import maxrubika
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class MemberIsAdmin:
     async def member_is_admin(
@@ -16,9 +19,15 @@ class MemberIsAdmin:
         Returns:
             bool: True if status is 'Admin' or 'Creator', else False.
         """
+        from ..data import Data
+
         result = await self.get_chat_member(chat_id, user_id)
 
-        data = result.to_dict() if hasattr(result, "to_dict") else result
-        status = data.get("data", {}).get("chat_member", {}).get("status")
+        if isinstance(result, dict):
+            result = Data(result)
+
+        data = result.find_keys('data')
+        chat_member = data.find_keys('chat_member')
+        status = chat_member.find_keys('status') if chat_member else None
 
         return status in ("Admin", "Creator")

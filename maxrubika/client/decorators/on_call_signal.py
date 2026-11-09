@@ -1,10 +1,14 @@
 import inspect
-import maxrubika
+from typing import TYPE_CHECKING
+
 from ..core import handlers
 from ..filters import Filter
 
+if TYPE_CHECKING:
+    import maxrubika
+
 class OnCallSignal:
-    def on_call_signal(self: "maxrubika.Client", *filters: Filter):
+    def on_call_signal(self: "maxrubika.Messenger", *filters: Filter):
         """Decorator for call signal data."""
         def MetaHandler(func):
             async def wrapper(event):

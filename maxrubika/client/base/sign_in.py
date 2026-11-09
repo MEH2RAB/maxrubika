@@ -1,8 +1,11 @@
-import maxrubika
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class SignIn:
     async def sign_in(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         phone_number: str,
         phone_code: str,
         phone_code_hash: str,
@@ -20,13 +23,15 @@ class SignIn:
         Returns:
             The result of the API call.
         """
+        input_data = {
+            'phone_number': phone_number,
+            'phone_code': phone_code,
+            'phone_code_hash': phone_code_hash,
+            'public_key': public_key
+        }
+
         return await self.request(
-            method = 'signIn',
-            input = {
-                'phone_number': phone_number,
-                'phone_code': phone_code,
-                'phone_code_hash': phone_code_hash,
-                'public_key': public_key
-            },
-            tmp_session = True
+            method='signIn',
+            input=input_data,
+            tmp_session=True
         )

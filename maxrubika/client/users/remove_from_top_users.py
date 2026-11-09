@@ -1,8 +1,10 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class RemoveFromTopUsers:
-    async def remove_from_top_users(self: "maxrubika.Client", user: str):
+    async def remove_from_top_users(self: "maxrubika.Messenger", user: str):
         """
         Remove user from top users list.
 
@@ -12,6 +14,8 @@ class RemoveFromTopUsers:
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         user_guid = await self.get_guid(user)
 
         if not user_guid.startswith("u0"):
@@ -19,6 +23,6 @@ class RemoveFromTopUsers:
             raise InvalidInput(message)
 
         return await self.request(
-            method = 'removeFromTopChatUsers',
-            input = {'user_guid': user_guid}
+            method='removeFromTopChatUsers',
+            input={'user_guid': user_guid}
         )

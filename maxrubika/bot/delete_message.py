@@ -1,7 +1,8 @@
 import re
-from typing import Union
-import maxrubika
-from .exceptions import InvalidInput
+from typing import Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class DeleteMessage:
     async def delete_message(
@@ -10,15 +11,17 @@ class DeleteMessage:
         message_id: Union[int, str]
     ):
         """
-        Provides a method to delete messages.
+        Delete a single message.
 
         Parameters:
             chat_id (str): chat_id of group (starts with 'g0') or channel (starts with 'c0') or user (starts with 'b0').
             message_id (Union[str, int]): message_id of the message to be deleted.
 
         Returns:
-            dict: API response with delete message information.
+            The API response with delete message information.
         """
+        from .exceptions import InvalidInput
+
         chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
 
         if not re.match(chat_id_regex, chat_id):
@@ -28,9 +31,15 @@ class DeleteMessage:
             if not message_id.isdigit():
                 raise InvalidInput("'message_id' string must contain only digits.")
             message_id = int(message_id)
-
         elif not isinstance(message_id, int):
             raise InvalidInput("'message_id' must be str or int.")
 
-        payload = {'chat_id': chat_id, 'message_id': message_id}
-        return await self.request('POST', 'deleteMessage', json = payload)
+        input_data = {
+            'chat_id': chat_id,
+            'message_id': message_id
+        }
+
+        return await self.request(
+            method='deleteMessage',
+            input=input_data
+        )

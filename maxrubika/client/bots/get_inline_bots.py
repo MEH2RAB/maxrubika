@@ -1,10 +1,11 @@
-from typing import Union, List
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import Union, List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetInlineBots:
     async def get_inline_bots(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         bots: Union[str, List[str]]
     ):
         """
@@ -16,6 +17,8 @@ class GetInlineBots:
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         if isinstance(bots, str):
             bots = [bots]
 
@@ -30,6 +33,6 @@ class GetInlineBots:
             bot_guids.append(guid)
 
         return await self.request(
-            method = 'getInlineBots',
-            input = {'bot_guids': bot_guids}
+            method='getInlineBots',
+            input={'bot_guids': bot_guids}
         )

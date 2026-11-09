@@ -1,8 +1,11 @@
-import maxrubika
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetWalletTransactionMessage:
     async def get_wallet_transaction_message(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         transfer_id: str,
         access_transfer: str
     ):
@@ -16,10 +19,11 @@ class GetWalletTransactionMessage:
         Returns:
             The result of the API call.
         """
+        input_data = {
+            'transfer_id': transfer_id,
+            'access_transfer': access_transfer
+        }
         return await self.request(
-            method = 'getWalletTransactionMessage',
-            input = {
-                'transfer_id': transfer_id,
-                'access_transfer': access_transfer
-            }
+            method='getWalletTransactionMessage',
+            input=input_data
         )

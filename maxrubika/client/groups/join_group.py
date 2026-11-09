@@ -1,8 +1,10 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class JoinGroup:
-    async def join_group(self: "maxrubika.Client", group: str):
+    async def join_group(self: "maxrubika.Messenger", group: str):
         """
         Join a group using the provided link.
 
@@ -12,13 +14,15 @@ class JoinGroup:
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         group_lower = group.lower()
 
         if group_lower.startswith('https://rubika.ir/joing/'):
             hash_link = group.rstrip('/').split('/')[-1].split('?')[0].split('#')[0]
             return await self.request(
-                method = 'joinGroup',
-                input = {'hash_link': hash_link}
+                method='joinGroup',
+                input={'hash_link': hash_link}
             )
         else:
             message = "'link' must start with 'https://rubika.ir/joing/' and follow the specified hash format."

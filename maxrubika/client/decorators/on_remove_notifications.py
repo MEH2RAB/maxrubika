@@ -1,9 +1,13 @@
-import maxrubika
+from typing import TYPE_CHECKING
+
 from ..core import handlers
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class OnRemoveNotifications:
     def on_remove_notifications(
-            self: "maxrubika.Client",
+            self: "maxrubika.Messenger",
             *args, **kwargs
     ):
         def MetaHandler(func):

@@ -1,9 +1,13 @@
+from datetime import datetime
+
+LIVE_VERSION = datetime.now().strftime("%y.%m.%d")
+
 DEFAULT_PLATFORM = {
     'app_name': 'Main',
-    'app_version': '2.5.8',
+    'app_version': LIVE_VERSION,
     'platform': 'PWA',
     'package': 'm.rubika.ir',
-    'lang_code': 'fa',
+    'lang_code': 'fa'
 }
 
 USER_AGENT = (
@@ -13,10 +17,9 @@ USER_AGENT = (
 )
 
 PLATFORMS = {
-
     'web': {
         'platform': 'Web',
-        'app_version': '4.4.33',
+        'app_version': LIVE_VERSION,
         'package': 'web.rubika.ir',
         'headers': {
             'origin': 'https://web.rubika.ir',
@@ -27,7 +30,7 @@ PLATFORMS = {
     },
     'pwa': {
         'platform': 'PWA',
-        'app_version': '2.5.8',
+        'app_version': LIVE_VERSION,
         'package': 'm.rubika.ir',
         'headers': {
             'origin': 'https://m.rubika.ir',
@@ -38,7 +41,7 @@ PLATFORMS = {
     },
     'android': {
         'platform': 'Android',
-        'app_version': '4.1.1',
+        'app_version': LIVE_VERSION,
         'package': 'app.rbmain.a',
         'headers': {
             'user-agent': 'okhttp/3.12.1',
@@ -46,9 +49,19 @@ PLATFORMS = {
         'get_dcs_url': 'https://getdcmess.iranlms.ir/',
         'storage_prefix': 'messenger',
     },
+    'ios': {
+        'platform': 'IOS',
+        'app_version': LIVE_VERSION,
+        'package': 'com.roobika.xstores',
+        'headers': {
+            'user-agent': 'Rubika/4.1.1 (iPhone; iOS 17.5.1; Scale/3.00)',
+        },
+        'get_dcs_url': 'https://getdcmess.iranlms.ir/',
+        'storage_prefix': 'messenger',
+    },
     'rubx': {
         'platform': 'Android',
-        'app_version': '4.1.1',
+        'app_version': LIVE_VERSION,
         'package': 'ir.rubx.bapp',
         'headers': {
             'user-agent': 'okhttp/3.12.1',
@@ -58,7 +71,7 @@ PLATFORMS = {
     },
     'rubikids': {
         'platform': 'Android',
-        'app_version': '4.1.1',
+        'app_version': LIVE_VERSION,
         'package': 'app.rbmain.kids',
         'headers': {
             'user-agent': 'okhttp/3.12.1',
@@ -68,7 +81,7 @@ PLATFORMS = {
     },
     'rubino': {
         'platform': 'Android',
-        'app_version': '4.1.1',
+        'app_version': LIVE_VERSION,
         'package': 'app.rubino.main',
         'headers': {
             'user-agent': 'okhttp/3.12.1',
@@ -76,10 +89,38 @@ PLATFORMS = {
         'get_dcs_url': 'https://getdcmess.iranlms.ir/',
         'storage_prefix': 'messenger',
     },
-
+    'tv_android': {
+        'platform': 'TVAndroid',
+        'app_version': LIVE_VERSION,
+        'package': 'app.rbmain.tv',
+        'get_dcs_url': 'https://getdcmess.iranlms.ir/',
+        'storage_prefix': 'messenger',
+    },
+    'tv_web': {
+        'platform': 'TVWeb',
+        'app_version': LIVE_VERSION,
+        'package': 'tv.rubika.ir',
+        'headers': {
+            'origin': 'https://tv.rubika.ir',
+            'referer': 'https://tv.rubika.ir/',
+        },
+        'get_dcs_url': 'https://getdcmess.iranlms.ir/',
+        'storage_prefix': 'messenger',
+    },
+    'vod_web': {
+        'platform': 'VODWeb',
+        'app_version': LIVE_VERSION,
+        'package': 'vod.rubika.ir',
+        'headers': {
+            'origin': 'https://vod.rubika.ir',
+            'referer': 'https://vod.rubika.ir/',
+        },
+        'get_dcs_url': 'https://getdcmess.iranlms.ir/',
+        'storage_prefix': 'messenger',
+    },
     'shad_web': {
         'platform': 'Web',
-        'app_version': '4.4.26',
+        'app_version': LIVE_VERSION,
         'package': 'web.shad.ir',
         'headers': {
             'origin': 'https://web.shad.ir',
@@ -90,7 +131,7 @@ PLATFORMS = {
     },
     'shad_pwa': {
         'platform': 'PWA',
-        'app_version': '3.0.8',
+        'app_version': LIVE_VERSION,
         'package': 'my.shad.ir',
         'headers': {
             'origin': 'https://my.shad.ir',
@@ -101,7 +142,7 @@ PLATFORMS = {
     },
     'shad_android': {
         'platform': 'Android',
-        'app_version': '3.8.0',
+        'app_version': LIVE_VERSION,
         'package': 'ir.medu.shad',
         'headers': {
             'user-agent': 'okhttp/3.12.1',
@@ -111,12 +152,18 @@ PLATFORMS = {
     },
 }
 
-RUBIKA_PLATFORM_NAMES = ['Web', 'PWA', 'Android', 'RubX', 'RubiKids', 'Rubino']
+RUBIKA_PLATFORM_NAMES = [
+    'Web', 'PWA', 'Android', 'IOS', 'RubX', 'RubiKids',
+    'Rubino', 'TVAndroid', 'TVWeb', 'VODWeb'
+]
 
 RUBIKA_PLATFORM_ALIASES = {
     'rubx': 'RubX',
     'rubikids': 'RubiKids',
     'rubino': 'Rubino',
+    'tv_android': 'TVAndroid',
+    'tv_web': 'TVWeb',
+    'vod_web': 'VODWeb',
 }
 
 SHAD_PLATFORM_NAMES = ['ShadWeb', 'ShadPWA', 'ShadAndroid']
@@ -131,12 +178,16 @@ PLATFORM_NAME_TO_KEY = {
     'Web': 'web',
     'PWA': 'pwa',
     'Android': 'android',
+    'IOS': 'ios',
     'RubX': 'rubx',
     'RubiKids': 'rubikids',
     'Rubino': 'rubino',
     'ShadWeb': 'shad_web',
     'ShadPWA': 'shad_pwa',
     'ShadAndroid': 'shad_android',
+    'TVAndroid': 'tv_android',
+    'TVWeb': 'tv_web',
+    'VODWeb': 'vod_web',
 }
 
 VALID_PLATFORMS = list(PLATFORMS.keys())

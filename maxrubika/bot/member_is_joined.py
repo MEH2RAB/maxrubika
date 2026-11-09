@@ -1,5 +1,7 @@
-import maxrubika
-from .exceptions import InvalidAccess
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class MemberIsJoined:
     async def member_is_joined(
@@ -17,6 +19,8 @@ class MemberIsJoined:
         Returns:
             bool: True if the user is a member, else False.
         """
+        from .exceptions import InvalidAccess
+
         try:
             await self.get_chat_member(chat_id, user_id)
             return True

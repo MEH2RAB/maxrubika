@@ -1,9 +1,11 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetGroupAdminAccess:
     async def get_group_admin_access(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         group: str,
         admin: str
     ):
@@ -17,6 +19,8 @@ class GetGroupAdminAccess:
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         group_guid = await self.get_guid(group)
 
         if not group_guid.startswith("g0"):
@@ -29,7 +33,8 @@ class GetGroupAdminAccess:
             message = f"'{admin}' does not point to a valid member. Expected a user GUID, bot GUID, or username."
             raise InvalidInput(message)
 
+        input_data = {'group_guid': group_guid, 'member_guid': member_guid}
         return await self.request(
-            method = 'getGroupAdminAccessList',
-            input = {'group_guid': group_guid, 'member_guid': member_guid}
+            method='getGroupAdminAccessList',
+            input=input_data
         )

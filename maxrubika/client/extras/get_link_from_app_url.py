@@ -1,8 +1,11 @@
-import maxrubika
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetLinkFromAppUrl:
     async def get_link_from_app_url(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         url: str
     ):
         """
@@ -12,9 +15,9 @@ class GetLinkFromAppUrl:
             url (str): The application URL to extract the link from.
 
         Returns:
-            Data: The result containing the extracted link.
+            The result containing the extracted link.
         """
         return await self.request(
-            method = 'getLinkFromAppUrl',
-            input = {'app_url': url}
+            method='getLinkFromAppUrl',
+            input={'app_url': url}
         )

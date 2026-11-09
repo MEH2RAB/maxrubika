@@ -1,17 +1,19 @@
 import asyncio
-import aiohttp
 import logging
-import maxrubika
-from ..core.cipher import Cipher
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetUpdates:
-    async def get_updates(self: "maxrubika.Client"):
+    async def get_updates(self: "maxrubika.Messenger"):
         """
         Listen for updates from Rubika's WebSocket.
 
         Returns:
             None
         """
+        import aiohttp
         asyncio.create_task(self._keep_socket())
 
         while True:
@@ -35,12 +37,18 @@ class GetUpdates:
                             self.logger.warning("WebSocket connection lost; initiating reconnect...")
                             break
 
-            except (aiohttp.ServerTimeoutError, TimeoutError, aiohttp.ClientError) as e:
-                self.logger.warning(f"WebSocket connection lost: {e}. Attempting reconnection in 3 seconds...")
-                await asyncio.sleep(3)
+            except Exception as e:
+                error_str = str(type(e))
+                if "aiohttp" in error_str or isinstance(e, TimeoutError):
+                    if isinstance(e, (aiohttp.ServerTimeoutError, TimeoutError, aiohttp.ClientError)):
+                        self.logger.warning(f"WebSocket connection lost: {e}. Attempting reconnection in 3 seconds...")
+                        await asyncio.sleep(3)
+                    else:
+                        raise e
+                else:
+                    raise e
 
-    async def _keep_socket(self: "maxrubika.Client") -> None:
-
+    async def _keep_socket(self: "maxrubika.Messenger") -> None:
         while True:
             if self.connection.session.closed:
                 break
@@ -56,7 +64,8 @@ class GetUpdates:
             except Exception as e:
                 self.logger.warning(f"WebSocket keep-alive failed: {e}", exc_info=True)
 
-    async def _handle_text_message(self: "maxrubika.Client", msg_data: dict) -> None:
+    async def _handle_text_message(self: "maxrubika.Messenger", msg_data: dict) -> None:
+        from ..core.cipher import Cipher
 
         data_enc = msg_data.get("data_enc") or msg_data.get("messenger")
         if not data_enc:

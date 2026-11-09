@@ -1,8 +1,11 @@
-import maxrubika
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class DeleteStickerSet:
     async def delete_sticker_set(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         sticker_set_id: str
     ):
         """
@@ -14,6 +17,8 @@ class DeleteStickerSet:
         Returns:
             The result of the API call.
         """
+        input_data = {'sticker_set_id': sticker_set_id, 'action': 'Remove'}
         return await self.request(
-            method = 'actionOnStickerSet',
-            input = {'sticker_set_id': sticker_set_id, 'action': 'Remove'})
+            method='actionOnStickerSet',
+            input=input_data
+        )

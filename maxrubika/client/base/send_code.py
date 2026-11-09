@@ -1,10 +1,11 @@
-from typing import Optional, Literal
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class SendCode:
     async def send_code(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         phone_number: str,
         pass_key: Optional[str] = None
     ):
@@ -13,18 +14,19 @@ class SendCode:
 
         Parameters:
             phone_number (str): The target phone number.
-            pass_key (str): The optional account pass key.
+            pass_key (str, optional): The optional account pass key.
 
         Returns:
             The result of the API call.
         """
-        input = {
+        input_data = {
             'phone_number': phone_number,
             'pass_key': pass_key,
             'send_type': 'SMS'
         }
+
         return await self.request(
-            method = 'sendCode',
-            input = input,
-            tmp_session = True
+            method='sendCode',
+            input=input_data,
+            tmp_session=True
         )

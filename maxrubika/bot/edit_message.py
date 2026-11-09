@@ -1,8 +1,10 @@
-from typing import Union, Dict, Any, Optional
-import re; import maxrubika
-from .metadata import to_metadata
-from .exceptions import InvalidInput
+import re
+from typing import Union, Dict, Any, Optional, TYPE_CHECKING
+
 from .message_result import MessageResult
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class EditMessage:
     async def edit_message(
@@ -22,8 +24,12 @@ class EditMessage:
             metadata (dict, optional): Pre-formatted metadata (Bold, Italic, etc.).
 
         Returns:
-            dict: API response with message information.
+            API response with message information.
         """
+        from ..data import Data
+        from .metadata import to_metadata
+        from .exceptions import InvalidInput
+
         if not re.match(r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$", chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
 
@@ -34,7 +40,6 @@ class EditMessage:
             if not message_id.isdigit():
                 raise InvalidInput("'message_id' string must contain only digits.")
             message_id = int(message_id)
-
         elif not isinstance(message_id, int):
             raise InvalidInput("'message_id' must be str or int.")
 
@@ -48,16 +53,23 @@ class EditMessage:
                 processed_text = text
                 metadata = None
 
-        payload = {
+        input_data = {
             'chat_id': chat_id,
             'message_id': message_id,
             'text': processed_text
         }
         if metadata:
-            payload['metadata'] = metadata
+            input_data['metadata'] = metadata
 
-        payload = {k: v for k, v in payload.items() if v is not None}
-        result = await self.request('POST', 'editMessageText', json = payload)
+        input_data = {k: v for k, v in input_data.items() if v is not None}
+
+        result = await self.request(
+            method='editMessageText',
+            input=input_data
+        )
+
+        if isinstance(result, dict):
+            result = Data(result)
 
         return MessageResult(
             bot=self,

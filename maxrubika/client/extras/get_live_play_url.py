@@ -1,25 +1,30 @@
-import maxrubika
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetLivePlayUrl:
     async def get_live_play_url(
-        self: "maxrubika.Client",
-        access_token: str,
-        live_id: str
+        self: "maxrubika.Messenger",
+        live_id: str,
+        access_token: str
     ):
         """
         Retrieves the play URL for a live stream.
 
         Parameters:
-            access_token (str): The access token for authentication.
             live_id (str): The ID of the live stream.
+            access_token (str): The access token for authentication.
 
         Returns:
             The result of the API call.
         """
+        input_data = {
+            'live_id': live_id,
+            'access_token': access_token
+        }
+
         return await self.request(
-            method = 'getLivePlayUrl',
-            input = {
-                'access_token': access_token,
-                'live_id': live_id
-            }
+            method='getLivePlayUrl',
+            input=input_data
         )

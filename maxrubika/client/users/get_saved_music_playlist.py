@@ -1,8 +1,10 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetSavedMusicPlaylist:
-    async def get_saved_music_playlist(self: "maxrubika.Client", user: str):
+    async def get_saved_music_playlist(self: "maxrubika.Messenger", user: str):
         """
         Get the saved music playlist of a user.
 
@@ -12,6 +14,8 @@ class GetSavedMusicPlaylist:
         Returns:
             The result of the API call containing saved music playlist.
         """
+        from ..exceptions import InvalidInput
+
         if user.lower() in ('me', 'cloud', 'self', 'myself'):
             user_guid = self.guid
         else:
@@ -22,6 +26,6 @@ class GetSavedMusicPlaylist:
             raise InvalidInput(message)
 
         return await self.request(
-            method = 'getSavedMusicPlaylist',
-            input = {'object_guid': user_guid}
+            method='getSavedMusicPlaylist',
+            input={'object_guid': user_guid}
         )

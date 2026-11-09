@@ -1,13 +1,23 @@
-import threading
 import asyncio
 import inspect
-from typing import Dict, Optional, List
-import aiohttp
+import threading
 import logging
-import maxrubika
+from typing import Dict, Optional, List, TYPE_CHECKING
+
+import aiohttp
+
 from ...types import Event
-from ..exceptions import (NetworkError, StopHandler, ServerError)
 from .configs import PLATFORMS
+
+if TYPE_CHECKING:
+    import maxrubika
+
+if hasattr(asyncio, 'to_thread'):
+    _run_sync = asyncio.to_thread
+else:
+    async def _run_sync(func, *args):
+        loop = asyncio.get_running_loop()
+        return await loop.run_in_executor(None, func, *args)
 
 def capitalize(text: str) -> str:
     return "".join(word.title() for word in text.split("_"))
@@ -18,7 +28,7 @@ class Api:
         "connection": "keep-alive",
     }
 
-    def __init__(self, client: "maxrubika.Client") -> None:
+    def __init__(self, client: "maxrubika.Messenger") -> None:
         self.client = client
         self.max_retries = client.max_retries
         self.logger = logging.getLogger(__name__)
@@ -29,16 +39,13 @@ class Api:
         original_key = client._original_platform
         config = PLATFORMS.get(original_key, {}).get('headers', {})
 
-        if platform == "Web":
-            self.headers.update(config)
-        elif platform == "Android":
+        if platform == "Android":
             self.headers.pop("origin", None)
             self.headers.pop("referer", None)
-            self.headers.update(config)
-        else:
-            self.headers.update(config)
 
-        connector = aiohttp.TCPConnector(verify_ssl=False, limit=100)
+        self.headers.update(config)
+
+        connector = aiohttp.TCPConnector(ssl=False, limit=100)
         self.session = aiohttp.ClientSession(
             connector=connector,
             headers=self.headers,
@@ -68,6 +75,8 @@ class Api:
             await self.session.close()
 
     async def get_dcs(self, max_retries: int = 3, backoff: float = 1.0) -> bool:
+        from ..exceptions import NetworkError, ServerError
+
         platform = self.client._original_platform
         platform_config = PLATFORMS.get(platform, {})
         url = platform_config.get('get_dcs_url', 'https://getdcmess.iranlms.ir/')
@@ -127,15 +136,11 @@ class Api:
                         raise ServerError("Server returned incomplete data.")
 
             except (aiohttp.ClientError, asyncio.TimeoutError) as e:
-                self.logger.warning(
-                    f"Data Centers unreachable (attempt {attempt + 1}/{max_retries}): {e}"
-                )
+                self.logger.warning(f"Failed to connect to Data Centers (attempt {attempt + 1}/{max_retries}): {e}")
                 if attempt < max_retries - 1:
                     await asyncio.sleep(backoff * (2**attempt))
 
-        raise NetworkError(
-            "Could not reach Data Centers after multiple attempts."
-        )
+        raise NetworkError("Failed to connect to Data Centers after all retries.")
 
     async def _http_request(
         self,
@@ -186,6 +191,8 @@ class Api:
         return None
 
     async def handle_update(self, name: str, event: dict) -> None:
+        from ..exceptions import StopHandler
+
         for func, handler in self.client.handlers.items():
             try:
                 if isinstance(handler, type):
@@ -199,21 +206,18 @@ class Api:
                 if not await handler(event=event_obj):
                     continue
 
-                handler_executed = False
                 if not inspect.iscoroutinefunction(func):
                     if self.client.stop_on_first_match:
-                        await asyncio.to_thread(func, event_obj)
+                        await _run_sync(func, event_obj)
                     else:
                         threading.Thread(target=func, args=(event_obj,)).start()
-                    handler_executed = True
                 else:
                     if self.client.stop_on_first_match:
                         await func(event_obj)
                     else:
                         asyncio.create_task(func(event_obj))
-                    handler_executed = True
 
-                if handler_executed and self.client.stop_on_first_match:
+                if self.client.stop_on_first_match:
                     break
             except StopHandler:
                 break

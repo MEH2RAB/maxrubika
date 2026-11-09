@@ -1,10 +1,11 @@
-from typing import Optional, Union, Dict, List, Literal
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING, Optional, Union, Dict, List, Literal
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class EditGroupInfo:
     async def edit_group_info(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         group: str,
         title: Optional[str] = None,
         description: Optional[str] = None,
@@ -20,22 +21,14 @@ class EditGroupInfo:
 
         Parameters:
             group (str): The GUID or link of the group.
-            title (Optional[str]): The new title for the group (max 60 characters).
-            description (Optional[str]): The new description for the group (max 300 characters).
-            slow_mode (Optional[str]): The new slow mode setting for the group.
-            event_messages (Optional[bool]): Enable or disable event messages for the group.
-            is_restricted_content (Optional[bool]): Restrict content (prevent screenshots and file saving).
-            reactions (Union[Literal['All', 'Disable'], List[int]], optional): 
-                - 'All': Enable all reactions
-                - 'Disable': Disable all reactions
-                - List[int]: List of reaction IDs to enable (e.g., [1, 2, 6, 7, 8, 23, 44])
-            chat_history_for_new_members (Optional[str]): The new chat history setting for new members.
-            restricted_period (Optional[List[Dict[str, Union[List[str], str]]]]): 
-                Time restrictions for sending messages (list of periods). Each period should contain:
-                - days_of_week: List of days ['Saturday', 'Sunday', ..., 'Friday']
-                - from_time: Start time in "HH:MM" format (24-hour)
-                - to_time: End time in "HH:MM" format (24-hour)
-                Note: Can accept multiple periods as a list of dictionaries.
+            title (str, optional): The new title for the group (max 60 characters).
+            description (str, optional): The new description for the group (max 300 characters).
+            slow_mode (str, optional): The new slow mode setting for the group.
+            event_messages (bool, optional): Enable or disable event messages for the group.
+            is_restricted_content (bool, optional): Restrict content (prevent screenshots and file saving).
+            reactions (Union[Literal['All', 'Disable'], List[int]], optional): 'All' to enable all reactions, 'Disable' to disable all, or a list of reaction IDs to enable (e.g., [1, 2, 6, 7, 8, 23, 44]). Case-insensitive.
+            chat_history_for_new_members (str, optional): The new chat history setting for new members ('Hidden' or 'Visible'). Case-insensitive.
+            restricted_period (List[Dict[str, Union[List[str], str]]], optional): Time restrictions for sending messages (list of periods). Each period should contain days_of_week (list of days ['Saturday', 'Sunday', ..., 'Friday'], case-insensitive), from_time (start time in "HH:MM" format, 24-hour), and to_time (end time in "HH:MM" format, 24-hour). Can accept multiple periods as a list of dictionaries.
 
         Returns:
             The result of the API call.
@@ -86,6 +79,8 @@ class EditGroupInfo:
                 ]
             )
         """
+        from ..exceptions import InvalidInput
+
         group_guid = await self.get_guid(group)
 
         if not group_guid.startswith("g0"):
@@ -97,13 +92,15 @@ class EditGroupInfo:
 
         if title is not None:
             if len(title) > 60:
-                raise InvalidInput("Title cannot exceed 60 characters.")
+                message = "Title cannot exceed 60 characters."
+                raise InvalidInput(message)
             input_data['title'] = title
             updated_parameters.append('title')
 
         if description is not None:
             if len(description) > 300:
-                raise InvalidInput("Description cannot exceed 300 characters.")
+                message = "Description cannot exceed 300 characters."
+                raise InvalidInput(message)
             input_data['description'] = description
             updated_parameters.append('description')
 
@@ -118,17 +115,21 @@ class EditGroupInfo:
         if reactions is not None:
             reaction_dict = {}
 
-            if reactions == "All":
-                reaction_dict["reaction_type"] = "All"
-            elif reactions == "Disable":
-                reaction_dict["reaction_type"] = "Disabled"
+            if isinstance(reactions, str):
+                normalized = reactions.lower()
+                if normalized == "all":
+                    reaction_dict["reaction_type"] = "All"
+                elif normalized == "disable":
+                    reaction_dict["reaction_type"] = "Disabled"
+                else:
+                    message = "'reactions' must be 'All', 'Disable', or a list of reaction IDs."
+                    raise InvalidInput(message)
             elif isinstance(reactions, list):
                 reaction_dict["reaction_type"] = "Selected"
                 reaction_dict["selected_reactions"] = reactions
             else:
-                raise InvalidInput(
-                    "'reactions' must be 'All', 'Disable', or a list of reaction IDs."
-                )
+                message = "'reactions' must be 'All', 'Disable', or a list of reaction IDs."
+                raise InvalidInput(message)
 
             input_data['chat_reaction_setting'] = reaction_dict
             updated_parameters.append('chat_reaction_setting')
@@ -138,7 +139,13 @@ class EditGroupInfo:
             updated_parameters.append('is_restricted_content')
 
         if chat_history_for_new_members is not None:
-            if chat_history_for_new_members not in ('Hidden', 'Visible'):
+            history_map = {
+                'hidden': 'Hidden',
+                'visible': 'Visible'
+            }
+            chat_history_for_new_members = history_map.get(chat_history_for_new_members.lower())
+
+            if not chat_history_for_new_members:
                 message = "'chat_history_for_new_members' argument can only be in 'Hidden' or 'Visible'."
                 raise InvalidInput(message)
 
@@ -154,29 +161,47 @@ class EditGroupInfo:
         return await self.request(method='editGroupInfo', input=input_data)
 
     def _validate_restricted_periods(self, periods: List[Dict[str, Union[List[str], str]]]) -> None:
+        from ..exceptions import InvalidInput
+
         valid_days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+        days_map = {day.lower(): day for day in valid_days}
 
         if not isinstance(periods, list):
-            raise InvalidInput("'restricted_period' must be a list.")
+            message = "'restricted_period' must be a list."
+            raise InvalidInput(message)
 
         for period in periods:
             if not isinstance(period, dict):
-                raise InvalidInput("Each period must be a dictionary.")
+                message = "Each period must be a dictionary."
+                raise InvalidInput(message)
 
             if 'days_of_week' not in period:
-                raise InvalidInput("Each period must have 'days_of_week' key.")
+                message = "Each period must have 'days_of_week' key."
+                raise InvalidInput(message)
 
             days = period['days_of_week']
             if not isinstance(days, list):
-                raise InvalidInput("'days_of_week' must be a list.")
+                message = "'days_of_week' must be a list."
+                raise InvalidInput(message)
 
             if not days:
-                raise InvalidInput("'days_of_week' cannot be empty.")
+                message = "'days_of_week' cannot be empty."
+                raise InvalidInput(message)
 
+            normalized_days = []
             for day in days:
-                if day not in valid_days:
+                if not isinstance(day, str):
                     message = f"Invalid day: {day}. Valid days are: {valid_days}"
                     raise InvalidInput(message)
+
+                normalized_day = days_map.get(day.lower())
+                if not normalized_day:
+                    message = f"Invalid day: {day}. Valid days are: {valid_days}"
+                    raise InvalidInput(message)
+
+                normalized_days.append(normalized_day)
+
+            period['days_of_week'] = normalized_days
 
             for time_key in ['from_time', 'to_time']:
                 if time_key not in period:
@@ -185,14 +210,15 @@ class EditGroupInfo:
 
                 time_str = period[time_key]
                 if not isinstance(time_str, str):
-                    raise InvalidInput(f"{time_key} must be a string.")
+                    message = f"{time_key} must be a string."
+                    raise InvalidInput(message)
 
                 try:
                     hours, minutes = map(int, time_str.split(':'))
-                    if not (0 <= hours <= 23) or not (0 <= minutes <= 59):
-                        raise InvalidInput()
-                    if len(time_str) != 5 or time_str[2] != ':':
-                        raise InvalidInput()
+                    valid = (0 <= hours <= 23) and (0 <= minutes <= 59) and len(time_str) == 5 and time_str[2] == ':'
                 except (ValueError, IndexError):
+                    valid = False
+
+                if not valid:
                     message = f"{time_key} must be in 'HH:MM' format (24-hour)."
-                    raise InvalidInput(message)
+                    raise InvalidInput(message) from None

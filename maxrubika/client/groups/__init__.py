@@ -1,5 +1,6 @@
 from .create_group import CreateGroup
 from .delete_group import DeleteGroup
+from .delete_no_access_group_chat import DeleteNoAccessGroupChat
 from .edit_group_info import EditGroupInfo
 from .edit_group_timer import EditGroupTimer
 from .edit_group_title import EditGroupTitle
@@ -24,6 +25,7 @@ from .unlock_group import UnlockGroup
 class Groups(
     CreateGroup,
     DeleteGroup,
+    DeleteNoAccessGroupChat,
     EditGroupInfo,
     EditGroupTimer,
     EditGroupTitle,

@@ -1,7 +1,10 @@
-from typing import Dict, Any, Optional, Union, List
-import re; import maxrubika
+import re
+from typing import Dict, Any, Optional, Union, List, TYPE_CHECKING
+
 from .keypad_mixin import KeypadMixin
-from .exceptions import InvalidInput
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class EditChatKeypad(KeypadMixin):
     async def edit_chat_keypad(
@@ -16,17 +19,14 @@ class EditChatKeypad(KeypadMixin):
 
         Parameters:
             chat_id (str): chat_id of the group (starts with 'g0') or user (starts with 'b0').
-            chat_keypad (Dict[str, Any] or List): The keyboard layout to set.
-                Supports three formats:
+            chat_keypad (Dict[str, Any] or List): The keyboard layout to set. Supports three formats:
 
                 1. Simple list of strings:
                     [
                         ["Button 1", "Button 2"],
                         ["Button 3"]
                     ]
-                    Each inner list is a row. Buttons are strings.
-                    The type is set to "Simple" and IDs are assigned automatically
-                    starting from 100.
+                    Each inner list is a row. Buttons are strings. The type is set to "Simple" and IDs are assigned automatically starting from 100.
 
                 2. List of tuples: (button_text, button_id, button_type)
                     [
@@ -36,11 +36,7 @@ class EditChatKeypad(KeypadMixin):
                         [("درباره", None), ("پشتیبانی", None)],
                         [("✅ تایید", "confirm"), ("❌ لغو", "cancel"), ("🔄 بازگشت", "back")],
                     ]
-                    Tuple structure: (text, id, type)
-                        - text: button text
-                        - id: button ID (if None, auto-assigned starting from 100)
-                        - type: button type (if omitted, defaults to "Simple")
-                    Note: comma after text is required for single-item tuples.
+                    Tuple structure: (text, id, type) - text: button text, id: button ID (if None, auto-assigned starting from 100), type: button type (if omitted, defaults to "Simple").
 
                 3. Full dictionary (raw API format):
                     {
@@ -50,17 +46,14 @@ class EditChatKeypad(KeypadMixin):
                         ]
                     }
 
-            resize_keyboard (bool, optional): Requests clients to resize the keyboard vertically.
-                Defaults to True.
-            one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used.
-                Defaults to False.
+            resize_keyboard (bool, optional): Requests clients to resize the keyboard vertically. Defaults to True.
+            one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used. Defaults to False.
 
         Returns:
             The API response after editing the chat keypad.
-
-        Raises:
-            InvalidInput: If 'chat_id' format is invalid, or if 'chat_keypad' is empty/None.
         """
+        from .exceptions import InvalidInput
+
         chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
         if not re.match(chat_id_regex, chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
@@ -74,11 +67,14 @@ class EditChatKeypad(KeypadMixin):
             normalized_keypad['resize_keyboard'] = resize_keyboard
             normalized_keypad['one_time_keyboard'] = one_time_keyboard
 
-        payload = {
+        input_data = {
             'chat_id': chat_id,
             'chat_keypad': normalized_keypad,
             'chat_keypad_type': 'New'
         }
-        payload = {k: v for k, v in payload.items() if v is not None}
+        input_data = {k: v for k, v in input_data.items() if v is not None}
 
-        return await self.request('POST', 'editChatKeypad', json = payload)
+        return await self.request(
+            method='editChatKeypad',
+            input=input_data
+        )

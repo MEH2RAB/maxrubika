@@ -1,7 +1,10 @@
-import maxrubika
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class CheckChannelUsername:
-    async def check_channel_username(self: "maxrubika.Client", username: str):
+    async def check_channel_username(self: "maxrubika.Messenger", username: str):
         """
         Check the availability of a username for a channel.
 
@@ -12,6 +15,6 @@ class CheckChannelUsername:
             The result of the API call.
         """
         return await self.request(
-            method = 'checkChannelUsername',
-            input = {'username': username.replace('@', '')}
+            method='checkChannelUsername',
+            input={'username': username.replace('@', '')}
         )

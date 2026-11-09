@@ -1,8 +1,10 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetGroupOnlineCount:
-    async def get_group_online_count(self: "maxrubika.Client", group: str):
+    async def get_group_online_count(self: "maxrubika.Messenger", group: str):
         """
         Retrieves the number of online members in a specified group.
 
@@ -12,10 +14,12 @@ class GetGroupOnlineCount:
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         group_guid = await self.get_guid(group)
 
         if not group_guid.startswith("g0"):
             message = f"'{group}' does not point to a valid group. Expected a group GUID or group link."
             raise InvalidInput(message)
 
-        return await self.request(method = 'getGroupOnlineCount', input = {'group_guid': group_guid})
+        return await self.request(method='getGroupOnlineCount', input={'group_guid': group_guid})

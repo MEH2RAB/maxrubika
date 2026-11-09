@@ -1,5 +1,8 @@
-import re; import maxrubika
-from .exceptions import InvalidInput
+import re
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class RemoveChatKeypad:
     async def remove_chat_keypad(self: "maxrubika.Bot", chat_id: str):
@@ -12,13 +15,19 @@ class RemoveChatKeypad:
         Returns:
             The API response after removing the chat keypad.
         """
+        from .exceptions import InvalidInput
+
         chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
 
         if not re.match(chat_id_regex, chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
 
-        payload = {
+        input_data = {
             'chat_id': chat_id,
             'chat_keypad_type': 'Remove'
         }
-        return await self.request('POST', 'editChatKeypad', json = payload)
+
+        return await self.request(
+            method='editChatKeypad',
+            input=input_data
+        )

@@ -1,10 +1,11 @@
-from typing import Union
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class SeenChannelMessages:
     async def seen_channel_messages(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         channel: str,
         min_id: Union[int, str],
         max_id: Union[int, str]
@@ -20,17 +21,21 @@ class SeenChannelMessages:
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         channel_guid = await self.get_guid(channel)
 
         if not channel_guid.startswith("c0"):
             message = f"'{channel}' does not point to a valid channel. Expected a channel GUID, channel link, or channel username."
             raise InvalidInput(message)
 
+        input_data = {
+            'channel_guid': channel_guid,
+            'min_id': min_id,
+            'max_id': max_id
+        }
+
         return await self.request(
-            method = 'seenChannelMessages',
-            input = {
-                'channel_guid': channel_guid,
-                'min_id': min_id,
-                'max_id': max_id
-            }
+            method='seenChannelMessages',
+            input=input_data
         )

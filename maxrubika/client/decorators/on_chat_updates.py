@@ -1,10 +1,14 @@
 import inspect
-import maxrubika
+from typing import TYPE_CHECKING
+
 from ..core import handlers
 from ..filters import Filter
 
+if TYPE_CHECKING:
+    import maxrubika
+
 class OnChatUpdates:
-    def on_chat_updates(self: "maxrubika.Client", *filters: Filter):
+    def on_chat_updates(self: "maxrubika.Messenger", *filters: Filter):
         """Decorator for chat updates with optional filters."""
         def MetaHandler(func):
             async def wrapper(event):

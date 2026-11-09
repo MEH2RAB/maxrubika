@@ -1,6 +1,7 @@
-from typing import Literal
-import maxrubika
-from .exceptions import InvalidInput, ServerError
+from typing import Literal, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class RequestSendFile:
     async def request_send_file(
@@ -11,9 +12,7 @@ class RequestSendFile:
         Request an upload URL for sending a file to the server.
 
         Parameters:
-            file_type (str): Type of file to upload.
-                Options: 'File', 'Image', 'Voice', 'Video', 'Music', 'Gif'.
-                Defaults to 'File'.
+            file_type (Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif']): Type of file to upload. Case-insensitive. Default is 'File'.
 
         Returns:
             str: Upload URL for the file.
@@ -25,18 +24,41 @@ class RequestSendFile:
             # Then upload file using that URL
             file_id = await bot.upload_file(upload_url, "photo.jpg")
         """
-        valid_types = ['File', 'Image', 'Voice', 'Video', 'Music', 'Gif']
-        if file_type not in valid_types:
-            message = f"Invalid 'file_type'. Must be one of: {valid_types}"
+        from ..data import Data
+        from .exceptions import InvalidInput, ServerError
+
+        type_map = {
+            'file': 'File',
+            'image': 'Image',
+            'voice': 'Voice',
+            'video': 'Video',
+            'music': 'Music',
+            'gif': 'Gif'
+        }
+
+        normalized_type = type_map.get(file_type.lower()) if isinstance(file_type, str) else None
+
+        if not normalized_type:
+            message = "'file_type' must be 'File', 'Image', 'Voice', 'Video', 'Music', or 'Gif'."
             raise InvalidInput(message)
 
-        payload = {'type': file_type}
-        result = await self.request('POST', 'requestSendFile', json = payload)
+        result = await self.request(
+            method='requestSendFile',
+            input={'type': normalized_type}
+        )
 
-        try:
-            return result["data"]["upload_url"]
+        if isinstance(result, dict):
+            result = Data(result)
 
-        except KeyError:
-            raise ServerError(
-                "Failed to get upload URL."
-            ) from None
+        data = result.find_keys('data')
+
+        if isinstance(data, dict):
+            data = Data(data)
+
+        upload_url = data.find_keys('upload_url')
+
+        if not upload_url:
+            message = "Failed to get upload URL."
+            raise ServerError(message)
+
+        return upload_url

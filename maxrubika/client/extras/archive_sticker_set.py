@@ -1,8 +1,11 @@
-import maxrubika
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class ArchiveStickerSet:
     async def archive_sticker_set(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         sticker_set_id: str
     ):
         """
@@ -14,10 +17,11 @@ class ArchiveStickerSet:
         Returns:
             The result of the API call.
         """
+        input_data = {
+            'sticker_set_id': sticker_set_id,
+            'action': 'Archive'
+        }
         return await self.request(
-            method = 'actionOnStickerSet',
-            input = {
-                'sticker_set_id': sticker_set_id,
-                'action': 'Archive'
-                }
-            )
+            method='actionOnStickerSet',
+            input=input_data
+        )

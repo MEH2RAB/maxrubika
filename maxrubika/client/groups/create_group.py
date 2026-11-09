@@ -1,16 +1,19 @@
 from pathlib import Path
-from typing import Union, List, Optional
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import Union, List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class CreateGroup:
     async def create_group(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         title: str,
         members: Union[str, List[str]],
         description: Optional[str] = None,
         avatar: Optional[Union[Path, str, bytes]] = None,
         thumbnail_avatar: Optional[Union[Path, str, bytes]] = None,
+        main_file_id: Optional[Union[str, int]] = None,
+        thumbnail_file_id: Optional[Union[str, int]] = None,
         *args, **kwargs
     ):
         """
@@ -18,18 +21,22 @@ class CreateGroup:
 
         Parameters:
             title (str): The title of the group.
-            members (Union[str, List[str]]): A single member GUID/Username or a list of member GUIDs/Usernames to be added to the group.
-            description (Optional[str]): Description of the group (optional). Defaults to None.
-            avatar (Optional[Union[Path, str, bytes]]): The image to be used as the group avatar. Default is None.
-            thumbnail_avatar (Optional[Union[Path, str, bytes]]): The image to be used as the group thumbnail avatar. Default is None.
+            members (Union[str, List[str]]): A single member GUID/Username or a list of member GUIDs/Usernames.
+            description (str, optional): Description of the group.
+            avatar (Path | str | bytes, optional): The image to be used as the group avatar.
+            thumbnail_avatar (Path | str | bytes, optional): The image to be used as the group thumbnail avatar.
+            main_file_id (Union[str, int], optional): Pre-uploaded main avatar file ID.
+            thumbnail_file_id (Union[str, int], optional): Pre-uploaded thumbnail avatar file ID.
 
         Returns:
             The result of the API call.
 
         Note:
-            If only `avatar` is provided, the thumbnail is taken from the same image.
-            If none of them are provided, no avatar is set for the group.
+            If a file ID is provided, the corresponding image is not uploaded.
+            If no thumbnail is provided, it is taken from the main image.
         """
+        from ..exceptions import InvalidInput
+
         if isinstance(members, str):
             members = [members]
 
@@ -51,10 +58,7 @@ class CreateGroup:
             guid = await self.get_guid(member)
 
             if not guid.startswith(("u0", "b0")):
-                message = (
-                    f"'{member}' does not point to a valid member. "
-                    "Expected a user GUID, bot GUID, or username."
-                )
+                message = f"'{member}' does not point to a valid member. Expected a user GUID, bot GUID, or username."
                 raise InvalidInput(message)
 
             member_guids.append(guid)
@@ -65,7 +69,7 @@ class CreateGroup:
             'description': description
         }
 
-        if avatar is not None:
+        if not main_file_id and avatar is not None:
             if isinstance(avatar, (str, Path)):
                 kwargs['file_name'] = kwargs.get(
                     'file_name',
@@ -75,7 +79,9 @@ class CreateGroup:
                 kwargs['file_name'] = kwargs.get('file_name', 'maxrubika.jpg')
 
             upload = await self.upload_file(avatar, *args, **kwargs)
+            main_file_id = upload.file_id
 
+        if not thumbnail_file_id and main_file_id:
             if thumbnail_avatar is not None:
                 if isinstance(thumbnail_avatar, (str, Path)):
                     kwargs['file_name'] = kwargs.get(
@@ -88,9 +94,12 @@ class CreateGroup:
                 upload_thumb = await self.upload_file(thumbnail_avatar, *args, **kwargs)
                 thumbnail_file_id = upload_thumb.file_id
             else:
-                thumbnail_file_id = upload.file_id
+                thumbnail_file_id = main_file_id
 
-            input_data['main_file_id'] = upload.file_id
+        if main_file_id:
+            input_data['main_file_id'] = main_file_id
+
+        if thumbnail_file_id:
             input_data['thumbnail_file_id'] = thumbnail_file_id
 
-        return await self.request(method = 'addGroup', input = input_data)
+        return await self.request(method='addGroup', input=input_data)

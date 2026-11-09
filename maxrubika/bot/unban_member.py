@@ -1,6 +1,8 @@
 import re
-import maxrubika
-from .exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class UnbanMember:
     async def unban_member(
@@ -16,8 +18,10 @@ class UnbanMember:
             sender_id (str): sender_id of member to unban.
 
         Returns:
-            dict: API response.
+            The API response.
         """
+        from .exceptions import InvalidInput
+
         chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
         sender_id_regex = r"^u0[a-zA-Z0-9]{30}$"
 
@@ -30,8 +34,12 @@ class UnbanMember:
         if not re.match(sender_id_regex, sender_id):
             raise InvalidInput("Invalid 'sender_id' format.")
 
-        payload = {
+        input_data = {
             'chat_id': chat_id,
             'user_id': sender_id
         }
-        return await self.request('POST', 'unbanChatMember', json = payload)
+
+        return await self.request(
+            method='unbanChatMember',
+            input=input_data
+        )

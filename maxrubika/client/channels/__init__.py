@@ -1,4 +1,5 @@
 from .check_channel_username import CheckChannelUsername
+from .check_channels_with_username import CheckChannelsWithUsername
 from .create_channel import CreateChannel
 from .delete_channel import DeleteChannel
 from .edit_channel_info import EditChannelInfo
@@ -21,6 +22,7 @@ from .update_channel_username import UpdateChannelUsername
 
 class Channels(
     CheckChannelUsername,
+    CheckChannelsWithUsername,
     CreateChannel,
     DeleteChannel,
     EditChannelInfo,

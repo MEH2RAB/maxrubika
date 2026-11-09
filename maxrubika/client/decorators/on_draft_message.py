@@ -1,10 +1,14 @@
 import inspect
-import maxrubika
+from typing import TYPE_CHECKING
+
 from ..core import handlers
 from ..filters import Filter
 
+if TYPE_CHECKING:
+    import maxrubika
+
 class OnDraftMessage:
-    def on_draft_message(self: "maxrubika.Client", *filters: Filter):
+    def on_draft_message(self: "maxrubika.Messenger", *filters: Filter):
         """Decorator for draft message updates."""
         def MetaHandler(func):
             async def wrapper(event):

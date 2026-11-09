@@ -26,7 +26,7 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
       auto_title: true
-      linenums: false
+      linenums: false      
   - pymdownx.inlinehilite
   - pymdownx.superfences
 

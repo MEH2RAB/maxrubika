@@ -5,12 +5,12 @@ import base64
 import sqlite3
 import secrets
 from hashlib import sha256, sha512, pbkdf2_hmac
-from Crypto.Cipher import AES
 
-suffix = '.max'
+suffix = '.maxrubika'
 _DB_KEY = sha256(b'maxrubika_session_full_encrypt_v2').digest()
 
 def _encrypt(data: dict) -> bytes:
+    from Crypto.Cipher import AES
     plaintext = json.dumps(data).encode('utf-8')
     nonce = os.urandom(12)
     cipher = AES.new(_DB_KEY, AES.MODE_GCM, nonce=nonce)
@@ -18,6 +18,7 @@ def _encrypt(data: dict) -> bytes:
     return nonce + tag + ciphertext
 
 def _decrypt(data: bytes) -> dict:
+    from Crypto.Cipher import AES
     nonce = data[:12]
     tag = data[12:28]
     ciphertext = data[28:]
@@ -54,14 +55,14 @@ def _read_json_session(filename: str):
             'agent': user.get('user_agent', 'Mozilla/5.0') or data.get('agent', 'Mozilla/5.0'),
             'private_key': data.get('private_key', '') or data.get('Key', '')
         }
-    except:
+    except Exception:
         return None
 
 def _find_session(filename_without_ext: str):
-    for ext in ['.max', '.rp', '.pyrubi', '.rubka', '.json']:
+    for ext in ['.maxrubika', '.max', '.rp', '.pyrubi', '.rubka', '.json']:
         full_path = filename_without_ext + ext
         if os.path.exists(full_path):
-            if ext == '.max':
+            if ext in ('.maxrubika', '.max'):
                 try:
                     conn = sqlite3.connect(full_path)
                     cursor = conn.cursor()
@@ -70,12 +71,15 @@ def _find_session(filename_without_ext: str):
                     conn.close()
                     if row and row[0]:
                         return _decrypt(row[0]), ext
-                except:
+                except Exception:
                     pass
             elif ext == '.rp':
-                data = _read_rp_session(full_path)
-                if data:
-                    return data, ext
+                try:
+                    data = _read_rp_session(full_path)
+                    if data:
+                        return data, ext
+                except Exception:
+                    pass
             elif ext in ('.pyrubi', '.rubka', '.json'):
                 data = _read_json_session(full_path)
                 if data and data.get('auth'):
@@ -101,6 +105,7 @@ class StringSession:
 
     @classmethod
     def _encrypt_layer(cls, data: bytes, key: bytes) -> bytes:
+        from Crypto.Cipher import AES
         nonce = secrets.token_bytes(12)
         cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
         ciphertext, tag = cipher.encrypt_and_digest(data)
@@ -109,6 +114,7 @@ class StringSession:
 
     @classmethod
     def _decrypt_layer(cls, data: bytes, key: bytes) -> bytes:
+        from Crypto.Cipher import AES
         nonce = data[:12]
         tag = data[12:28]
         ciphertext = cls._xor(data[28:], sha512(key + nonce).digest())
@@ -117,7 +123,6 @@ class StringSession:
 
     @classmethod
     def from_data(cls, data: dict, password: str = None) -> "StringSession":
-
         json_str = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
         compressed = zlib.compress(json_str.encode(), level=9)
         combined = sha512(compressed).digest() + compressed
@@ -175,7 +180,15 @@ class Session:
             self.is_logged_in = True
             return
 
-        self.filename = session if session and session.endswith(suffix) else f"{session}{suffix}"
+        if session:
+            base = os.path.basename(session)
+            if '.' in base:
+                self.filename = session
+            else:
+                self.filename = f"{session}{suffix}"
+        else:
+            self.filename = f"{session}{suffix}"
+
         self.create_file = create_file
 
         if os.path.exists(self.filename) and not create_file:
@@ -185,7 +198,6 @@ class Session:
                 self.is_logged_in = True
             else:
                 self.close()
-                os.remove(self.filename)
                 self._connection = None
                 self._cursor = None
 
@@ -203,6 +215,27 @@ class Session:
                     imported_data.get('private_key')
                 )
                 self.is_logged_in = True
+
+                from rich.console import Console
+                from rich.text import Text
+
+                console = Console()
+                text = Text()
+                text.append("Session migrated from ", style="cyan")
+                text.append(base_name + ext, style="bold yellow")
+                text.append(" to ", style="cyan")
+                text.append(self.filename, style="bold green")
+
+                if ext == '.max':
+                    try:
+                        os.remove(base_name + ext)
+                        text.append("\nOld '.max' file deleted.\n", style="dim")
+                    except Exception:
+                        text.append("\nCould not delete old '.max' file.\n", style="yellow")
+                else:
+                    text.append("\nOld file kept.\n", style="dim")
+
+                console.print(text)
 
         elif create_file:
             self._initialize_database()
@@ -276,7 +309,7 @@ class Session:
         info = session_obj.information()
         if file_name is None:
             if info is None or not info[0]:
-                raise ValueError('file_name arg is not set')
+                raise ValueError('file_name arg is not set.')
             file_name = info[0]
         session_instance = cls(file_name, create_file=(info is None))
         if info is not None:
@@ -294,5 +327,5 @@ class Session:
     def __del__(self):
         try:
             self.close()
-        except:
+        except Exception:
             pass

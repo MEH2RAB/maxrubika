@@ -3,12 +3,6 @@ import json
 import base64
 import string
 import secrets
-from Crypto.Cipher import AES
-from Crypto.Hash import SHA256
-from Crypto.Signature import pkcs1_15
-from Crypto.Util.Padding import pad, unpad
-from Crypto.PublicKey import RSA
-from Crypto.Cipher import PKCS1_OAEP
 from string import ascii_lowercase, ascii_uppercase
 
 class Cipher:
@@ -41,7 +35,7 @@ class Cipher:
     @classmethod
     def passphrase(cls, auth):
         if len(auth) != 32:
-            raise ValueError("auth length should be 32 digits")
+            raise ValueError("auth length should be 32 digits.")
 
         result_list = []
         chunks = re.findall(r"\S{8}", auth)
@@ -52,7 +46,7 @@ class Cipher:
     @classmethod
     def secret_v5(cls, auth: str) -> str:
         if len(auth) != 32:
-            raise ValueError("auth length should be 32 digits")
+            raise ValueError("auth length should be 32 digits.")
 
         t = auth[0:8]
         i = auth[8:16]
@@ -74,6 +68,9 @@ class Cipher:
 
     @classmethod
     def decrypt(cls, data, key):
+        from Crypto.Cipher import AES
+        from Crypto.Util.Padding import unpad
+
         aes = AES.new(key.encode(), AES.MODE_CBC, cls.AES_IV)
         dec = aes.decrypt(base64.urlsafe_b64decode(data.encode("UTF-8")))
         dec_res = unpad(dec, AES.block_size).decode("UTF-8")
@@ -85,6 +82,9 @@ class Cipher:
 
     @classmethod
     def decrypt_v5(cls, data: str, key: str):
+        from Crypto.Cipher import AES
+        from Crypto.Util.Padding import unpad
+
         key_bytes = key.encode() if isinstance(key, str) else key
         aes = AES.new(key_bytes, AES.MODE_CBC, cls.AES_IV)
         dec = aes.decrypt(base64.urlsafe_b64decode(data.encode("UTF-8")))
@@ -93,6 +93,9 @@ class Cipher:
 
     @classmethod
     def encrypt(cls, data: str, key: str):
+        from Crypto.Cipher import AES
+        from Crypto.Util.Padding import pad
+
         if isinstance(data, dict):
             data = json.dumps(data)
         raw = pad(data.encode("UTF-8"), AES.block_size)
@@ -101,6 +104,9 @@ class Cipher:
 
     @classmethod
     def encrypt_v5(cls, data: str, key: str):
+        from Crypto.Cipher import AES
+        from Crypto.Util.Padding import pad
+
         if isinstance(data, dict):
             data = json.dumps(data)
         key_bytes = key.encode() if isinstance(key, str) else key
@@ -109,12 +115,14 @@ class Cipher:
         return base64.b64encode(aes.encrypt(raw)).decode("UTF-8")
 
     @staticmethod
-    def sign(pkcs1_15_obj: "pkcs1_15.new", data: str) -> str:
+    def sign(pkcs1_15_obj, data: str) -> str:
+        from Crypto.Hash import SHA256
         signature = pkcs1_15_obj.sign(SHA256.new(data.encode("utf-8")))
         return base64.b64encode(signature).decode("utf-8")
 
     @staticmethod
     def create_keys() -> tuple:
+        from Crypto.PublicKey import RSA
         keys = RSA.generate(2048)
         public_key = Cipher.decode_auth(
             base64.b64encode(keys.publickey().export_key()).decode("utf-8")
@@ -124,5 +132,7 @@ class Cipher:
 
     @staticmethod
     def decrypt_RSA_OAEP(private_key: str, data: str):
+        from Crypto.PublicKey import RSA
+        from Crypto.Cipher import PKCS1_OAEP
         key = RSA.import_key(private_key.encode("utf-8"))
         return PKCS1_OAEP.new(key).decrypt(base64.b64decode(data)).decode("utf-8")

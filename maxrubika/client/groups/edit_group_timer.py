@@ -1,13 +1,17 @@
-import typing
-import maxrubika
+from typing import Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class EditGroupTimer:
     async def edit_group_timer(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         group: str,
-        timer: typing.Union[str, int]
+        timer: Union[str, int]
     ):
         """
+        Edit the slow mode timer for a group.
+
         Parameters:
             group (str): The GUID or link of the group.
             timer (Union[str, int]): The new slow mode setting for the group.
@@ -15,4 +19,4 @@ class EditGroupTimer:
         Returns:
             The result of the API call.
         """
-        return await self.edit_group_info(group = group, slow_mode = timer)
+        return await self.edit_group_info(group=group, slow_mode=timer)

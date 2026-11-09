@@ -1,18 +1,21 @@
 import re
 import os
-import aiohttp
 import asyncio
-import datetime
 import base64
+import datetime
 import logging
-import maxrubika
+from typing import Optional, Callable, Union, Dict, Any, TYPE_CHECKING
+
 from .file_extensions import FILE_EXTENSIONS
-from .exceptions import InvalidInput, InvalidAccess, Network
+
+if TYPE_CHECKING:
+    import aiohttp
+    import maxrubika
 
 logger = logging.getLogger(__name__)
 
 class DownloadFile:
-    def _validate_filename(self, name: str) -> str:
+    def _validate_filename(self, name: str) -> Optional[str]:
         if not name or len(name) > 200:
             return None
 
@@ -21,7 +24,7 @@ class DownloadFile:
             return None
         return name.strip()
 
-    def _validate_path(self, path: str) -> str:
+    def _validate_path(self, path: str) -> Optional[str]:
         if not path:
             return None
 
@@ -31,7 +34,7 @@ class DownloadFile:
         if not os.path.exists(path):
             try:
                 os.makedirs(path, exist_ok=True)
-            except:
+            except Exception:
                 return None
 
         return path
@@ -46,7 +49,10 @@ class DownloadFile:
             size /= 1024.0
         return f"{size:.1f} TB"
 
-    async def _download_with_retry(self, download_url: str):
+    async def _download_with_retry(self, download_url: str) -> bytes:
+        import aiohttp
+        from .exceptions import Network
+
         max_retries = getattr(self, 'max_retries', 5)
         last_error = None
 
@@ -55,12 +61,13 @@ class DownloadFile:
                 async with aiohttp.ClientSession() as session:
                     async with session.get(download_url) as response:
                         if response.status == 502:
-                            logger.warning(f"Bad Gateway (502) - Attempt {attempt + 1}/{max_retries}")
+                            logger.warning(
+                                f"Bad Gateway (502) - Attempt {attempt + 1}/{max_retries}"
+                            )
                             if attempt < max_retries - 1:
                                 await asyncio.sleep(2 ** attempt)
                                 continue
-                            else:
-                                raise Network("Download failed: Server temporarily unavailable.")
+                            raise Network("Download failed: Server temporarily unavailable.")
 
                         if response.status != 200:
                             message = f"Download failed: Server error {response.status}"
@@ -71,28 +78,29 @@ class DownloadFile:
             except aiohttp.ClientError as e:
                 last_error = e
                 if attempt < max_retries - 1:
-                    logger.warning(f"Connection issue - Attempt {attempt + 1}/{max_retries}: {e}")
+                    logger.warning(
+                        f"Connection issue - Attempt {attempt + 1}/{max_retries}: {e}"
+                    )
                     await asyncio.sleep(2 ** attempt)
                     continue
-                else:
-                    message = f"Download failed after multiple attempts: {last_error}"
-                    raise Network(message)
+                message = f"Download failed after multiple attempts: {last_error}"
+                raise Network(message)
 
         if last_error:
             raise Exception(f"Download failed: {last_error}")
-        return None
+        return b''
 
     async def download_file(
-        self: "maxrubika.Bot", 
-        file_id: str, 
-        name: str = None, 
-        path: str = None,
+        self: "maxrubika.Bot",
+        file_id: str,
+        name: Optional[str] = None,
+        path: Optional[str] = None,
         save_as: bool = False,
         as_base64: bool = False,
-        callback = None
-    ):
+        callback: Optional[Callable[[int, int, float], None]] = None
+    ) -> Dict[str, Any]:
         """
-        Downloads the file associated with the specified file ID.
+        Download the file associated with the specified file ID.
 
         Parameters:
             file_id (str): The identifier of the file to download.
@@ -103,10 +111,12 @@ class DownloadFile:
             callback (callable, optional): Progress callback function(downloaded, total, percent). Defaults to None.
 
         Returns:
-            If save_as = True: dict with status and file_path.
-            If save_as = False and as_base64 = False: bytes of the file.
-            If save_as = False and as_base64 = True: base64 encoded string.
+            dict: Contains 'status', and one of 'file_path' (if save_as=True), 'data' (bytes if save_as=False), or 'base64' (if as_base64=True). Also includes 'size'.
         """
+        import aiohttp
+        from ..data import Data
+        from .exceptions import InvalidInput, InvalidAccess
+
         file_response = await self.get_file(file_id)
 
         if file_response.get("status") != "OK":
@@ -120,25 +130,24 @@ class DownloadFile:
                     async with session.head(download_url, allow_redirects=True) as head_response:
                         if head_response.status == 502:
                             if attempt < self.max_retries - 1:
-                                logger.warning(f"Getting file info (502) - Attempt {attempt + 1}/{self.max_retries}")
+                                logger.warning(
+                                    f"Getting file info (502) - Attempt {attempt + 1}/{self.max_retries}"
+                                )
                                 await asyncio.sleep(2 ** attempt)
                                 continue
-                            else:
-                                content_type = 'application/octet-stream'
-                                total_size = 0
+                            content_type = 'application/octet-stream'
                         else:
                             content_type = head_response.headers.get('Content-Type', '')
-                            total_size = int(head_response.headers.get('Content-Length', 0))
                         break
                 except Exception as e:
                     if attempt < self.max_retries - 1:
-                        logger.warning(f"Cannot get file info - Attempt {attempt + 1}/{self.max_retries}: {e}")
+                        logger.warning(
+                            f"Cannot get file info - Attempt {attempt + 1}/{self.max_retries}: {e}"
+                        )
                         await asyncio.sleep(2 ** attempt)
                         continue
-                    else:
-                        content_type = 'application/octet-stream'
-                        total_size = 0
-                        break
+                    content_type = 'application/octet-stream'
+                    break
 
             file_ext = self._get_file_extension(content_type)
 
@@ -168,19 +177,31 @@ class DownloadFile:
 
             file_data = await self._download_with_retry(download_url)
 
+            if callback:
+                callback(len(file_data), len(file_data), 100.0)
+
             if save_as:
                 with open(full_path, 'wb') as f:
                     f.write(file_data)
 
-                if callback:
-                    callback(len(file_data), len(file_data), 100.0)
-
-                return {"status": "OK", "file_path": full_path, "size": self._format_size(len(file_data))}
+                result_dict = {
+                    'status': 'OK',
+                    'file_path': full_path,
+                    'size': self._format_size(len(file_data))
+                }
+            elif as_base64:
+                result_dict = {
+                    'status': 'OK',
+                    'base64': base64.b64encode(file_data).decode('utf-8'),
+                    'size': self._format_size(len(file_data))
+                }
             else:
-                if callback:
-                    callback(len(file_data), len(file_data), 100.0)
+                result_dict = {
+                    'status': 'OK',
+                    'data': file_data,
+                    'size': self._format_size(len(file_data))
+                }
 
-                if as_base64:
-                    return base64.b64encode(file_data).decode('utf-8')
-
-                return file_data
+            if getattr(self, 'as_dict', False):
+                return result_dict
+            return Data(result_dict)

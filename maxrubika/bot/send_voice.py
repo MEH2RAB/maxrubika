@@ -1,5 +1,7 @@
-from typing import Optional, Union, Dict, Any
-import maxrubika
+from typing import Optional, Union, Dict, Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class SendVoice:
     async def send_voice(
@@ -10,8 +12,8 @@ class SendVoice:
         file_id: Optional[str] = None,
         base64: Optional[str] = None,
         file_name: Optional[str] = None,
-        chat_keypad: Dict[str, Any] = None,
-        inline_keypad: Dict[str, Any] = None,
+        chat_keypad: Optional[Dict[str, Any]] = None,
+        inline_keypad: Optional[Dict[str, Any]] = None,
         reply_to_message_id: Optional[Union[int, str]] = None,
         disable_notification: bool = False,
         resize_keyboard: bool = True,
@@ -35,7 +37,7 @@ class SendVoice:
             one_time_keyboard (bool): Hide keyboard after use.
 
         Returns:
-            dict: API response with message information.
+            API response with message information.
         """
         return await self.send_file(
             chat_id=chat_id,

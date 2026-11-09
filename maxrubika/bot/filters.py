@@ -180,6 +180,25 @@ class TextMatch(EventConstraint):
             return True
         return False
 
+class TextEquals(EventConstraint):
+    """
+    Matches when the event text exactly equals one of the given values
+    (case-sensitive).
+
+    Usage::
+
+        TextEquals("hello")
+        TextEquals(["yes", "no", "بله", "خیر"])
+    """
+    def __init__(self, values: Union[str, List[str]]) -> None:
+        self._values: List[str] = [values] if isinstance(values, str) else list(values)
+
+    async def evaluate(self, event: Any) -> bool:
+        text = getattr(event, 'text', None)
+        if text is None:
+            return False
+        return text in self._values
+
 class Command(EventConstraint):
     """
     Matches when the event text begins with a bot command like ``/start``.
@@ -503,7 +522,6 @@ class IsAdmin(EventConstraint):
             return False
 
         return await bot.member_is_admin(chat_id, author_id)
-
 
 class IsOwner(EventConstraint):
     """

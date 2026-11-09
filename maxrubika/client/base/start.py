@@ -1,32 +1,20 @@
 import os
 import re
 import asyncio
-from ..core.cipher import Cipher
-from Crypto.PublicKey import RSA
-from Crypto.Signature import pkcs1_15
-import maxrubika
-from ..exceptions import (
-    InvalidInput,
-    NotRegistered,
-    InvalidAccess
-)
-from ..core.configs import (
-    PLATFORMS,
-    RUBIKA_PLATFORM_NAMES,
-    RUBIKA_PLATFORM_ALIASES,
-    SHAD_PLATFORM_NAMES,
-    SHAD_PLATFORM_ALIASES,
-    PLATFORM_NAME_TO_KEY
-)
+from typing import Optional, TYPE_CHECKING
+
 from rich.console import Console
 from rich.text import Text
+
+if TYPE_CHECKING:
+    import maxrubika
 
 console = Console()
 
 def convert_farsi_digits(text):
     return text.translate(str.maketrans("۰۱۲۳۴۵۶۷۸۹", "0123456789"))
 
-def normalize_phone_number(phone: str) -> str:
+def normalize_phone_number(phone: str) -> Optional[str]:
     phone = convert_farsi_digits(phone)
     phone = re.sub(r'[\s\-\.\(\)\+]', '', phone)
 
@@ -47,7 +35,7 @@ def normalize_phone_number(phone: str) -> str:
     return None
 
 class Start:
-    async def start(self: "maxrubika.Client", phone_number: str = None):
+    async def start(self: "maxrubika.Messenger", phone_number: Optional[str] = None):
         """
         Start the client, handling authentication and registration.
 
@@ -55,8 +43,26 @@ class Start:
             phone_number (str, optional): Phone number for registration.
 
         Returns:
-            Client: The initialized client instance.
+            Messenger: The initialized client instance.
         """
+        from ...data import Data
+        from ..core.cipher import Cipher
+        from ..core.configs import (
+            PLATFORMS,
+            RUBIKA_PLATFORM_NAMES,
+            RUBIKA_PLATFORM_ALIASES,
+            SHAD_PLATFORM_NAMES,
+            SHAD_PLATFORM_ALIASES,
+            PLATFORM_NAME_TO_KEY
+        )
+        from ..exceptions import (
+            InvalidInput,
+            NotRegistered,
+            InvalidAccess
+        )
+        from Crypto.PublicKey import RSA
+        from Crypto.Signature import pkcs1_15
+
         if not hasattr(self, 'connection'):
             await self.connect()
 
@@ -78,11 +84,17 @@ class Start:
                 tried_platforms.append(p)
 
         try:
-            if self.auth is None or self.private_key is None:
-                raise NotRegistered
+            if self.API_VERSION == 5:
+                if self.auth is None:
+                    raise NotRegistered
+            else:
+                if self.auth is None or self.private_key is None:
+                    raise NotRegistered
 
             self.decode_auth = Cipher.decode_auth(self.auth)
-            self.import_key = pkcs1_15.new(RSA.import_key(self.private_key.encode()))
+
+            if self.private_key is not None:
+                self.import_key = pkcs1_15.new(RSA.import_key(self.private_key.encode()))
 
             for platform in tried_platforms:
                 if platform != self.DEFAULT_PLATFORM['platform']:
@@ -102,6 +114,8 @@ class Start:
 
                 try:
                     result = await self.get_me()
+                    if isinstance(result, dict):
+                        result = Data(result)
                     self.guid = result.user.user_guid
                     self.logger.info('user', extra={'guid': result})
                     return self
@@ -261,7 +275,7 @@ class Start:
                     private_key=self.private_key
                 )
 
-                session_path = os.path.abspath(f"{self.session_path}.max")
+                session_path = os.path.abspath(f"{self.session_path}.maxrubika")
                 session_text = Text()
                 session_text.append("\nSession saved to ", style="green")
                 session_text.append(session_path, style="bold green")
@@ -272,7 +286,7 @@ class Start:
                 await self.register_device(device_model)
                 await asyncio.sleep(2)
                 await self.get_me()
-                await self.get_chats(auto_start_id=False)
+                await self.get_chats(all_pages=False)
                 return self
 
             elif result.status == 'CodeIsInvalid':

@@ -1,14 +1,11 @@
-from typing import Optional
-import aiohttp
-import re
-import maxrubika
-from ...data import Data
-from ..exceptions import InvalidInput
-from ..core.configs import PLATFORMS
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetChannelPostByLink:
     async def get_channel_post_by_link(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         url: str
     ):
         """
@@ -20,40 +17,58 @@ class GetChannelPostByLink:
         Returns:
             Channel info and message data.
         """
+        import re
+        from ...data import Data
+        from ..exceptions import InvalidInput
+
         result = await self.request(method='getLinkFromAppUrl', input={'app_url': url})
-        info = result.to_dict() if hasattr(result, 'to_dict') else result
 
-        if 'link' not in info:
+        if isinstance(result, dict):
+            result = Data(result)
+
+        link_data = result.find_keys('link')
+        if not link_data:
             raise InvalidInput()
 
-        link_data = info['link']
+        if isinstance(link_data, dict):
+            link_data = Data(link_data)
 
-        if 'open_chat_data' not in link_data:
+        open_chat_data = link_data.find_keys('open_chat_data')
+        if not open_chat_data:
             raise InvalidInput()
 
-        open_chat_data = link_data['open_chat_data']
+        if isinstance(open_chat_data, dict):
+            open_chat_data = Data(open_chat_data)
 
-        if 'message_id' not in open_chat_data or 'object_guid' not in open_chat_data:
+        message_id = open_chat_data.find_keys('message_id')
+        channel_guid = open_chat_data.find_keys('object_guid')
+
+        if not message_id or not channel_guid:
             raise InvalidInput()
-
-        message_id = open_chat_data['message_id']
-        channel_guid = open_chat_data['object_guid']
 
         channel_info = await self.get_channel_info(channel_guid)
-        channel_data = channel_info.to_dict() if hasattr(channel_info, 'to_dict') else channel_info
-        channel = channel_data.get('channel', {})
+
+        if isinstance(channel_info, dict):
+            channel_info = Data(channel_info)
+
+        channel = channel_info.find_keys('channel') or {}
+
+        if isinstance(channel, dict):
+            channel = Data(channel)
 
         message_result = await self.get_message_info(channel_guid, message_id)
-        message_data = message_result.to_dict() if hasattr(message_result, 'to_dict') else message_result
+
+        if isinstance(message_result, dict):
+            message_result = Data(message_result)
 
         result_dict = {
-            "channel_guid": channel.get('channel_guid'),
-            "channel_title": channel.get('channel_title'),
-            "description": channel.get('description'),
-            "username": channel.get('username'),
-            "members_count": channel.get('count_members'),
-            "message": message_data.get('message'),
-            "timestamp": message_data.get('timestamp'),
+            "channel_guid": channel.find_keys('channel_guid'),
+            "channel_title": channel.find_keys('channel_title'),
+            "description": channel.find_keys('description'),
+            "username": channel.find_keys('username'),
+            "members_count": channel.find_keys('count_members'),
+            "message": message_result.find_keys('message'),
+            "timestamp": message_result.find_keys('timestamp'),
         }
 
         if not self._original_platform.startswith('shad'):
@@ -61,9 +76,14 @@ class GetChannelPostByLink:
             if ask_spam_link:
                 result_dict["ask_spam_link"] = ask_spam_link
 
+        if getattr(self, 'as_dict', False):
+            return result_dict
+
         return Data(result_dict)
 
     async def _get_ask_spam_link(self, url: str) -> Optional[str]:
+        import re
+
         if self._original_platform.startswith('shad'):
             return None
 
@@ -85,6 +105,8 @@ class GetChannelPostByLink:
         return None
 
     async def _fetch_html(self, url: str) -> Optional[str]:
+        import aiohttp
+
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0 Safari/537.36",
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",

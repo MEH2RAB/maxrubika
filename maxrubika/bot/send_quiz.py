@@ -1,8 +1,11 @@
-from typing import Union, Dict, Any, Optional, List
-import re; import maxrubika
+import re
+from typing import Union, Dict, Any, Optional, List, TYPE_CHECKING
+
 from .keypad_mixin import KeypadMixin
-from .exceptions import InvalidInput
 from .message_result import MessageResult
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class SendQuiz(KeypadMixin):
     async def send_quiz(
@@ -27,19 +30,22 @@ class SendQuiz(KeypadMixin):
             chat_id (str): chat_id of the object associated with the quiz (e.g., group or channel).
             question (str): The question for the quiz.
             options (list): A list of string values representing the quiz options.
-            correct_option: Union[int, str]: The index or text of the correct option for quiz-type polls.
-            hint (str): A hint for the correct answer in quiz-type polls. Defaults to None.
+            correct_option (Union[int, str]): The index or text of the correct option for quiz-type polls.
+            hint (str, optional): A hint for the correct answer in quiz-type polls. Defaults to None.
             is_anonymous (bool): Whether the poll is anonymous or not. Defaults to True.
             chat_keypad (Dict, optional): Custom keyboard attached to the message.
             inline_keypad (Dict, optional): Custom inline keyboard attached to the message.
-            reply_to_message_id (Union[str, int]): The ID of the message to reply to.
+            reply_to_message_id (Union[int, str]): The ID of the message to reply to.
             disable_notification (bool): If set to True, the poll will be sent silently without triggering a notification for users. Defaults to False.
             resize_keyboard (bool): Resize keyboard vertically.
             one_time_keyboard (bool): Hide keyboard after use.
 
         Returns:
-            dict: API response with message information.
+            API response with message information.
         """
+        from ..data import Data
+        from .exceptions import InvalidInput
+
         chat_id_regex = r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$"
 
         if not re.match(chat_id_regex, chat_id):
@@ -75,18 +81,15 @@ class SendQuiz(KeypadMixin):
                         found = True
                         break
                 if not found:
-                    raise InvalidInput(
-                        f"'correct_option' must be a valid index (0-{len(options)-1}) "
-                        f"or one of the option texts: {options}"
-                    )
+                    message = f"'correct_option' must be a valid index (0-{len(options)-1}) or one of the option texts: {options}"
+                    raise InvalidInput(message)
+
         if not isinstance(correct_option, int):
             raise InvalidInput("'correct_option' must be an integer or string.")
 
         if correct_option < 0 or correct_option >= len(options):
-            raise InvalidInput(
-                f"'correct_option' must be between 0 and {len(options) - 1}. "
-                f"You provided: {correct_option}"
-            )
+            message = f"'correct_option' must be between 0 and {len(options) - 1}. You provided: {correct_option}"
+            raise InvalidInput(message)
 
         if hint and len(hint) > 200:
             raise InvalidInput("The 'hint' field must not exceed 200 characters.")
@@ -94,7 +97,7 @@ class SendQuiz(KeypadMixin):
         normalized_chat_keypad = self._normalize_keypad(chat_keypad, is_inline=False)
         normalized_inline_keypad = self._normalize_keypad(inline_keypad, is_inline=True)
 
-        payload = {
+        input_data = {
             'chat_id': chat_id,
             'question': question,
             'options': options,
@@ -105,22 +108,29 @@ class SendQuiz(KeypadMixin):
         }
 
         if hint:
-            payload['explanation'] = hint
+            input_data['explanation'] = hint
 
         if reply_to_message_id is not None:
-            payload['reply_to_message_id'] = reply_to_message_id
+            input_data['reply_to_message_id'] = reply_to_message_id
 
         if normalized_chat_keypad:
             normalized_chat_keypad['resize_keyboard'] = resize_keyboard
             normalized_chat_keypad['one_time_keyboard'] = one_time_keyboard
-            payload['chat_keypad'] = normalized_chat_keypad
-            payload['chat_keypad_type'] = 'New'
+            input_data['chat_keypad'] = normalized_chat_keypad
+            input_data['chat_keypad_type'] = 'New'
 
         if normalized_inline_keypad:
-            payload['inline_keypad'] = normalized_inline_keypad
+            input_data['inline_keypad'] = normalized_inline_keypad
 
-        payload = {k: v for k, v in payload.items() if v is not None}
-        result = await self.request('POST', 'sendPoll', json = payload)
+        input_data = {k: v for k, v in input_data.items() if v is not None}
+
+        result = await self.request(
+            method='sendPoll',
+            input=input_data
+        )
+
+        if isinstance(result, dict):
+            result = Data(result)
 
         message_id = result.find_keys("message_id")
         if message_id is not None:

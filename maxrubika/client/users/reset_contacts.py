@@ -1,7 +1,10 @@
-import maxrubika
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class ResetContacts:
-    async def reset_contacts(self: "maxrubika.Client"):
+    async def reset_contacts(self: "maxrubika.Messenger"):
         """
         Reset all saved contacts for the authenticated user.
 
@@ -10,4 +13,4 @@ class ResetContacts:
         Returns:
             The result of the API call.
         """
-        return await self.request(method = 'resetContacts')
+        return await self.request(method='resetContacts')

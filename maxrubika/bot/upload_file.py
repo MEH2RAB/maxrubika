@@ -1,12 +1,13 @@
-import aiohttp
+import os
 import asyncio
 import logging
-import os
 import mimetypes
 import base64 as b64
-from typing import Optional, Union
-import maxrubika
-from .exceptions import APIException, BadGateway, ServerError, InvalidInput, Timeout
+from typing import Optional, Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import aiohttp
+    import maxrubika
 
 logger = logging.getLogger(__name__)
 
@@ -21,11 +22,10 @@ class UploadFile:
         """
         Upload a file to the server and return file_id.
 
-        Supports: local path, URL, raw bytes, base64.
-        The entire file is uploaded in a single request.
+        Supports local path, URL, raw bytes, and base64. The entire file is uploaded in a single request.
 
         Parameters:
-            url (str): Upload URL from ``request_send_file``.
+            url (str): Upload URL from `request_send_file`.
             file (str | bytes, optional): Path, URL, or raw bytes.
             base64 (str, optional): Base64-encoded file data.
             file_name (str, optional): Name of the file. Auto-detected when possible.
@@ -33,6 +33,9 @@ class UploadFile:
         Returns:
             Optional[str]: file_id or None if failed.
         """
+        import aiohttp
+        from .exceptions import APIException, BadGateway, ServerError, InvalidInput, Timeout
+
         if base64:
             try:
                 file = b64.b64decode(base64)
@@ -124,6 +127,8 @@ class UploadFile:
         return None
 
     async def _download_url(self, url: str) -> bytes:
+        from .exceptions import InvalidInput
+
         session = await self._get_session()
         logger.info(f"Downloading from {url}...")
         async with session.get(url) as resp:

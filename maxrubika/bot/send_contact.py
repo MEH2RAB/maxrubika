@@ -1,8 +1,11 @@
-from typing import Union, Dict, Any, Optional, List
-import re; import maxrubika
+import re
+from typing import Union, Dict, Any, Optional, List, TYPE_CHECKING
+
 from .keypad_mixin import KeypadMixin
-from .exceptions import InvalidInput
 from .message_result import MessageResult
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class SendContact(KeypadMixin):
     async def send_contact(
@@ -25,7 +28,7 @@ class SendContact(KeypadMixin):
             chat_id (str): chat_id for the target chat.
             phone_number (str): Contact's phone number.
             first_name (str): Contact's first name.
-            last_name (str, optional): Contact's last name. Defaults to ' '.
+            last_name (str, optional): Contact's last name. Defaults to ''.
             chat_keypad (Dict[str, Any], optional): Custom keyboard attached to the message. Defaults to None.
             inline_keypad (Dict[str, Any], optional): Custom inline keyboard attached to the message. Defaults to None.
             reply_to_message_id (Union[int, str], optional): If the message is a reply, the original message's ID. Defaults to None.
@@ -34,8 +37,11 @@ class SendContact(KeypadMixin):
             one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used. Defaults to False.
 
         Returns:
-            dict: API response with message information.
+            API response with message information.
         """
+        from ..data import Data
+        from .exceptions import InvalidInput
+
         if not re.match(r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$", chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
 
@@ -48,7 +54,7 @@ class SendContact(KeypadMixin):
         normalized_chat_keypad = self._normalize_keypad(chat_keypad, is_inline=False)
         normalized_inline_keypad = self._normalize_keypad(inline_keypad, is_inline=True)
 
-        payload = {
+        input_data = {
             'chat_id': chat_id,
             'phone_number': phone_number,
             'first_name': first_name,
@@ -59,17 +65,24 @@ class SendContact(KeypadMixin):
         if normalized_chat_keypad:
             normalized_chat_keypad['resize_keyboard'] = resize_keyboard
             normalized_chat_keypad['one_time_keyboard'] = one_time_keyboard
-            payload['chat_keypad'] = normalized_chat_keypad
-            payload['chat_keypad_type'] = 'New'
+            input_data['chat_keypad'] = normalized_chat_keypad
+            input_data['chat_keypad_type'] = 'New'
 
         if normalized_inline_keypad:
-            payload['inline_keypad'] = normalized_inline_keypad
+            input_data['inline_keypad'] = normalized_inline_keypad
 
         if reply_to_message_id is not None:
-            payload['reply_to_message_id'] = reply_to_message_id
+            input_data['reply_to_message_id'] = reply_to_message_id
 
-        payload = {k: v for k, v in payload.items() if v is not None}
-        result = await self.request('POST', 'sendContact', json = payload)
+        input_data = {k: v for k, v in input_data.items() if v is not None}
+
+        result = await self.request(
+            method='sendContact',
+            input=input_data
+        )
+
+        if isinstance(result, dict):
+            result = Data(result)
 
         message_id = result.find_keys("message_id")
         if message_id is not None:

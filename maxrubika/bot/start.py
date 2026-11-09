@@ -2,13 +2,11 @@ import asyncio
 import time
 import secrets
 import logging
-from typing import Optional
-from aiohttp import web
-import maxrubika
+from typing import Optional, TYPE_CHECKING
 
-from rich.console import Console
+if TYPE_CHECKING:
+    import maxrubika
 
-console = Console(highlight=False)
 logger = logging.getLogger(__name__)
 
 class Start:
@@ -26,10 +24,7 @@ class Start:
 
         while True:
             try:
-                updates = await self.get_updates(
-                    offset_id=last_offset,
-                    limit=100
-                )
+                updates = await self.get_updates(offset_id=last_offset, limit=100)
 
                 if updates:
                     data = updates.to_dict() if hasattr(updates, 'to_dict') else updates
@@ -47,8 +42,6 @@ class Start:
                             except Exception as e:
                                 logger.warning(f"Failed to process update: {e}")
 
-            except KeyboardInterrupt:
-                break
             except asyncio.CancelledError:
                 break
             except Exception as e:
@@ -63,21 +56,28 @@ class Start:
         webhook_url: Optional[str] = None,
         webhook_path: str = "/wk",
         host: str = "0.0.0.0",
-        port: int = 8080,
+        port: int = 8080
     ) -> None:
         """
-        Starts the server or polling mechanism with specified configurations.
+        Starts the bot, either by polling for updates or by running a webhook server.
+
+        If a `webhook_url` is provided, sets up an aiohttp web server to receive real-time updates from the Rubika API. Otherwise, falls back to a long-polling mechanism to fetch updates continuously.
 
         Parameters:
-            poll_interval: The interval (in seconds) between each polling operation. Default is 0.005 seconds.
-            webhook_url: Optional URL for webhook integration. If provided, webhooks will be used.
-            webhook_path: The URL path on the server to handle webhook requests. Default is "/wk".
-            host: The hostname or IP address to bind the server. Default is "0.0.0.0" (all interfaces).
-            port: The port number on which to run the server. Default is 8080.
+            poll_interval (float): The interval (in seconds) between each polling operation when running in polling mode. Defaults to 0.005 seconds.
+            webhook_url (str, optional): The base URL where the webhook server is accessible. If provided, the bot operates in webhook mode. Defaults to None.
+            webhook_path (str): The URL path on the server to handle incoming webhook requests. Defaults to "/wk".
+            host (str): The hostname or IP address to bind the webhook server. Use "0.0.0.0" to listen on all available interfaces. Defaults to "0.0.0.0".
+            port (int): The port number on which the webhook server will listen. Defaults to 8080.
 
         Returns:
             None
         """
+        from aiohttp import web
+        from rich.console import Console
+
+        console = Console(highlight=False)
+
         await self._registry.fire_startup()
 
         try:
@@ -125,7 +125,7 @@ class Start:
                 try:
                     while True:
                         await asyncio.sleep(1)
-                except KeyboardInterrupt:
+                except asyncio.CancelledError:
                     pass
                 finally:
                     await runner.cleanup()
@@ -134,9 +134,16 @@ class Start:
                 console.print("Bot started in polling mode...\n", style="cyan")
                 try:
                     await self._poll_loop(poll_interval)
-                except KeyboardInterrupt:
+                except asyncio.CancelledError:
                     pass
 
         finally:
-            await self.close()
-            await self._registry.fire_shutdown()
+            try:
+                await self.close()
+            except Exception as e:
+                logger.warning(f"Error during close: {e}")
+
+            try:
+                await self._registry.fire_shutdown()
+            except Exception as e:
+                logger.warning(f"Error during shutdown: {e}")

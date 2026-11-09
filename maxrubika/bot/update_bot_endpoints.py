@@ -1,13 +1,13 @@
-from typing import Literal
-import maxrubika
-from .exceptions import InvalidInput
+from typing import Literal, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class UpdateBotEndpoints:
     """
     Register webhook URLs for different event types on Rubika servers.
 
-    This class lets you point Rubika's servers to your own webhook URL
-    so events are pushed to you instead of you having to poll for them.
+    This class lets you point Rubika's servers to your own webhook URL so events are pushed to you instead of you having to poll for them.
     """
     async def update_bot_endpoints(
         self: "maxrubika.Bot",
@@ -24,18 +24,15 @@ class UpdateBotEndpoints:
         Register a single webhook endpoint on the Rubika server.
 
         Parameters:
-            url (str): Full URL that Rubika should call when an event occurs.
-                Must be publicly reachable (HTTPS recommended).
-            endpoint_type (str): Which kind of event this URL handles. Accepted values:
-                - `"ReceiveUpdate"` – new messages, edits, deletions
-                - `"ReceiveInlineMessage"` – inline-keyboard button presses
-                - `"ReceiveQuery"` – inline-query results
-                - `"GetSelectionItem"` – selection menu picks
-                - `"SearchSelectionItems"` – search-in-selection requests
+            url (str): Full URL that Rubika should call when an event occurs. Must be publicly reachable (HTTPS recommended).
+            endpoint_type (Literal['ReceiveUpdate', 'ReceiveInlineMessage', 'ReceiveQuery', 'GetSelectionItem', 'SearchSelectionItems']): Which kind of event this URL handles. Default is 'ReceiveUpdate'.
 
         Returns:
-            dict: Raw response from the server confirming the registration.
+            The raw response from the server confirming the registration.
         """
+        from ..data import Data
+        from .exceptions import InvalidInput, InvalidURL
+
         allowed_types = [
             'ReceiveUpdate',
             'ReceiveInlineMessage',
@@ -51,6 +48,25 @@ class UpdateBotEndpoints:
         if not url.startswith(("http://", "https://")):
             raise InvalidInput("url must start with 'http://' or 'https://'")
 
-        payload = {'url': url, 'type': endpoint_type}
+        input_data = {
+            'url': url,
+            'type': endpoint_type
+        }
 
-        return await self.request('POST', 'updateBotEndpoints', json = payload)
+        result = await self.request(
+            method='updateBotEndpoints',
+            input=input_data
+        )
+
+        if isinstance(result, dict):
+            result = Data(result)
+
+        data = result.find_keys('data')
+
+        inner_status = data.find_keys('status')
+
+        if inner_status == 'InvalidUrl':
+            message = "The provided URL is invalid or not properly formatted."
+            raise InvalidURL(message)
+
+        return result

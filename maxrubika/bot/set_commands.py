@@ -1,6 +1,8 @@
-from typing import List, Dict, Any, Optional, Union
-import re; import maxrubika
-from .exceptions import InvalidInput
+import re
+from typing import List, Dict, Any, Optional, Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class SetCommands:
     async def set_commands(
@@ -11,19 +13,18 @@ class SetCommands:
         Sets custom commands for the bot. Pass empty list/dict to remove all commands.
 
         Parameters:
-            commands (List[Dict[str, str]] or Dict[str, str], optional): 
-                Either a list of dictionaries with 'command' and 'description',
-                or a simple dictionary like {"start": "Start the bot", "help": "Help"}.
-                Example: [{"command": "start", "description": "Start the bot"}, ...]
-                or: {"start": "Start the bot", "help": "Show help"}
-                If None or empty, all commands will be removed.
+            commands (List[Dict[str, str]] or Dict[str, str], optional): Either a list of dictionaries with 'command' and 'description', or a simple dictionary like {"start": "Start the bot", "help": "Help"}. Example: [{"command": "start", "description": "Start the bot"}, ...] or: {"start": "Start the bot", "help": "Show help"}. If None or empty, all commands will be removed.
 
         Returns:
-            dict: API response.
+            API response.
         """
+        from .exceptions import InvalidInput
+
         if not commands:
-            payload = {'bot_commands': []}
-            return await self.request('POST', 'setCommands', json = payload)
+            return await self.request(
+                method='setCommands',
+                input={'bot_commands': []}
+            )
 
         formatted_commands = []
 
@@ -51,5 +52,7 @@ class SetCommands:
                 message = f"Description for '/{command}' must be <= 256 characters."
                 raise InvalidInput(message)
 
-        payload = {'bot_commands': formatted_commands}
-        return await self.request('POST', 'setCommands', json = payload)
+        return await self.request(
+            method='setCommands',
+            input={'bot_commands': formatted_commands}
+        )

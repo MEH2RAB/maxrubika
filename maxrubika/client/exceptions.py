@@ -3,31 +3,53 @@ import json
 from typing import Optional, Union, Dict
 
 class ClientError(Exception):
+    custom_msg = None
+
     def __init__(self, message=None, request=None):
         if message is None:
-            message = "An unknown client error occurred."
+            message = self._get_custom_msg() or "An unknown client error occurred."
         self.request = request
         super().__init__(message)
+
+    def _get_custom_msg(self) -> Optional[str]:
+        custom_msg = getattr(self.__class__, 'custom_msg', None)
+        if isinstance(custom_msg, dict):
+            return custom_msg.get('dev_message')
+        return None
+
+    def __str__(self) -> str:
+        status = self.__class__.__name__
+        return json.dumps({"status": status, "dev_message": str(self.args[0]) if self.args else "An error occurred."}, ensure_ascii=False)
+
+    def __repr__(self) -> str:
+        return self.__str__()
 
 class StopHandler(ClientError): pass
 class CancelledError(ClientError): pass
 
 class NetworkError(Exception):
+    custom_msg = None
+
     def __init__(self, message=None, request=None):
-        self.dev_message = message or "A network error occurred."
+        self.dev_message = message or self._get_custom_msg() or "A network error occurred."
         self.request = request
         super().__init__(self.dev_message)
 
+    def _get_custom_msg(self) -> Optional[str]:
+        custom_msg = getattr(self.__class__, 'custom_msg', None)
+        if isinstance(custom_msg, dict):
+            return custom_msg.get('dev_message')
+        return None
+
     def __str__(self) -> str:
-        return json.dumps({
-            "status": "NETWORK_ERROR",
-            "dev_message": self.dev_message
-        }, ensure_ascii=False)
+        return json.dumps({"status": "NETWORK_ERROR", "dev_message": self.dev_message}, ensure_ascii=False)
 
     def __repr__(self) -> str:
         return self.__str__()
 
 class RequestError(ClientError):
+    custom_status = None
+
     def __init__(self, message: Union[str, Dict, None] = None, request=None):
         self.request = request
         self.status = None
@@ -49,55 +71,23 @@ class RequestError(ClientError):
                 csm = message.get('client_show_message', {})
                 if csm:
                     self.dev_message = csm.get('link', {}).get('alert_data', {}).get('message')
-            except:
+            except Exception:
                 pass
 
-            result_message = message
-        else:
-            result_message = message or self._get_custom_msg()
-
-        super().__init__(result_message, request)
-
-    def _get_custom_msg(self) -> Optional[str]:
-        custom_msg = getattr(self.__class__, 'custom_msg', None)
-        if custom_msg:
-            try:
-                custom_json = json.loads(custom_msg)
-                return custom_json.get('dev_message')
-            except:
-                return None
-        return None
-
-    def _get_custom_status(self) -> Optional[str]:
-        return getattr(self.__class__, 'custom_status', None)
+        self.dev_message = self._custom_user_message or self.dev_message or self._get_custom_msg()
+        super().__init__(self.dev_message, request)
 
     def __str__(self) -> str:
-        status = self._get_custom_status()
-        if not status:
-            status = self.status_det or self.status or "UNKNOWN"
+        status = self.custom_status or self.status_det or self.status or "UNKNOWN"
 
         if status == 'INVALID_AUTH':
             status = 'INVALID_ACCESS'
 
-        dev_message = None
-        if self._custom_user_message:
-            dev_message = self._custom_user_message
-        elif self.dev_message:
-            dev_message = self.dev_message
-        else:
-            dev_message = self._get_custom_msg()
-
-        if not dev_message:
-            dev_message = "An error occurred."
-
-        return json.dumps({
-            "status": status,
-            "dev_message": dev_message
-        }, ensure_ascii=False)
+        dev_message = self.dev_message or "An error occurred."
+        return json.dumps({"status": status, "dev_message": dev_message}, ensure_ascii=False)
 
     def __repr__(self) -> str:
         return self.__str__()
-
 
 class ValidationError(ClientError):
     custom_status = "VALIDATION_ERROR"
@@ -107,103 +97,95 @@ class ValidationError(ClientError):
         self._custom_user_message = message
         super().__init__(message, request)
 
-    def _get_custom_msg(self) -> Optional[str]:
-        custom_msg = getattr(self.__class__, 'custom_msg', None)
-        if custom_msg:
-            try:
-                custom_json = json.loads(custom_msg)
-                return custom_json.get('dev_message')
-            except:
-                return None
-        return None
-
-    def _get_custom_status(self) -> Optional[str]:
-        return getattr(self.__class__, 'custom_status', None)
-
     def __str__(self) -> str:
-        status = self._get_custom_status() or "VALIDATION_ERROR"
+        status = self.custom_status or "VALIDATION_ERROR"
         dev_message = self._custom_user_message or self._get_custom_msg() or "A validation error occurred."
-
-        return json.dumps({
-            "status": status,
-            "dev_message": dev_message
-        }, ensure_ascii=False)
+        return json.dumps({"status": status, "dev_message": dev_message}, ensure_ascii=False)
 
     def __repr__(self) -> str:
         return self.__str__()
 
 class TimeoutError(ValidationError):
     custom_status = "INVALID_TIMEOUT"
-    custom_msg = '{"status": "INVALID_TIMEOUT", "dev_message": "Timeout value is invalid."}'
+    custom_msg = {"status": "INVALID_TIMEOUT", "dev_message": "Timeout value is invalid."}
 
 class ApiVersionError(ValidationError):
     custom_status = "INVALID_API_VERSION"
-    custom_msg = '{"status": "INVALID_API_VERSION", "dev_message": "API version must be 5 or 6."}'
+    custom_msg = {"status": "INVALID_API_VERSION", "dev_message": "API version must be 5 or 6."}
 
 class PlatformError(ValidationError):
     custom_status = "INVALID_PLATFORM"
-    custom_msg = '{"status": "INVALID_PLATFORM", "dev_message": "Invalid platform specified."}'
+    custom_msg = {"status": "INVALID_PLATFORM", "dev_message": "Invalid platform specified."}
 
 class AuthError(ValidationError):
     custom_status = "INVALID_AUTH_INPUT"
-    custom_msg = '{"status": "INVALID_AUTH_INPUT", "dev_message": "Authentication parameters are invalid."}'
+    custom_msg = {"status": "INVALID_AUTH_INPUT", "dev_message": "Authentication parameters are invalid."}
 
 class MaxRetriesError(ValidationError):
     custom_status = "INVALID_MAX_RETRIES"
-    custom_msg = '{"status": "INVALID_MAX_RETRIES", "dev_message": "Max retries value is invalid."}'
+    custom_msg = {"status": "INVALID_MAX_RETRIES", "dev_message": "Max retries value is invalid."}
 
 class ProxyError(ValidationError):
     custom_status = "INVALID_PROXY"
-    custom_msg = '{"status": "INVALID_PROXY", "dev_message": "Proxy value is invalid."}'
+    custom_msg = {"status": "INVALID_PROXY", "dev_message": "Proxy value is invalid."}
 
 class SessionError(ValidationError):
     custom_status = "INVALID_SESSION"
-    custom_msg = '{"status": "INVALID_SESSION", "dev_message": "Session parameter is invalid."}'
+    custom_msg = {"status": "INVALID_SESSION", "dev_message": "Session parameter is invalid."}
+
+class MessageTooLong(ValidationError):
+    custom_status = "MESSAGE_TOO_LONG"
+    custom_msg = {"status": "MESSAGE_TOO_LONG", "dev_message": "The message text exceeds the maximum allowed length (4096 chars) or line count (128 lines)."}
 
 class InvalidInput(RequestError):
     custom_status = "INVALID_INPUT"
-    custom_msg = '{"status": "INVALID_INPUT", "dev_message": "Invalid input received. Please check and try again."}'
+    custom_msg = {"status": "INVALID_INPUT", "dev_message": "Invalid input received. Please check and try again."}
 
 class InvalidAccess(RequestError):
     custom_status = "INVALID_ACCESS"
-    custom_msg = '{"status": "INVALID_ACCESS", "dev_message": "Access denied. You don\'t have permission to perform this action."}'
+    custom_msg = {"status": "INVALID_ACCESS", "dev_message": "Access denied. You don't have permission to perform this action."}
+
 InvalidAuth = InvalidAccess
 
 class TooRequests(RequestError):
     custom_status = "TOO_REQUESTS"
-    custom_msg = '{"status": "TOO_REQUESTS", "dev_message": "Too many requests. Please try again later."}'
+    custom_msg = {"status": "TOO_REQUESTS", "dev_message": "Too many requests. Please try again later."}
 
 class ServerError(RequestError):
     custom_status = "SERVER_ERROR"
-    custom_msg = '{"status": "SERVER_ERROR", "dev_message": "Server returned an error. Please retry later."}'
+    custom_msg = {"status": "SERVER_ERROR", "dev_message": "Server returned an error. Please retry later."}
 
 class NotRegistered(RequestError):
     custom_status = "NOT_REGISTERED"
-    custom_msg = '{"status": "NOT_REGISTERED", "dev_message": "The user is not registered. Please register first."}'
+    custom_msg = {"status": "NOT_REGISTERED", "dev_message": "The user is not registered. Please register first."}
 
 class CodeIsExpired(RequestError):
     custom_status = "CODE_IS_EXPIRED"
-    custom_msg = '{"status": "CODE_IS_EXPIRED", "dev_message": "This code has expired."}'
+    custom_msg = {"status": "CODE_IS_EXPIRED", "dev_message": "This code has expired."}
 
 class UsernameExist(RequestError):
     custom_status = "USERNAME_EXIST"
-    custom_msg = '{"status": "USERNAME_EXIST", "dev_message": "This username already exists."}'
+    custom_msg = {"status": "USERNAME_EXIST", "dev_message": "This username already exists."}
 
 class InvalidChatInput(RequestError):
     custom_status = "INVALID_CHAT_INPUT"
-    custom_msg = '{"status": "INVALID_CHAT_INPUT", "dev_message": "Unable to determine chat type from input. Please provide a valid username, link, or GUID."}'
+    custom_msg = {"status": "INVALID_CHAT_INPUT", "dev_message": "Unable to determine chat type from input. Please provide a valid username, link, or GUID."}
 
 class InvalidGroupLink(RequestError):
     custom_status = "INVALID_GROUP_LINK"
-    custom_msg = '{"status": "INVALID_GROUP_LINK", "dev_message": "The provided link is not a valid group link or the group does not exist."}'
+    custom_msg = {"status": "INVALID_GROUP_LINK", "dev_message": "The provided link is not a valid group link or the group does not exist."}
 
 class InvalidChannelLink(RequestError):
     custom_status = "INVALID_CHANNEL_LINK"
-    custom_msg = '{"status": "INVALID_CHANNEL_LINK", "dev_message": "The provided link is not a valid channel link or the channel does not exist."}'
+    custom_msg = {"status": "INVALID_CHANNEL_LINK", "dev_message": "The provided link is not a valid channel link or the channel does not exist."}
 
 class InvalidUsername(RequestError):
     custom_status = "INVALID_USERNAME"
-    custom_msg = '{"status": "INVALID_USERNAME", "dev_message": "The username does not exist or is invalid."}'
+    custom_msg = {"status": "INVALID_USERNAME", "dev_message": "The username does not exist or is invalid."}
+
+class VoiceChatNotActive(RequestError):
+    custom_status = "VOICE_CHAT_NOT_ACTIVE"
+    custom_msg = {"status": "VOICE_CHAT_NOT_ACTIVE", "dev_message": "No active voice chat found in this chat."}
 
 class CodeIsUsed(RequestError): pass
 class ErrorAction(RequestError): pass
@@ -212,7 +194,7 @@ class UrlNotFound(RequestError): pass
 
 class NoConnection(RequestError):
     custom_status = "NO_CONNECTION"
-    custom_msg = '{"status": "NO_CONNECTION", "dev_message": "Client is not connected."}'
+    custom_msg = {"status": "NO_CONNECTION", "dev_message": "Client is not connected."}
 
 class Undeliverable(RequestError): pass
 class InvalidMethod(RequestError): pass
@@ -233,12 +215,11 @@ EXCEPTION_MAP = {
     'TOO_REQUESTS': TooRequests, 'SERVER_ERROR': ServerError,
     'NOT_REGISTERED': NotRegistered, 'URL_NOT_FOUND': UrlNotFound,
     'CODE_IS_USED': CodeIsUsed, 'ERROR_ACTION': ErrorAction,
-    'ERROR_IGNORE': ErrorIgnore,
-    'CODE_IS_EXPIRED': CodeIsExpired,
+    'ERROR_IGNORE': ErrorIgnore, 'CODE_IS_EXPIRED': CodeIsExpired,
     'INVALID_METHOD': InvalidMethod, 'USERNAME_EXIST': UsernameExist,
     'ERROR_TRY_AGAIN': ErrorTryAgain, 'ERROR_MESSAGE_TRY': ErrorMessageTry,
     'INTERNAL_PROBLEM': InternalProblem, 'ERROR_MESSAGE_IGN': ErrorMessageIgn,
-    'NOT_SUPPORTED_API_VERSION': NotSupportedApiVersion,
+    'NOT_SUPPORTED_API_VERSION': NotSupportedApiVersion
 }
 
 def get(status_det: str):

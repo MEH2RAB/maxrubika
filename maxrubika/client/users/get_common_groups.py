@@ -1,8 +1,10 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetCommonGroups:
-    async def get_common_groups(self: "maxrubika.Client", user: str):
+    async def get_common_groups(self: "maxrubika.Messenger", user: str):
         """
         Get groups in common with a user.
 
@@ -12,6 +14,8 @@ class GetCommonGroups:
         Returns:
             Common groups list.
         """
+        from ..exceptions import InvalidInput
+
         user_guid = await self.get_guid(user)
 
         if not user_guid.startswith("u0"):
@@ -19,6 +23,6 @@ class GetCommonGroups:
             raise InvalidInput(message)
 
         return await self.request(
-            method = 'getCommonGroups',
-            input = {'user_guid': user_guid}
+            method='getCommonGroups',
+            input={'user_guid': user_guid}
         )

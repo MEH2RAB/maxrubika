@@ -1,9 +1,11 @@
-from typing import Union
-import maxrubika
+from typing import Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetStickersBySetIDs:
     async def get_stickers_by_set_ids(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         sticker_set_ids: Union[str, list]
     ):
         """
@@ -18,4 +20,4 @@ class GetStickersBySetIDs:
         if isinstance(sticker_set_ids, str):
             sticker_set_ids = [str(sticker_set_ids)]
 
-        return await self.request(method = 'GetStickersBySetIDs', input = {'sticker_set_ids': sticker_set_ids})
+        return await self.request(method='GetStickersBySetIDs', input={'sticker_set_ids': sticker_set_ids})

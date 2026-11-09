@@ -1,6 +1,7 @@
-from typing import Optional, Union
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import Optional, Union, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 REPORT_TYPE_MAP = {
     "other": 100,
@@ -15,7 +16,7 @@ REPORT_TYPE_MAP = {
 
 class ReportLive:
     async def report_live(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         live_id: str,
         report_type: Union[int, str],
         description: Optional[str] = None
@@ -25,18 +26,14 @@ class ReportLive:
 
         Parameters:
             live_id (str): The ID of the live stream to report.
-            report_type (Union[int, str]): The report reason.
-                Can be:
-                    - Integer code between 100 and 106
-                    - String name (case-insensitive): 'Other', 'Violence',
-                      'Spam', 'Porn', 'ChildAbuse', 'Copyright', 'Fraud'
-                If set to 100 (Other), `description` becomes required.
-            description (Optional[str]): Description for the report.
-                Required when `report_type` is 100 (Other).
+            report_type (Union[int, str]): The report reason. Can be an integer code between 100 and 106, or a string name (case-insensitive): 'Other', 'Violence', 'Spam', 'Porn', 'ChildAbuse', 'Copyright', 'Fraud'. If set to 100 (Other), `description` becomes required.
+            description (str, optional): Description for the report. Required when `report_type` is 100 (Other).
 
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         if isinstance(report_type, str):
             key = report_type.strip().lower()
             if key.isdigit():
@@ -44,18 +41,14 @@ class ReportLive:
             elif key in REPORT_TYPE_MAP:
                 report_type = REPORT_TYPE_MAP[key]
             else:
-                raise InvalidInput(
-                    f"Invalid 'report_type': '{report_type}'. "
-                    f"Must be an integer between 100 and 106, or one of: "
-                    f"Other, Violence, Spam, Porn, ChildAbuse, Copyright, Fraud.")
+                message = f"Invalid 'report_type': '{report_type}'. Must be an integer between 100 and 106, or one of: Other, Violence, Spam, Porn, ChildAbuse, Copyright, Fraud."
+                raise InvalidInput(message)
 
         if not isinstance(report_type, int) or not (100 <= report_type <= 106):
-            raise InvalidInput(
-                "'report_type' must be an integer between 100 and 106.")
+            raise InvalidInput("'report_type' must be an integer between 100 and 106.")
 
         if report_type == 100 and not description:
-            raise InvalidInput(
-                "'description' is required when 'report_type' is 100 (Other).")
+            raise InvalidInput("'description' is required when 'report_type' is 100 (Other).")
 
         input_data = {
             "report_object_type": "Live",
@@ -65,4 +58,4 @@ class ReportLive:
         if report_type == 100:
             input_data["report_description"] = description
 
-        return await self.request(method = 'reportObject', input = input_data)
+        return await self.request(method='reportObject', input=input_data)

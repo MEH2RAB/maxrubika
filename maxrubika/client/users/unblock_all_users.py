@@ -1,26 +1,37 @@
-from typing import Union, List, Optional
-import maxrubika
-from ...data import Data
-from ..exceptions import InvalidInput
+from typing import Union, List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class UnblockAllUsers:
     async def unblock_all_users(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         exclude: Optional[Union[str, List[str]]] = None
     ):
         """
         Unblock all blocked users.
 
         Parameters:
-            exclude (Optional[Union[str, List[str]]]): User GUID(s) or username(s) to exclude from unblock. Default is None.
+            exclude (Union[str, List[str]], optional): User GUID(s) or username(s) to exclude from unblock. Default is None.
 
         Returns:
             Result of unblock operation.
         """
+        from ...data import Data
+        from ..exceptions import InvalidInput
+
         blocked_result = await self.get_blocked_users(show_user_guids=True)
 
-        if not blocked_result.user_guids:
-            return Data({"status": "OK", "message": "No blocked users found."})
+        if isinstance(blocked_result, dict):
+            blocked_result = Data(blocked_result)
+
+        blocked_guids = blocked_result.find_keys('user_guids') or []
+
+        if not blocked_guids:
+            no_blocked = {"status": "OK", "message": "No blocked users found."}
+            if getattr(self, 'as_dict', False):
+                return no_blocked
+            return Data(no_blocked)
 
         exclude_list = []
         if exclude is not None:
@@ -41,12 +52,18 @@ class UnblockAllUsers:
 
                 exception_guids.append(user_guid)
 
-        final_guids = [guid for guid in blocked_result.user_guids if guid not in exception_guids]
+        final_guids = [guid for guid in blocked_guids if guid not in exception_guids]
 
         if not final_guids:
-            return Data({"status": "OK", "message": "All blocked users are in exceptions list. No one to unblock."})
+            all_excluded = {
+                "status": "OK",
+                "message": "All blocked users are in exceptions list. No one to unblock."
+            }
+            if getattr(self, 'as_dict', False):
+                return all_excluded
+            return Data(all_excluded)
 
-        total = len(blocked_result.user_guids)
+        total = len(blocked_guids)
         excluded = len(exception_guids)
 
         failed_count = 0
@@ -56,10 +73,15 @@ class UnblockAllUsers:
             except Exception:
                 failed_count += 1
 
-        return Data({
+        result_dict = {
             "status": "OK",
             "total_blocked": total,
             "excluded": excluded,
             "unblocked": len(final_guids) - failed_count,
             "failed": failed_count
-        })
+        }
+
+        if getattr(self, 'as_dict', False):
+            return result_dict
+
+        return Data(result_dict)

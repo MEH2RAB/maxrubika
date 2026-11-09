@@ -1,11 +1,13 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetGroupMentionList:
     async def get_group_mention_list(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         group: str,
-        search_mention: str = None
+        search_mention: Optional[str] = None
     ):
         """
         Get the mention list for a group.
@@ -17,13 +19,16 @@ class GetGroupMentionList:
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         group_guid = await self.get_guid(group)
 
         if not group_guid.startswith("g0"):
             message = f"'{group}' does not point to a valid group. Expected a group GUID or group link."
             raise InvalidInput(message)
 
+        input_data = {'group_guid': group_guid, 'search_mention': search_mention}
         return await self.request(
-            method = 'getGroupMentionList',
-            input = {'group_guid': group_guid, 'search_mention': search_mention}
+            method='getGroupMentionList',
+            input=input_data
         )

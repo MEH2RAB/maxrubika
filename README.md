@@ -4,18 +4,18 @@
 
 # 📚 MAXRubika
 
-> Python async library for Rubika and Shad Platforms - Build bots and userbots effortlessly
+> All-in-One Python Library for the Rubika and Shad Platforms
 
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-MAXRubi.ir-brightgreen.svg)](https://maxrubi.ir/documents)
+[![Documentation](https://img.shields.io/badge/docs-MEH2RAB.GitHub.io/maxrubika-brightgreen.svg)](https://MEH2RAB.GitHub.io/maxrubika)
 [![GitHub stars](https://img.shields.io/github/stars/MEH2RAB/maxrubika)](https://github.com/MEH2RAB/maxrubika/stargazers)
 
 
 ## ✨ Features
 
 - ✅ **Complete, Simple & Fast** - The most complete, simplest and fastest Python library for Rubika and Shad
-- ✅ **Full Rubika Bot API** - All methods supported
+- ✅ **Complete Rubika & Shad API** - Every method supported
 - ✅ **Async/Await** - Built with `asyncio` for maximum performance
 - ✅ **Flexible API:** All methods support both `sync` and `async` usage.
 - ✅ **Sync-Friendly** - No need to write async code. The library handles all async operations for you.
@@ -74,6 +74,54 @@ for method in methods:
     func = getattr(Messenger, method)
     doc = inspect.getdoc(func)
     print(f"→ {method}: {doc}\n{'-'*50}")
+```
+
+### For Rubino
+
+```python
+from maxrubika import Rubino
+import inspect
+
+methods = [method for method in dir(Rubino) 
+           if not method.startswith('_') 
+           and callable(getattr(Rubino, method))]
+
+for method in methods:
+    func = getattr(Rubino, method)
+    doc = inspect.getdoc(func)
+    print(f"→ {method}:\n   {doc}\n{'-'*50}")
+```
+
+### For RubiAI:
+
+```python
+from maxrubika import RubiAI
+import inspect
+
+methods = [method for method in dir(RubiAI) 
+           if not method.startswith('_') 
+           and callable(getattr(RubiAI, method))]
+
+for method in methods:
+    func = getattr(RubiAI, method)
+    doc = inspect.getdoc(func)
+    print(f"→ {method}:\n   {doc}\n{'-'*50}")
+```
+
+### For RubikaTV:
+
+```python
+from maxrubika import RubikaTV
+import inspect
+
+methods = [method for method in dir(RubikaTV) 
+           if not method.startswith('_') 
+           and callable(getattr(RubikaTV, method))]
+
+for method in methods:
+    func = getattr(RubikaTV, method)
+    doc = inspect.getdoc(func)
+    print(f"→ {method}:\n   {doc}\n{'-'*50}")
 ```
 
 ### For Shad Platform:

@@ -1,12 +1,14 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetChannelMembers:
     async def get_channel_members(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         channel: str,
-        search_text: str = None,
-        start_id: str = None
+        search_text: Optional[str] = None,
+        start_id: Optional[str] = None
     ):
         """
         Get members in a channel.
@@ -19,18 +21,20 @@ class GetChannelMembers:
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         channel_guid = await self.get_guid(channel)
 
         if not channel_guid.startswith("c0"):
             message = f"'{channel}' does not point to a valid channel. Expected a channel GUID, channel link, or channel username."
             raise InvalidInput(message)
 
-        input = {'channel_guid': channel_guid}
+        input_data = {'channel_guid': channel_guid}
 
         if search_text:
-            input['search_text'] = search_text.replace("@", "")
+            input_data['search_text'] = search_text.replace("@", "")
 
         if start_id:
-            input['start_id'] = start_id
+            input_data['start_id'] = start_id
 
-        return await self.request(method = 'getChannelAllMembers', input = input)
+        return await self.request(method='getChannelAllMembers', input=input_data)

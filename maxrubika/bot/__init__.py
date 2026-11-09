@@ -2,12 +2,15 @@ from ..hybrid import wrap_methods
 
 from .auto_delete_message import AutoDeleteMessage
 from .ban_member import BanMember
+from .check_join import CheckJoin
 from .delete_message import DeleteMessage
+from .delete_messages import DeleteMessages
 from .download_file import DownloadFile
 from .edit_chat_keypad import EditChatKeypad
 from .edit_inline_keypad import EditInlineKeypad
 from .edit_message import EditMessage
 from .forward_message import ForwardMessage
+from .forward_messages import ForwardMessages
 from .get_chat_info import GetChatInfo
 from .get_chat_member import GetChatMember
 from .get_file import GetFile
@@ -27,7 +30,7 @@ from .send_contact import SendContact
 from .send_file import SendFile
 from .send_gif import SendGif
 from .send_image import SendImage
-from .send_location import Sendlocation
+from .send_location import SendLocation
 from .send_message import SendMessage
 from .send_music import SendMusic
 from .send_poll import SendPoll
@@ -43,12 +46,15 @@ from .upload_file import UploadFile
 class Methods(
     AutoDeleteMessage,
     BanMember,
+    CheckJoin,
     DeleteMessage,
+    DeleteMessages,
     DownloadFile,
     EditChatKeypad,
     EditInlineKeypad,
     EditMessage,
     ForwardMessage,
+    ForwardMessages,
     GetChatInfo,
     GetChatMember,
     GetFile,
@@ -68,7 +74,7 @@ class Methods(
     SendFile,
     SendGif,
     SendImage,
-    Sendlocation,
+    SendLocation,
     SendMessage,
     SendMusic,
     SendPoll,

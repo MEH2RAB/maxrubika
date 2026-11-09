@@ -1,8 +1,10 @@
-import maxrubika
-from ..core.api import Api
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class Connect:
-    async def connect(self: "maxrubika.Client") -> "maxrubika.Client":
+    async def connect(self: "maxrubika.Messenger"):
         """
         Establish a connection to the Rubika API.
 
@@ -10,8 +12,10 @@ class Connect:
         (auth, guid, private_key, user_agent) if available.
 
         Returns:
-            Client instance with active connection.
+            Messenger instance with active connection.
         """
+        from ..core.api import Api
+
         self.connection = Api(client=self)
 
         information = self.session.information()

@@ -1,9 +1,11 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class DeleteBotChat:
     async def delete_bot_chat(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         bot: str
     ):
         """
@@ -15,6 +17,9 @@ class DeleteBotChat:
         Returns:
             The result of the API call.
         """
+        from ...data import Data
+        from ..exceptions import InvalidInput
+
         bot_guid = await self.get_guid(bot)
 
         if not bot_guid.startswith("b0"):
@@ -22,19 +27,18 @@ class DeleteBotChat:
             raise InvalidInput(message)
 
         last_message = await self.get_last_message(bot_guid)
-        last_data = last_message.to_dict() if hasattr(last_message, 'to_dict') else last_message
 
-        message = last_data.get('message')
+        if isinstance(last_message, dict):
+            last_message = Data(last_message)
 
-        if isinstance(message, dict):
-            last_deleted_message_id = message.get('message_id', 0)
-        else:
-            last_deleted_message_id = 0
+        last_deleted_message_id = last_message.find_keys('message_id') or 0
+
+        input_data = {
+            'bot_guid': bot_guid,
+            'last_deleted_message_id': last_deleted_message_id
+        }
 
         return await self.request(
-            method = 'deleteBotChat',
-            input = {
-                'bot_guid': bot_guid,
-                'last_deleted_message_id': last_deleted_message_id
-            }
+            method='deleteBotChat',
+            input=input_data
         )

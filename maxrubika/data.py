@@ -4,9 +4,12 @@ from typing import Optional, Set, Any, List, Union
 _MISSING = object()
 
 class Data:
-    _EXCLUDED_KEYS: Set[str] = {'_client', '_memo', '_regex_match', 'client', 'track_id'}
+    _EXCLUDED_KEYS: Set[str] = {'_client', '_memo', '_regex_match', 'client'}
 
     def __init__(self, data: Any):
+        if isinstance(data, Data):
+            data = data._data
+
         self._data = data
         self._memo = {}
 
@@ -14,7 +17,7 @@ class Data:
         return self.jsonify(indent=2)
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self._data!r})"
+        return repr(self._data)
 
     def __getattr__(self, name: str):
         if (
@@ -146,18 +149,21 @@ class Data:
         while stack:
             node = stack.pop()
 
+            while isinstance(node, Data):
+                node = node._data
+
             if type(node) is dict:
                 for key in node:
                     if key in target:
                         return self._convert_value(node[key])
 
                 for value in reversed(tuple(node.values())):
-                    if type(value) is dict or type(value) is list:
+                    if isinstance(value, (dict, list, Data)):
                         stack.append(value)
 
             elif type(node) is list:
                 for item in reversed(node):
-                    if type(item) is dict or type(item) is list:
+                    if isinstance(item, (dict, list, Data)):
                         stack.append(item)
 
         return default
@@ -175,6 +181,9 @@ class Data:
         )
 
     def _clean_data(self, data: Any) -> Any:
+        if isinstance(data, Data):
+            data = data._data
+
         if isinstance(data, dict):
             return {
                 key: self._clean_data(value)

@@ -1,9 +1,12 @@
-import maxrubika
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetUpdates:
     async def get_updates(
         self: "maxrubika.Bot",
-        offset_id: str = None,
+        offset_id: Optional[str] = None,
         limit: int = 100
     ):
         """
@@ -14,14 +17,17 @@ class GetUpdates:
             limit (int, optional): Maximum number of updates to retrieve. Defaults to 100.
 
         Returns:
-            dict: The API response including updates and the next_offset_id.
+            The API response including updates and the next_offset_id.
         """
-        payload = {}
+        input_data = {}
+
         if offset_id:
-            payload['offset_id'] = offset_id
+            input_data['offset_id'] = offset_id
 
         if limit is not None:
-            payload['limit'] = limit
+            input_data['limit'] = limit
 
-        while True:
-                return await self.request('POST', 'getUpdates', json = payload)
+        return await self.request(
+            method='getUpdates',
+            input=input_data
+        )

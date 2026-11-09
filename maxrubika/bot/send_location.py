@@ -1,11 +1,13 @@
 import re
-from typing import Union, Dict, Any, Optional, List
-import maxrubika
+from typing import Union, Dict, Any, Optional, List, TYPE_CHECKING
+
 from .keypad_mixin import KeypadMixin
-from .exceptions import InvalidInput
 from .message_result import MessageResult
 
-class Sendlocation(KeypadMixin):
+if TYPE_CHECKING:
+    import maxrubika
+
+class SendLocation(KeypadMixin):
     async def send_location(
         self: "maxrubika.Bot",
         chat_id: str,
@@ -33,8 +35,11 @@ class Sendlocation(KeypadMixin):
             one_time_keyboard (bool, optional): Requests clients to hide the keyboard as soon as it's been used. Defaults to False.
 
         Returns:
-            dict: API response with message information.
+            API response with message information.
         """
+        from ..data import Data
+        from .exceptions import InvalidInput
+
         if not re.match(r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$", chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
 
@@ -53,7 +58,7 @@ class Sendlocation(KeypadMixin):
         normalized_chat_keypad = self._normalize_keypad(chat_keypad, is_inline=False)
         normalized_inline_keypad = self._normalize_keypad(inline_keypad, is_inline=True)
 
-        payload: Dict[str, Any] = {
+        input_data: Dict[str, Any] = {
             'chat_id': chat_id,
             'latitude': latitude,
             'longitude': longitude,
@@ -63,17 +68,24 @@ class Sendlocation(KeypadMixin):
         if normalized_chat_keypad:
             normalized_chat_keypad['resize_keyboard'] = resize_keyboard
             normalized_chat_keypad['one_time_keyboard'] = one_time_keyboard
-            payload['chat_keypad'] = normalized_chat_keypad
-            payload['chat_keypad_type'] = 'New'
+            input_data['chat_keypad'] = normalized_chat_keypad
+            input_data['chat_keypad_type'] = 'New'
 
         if normalized_inline_keypad:
-            payload['inline_keypad'] = normalized_inline_keypad
+            input_data['inline_keypad'] = normalized_inline_keypad
 
         if reply_to_message_id is not None:
-            payload['reply_to_message_id'] = reply_to_message_id
+            input_data['reply_to_message_id'] = reply_to_message_id
 
-        payload = {k: v for k, v in payload.items() if v is not None}
-        result = await self.request('POST', 'sendLocation', json = payload)
+        input_data = {k: v for k, v in input_data.items() if v is not None}
+
+        result = await self.request(
+            method='sendLocation',
+            input=input_data
+        )
+
+        if isinstance(result, dict):
+            result = Data(result)
 
         message_id = result.find_keys("message_id")
         if message_id is not None:

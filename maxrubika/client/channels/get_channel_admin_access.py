@@ -1,9 +1,11 @@
-import maxrubika
-from ..exceptions import InvalidInput
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import maxrubika
 
 class GetChannelAdminAccess:
     async def get_channel_admin_access(
-        self: "maxrubika.Client",
+        self: "maxrubika.Messenger",
         channel: str,
         admin: str
     ):
@@ -12,11 +14,13 @@ class GetChannelAdminAccess:
 
         Parameters:
             channel (str): The GUID, link, or username of the channel.
-            admin (str): The GUID or username of the admin for whom admin access is being checked.
+            admin (str): The GUID or username of the admin.
 
         Returns:
             The result of the API call.
         """
+        from ..exceptions import InvalidInput
+
         channel_guid = await self.get_guid(channel)
 
         if not channel_guid.startswith("c0"):
@@ -30,6 +34,6 @@ class GetChannelAdminAccess:
             raise InvalidInput(message)
 
         return await self.request(
-            method = 'getChannelAdminAccessList',
-            input = {'channel_guid': channel_guid, 'member_guid': member_guid}
+            method='getChannelAdminAccessList',
+            input={'channel_guid': channel_guid, 'member_guid': member_guid}
         )
