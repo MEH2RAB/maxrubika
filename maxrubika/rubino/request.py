@@ -19,23 +19,21 @@ class Request:
     async def request(
         self: "maxrubika.Rubino",
         method: str,
-        input: dict = None
+        input: Optional[dict] = None
     ):
         """
         Send a request to the Rubino API.
 
         Parameters:
             method (str): The API method name to call.
-            input (dict, optional): The input data to send with the request.
-                In api_version=1, 'profile_id' in input is used internally
-                and NOT sent to the API inside input.
+            input (dict, optional): The input data to send with the request. In api_version=1, 'profile_id' in input is used internally and NOT sent to the API inside input.
 
         Returns:
             The parsed response data on success.
         """
         import aiohttp
         from ..data import Data
-        from .exceptions import raise_exception, NetworkError
+        from .exceptions import raise_exception, NetworkError, RubinoError
         from .crypto import Crypto
 
         api_version = self.api_version
@@ -131,19 +129,41 @@ class Request:
 
                     raise_exception(result.get('status_det'), result)
 
+                except RubinoError:
+                    raise
+
                 except asyncio.TimeoutError as e:
                     last_error = e
                     self.logger.warning(
-                        f"Timeout on {self.rubino_url} "
-                        f"(attempt {attempt + 1}/{self.max_retries})"
+                        f"Request failed (attempt {attempt + 1}/{self.max_retries}): "
+                        f"Timeout on {self.rubino_url}"
                     )
                     if attempt < self.max_retries - 1:
                         await asyncio.sleep(2 ** attempt)
 
+                except aiohttp.ClientError as e:
+                    last_error = e
+                    self.logger.warning(
+                        f"Request failed (attempt {attempt + 1}/{self.max_retries}): {e}"
+                    )
+                    if attempt < self.max_retries - 1:
+                        await asyncio.sleep(2 ** attempt)
+                    self.failed_count += 1
+
+                except OSError as e:
+                    last_error = e
+                    self.logger.warning(
+                        f"Request failed (attempt {attempt + 1}/{self.max_retries}): {e}"
+                    )
+                    if attempt < self.max_retries - 1:
+                        await asyncio.sleep(2 ** attempt)
+                    self.failed_count += 1
+
                 except Exception as e:
                     error_msg = str(e).lower()
                     if any(keyword in error_msg for keyword in
-                           ['timeout', 'connection', 'bad gateway', 'server error', '502', '503', '504']):
+                           ['timeout', 'connection', 'bad gateway', 'server error', '502', '503', '504',
+                            'network', 'unreachable', 'dns', 'resolve', 'offline']):
                         last_error = e
                         self.logger.warning(
                             f"Request failed (attempt {attempt + 1}/{self.max_retries}): {e}"
@@ -159,6 +179,5 @@ class Request:
                 self.failed_count = 0
 
         raise NetworkError(
-            f"All {total_urls} Rubino URLs exhausted. "
-            f"Last error: {last_error}"
+            f"All {total_urls} Rubino URLs exhausted. Last error: {last_error}"
         )

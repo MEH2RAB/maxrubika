@@ -37,7 +37,7 @@ class CreateChannel:
             If a file ID is provided, the corresponding image is not uploaded.
             If no thumbnail is provided, it is taken from the main image.
         """
-        from ...exceptions import InvalidInput
+        from ..exceptions import InvalidInput
 
         if len(title) > 60:
             raise InvalidInput("Title cannot exceed 60 characters.")

@@ -2,7 +2,7 @@ from typing import Optional, Union, Literal, TYPE_CHECKING
 from pathlib import Path
 from os import path
 from datetime import timedelta, datetime
-import base64
+import base64 as b64lib
 import random
 import mimetypes
 import time as time_module
@@ -22,7 +22,6 @@ class SendFile:
         self: "maxrubika.Messenger",
         chat: str,
         file: Optional[Union[Path, str, bytes, "Data"]] = None,
-        file_inline: Optional[Union[dict, "Data"]] = None,
         text: Optional[str] = None,
         type: str = 'File',
         is_spoil: bool = False,
@@ -36,6 +35,7 @@ class SendFile:
         schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
         schedule_type: Optional[Literal['Default', 'WhenOnline']] = None,
         base64: Optional[str] = None,
+        file_inline: Optional[Union[dict, "Data"]] = None,
         **kwargs
     ):
         """
@@ -44,7 +44,6 @@ class SendFile:
         Parameters:
             chat (str): The GUID, link, or username of the chat. Use 'me', 'cloud', 'self', or 'myself' for saved messages.
             file (Union[Path, str, bytes, Data], optional): The file data (path, URL, bytes, or Data object).
-            file_inline (Union[dict, Data], optional): Pre-uploaded file object. If provided, 'file' and 'base64' are ignored.
             text (str, optional): The caption for the file (Max: 2048 chars, 64 lines).
             type (str): The type of the file ('File', 'Image', 'Video', 'Voice', 'Music', 'Gif', 'VideoMessage'). Defaults to 'File'.
             is_spoil (bool): If True, the file will be marked as spoil.
@@ -58,6 +57,7 @@ class SendFile:
             schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
             schedule_type (str, optional): 'Default' or 'WhenOnline'.
             base64 (str, optional): Base64 encoded file data.
+            file_inline (Union[dict, Data], optional): Pre-uploaded file object. If provided, 'file' and 'base64' are ignored.
             **kwargs: Additional parameters (e.g., file_name, width, height, time, callback).
 
         Returns:
@@ -83,9 +83,20 @@ class SendFile:
 
         if base64:
             try:
-                file = base64.b64decode(base64)
+                file = b64lib.b64decode(base64)
             except Exception:
-                raise InvalidInput("Invalid base64 data.")
+                raise InvalidInput("Invalid base64 data.") from None
+
+        if file is not None and file_inline is None:
+            if isinstance(file, (str, Path)):
+                file_str = str(file)
+                if not (file_str.startswith(('http://', 'https://')) or path.exists(file_str)):
+
+                    message = f"File not found: {file_str}\nPlease check if the file path is correct, or provide the file as bytes, URL, base64, or file_inline."
+                    raise FileNotFoundError(message)
+            elif not isinstance(file, (bytes, Data, dict)):
+                message = f"Unsupported 'file' type: {type(file).__name__}. Expected a path (str/Path), URL, bytes, Data, or dict."
+                raise InvalidInput(message)
 
         if chat.lower() in ('me', 'cloud', 'self', 'myself'):
             chat_guid = self.guid
@@ -169,7 +180,7 @@ class SendFile:
 
         if file is not None:
             if isinstance(file, (str, Path)):
-                if str(file).startswith('http'):
+                if str(file).startswith(('http://', 'https://')):
                     async with aiohttp.ClientSession(headers={'user-agent': self.user_agent}) as cs:
                         mime = await get_mime_from_url(session=cs, url=str(file))
                         kwargs['file_name'] = kwargs.get('file_name', ''.join([str(input_data['rnd']), mime or f'.{type}']))

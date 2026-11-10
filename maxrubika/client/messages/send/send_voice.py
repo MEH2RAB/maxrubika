@@ -4,14 +4,13 @@ from datetime import timedelta, datetime
 
 if TYPE_CHECKING:
     import maxrubika
-    from ...data import Data
+    from ....data import Data
 
 class SendVoice:
     async def send_voice(
         self: "maxrubika.Messenger",
         chat: str,
         voice: Optional[Union[Path, str, bytes]] = None,
-        file_inline: Optional[Union[dict, "Data"]] = None,
         text: Optional[str] = None,
         reply_to_message_id: Optional[Union[str, int]] = None,
         via_bot: Optional[str] = None,
@@ -21,6 +20,7 @@ class SendVoice:
         schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
         schedule_type: Optional[Literal['Default', 'WhenOnline']] = None,
         base64: Optional[str] = None,
+        file_inline: Optional[Union[dict, "Data"]] = None,
         **kwargs
     ):
         """
@@ -29,7 +29,6 @@ class SendVoice:
         Parameters:
             chat (str): The GUID, link, or username of the chat.
             voice (Union[Path, str, bytes], optional): The voice data (path, URL, or bytes).
-            file_inline (Union[dict, Data], optional): Pre-uploaded voice object. If provided, 'voice' and 'base64' are ignored.
             text (str, optional): Caption for the voice message (Max: 2048 chars, 64 lines).
             reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
             via_bot (str, optional): Bot GUID or username to send the message via.
@@ -39,6 +38,7 @@ class SendVoice:
             schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
             schedule_type (str, optional): 'Default' or 'WhenOnline'.
             base64 (str, optional): Base64 encoded voice data.
+            file_inline (Union[dict, Data], optional): Pre-uploaded voice object. If provided, 'voice' and 'base64' are ignored.
             **kwargs: Additional parameters.
 
         Returns:
@@ -52,7 +52,6 @@ class SendVoice:
         return await self.send_file(
             chat=chat,
             file=voice,
-            file_inline=file_inline,
             text=text,
             type='Voice',
             reply_to_message_id=reply_to_message_id,
@@ -63,5 +62,6 @@ class SendVoice:
             schedule_time=schedule_time,
             schedule_type=schedule_type,
             base64=base64,
+            file_inline=file_inline,
             **kwargs
         )

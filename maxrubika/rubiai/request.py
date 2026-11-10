@@ -79,6 +79,15 @@ class Request:
                 self.logger.warning(f"Request failed (attempt {attempt}/{self.max_retries}): Timeout")
                 await asyncio.sleep(2 ** (attempt - 1))
 
+            except aiohttp.ClientResponseError as e:
+                if e.status in (500, 502, 503, 504):
+                    if attempt >= self.max_retries:
+                        raise exceptions.NoConnection() from None
+                    self.logger.warning(f"Request failed (attempt {attempt}/{self.max_retries}): {e}")
+                    await asyncio.sleep(2 ** (attempt - 1))
+                else:
+                    raise
+
             except aiohttp.ClientConnectionError as e:
                 if attempt >= self.max_retries:
                     raise exceptions.NoConnection() from None

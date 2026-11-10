@@ -8,7 +8,7 @@ class DownloadImage:
     async def download_image(
         self: "maxrubika.RubiAI",
         task_id: str,
-        save_as: Optional[Union["pathlib.Path", str]] = None,
+        save_as: Optional[Union[pathlib.Path, str]] = None,
         max_wait: int = 60,
         interval: int = 2
     ):
@@ -29,7 +29,8 @@ class DownloadImage:
         import asyncio
         import base64
         import aiofiles
-        from ...data import Data
+        from ..data import Data
+        from .exceptions import InvalidInput
 
         result = None
         waited = 0
@@ -45,9 +46,10 @@ class DownloadImage:
             if status == "Success":
                 if save_as:
                     image_data = result.find_keys('image')
-                    if image_data:
-                        async with aiofiles.open(save_as, "wb") as file:
-                            await file.write(base64.b64decode(image_data))
+                    if not image_data:
+                        raise InvalidInput("Image data is missing in the response.")
+                    async with aiofiles.open(str(save_as), "wb") as file:
+                        await file.write(base64.b64decode(image_data))
                 return result
 
             if status == "Error":

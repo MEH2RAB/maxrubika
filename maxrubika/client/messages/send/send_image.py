@@ -11,7 +11,6 @@ class SendImage:
         self: "maxrubika.Messenger",
         chat: str,
         image: Optional[Union[Path, str, bytes]] = None,
-        file_inline: Optional[Union[dict, "Data"]] = None,
         text: Optional[str] = None,
         reply_to_message_id: Optional[Union[str, int]] = None,
         is_spoil: bool = False,
@@ -24,6 +23,7 @@ class SendImage:
         schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
         schedule_type: Optional[Literal['Default', 'WhenOnline']] = None,
         base64: Optional[str] = None,
+        file_inline: Optional[Union[dict, "Data"]] = None,
         **kwargs
     ):
         """
@@ -32,7 +32,6 @@ class SendImage:
         Parameters:
             chat (str): The GUID, link, or username of the chat.
             image (Union[Path, str, bytes], optional): The image data (path, URL, or bytes).
-            file_inline (Union[dict, Data], optional): Pre-uploaded image object. If provided, 'image' and 'base64' are ignored.
             text (str, optional): Caption for the image (Max: 2048 chars, 64 lines).
             reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
             is_spoil (bool): Whether the image should be marked as a spoiler. Defaults to False.
@@ -45,6 +44,7 @@ class SendImage:
             schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
             schedule_type (str, optional): 'Default' or 'WhenOnline'.
             base64 (str, optional): Base64 encoded image data.
+            file_inline (Union[dict, Data], optional): Pre-uploaded image object. If provided, 'image' and 'base64' are ignored.
             **kwargs: Additional parameters.
 
         Returns:
@@ -58,7 +58,6 @@ class SendImage:
         return await self.send_file(
             chat=chat,
             file=image,
-            file_inline=file_inline,
             text=text,
             type='Image',
             is_spoil=is_spoil,
@@ -72,5 +71,6 @@ class SendImage:
             schedule_time=schedule_time,
             schedule_type=schedule_type,
             base64=base64,
+            file_inline=file_inline,
             **kwargs
         )
