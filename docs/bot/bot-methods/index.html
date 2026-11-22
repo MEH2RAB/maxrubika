@@ -1,0 +1,2786 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="کتابخانه کامل پایتون برای پیام‌رسان‌های روبیکا و شاد" name="description"/>
+<link href="https://meh2rab.github.io/maxrubika/bot/bot-methods/" rel="canonical"/>
+<link href="../bot-connect-disconnect/" rel="prev"/>
+<link href="../bot-decorators/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.8.1" name="generator"/>
+<title>متدها - مستندات کتابخانه MAXRubika</title>
+<link href="../../assets/stylesheets/main.57a0d79d.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.fb2fffe2.min.css" rel="stylesheet"/>
+<style>:root{--md-text-font:"Vazirmatn";--md-code-font:"Fira Code"}</style>
+<link href="../../assets/fonts/fonts.css" rel="stylesheet"/>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="indigo" data-md-color-scheme="default" dir="rtl">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#_1">
+          پرش به محتویات
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="سرتیتر" class="md-header__inner md-grid">
+<a aria-label="مستندات کتابخانه MAXRubika" class="md-header__button md-logo" data-md-component="logo" href="../.." title="مستندات کتابخانه MAXRubika">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            مستندات کتابخانه MAXRubika
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              متدها
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="تغییر به حالت تاریک" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="تغییر به حالت تاریک">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+</label>
+<input aria-label="تغییر به حالت روشن" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="تغییر به حالت روشن">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="جستجو" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="جستجو" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="جستجو" class="md-search__options">
+<button aria-label="بازنشانی" class="md-search__icon md-icon" tabindex="-1" title="بازنشانی" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            راه‌اندازی جستجو
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/MEH2RAB/maxrubika" title="رفتن به مخزن">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    MEH2RAB/maxrubika
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="هدایت" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="مستندات کتابخانه MAXRubika" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="مستندات کتابخانه MAXRubika">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    مستندات کتابخانه MAXRubika
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/MEH2RAB/maxrubika" title="رفتن به مخزن">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    MEH2RAB/maxrubika
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../">
+<span class="md-ellipsis">
+    
+  
+    خانه
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../developers/">
+<span class="md-ellipsis">
+    
+  
+    توسعه‌دهندگان
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested md-nav__item--active md-nav__item--section">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    رباتِ روبیکا
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    رباتِ روبیکا
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<a aria-current="page" class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    متدها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../bot-decorators/">
+<span class="md-ellipsis">
+    
+  
+    دکوراتورها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../bot-filters/">
+<span class="md-ellipsis">
+    
+  
+    فیلترها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../bot-properties/">
+<span class="md-ellipsis">
+    
+  
+    پراپرتی‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../bot-plugins/">
+<span class="md-ellipsis">
+    
+  
+    پلاگین
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item md-nav__item--nested"><input class="md-nav__toggle md-toggle" id="__nav_bot_more" type="checkbox"/><label class="md-nav__link" for="__nav_bot_more" id="__nav_bot_more_label" tabindex="0"><span class="md-ellipsis">توضیحات بیشتر</span><span class="md-nav__icon md-icon"></span></label><nav aria-expanded="false" aria-labelledby="__nav_bot_more_label" class="md-nav" data-md-level="2"><label class="md-nav__title" for="__nav_bot_more"><span class="md-nav__icon md-icon"></span>توضیحات بیشتر</label><ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item"><a class="md-nav__link" href="../bot-more/">
+<span class="md-ellipsis">
+    
+  
+    توضیحات بیشتر
+  
+
+    
+  </span>
+</a></li><li class="md-nav__item">
+<a class="md-nav__link" href="../bot-init-params/">
+<span class="md-ellipsis">
+    
+  
+    ساخت و پیکربندی بات
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../bot-connect-disconnect/">
+<span class="md-ellipsis">
+    
+  
+    اتصال و قطع اتصال
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../bot-metadata/">
+<span class="md-ellipsis">
+    
+  
+    متادیتا در متن پیام
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../bot-chat-id/">
+<span class="md-ellipsis">
+    
+  
+    شناسه‌های گفتگو
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_1" type="checkbox"/>
+<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    دکمه‌های کیپاد
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_1">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    دکمه‌های کیپاد
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-button-types/">
+<span class="md-ellipsis">
+    
+  
+    انواع دکمه‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-button-models/">
+<span class="md-ellipsis">
+    
+  
+    ساختار و مدل‌های کیپاد
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-button-examples/">
+<span class="md-ellipsis">
+    
+  
+    نمونه‌های عملی
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../bot-token-string/">
+<span class="md-ellipsis">
+    
+  
+    توکن استرینگ و امنیت
+  
+
+    
+  </span>
+</a>
+</li></ul></nav></li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    مثال‌ها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    مثال‌ها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-examples/">
+<span class="md-ellipsis">
+    
+  
+    معرفی مثال‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item"><a class="md-nav__link" href="../bot-examples-selection-menu/"><span class="md-ellipsis">تنظیم منوی انتخابی</span></a></li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-examples-simple-message/">
+<span class="md-ellipsis">
+    
+  
+    دریافت پیام ساده
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-examples-echo/">
+<span class="md-ellipsis">
+    
+  
+    اکو کردن پیام‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-examples-get-info/">
+<span class="md-ellipsis">
+    
+  
+    دریافت چت آیدی و سندر آیدی
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-examples-mute-users/">
+<span class="md-ellipsis">
+    
+  
+    سکوت کردن کاربران
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-examples-tag-users/">
+<span class="md-ellipsis">
+    
+  
+    تگ کردن کاربران
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-examples-check-join/">
+<span class="md-ellipsis">
+    
+  
+    بررسی عضویت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-examples-dice-coin-random/">
+<span class="md-ellipsis">
+    
+  
+    تاس، سکه و عدد تصادفی
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../bot-examples-self-bot-combined/">
+<span class="md-ellipsis">
+    
+  
+    ترکیب بات و سلف‌بات
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li></ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested md-nav__item--section">
+<input class="md-nav__toggle md-toggle" id="__nav_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    حساب کاربریِ روبیکا
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_9_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_9">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    حساب کاربریِ روبیکا
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item md-nav__item--nested"><input class="md-nav__toggle md-toggle" id="__nav_client_messenger" type="checkbox"/><label class="md-nav__link" for="__nav_client_messenger" id="__nav_client_messenger_label" tabindex="0"><span class="md-ellipsis">مستندات پیام‌رسان</span><span class="md-nav__icon md-icon"></span></label><nav aria-expanded="false" aria-labelledby="__nav_client_messenger_label" class="md-nav" data-md-level="2"><label class="md-nav__title" for="__nav_client_messenger"><span class="md-nav__icon md-icon"></span>مستندات پیام‌رسان</label><ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    متدها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    متدها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+
+
+
+
+
+
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-methods-bots/">
+<span class="md-ellipsis">
+    
+  
+    بات‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-methods-channels/">
+<span class="md-ellipsis">
+    
+  
+    کانال‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-methods-groups/">
+<span class="md-ellipsis">
+    
+  
+    گروه‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-methods-users/">
+<span class="md-ellipsis">
+    
+  
+    کاربران
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    چت‌ها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    چت‌ها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-chats-info/">
+<span class="md-ellipsis">
+    
+  
+    اطلاعات و دریافت چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-chats-manage/">
+<span class="md-ellipsis">
+    
+  
+    مدیریت چت و لینک دعوت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-chats-members/">
+<span class="md-ellipsis">
+    
+  
+    اعضا و ادمین‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-chats-settings/">
+<span class="md-ellipsis">
+    
+  
+    تنظیمات چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-chats-utility/">
+<span class="md-ellipsis">
+    
+  
+    ابزارهای چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-chats-voice/">
+<span class="md-ellipsis">
+    
+  
+    ویس چت
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    پیام‌ها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    پیام‌ها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-messages-send/">
+<span class="md-ellipsis">
+    
+  
+    ارسال پیام و مدیا
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-messages-fetch/">
+<span class="md-ellipsis">
+    
+  
+    دریافت و جستجوی پیام
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-messages-actions/">
+<span class="md-ellipsis">
+    
+  
+    عملیات روی پیام‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-messages-utility/">
+<span class="md-ellipsis">
+    
+  
+    ابزارهای پیام
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_14" type="checkbox"/>
+<label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+<span class="md-ellipsis">تنظیمات</span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_14_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_14">
+<span class="md-nav__icon md-icon"></span>
+تنظیمات
+</label>
+<ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-methods-settings-account/">
+<span class="md-ellipsis">تنظیمات اکانت</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-methods-settings-privacy/">
+<span class="md-ellipsis">تنظیمات حریم خصوصی</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-methods-settings-security/">
+<span class="md-ellipsis">تنظیمات امنیت</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-methods-settings-folders/">
+<span class="md-ellipsis">تنظیمات پوشه‌ها</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-methods-settings-general/">
+<span class="md-ellipsis">تنظیمات عمومی</span>
+</a>
+</li></ul>
+</nav>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-methods-other/">
+<span class="md-ellipsis">
+    
+  
+    سایر متدها
+  
+
+    
+  </span>
+</a>
+</li></ul>
+</nav>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-decorators/">
+<span class="md-ellipsis">
+    
+  
+    دکوراتورها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-filters/">
+<span class="md-ellipsis">
+    
+  
+    فیلترها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-properties/">
+<span class="md-ellipsis">
+    
+  
+    پراپرتی‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-examples/">
+<span class="md-ellipsis">
+    
+  
+    مثال‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../client/client-more/">
+<span class="md-ellipsis">
+    
+  
+    توضیحات بیشتر
+  
+
+    
+  </span>
+</a>
+</li></ul></nav></li><li class="md-nav__item md-nav__item--nested"><input class="md-nav__toggle md-toggle" id="__nav_rubino" type="checkbox"/><label class="md-nav__link" for="__nav_rubino" id="__nav_rubino_label" tabindex=""><span class="md-ellipsis">مستندات روبینو</span><span class="md-nav__icon md-icon"></span></label><nav aria-expanded="false" aria-labelledby="__nav_rubino_label" class="md-nav" data-md-level="2"><label class="md-nav__title" for="__nav_rubino"><span class="md-nav__icon md-icon"></span>مستندات روبینو</label><ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item"><a class="md-nav__link" href="../../rubino/rubino-methods/"><span class="md-ellipsis">متدها</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="../../rubino/rubino-more/"><span class="md-ellipsis">توضیحات بیشتر</span></a></li><li class="md-nav__item"><a aria-disabled="true" class="md-nav__link" href="#" onclick="alert('این بخش در صورت افزودن مثال، قابل دسترس خواهد بود.'); return false;"><span class="md-ellipsis">مثال‌ها</span></a></li></ul></nav></li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-ellipsis">فیلم و سریال</span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7"><span class="md-nav__icon md-icon"></span>فیلم و سریال</label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item"><a class="md-nav__link" href="../../tv/tv-methods/"><span class="md-ellipsis">متدها</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="../../tv/tv-more/"><span class="md-ellipsis">توضیحات بیشتر</span></a></li> <li class="md-nav__item"><a aria-disabled="true" class="md-nav__link" href="#" onclick="alert('این بخش در صورت افزودن مثال، قابل دسترس خواهد بود.'); return false;"><span class="md-ellipsis">مثال‌ها</span></a></li>
+</ul>
+</nav>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-ellipsis">هوش مصنوعی روبی</span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8"><span class="md-nav__icon md-icon"></span>هوش مصنوعی روبی</label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item"><a class="md-nav__link" href="../../rubiai/rubiai-methods/"><span class="md-ellipsis">متدها</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="../../rubiai/rubiai-more/"><span class="md-ellipsis">توضیحات بیشتر</span></a></li> <li class="md-nav__item"><a aria-disabled="true" class="md-nav__link" href="#" onclick="alert('این بخش در صورت افزودن مثال، قابل دسترس خواهد بود.'); return false;"><span class="md-ellipsis">مثال‌ها</span></a></li>
+</ul>
+</nav>
+</li></ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested md-nav__item--section">
+<input class="md-nav__toggle md-toggle" id="__nav_13" type="checkbox"/>
+<label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    حساب کاربریِ شاد
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_13_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_13">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    حساب کاربریِ شاد
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item md-nav__item--nested"><input class="md-nav__toggle md-toggle" id="__nav_shad_messenger" type="checkbox"/><label class="md-nav__link" for="__nav_shad_messenger" id="__nav_shad_messenger_label" tabindex="0"><span class="md-ellipsis">مستندات پیام‌رسان</span><span class="md-nav__icon md-icon"></span></label><nav aria-expanded="false" aria-labelledby="__nav_shad_messenger_label" class="md-nav" data-md-level="2"><label class="md-nav__title" for="__nav_shad_messenger"><span class="md-nav__icon md-icon"></span>مستندات پیام‌رسان</label><ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_12" type="checkbox"/>
+<label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    متدها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_12_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_12">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    متدها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+
+
+
+
+
+
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-bots/">
+<span class="md-ellipsis">
+    
+  
+    بات‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-channels/">
+<span class="md-ellipsis">
+    
+  
+    کانال‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-groups/">
+<span class="md-ellipsis">
+    
+  
+    گروه‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-users/">
+<span class="md-ellipsis">
+    
+  
+    کاربران
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_11" type="checkbox"/>
+<label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    چت‌ها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_11_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_11">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    چت‌ها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-info/">
+<span class="md-ellipsis">
+    
+  
+    اطلاعات و دریافت چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-manage/">
+<span class="md-ellipsis">
+    
+  
+    مدیریت چت و لینک دعوت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-members/">
+<span class="md-ellipsis">
+    
+  
+    اعضا و ادمین‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-settings/">
+<span class="md-ellipsis">
+    
+  
+    تنظیمات چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-utility/">
+<span class="md-ellipsis">
+    
+  
+    ابزارهای چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-voice/">
+<span class="md-ellipsis">
+    
+  
+    ویس چت
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    پیام‌ها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_10">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    پیام‌ها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-messages-send/">
+<span class="md-ellipsis">
+    
+  
+    ارسال پیام و مدیا
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-messages-fetch/">
+<span class="md-ellipsis">
+    
+  
+    دریافت و جستجوی پیام
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-messages-actions/">
+<span class="md-ellipsis">
+    
+  
+    عملیات روی پیام‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-messages-utility/">
+<span class="md-ellipsis">
+    
+  
+    ابزارهای پیام
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_15" type="checkbox"/>
+<label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+<span class="md-ellipsis">تنظیمات</span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_15_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_15">
+<span class="md-nav__icon md-icon"></span>
+تنظیمات
+</label>
+<ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-settings-account/">
+<span class="md-ellipsis">تنظیمات اکانت</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-settings-privacy/">
+<span class="md-ellipsis">تنظیمات حریم خصوصی</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-settings-security/">
+<span class="md-ellipsis">تنظیمات امنیت</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-settings-folders/">
+<span class="md-ellipsis">تنظیمات پوشه‌ها</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-settings-general/">
+<span class="md-ellipsis">تنظیمات عمومی</span>
+</a>
+</li></ul>
+</nav>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-other/">
+<span class="md-ellipsis">
+    
+  
+    سایر متدها
+  
+
+    
+  </span>
+</a>
+</li></ul>
+</nav>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-decorators/">
+<span class="md-ellipsis">
+    
+  
+    دکوراتورها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-filters/">
+<span class="md-ellipsis">
+    
+  
+    فیلترها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-properties/">
+<span class="md-ellipsis">
+    
+  
+    پراپرتی‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-examples/">
+<span class="md-ellipsis">
+    
+  
+    مثال‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-more/">
+<span class="md-ellipsis">
+    
+  
+    توضیحات بیشتر
+  
+
+    
+  </span>
+</a>
+</li></ul></nav></li><li class="md-nav__item"><a aria-disabled="true" class="md-nav__link" href="#" onclick="alert('این بخش به زودی تکمیل می‌شود.'); return false;"><span class="md-ellipsis">مستندات شادینو</span></a></li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ai/">
+<span class="md-ellipsis">
+    
+  
+    راهنمای هوش مصنوعی
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="فهرست موضوعات" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      فهرست موضوعات
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#get_me">
+<span class="md-ellipsis">
+      
+        get_me
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#get_chat_info">
+<span class="md-ellipsis">
+      
+        get_chat_info
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#get_chat_member">
+<span class="md-ellipsis">
+      
+        get_chat_member
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#get_updates">
+<span class="md-ellipsis">
+      
+        get_updates
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#send_message">
+<span class="md-ellipsis">
+      
+        send_message
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#edit_message">
+<span class="md-ellipsis">
+      
+        edit_message
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#edit_inline_keypad">
+<span class="md-ellipsis">
+      
+        edit_inline_keypad
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#edit_chat_keypad">
+<span class="md-ellipsis">
+      
+        edit_chat_keypad
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#remove_chat_keypad">
+<span class="md-ellipsis">
+      
+        remove_chat_keypad
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#delete_message">
+<span class="md-ellipsis">
+      
+        delete_message
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#auto_delete_message">
+<span class="md-ellipsis">
+      
+        auto_delete_message
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#forward_message">
+<span class="md-ellipsis">
+      
+        forward_message
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#send_contact">
+<span class="md-ellipsis">
+      
+        send_contact
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#send_location">
+<span class="md-ellipsis">
+      
+        send_location
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#send_poll">
+<span class="md-ellipsis">
+      
+        send_poll
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#send_quiz">
+<span class="md-ellipsis">
+      
+        send_quiz
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#send_file">
+<span class="md-ellipsis">
+      
+        send_file
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#send_image">
+<span class="md-ellipsis">
+      
+        send_image
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#send_video">
+<span class="md-ellipsis">
+      
+        send_video
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#send_voice">
+<span class="md-ellipsis">
+      
+        send_voice
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#send_music">
+<span class="md-ellipsis">
+      
+        send_music
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#send_gif">
+<span class="md-ellipsis">
+      
+        send_gif
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#request_send_file">
+<span class="md-ellipsis">
+      
+        request_send_file
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#upload_file">
+<span class="md-ellipsis">
+      
+        upload_file
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#download_file">
+<span class="md-ellipsis">
+      
+        download_file
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#get_file">
+<span class="md-ellipsis">
+      
+        get_file
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ban_member">
+<span class="md-ellipsis">
+      
+        ban_member
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#unban_member">
+<span class="md-ellipsis">
+      
+        unban_member
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#member_is_admin">
+<span class="md-ellipsis">
+      
+        member_is_admin
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#member_is_owner">
+<span class="md-ellipsis">
+      
+        member_is_owner
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#member_is_joined">
+<span class="md-ellipsis">
+      
+        member_is_joined
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#set_commands">
+<span class="md-ellipsis">
+      
+        set_commands
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#update_bot_endpoints">
+<span class="md-ellipsis">
+      
+        update_bot_endpoints
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#register_all_endpoints">
+<span class="md-ellipsis">
+      
+        register_all_endpoints
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#get_token_string">
+<span class="md-ellipsis">
+      
+        get_token_string
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#start">
+<span class="md-ellipsis">
+      
+        start
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#run">
+<span class="md-ellipsis">
+      
+        run
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#request">
+<span class="md-ellipsis">
+      
+        request
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#disconnect">
+<span class="md-ellipsis">
+      
+        disconnect
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#close">
+<span class="md-ellipsis">
+      
+        close
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="_1">متدها</h1>
+<hr/>
+<h2 id="get_me"><a href="#get_me">get_me</a></h2>
+<p>این متد برای دریافت اطلاعات هویتی بات به کار می‌رود. اطلاعاتی نظیر نام، نام‌کاربری، شناسه (ID)، پیام اولیه بات و... از طریق این متد قابل دریافت است. این متد هیچ پارامتری به عنوان ورودی دریافت نمی‌کند.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-0-2"><a href="#__codelineno-0-2" id="__codelineno-0-2" name="__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a href="#__codelineno-0-3" id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-0-4"><a href="#__codelineno-0-4" id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">bot</span><span class="o">.</span><span class="n">get_me</span><span class="p">())</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="get_chat_info"><a href="#get_chat_info">get_chat_info</a></h2>
+<p>این متد برای دریافت اطلاعات مربوط به یک کاربر، گروه یا کانال استفاده می‌شود. پارامتر پذیرفته‌شده توسط این متد به شرح زیر است:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">get_chat_info</span><span class="p">(</span><span class="s2">"chat_id"</span><span class="p">)</span>
+</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="get_chat_member"><a href="#get_chat_member">get_chat_member</a></h2>
+<p>این متد برای دریافت اطلاعات یک عضو خاص در یک گروه یا کانال استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گروه (با g0) یا کانال (با c0).</li>
+<li><strong>user_id:</strong> شناسه کاربر (با u0).</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">get_chat_member</span><span class="p">(</span><span class="s2">"g0xxxxxxxxxxxxxxx"</span><span class="p">,</span> <span class="s2">"u0xxxxxxxxxxxxxxx"</span><span class="p">)</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="get_updates"><a href="#get_updates">get_updates</a></h2>
+<p>این متد برای دریافت رویدادهای جدید (مانند پیام‌ها) از API به صورت دستی استفاده می‌شود، این متد عمدتاً برای حالت Polling کاربرد دارد. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>offset_id:</strong> شناسه‌ای برای دریافت رویدادهای بعدی. (پیش‌فرض: None)</li>
+<li><strong>limit:</strong> حداکثر تعداد رویدادهای قابل دریافت. (پیش‌فرض: ۱۰۰)</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">get_updates</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-3-5"><a href="#__codelineno-3-5" id="__codelineno-3-5" name="__codelineno-3-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="send_message"><a href="#send_message">send_message</a></h2>
+<p>این متد برای ارسال پیام متنی به یک گفتگو (چت) به کار می‌رود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>text:</strong> متن پیام.</li>
+<li><strong>metadata:</strong> متادیتای قالب‌بندی‌شده (اختیاری).</li>
+<li><strong>chat_keypad:</strong> تنظیم کیبورد سفارشی برای گفتگو. (پیش‌فرض: None)</li>
+<li><strong>inline_keypad:</strong> تنظیم دکمه‌های شیشه‌ای (Inline) برای پیام. (پیش‌فرض: None)</li>
+<li><strong>reply_to_message_id:</strong> شناسه (مسیج آیدی) پیامی که می‌خواهید به آن ریپلای بزنید. (پیش‌فرض: None)</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان برای این پیام. (پیش‌فرض: False)</li>
+<li><strong>resize_keyboard:</strong> تراز بودن اندازه دکمه‌های chat_keypad. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد گفتگو پس از کلیک کاربر روی یکی از دکمه‌ها. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong></p>
+<ol>
+<li>شناسه گفتگو (chat_id) باید با g0 (برای گروه)، c0 (برای کانال) یا b0 (برای کاربر) شروع شود و مجموعاً ۳۲ کاراکتر باشد. دقت کنید که chat_id کاربر (که با b0 شروع می‌شود) با sender_id کاربر (که با u0 شروع می‌شود) متفاوت است. همچنین از وارد کردن GUID که ظاهری مشابه دارد، خودداری کنید. برای دریافت chat_id گفتگوی مورد نظر، <a href="../bot-examples-get-info/">اینجا</a> کلیک کنید.</li>
+<li>حداکثر تعداد کاراکتر مجاز برای متن پیام ۴۰۹۶ کاراکتر است.</li>
+<li>برای ساخت chat_keypad و inline_keypad، می‌توانید از روش ساده‌سازی‌شده کتابخانه استفاده کنید. در این روش، نیازی به تنظیم دستی button_id و type نیست. کتابخانه به طور خودکار button_id را از عدد ۱۰۰ به ترتیب چینش دکمه‌ها مقداردهی می‌کند و نوع (type) دکمه را نیز Simple در نظر می‌گیرد. برای مشاهده انواع دکمه‌ها، <a href="../bot-button-types/">اینجا</a> کلیک کنید.</li>
+<li>پارامترهای resize_keyboard و one_time_keyboard تنها زمانی تأثیرگذار هستند که chat_keypad مقداردهی شده باشد.</li>
+<li>برای استفاده از متادیتا در متن پیام (مانند برجسته، کج، منشن، هایپرلینک و...)، <a href="../bot-metadata/">اینجا</a> کلیک کنید.</li>
+<li>در صورتی که به روش تاپل از کیبوردها استفاده نمایید، ترتیب آن به ترتیب (متن، آیدی، و نوع دکمه) است؛ در صورتی که نمی‌خواهید نوع دکمه و آیدی آن را تنظیم کنید، کافی‌ست صرفاً متن دکمه را وارد کنید. (کامای بعد از متن فراموش نشود). اگر می‌خواهید فقط متن دکمه و نوع آن را وارد کنید، در قسمت آیدی، None وارد کنید؛ کتابخانه به ترتیب از عدد ۱۰۰ آیدی دکمه‌ها را ثبت خواهد کرد.</li>
+</ol>
+<p><strong>مثال‌ها:</strong></p>
+<p>ارسال یک پیام متنی ساده:</p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-4-2"><a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a href="#__codelineno-4-3" id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-4-4"><a href="#__codelineno-4-4" id="__codelineno-4-4" name="__codelineno-4-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="s2">"این یک پیام تستی است."</span><span class="p">)</span>
+</span><span id="__span-4-5"><a href="#__codelineno-4-5" id="__codelineno-4-5" name="__codelineno-4-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<p>ارسال پیام با استفاده از متادیتا:</p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-5-2"><a href="#__codelineno-5-2" id="__codelineno-5-2" name="__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a href="#__codelineno-5-3" id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-5-4"><a href="#__codelineno-5-4" id="__codelineno-5-4" name="__codelineno-5-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="s2">"&gt; **سلام** به __کتابخانه__ ||MAXRubika|| ~~خوش آمدید.~~"</span><span class="p">)</span>
+</span><span id="__span-5-5"><a href="#__codelineno-5-5" id="__codelineno-5-5" name="__codelineno-5-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<p>ارسال پیام همراه با chat_keypad و inline_keypad (روش ساده):</p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-6-2"><a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-6-4"><a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span>
+</span><span id="__span-6-5"><a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a>        <span class="n">chat_id</span><span class="o">=</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">"این یک پیام تستی است."</span><span class="p">,</span>
+</span><span id="__span-6-6"><a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a>        <span class="n">inline_keypad</span><span class="o">=</span><span class="p">[[</span><span class="s2">"دکمه 1"</span><span class="p">],</span> <span class="p">[</span><span class="s2">"دکمه 2"</span><span class="p">]],</span>
+</span><span id="__span-6-7"><a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a>        <span class="n">chat_keypad</span><span class="o">=</span><span class="p">[[</span><span class="s2">"ارتباط با مدیر"</span><span class="p">,</span> <span class="s2">"خروج"</span><span class="p">]])</span>
+</span><span id="__span-6-8"><a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<p>ارسال پیام همراه با chat_keypad و inline_keypad (به صورت تاپل):</p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-7-2"><a href="#__codelineno-7-2" id="__codelineno-7-2" name="__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a href="#__codelineno-7-3" id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-7-4"><a href="#__codelineno-7-4" id="__codelineno-7-4" name="__codelineno-7-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span>
+</span><span id="__span-7-5"><a href="#__codelineno-7-5" id="__codelineno-7-5" name="__codelineno-7-5"></a>        <span class="n">chat_id</span><span class="o">=</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">"این یک پیام تستی است."</span><span class="p">,</span>
+</span><span id="__span-7-6"><a href="#__codelineno-7-6" id="__codelineno-7-6" name="__codelineno-7-6"></a>        <span class="n">inline_keypad</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-7-7"><a href="#__codelineno-7-7" id="__codelineno-7-7" name="__codelineno-7-7"></a>            <span class="p">[(</span><span class="s2">"Help"</span><span class="p">,</span> <span class="s2">"help"</span><span class="p">)],</span>
+</span><span id="__span-7-8"><a href="#__codelineno-7-8" id="__codelineno-7-8" name="__codelineno-7-8"></a>            <span class="p">[(</span><span class="s2">"Retry"</span><span class="p">,</span> <span class="s2">"retry"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Close"</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)],</span>
+</span><span id="__span-7-9"><a href="#__codelineno-7-9" id="__codelineno-7-9" name="__codelineno-7-9"></a>            <span class="p">[(</span><span class="s2">"Admin Panel"</span><span class="p">,</span> <span class="s2">"panel"</span><span class="p">,</span> <span class="s2">"Simple"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Settings"</span><span class="p">,</span> <span class="s2">"settings"</span><span class="p">,</span> <span class="s2">"Simple"</span><span class="p">)],</span>
+</span><span id="__span-7-10"><a href="#__codelineno-7-10" id="__codelineno-7-10" name="__codelineno-7-10"></a>            <span class="p">[(</span><span class="s2">"About"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Support"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+</span><span id="__span-7-11"><a href="#__codelineno-7-11" id="__codelineno-7-11" name="__codelineno-7-11"></a>            <span class="p">[(</span><span class="s2">"✅ Confirm"</span><span class="p">,</span> <span class="s2">"confirm"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"❌ Cancel"</span><span class="p">,</span> <span class="s2">"cancel"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"🔄 Back"</span><span class="p">,</span> <span class="s2">"back"</span><span class="p">)],</span>
+</span><span id="__span-7-12"><a href="#__codelineno-7-12" id="__codelineno-7-12" name="__codelineno-7-12"></a>        <span class="p">],</span>
+</span><span id="__span-7-13"><a href="#__codelineno-7-13" id="__codelineno-7-13" name="__codelineno-7-13"></a>        <span class="n">chat_keypad</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-7-14"><a href="#__codelineno-7-14" id="__codelineno-7-14" name="__codelineno-7-14"></a>            <span class="p">[(</span><span class="s2">"ارتباط با مدیر"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+</span><span id="__span-7-15"><a href="#__codelineno-7-15" id="__codelineno-7-15" name="__codelineno-7-15"></a>            <span class="p">[(</span><span class="s2">"خروج"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+</span><span id="__span-7-16"><a href="#__codelineno-7-16" id="__codelineno-7-16" name="__codelineno-7-16"></a>        <span class="p">])</span>
+</span><span id="__span-7-17"><a href="#__codelineno-7-17" id="__codelineno-7-17" name="__codelineno-7-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<p>ارسال پیام همراه با chat_keypad و inline_keypad (روش سفارشی):</p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-8-2"><a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-8-4"><a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span>
+</span><span id="__span-8-5"><a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a>        <span class="n">chat_id</span><span class="o">=</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">"این یک پیام تستی است."</span><span class="p">,</span>
+</span><span id="__span-8-6"><a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a>        <span class="n">inline_keypad</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-8-7"><a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a>            <span class="s2">"rows"</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="__span-8-8"><a href="#__codelineno-8-8" id="__codelineno-8-8" name="__codelineno-8-8"></a>                <span class="p">{</span>
+</span><span id="__span-8-9"><a href="#__codelineno-8-9" id="__codelineno-8-9" name="__codelineno-8-9"></a>                    <span class="s2">"buttons"</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="__span-8-10"><a href="#__codelineno-8-10" id="__codelineno-8-10" name="__codelineno-8-10"></a>                        <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"10"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Simple"</span><span class="p">,</span> <span class="s2">"button_text"</span><span class="p">:</span> <span class="s2">"دکمه 1"</span><span class="p">},</span>
+</span><span id="__span-8-11"><a href="#__codelineno-8-11" id="__codelineno-8-11" name="__codelineno-8-11"></a>                        <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"100"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Simple"</span><span class="p">,</span> <span class="s2">"button_text"</span><span class="p">:</span> <span class="s2">"دکمه 2"</span><span class="p">},</span>
+</span><span id="__span-8-12"><a href="#__codelineno-8-12" id="__codelineno-8-12" name="__codelineno-8-12"></a>                        <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1000"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Simple"</span><span class="p">,</span> <span class="s2">"button_text"</span><span class="p">:</span> <span class="s2">"دکمه 3"</span><span class="p">}</span>
+</span><span id="__span-8-13"><a href="#__codelineno-8-13" id="__codelineno-8-13" name="__codelineno-8-13"></a>                    <span class="p">]</span>
+</span><span id="__span-8-14"><a href="#__codelineno-8-14" id="__codelineno-8-14" name="__codelineno-8-14"></a>                <span class="p">}</span>
+</span><span id="__span-8-15"><a href="#__codelineno-8-15" id="__codelineno-8-15" name="__codelineno-8-15"></a>            <span class="p">]</span>
+</span><span id="__span-8-16"><a href="#__codelineno-8-16" id="__codelineno-8-16" name="__codelineno-8-16"></a>        <span class="p">},</span>
+</span><span id="__span-8-17"><a href="#__codelineno-8-17" id="__codelineno-8-17" name="__codelineno-8-17"></a>        <span class="n">chat_keypad</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-8-18"><a href="#__codelineno-8-18" id="__codelineno-8-18" name="__codelineno-8-18"></a>            <span class="s2">"rows"</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="__span-8-19"><a href="#__codelineno-8-19" id="__codelineno-8-19" name="__codelineno-8-19"></a>                <span class="p">{</span>
+</span><span id="__span-8-20"><a href="#__codelineno-8-20" id="__codelineno-8-20" name="__codelineno-8-20"></a>                    <span class="s2">"buttons"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Simple"</span><span class="p">,</span> <span class="s2">"button_text"</span><span class="p">:</span> <span class="s2">"ارتباط با مدیر"</span><span class="p">}]</span>
+</span><span id="__span-8-21"><a href="#__codelineno-8-21" id="__codelineno-8-21" name="__codelineno-8-21"></a>                <span class="p">},</span>
+</span><span id="__span-8-22"><a href="#__codelineno-8-22" id="__codelineno-8-22" name="__codelineno-8-22"></a>                <span class="p">{</span>
+</span><span id="__span-8-23"><a href="#__codelineno-8-23" id="__codelineno-8-23" name="__codelineno-8-23"></a>                    <span class="s2">"buttons"</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="__span-8-24"><a href="#__codelineno-8-24" id="__codelineno-8-24" name="__codelineno-8-24"></a>                        <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"2"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"AskMyPhoneNumber"</span><span class="p">,</span> <span class="s2">"button_text"</span><span class="p">:</span> <span class="s2">"نمایش شماره تلفن من"</span><span class="p">},</span>
+</span><span id="__span-8-25"><a href="#__codelineno-8-25" id="__codelineno-8-25" name="__codelineno-8-25"></a>                        <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"3"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"AskMyLocation"</span><span class="p">,</span> <span class="s2">"button_text"</span><span class="p">:</span> <span class="s2">"نمایش موقعیت مکانی من"</span><span class="p">}</span>
+</span><span id="__span-8-26"><a href="#__codelineno-8-26" id="__codelineno-8-26" name="__codelineno-8-26"></a>                    <span class="p">]</span>
+</span><span id="__span-8-27"><a href="#__codelineno-8-27" id="__codelineno-8-27" name="__codelineno-8-27"></a>                <span class="p">}</span>
+</span><span id="__span-8-28"><a href="#__codelineno-8-28" id="__codelineno-8-28" name="__codelineno-8-28"></a>            <span class="p">]</span>
+</span><span id="__span-8-29"><a href="#__codelineno-8-29" id="__codelineno-8-29" name="__codelineno-8-29"></a>        <span class="p">})</span>
+</span><span id="__span-8-30"><a href="#__codelineno-8-30" id="__codelineno-8-30" name="__codelineno-8-30"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="edit_message"><a href="#edit_message">edit_message</a></h2>
+<p>این متد برای ویرایش متن یک پیام از پیش ارسال‌شده در گفتگو به کار می‌رود. پارامترهای ورودی آن عبارتند از:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگویی که پیام در آن قرار دارد.</li>
+<li><strong>message_id:</strong> شناسه (مسیج آیدی) پیامی که باید ویرایش شود.</li>
+<li><strong>text:</strong> متن جدید جایگزین.</li>
+<li><strong>metadata:</strong> متادیتای قالب‌بندی‌شده (اختیاری).</li>
+</ul>
+<p><strong>نکات:</strong></p>
+<ol>
+<li>شناسه گفتگو باید با g0، c0 یا b0 شروع شده و مجموعاً ۳۲ کاراکتر باشد. دقت کنید که chat_id کاربر (با b0) با sender_id کاربر (با u0) متفاوت است. از GUID به جای آن استفاده نکنید. برای راهنمایی بیشتر <a href="../bot-chat-id/">اینجا</a> کلیک کنید.</li>
+<li>متن جدید نیز حداکثر می‌تواند ۴۰۹۶ کاراکتر باشد.</li>
+<li>بات تنها قادر به ویرایش پیام‌هایی است که خود ارسال کرده است. این محدودیت هم در گروه‌ها و هم در چت‌های خصوصی برقرار است.</li>
+<li>برای آشنایی با نحوه استفاده از متادیتا در متن، <a href="../bot-metadata/">اینجا</a> کلیک کنید.</li>
+</ol>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-9-2"><a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-9-4"><a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">edit_message</span><span class="p">(</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="s2">"message_id"</span><span class="p">,</span> <span class="s2">"متن جدید"</span><span class="p">)</span>
+</span><span id="__span-9-5"><a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="edit_inline_keypad"><a href="#edit_inline_keypad">edit_inline_keypad</a></h2>
+<p>این متد برای ویرایش دکمه‌های شیشه‌ای (Inline Keypad) یک پیام در گفتگو استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی حاوی پیام.</li>
+<li><strong>message_id:</strong> شناسه (مسیج آیدی) پیامی که دکمه‌های شیشه‌ای آن باید ویرایش شوند.</li>
+<li><strong>inline_keypad:</strong> ساختار جدید دکمه‌های شیشه‌ای.</li>
+</ul>
+<p><strong>نکات:</strong></p>
+<ol>
+<li>شناسه گفتگو در حال حاضر باید با b0 (برای کاربر) شروع شده و ۳۲ کاراکتر باشد. آن را با sender_id اشتباه نگیرید. برای راهنمایی <a href="../bot-chat-id/">اینجا</a> کلیک کنید.</li>
+<li>بات تنها می‌تواند دکمه‌های پیام‌هایی را ویرایش کند که خود ارسال کرده است.</li>
+<li>اگر برای هر دکمه button_id و type مشخص نکنید، کتابخانه به طور خودکار button_id را از ۱۰۰ شماره‌گذاری کرده و type را Simple قرار می‌دهد. برای مشاهده انواع type، <a href="../bot-button-types/">اینجا</a> کلیک کنید.</li>
+</ol>
+<p><strong>مثال‌ها:</strong></p>
+<p>ویرایش inline_keypad به روش ساده:</p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-10-2"><a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-10-4"><a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a>    <span class="n">inline_keypad</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-10-5"><a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a>        <span class="p">[</span><span class="s2">"Button 1"</span><span class="p">,</span> <span class="s2">"Button 2"</span><span class="p">],</span>
+</span><span id="__span-10-6"><a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a>        <span class="p">[</span><span class="s2">"Button 3"</span><span class="p">]</span>
+</span><span id="__span-10-7"><a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a>    <span class="p">]</span>
+</span><span id="__span-10-8"><a href="#__codelineno-10-8" id="__codelineno-10-8" name="__codelineno-10-8"></a>    <span class="n">bot</span><span class="o">.</span><span class="n">edit_inline_keypad</span><span class="p">(</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="s2">"message_id"</span><span class="p">,</span> <span class="n">inline_keypad</span><span class="p">)</span>
+</span></code></pre></div>
+<p>ویرایش inline_keypad به روش تاپل:
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-11-2"><a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-11-4"><a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a>    <span class="n">inline_keypad</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-11-5"><a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a>        <span class="p">[(</span><span class="s2">"Help"</span><span class="p">,</span> <span class="s2">"help"</span><span class="p">)],</span>
+</span><span id="__span-11-6"><a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a>        <span class="p">[(</span><span class="s2">"Retry"</span><span class="p">,</span> <span class="s2">"retry"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Close"</span><span class="p">,</span> <span class="s2">"close"</span><span class="p">)],</span>
+</span><span id="__span-11-7"><a href="#__codelineno-11-7" id="__codelineno-11-7" name="__codelineno-11-7"></a>        <span class="p">[(</span><span class="s2">"Admin Panel"</span><span class="p">,</span> <span class="s2">"panel"</span><span class="p">,</span> <span class="s2">"Simple"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Settings"</span><span class="p">,</span> <span class="s2">"settings"</span><span class="p">,</span> <span class="s2">"Simple"</span><span class="p">)],</span>
+</span><span id="__span-11-8"><a href="#__codelineno-11-8" id="__codelineno-11-8" name="__codelineno-11-8"></a>        <span class="p">[(</span><span class="s2">"About"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="s2">"Support"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)],</span>
+</span><span id="__span-11-9"><a href="#__codelineno-11-9" id="__codelineno-11-9" name="__codelineno-11-9"></a>        <span class="p">[(</span><span class="s2">"✅ Confirm"</span><span class="p">,</span> <span class="s2">"confirm"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"❌ Cancel"</span><span class="p">,</span> <span class="s2">"cancel"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"🔄 Back"</span><span class="p">,</span> <span class="s2">"back"</span><span class="p">)],</span>
+</span><span id="__span-11-10"><a href="#__codelineno-11-10" id="__codelineno-11-10" name="__codelineno-11-10"></a>    <span class="p">]</span>
+</span><span id="__span-11-11"><a href="#__codelineno-11-11" id="__codelineno-11-11" name="__codelineno-11-11"></a>    <span class="n">bot</span><span class="o">.</span><span class="n">edit_inline_keypad</span><span class="p">(</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="s2">"message_id"</span><span class="p">,</span> <span class="n">inline_keypad</span><span class="p">)</span>
+</span></code></pre></div></p>
+<p>ویرایش inline_keypad به روش سفارشی (دیکشنری):</p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-12-1"><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-12-2"><a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-12-4"><a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a>    <span class="n">inline_keypad</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-12-5"><a href="#__codelineno-12-5" id="__codelineno-12-5" name="__codelineno-12-5"></a>        <span class="s2">"rows"</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="__span-12-6"><a href="#__codelineno-12-6" id="__codelineno-12-6" name="__codelineno-12-6"></a>            <span class="p">{</span><span class="s2">"buttons"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span> <span class="s2">"button_text"</span><span class="p">:</span> <span class="s2">"Button 1"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Simple"</span><span class="p">}]},</span>
+</span><span id="__span-12-7"><a href="#__codelineno-12-7" id="__codelineno-12-7" name="__codelineno-12-7"></a>            <span class="p">{</span><span class="s2">"buttons"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"2"</span><span class="p">,</span> <span class="s2">"button_text"</span><span class="p">:</span> <span class="s2">"Button 2"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Simple"</span><span class="p">}]}</span>
+</span><span id="__span-12-8"><a href="#__codelineno-12-8" id="__codelineno-12-8" name="__codelineno-12-8"></a>        <span class="p">]</span>
+</span><span id="__span-12-9"><a href="#__codelineno-12-9" id="__codelineno-12-9" name="__codelineno-12-9"></a>    <span class="p">}</span>
+</span><span id="__span-12-10"><a href="#__codelineno-12-10" id="__codelineno-12-10" name="__codelineno-12-10"></a>    <span class="n">bot</span><span class="o">.</span><span class="n">edit_inline_keypad</span><span class="p">(</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="s2">"message_id"</span><span class="p">,</span> <span class="n">inline_keypad</span><span class="p">)</span>
+</span></code></pre></div>
+<p>حذف کامل inline_keypad از یک پیام (با ارسال یک لیست خالی):</p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-13-1"><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-13-2"><a href="#__codelineno-13-2" id="__codelineno-13-2" name="__codelineno-13-2"></a>
+</span><span id="__span-13-3"><a href="#__codelineno-13-3" id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-13-4"><a href="#__codelineno-13-4" id="__codelineno-13-4" name="__codelineno-13-4"></a>    <span class="n">bot</span><span class="o">.</span><span class="n">edit_inline_keypad</span><span class="p">(</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="s2">"message_id"</span><span class="p">,</span> <span class="n">inline_keypad</span><span class="o">=</span><span class="p">[])</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="edit_chat_keypad"><a href="#edit_chat_keypad">edit_chat_keypad</a></h2>
+<p>این متد برای ویرایش کیبورد اصلی (Chat Keypad) یک گفتگو به کار می‌رود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگو.</li>
+<li><strong>chat_keypad:</strong> ساختار جدید کیبورد.</li>
+<li><strong>resize_keyboard:</strong> تراز بودن اندازه دکمه‌ها. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد پس از اولین کلیک کاربر. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong></p>
+<ol>
+<li>شناسه گفتگو باید با b0 شروع و ۳۲ کاراکتری باشد. برای راهنمایی <a href="../bot-chat-id/">اینجا</a> کلیک کنید.</li>
+<li>اگر button_id و type دکمه‌ها را مشخص نکنید، کتابخانه به‌طور خودکار آن‌ها را تنظیم می‌کند (button_id از ۱۰۰ و type به صورت Simple). برای اطلاعات بیشتر <a href="../bot-button-types/">اینجا</a> کلیک کنید.</li>
+</ol>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-14-1"><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-14-2"><a href="#__codelineno-14-2" id="__codelineno-14-2" name="__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a href="#__codelineno-14-3" id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-14-4"><a href="#__codelineno-14-4" id="__codelineno-14-4" name="__codelineno-14-4"></a>    <span class="n">chat_keypad</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-14-5"><a href="#__codelineno-14-5" id="__codelineno-14-5" name="__codelineno-14-5"></a>        <span class="s2">"rows"</span><span class="p">:</span> <span class="p">[</span>
+</span><span id="__span-14-6"><a href="#__codelineno-14-6" id="__codelineno-14-6" name="__codelineno-14-6"></a>            <span class="p">{</span><span class="s2">"buttons"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span> <span class="s2">"button_text"</span><span class="p">:</span> <span class="s2">"Button 1"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Simple"</span><span class="p">}]},</span>
+</span><span id="__span-14-7"><a href="#__codelineno-14-7" id="__codelineno-14-7" name="__codelineno-14-7"></a>            <span class="p">{</span><span class="s2">"buttons"</span><span class="p">:</span> <span class="p">[{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"2"</span><span class="p">,</span> <span class="s2">"button_text"</span><span class="p">:</span> <span class="s2">"Button 2"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Simple"</span><span class="p">}]}</span>
+</span><span id="__span-14-8"><a href="#__codelineno-14-8" id="__codelineno-14-8" name="__codelineno-14-8"></a>        <span class="p">]</span>
+</span><span id="__span-14-9"><a href="#__codelineno-14-9" id="__codelineno-14-9" name="__codelineno-14-9"></a>    <span class="p">}</span>
+</span><span id="__span-14-10"><a href="#__codelineno-14-10" id="__codelineno-14-10" name="__codelineno-14-10"></a>    <span class="n">bot</span><span class="o">.</span><span class="n">edit_chat_keypad</span><span class="p">(</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">chat_keypad</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="remove_chat_keypad"><a href="#remove_chat_keypad">remove_chat_keypad</a></h2>
+<p>این متد برای حذف کیبورد سفارشی از یک گفتگو و بازگرداندن آن به حالت پیش‌فرض استفاده می‌شود. پارامتر پذیرفته‌شده توسط این متد به شرح زیر است:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگویی که کیبورد آن باید حذف شود.</li>
+</ul>
+<p><strong>نکته:</strong> شناسه گفتگو باید با b0 شروع و ۳۲ کاراکتری باشد. برای راهنمایی <a href="../bot-chat-id/">اینجا</a> کلیک کنید.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-15-1"><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-15-2"><a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a href="#__codelineno-15-3" id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-15-4"><a href="#__codelineno-15-4" id="__codelineno-15-4" name="__codelineno-15-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">remove_chat_keypad</span><span class="p">(</span><span class="s2">"chat_id"</span><span class="p">)</span>
+</span><span id="__span-15-5"><a href="#__codelineno-15-5" id="__codelineno-15-5" name="__codelineno-15-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="delete_message"><a href="#delete_message">delete_message</a></h2>
+<p>این متد برای حذف یک پیام خاص از یک گفتگو استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی حاوی پیام.</li>
+<li><strong>message_id:</strong> شناسه (مسیج آیدی) پیام مورد نظر برای حذف.</li>
+</ul>
+<p><strong>نکات:</strong></p>
+<ol>
+<li>شناسه گفتگو می‌تواند با b0 ، c0 یا g0 شروع شود و می‌بایست ۳۲ کاراکتری باشد. برای راهنمایی <a href="../bot-chat-id/">اینجا</a> کلیک کنید.</li>
+<li>بات در چت‌های خصوصی تنها پیام‌های خود را می‌تواند حذف کند. برای حذف پیام‌ها در گروه‌ها و کانال‌ها، بات باید دسترسی "حذف پیام" را داشته باشد.</li>
+</ol>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-16-1"><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-16-2"><a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-16-4"><a href="#__codelineno-16-4" id="__codelineno-16-4" name="__codelineno-16-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">delete_message</span><span class="p">(</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="s2">"message_id"</span><span class="p">)</span>
+</span><span id="__span-16-5"><a href="#__codelineno-16-5" id="__codelineno-16-5" name="__codelineno-16-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="delete_messages"><a href="#delete_messages">delete_messages</a></h2><p>این متد برای حذف چند پیام از یک گفتگو به‌صورت هم‌زمان استفاده می‌شود.</p><p><strong>پارامترها:</strong></p><ul><li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی حاوی پیام‌ها.</li><li><strong>message_ids:</strong> لیستی از شناسه‌های (مسیج آیدی) پیام‌هایی که باید حذف شوند.</li></ul><p><strong>نکته: </strong>محدودیت‌های دسترسی مشابه متد delete_message است.</p><p><strong>مثال:</strong></p><div class="language-python highlight"><span class="filename">Python</span><pre><code>from maxrubika import Bot
+
+with Bot("token") as bot:
+    result = bot.delete_messages(
+        chat_id="chat_id",
+        message_ids=["message_id_1", "message_id_2"]
+    )
+    print(result)</code></pre></div><hr/><h2 id="auto_delete_message"><a href="#auto_delete_message">auto_delete_message</a></h2>
+<p>این متد برای حذف خودکار یک پیام پس از گذشت مدت زمان مشخصی به کار می‌رود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگو.</li>
+<li><strong>message_id:</strong> شناسه (مسیج آیدی) پیام.</li>
+<li><strong>time:</strong> مدت زمان تأخیر تا حذف پیام (به ثانیه).</li>
+</ul>
+<p><strong>نکات:</strong> مشابه با محدودیت‌های متد delete_message است.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-17-1"><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-17-2"><a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a href="#__codelineno-17-3" id="__codelineno-17-3" name="__codelineno-17-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-17-4"><a href="#__codelineno-17-4" id="__codelineno-17-4" name="__codelineno-17-4"></a>    <span class="n">chat_id</span> <span class="o">=</span> <span class="s2">"chat_id"</span>
+</span><span id="__span-17-5"><a href="#__codelineno-17-5" id="__codelineno-17-5" name="__codelineno-17-5"></a>
+</span><span id="__span-17-6"><a href="#__codelineno-17-6" id="__codelineno-17-6" name="__codelineno-17-6"></a>    <span class="n">message</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">chat_id</span><span class="p">,</span> <span class="s2">"**This is a test message!**"</span><span class="p">)</span>
+</span><span id="__span-17-7"><a href="#__codelineno-17-7" id="__codelineno-17-7" name="__codelineno-17-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span id="__span-17-8"><a href="#__codelineno-17-8" id="__codelineno-17-8" name="__codelineno-17-8"></a>
+</span><span id="__span-17-9"><a href="#__codelineno-17-9" id="__codelineno-17-9" name="__codelineno-17-9"></a>    <span class="n">delete</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">auto_delete_message</span><span class="p">(</span><span class="n">chat_id</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">message_id</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-17-10"><a href="#__codelineno-17-10" id="__codelineno-17-10" name="__codelineno-17-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">delete</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="forward_message"><a href="#forward_message">forward_message</a></h2>
+<p>این متد برای هدایت (فوروارد) یک پیام از یک گفتگو به گفتگویی دیگر استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>from_chat_id:</strong> شناسه (چت آیدی) گفتگوی مبدأ.</li>
+<li><strong>message_id:</strong> شناسه (مسیج آیدی) پیام مورد نظر برای فوروارد.</li>
+<li><strong>to_chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان برای کاربر مقصد. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-18-1"><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-18-2"><a href="#__codelineno-18-2" id="__codelineno-18-2" name="__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a href="#__codelineno-18-3" id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-18-4"><a href="#__codelineno-18-4" id="__codelineno-18-4" name="__codelineno-18-4"></a>    <span class="n">from_chat_id</span> <span class="o">=</span> <span class="s2">"c0asc...."</span>
+</span><span id="__span-18-5"><a href="#__codelineno-18-5" id="__codelineno-18-5" name="__codelineno-18-5"></a>    <span class="n">to_chat_id</span> <span class="o">=</span> <span class="s2">"b0adf...."</span>
+</span><span id="__span-18-6"><a href="#__codelineno-18-6" id="__codelineno-18-6" name="__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a href="#__codelineno-18-7" id="__codelineno-18-7" name="__codelineno-18-7"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">forward_message</span><span class="p">(</span><span class="n">from_chat_id</span><span class="p">,</span> <span class="s2">"message_id"</span><span class="p">,</span> <span class="n">to_chat_id</span><span class="p">)</span>
+</span><span id="__span-18-8"><a href="#__codelineno-18-8" id="__codelineno-18-8" name="__codelineno-18-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="forward_messages"><a href="#forward_messages">forward_messages</a></h2><p>این متد برای هدایت چند پیام از یک گفتگو به گفتگویی دیگر به‌صورت هم‌زمان استفاده می‌شود.</p><p><strong>پارامترها:</strong></p><ul><li><strong>from_chat_id:</strong> شناسه (چت آیدی) گفتگوی مبدأ.</li><li><strong>message_ids:</strong> لیستی از شناسه‌های (مسیج آیدی) پیام‌هایی که باید فوروارد شوند.</li><li><strong>to_chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li><li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان برای کاربر مقصد. (پیش‌فرض: False)</li></ul><p><strong>مثال:</strong></p><div class="language-python highlight"><span class="filename">Python</span><pre><code>from maxrubika import Bot
+
+with Bot("token") as bot:
+    result = bot.forward_messages(
+        from_chat_id="source_chat_id",
+        message_ids=["message_id_1", "message_id_2"],
+        to_chat_id="destination_chat_id",
+        disable_notification=False
+    )
+    print(result)</code></pre></div><hr/><h2 id="send_contact"><a href="#send_contact">send_contact</a></h2>
+<p>این متد برای ارسال یک مخاطب به یک گفتگو استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>phone_number:</strong> شماره تلفن مخاطب.</li>
+<li><strong>first_name:</strong> نام مخاطب.</li>
+<li><strong>last_name:</strong> نام خانوادگی مخاطب. (پیش‌فرض: خالی)</li>
+<li><strong>chat_keypad:</strong> کیبورد سفارشی برای گفتگو. (پیش‌فرض: None)</li>
+<li><strong>inline_keypad:</strong> دکمه‌های شیشه‌ای. (پیش‌فرض: None)</li>
+<li><strong>reply_to_message_id:</strong> شناسه (مسیج آیدی) پیام برای ریپلای. (پیش‌فرض: None)</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان. (پیش‌فرض: False)</li>
+<li><strong>resize_keyboard:</strong> تراز بودن دکمه‌های کیبورد. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد پس از کلیک. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong> مشابه نکات مربوط به chat_id و ساختار کیبوردها در بخش send_message است.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-19-1"><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-19-2"><a href="#__codelineno-19-2" id="__codelineno-19-2" name="__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a href="#__codelineno-19-3" id="__codelineno-19-3" name="__codelineno-19-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-19-4"><a href="#__codelineno-19-4" id="__codelineno-19-4" name="__codelineno-19-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_contact</span><span class="p">(</span>
+</span><span id="__span-19-5"><a href="#__codelineno-19-5" id="__codelineno-19-5" name="__codelineno-19-5"></a>        <span class="n">phone_number</span><span class="o">=</span><span class="s2">"+989123456789"</span><span class="p">,</span>
+</span><span id="__span-19-6"><a href="#__codelineno-19-6" id="__codelineno-19-6" name="__codelineno-19-6"></a>        <span class="n">first_name</span><span class="o">=</span><span class="s2">"MEHRAB"</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s2">"Farahmand"</span><span class="p">,</span>
+</span><span id="__span-19-7"><a href="#__codelineno-19-7" id="__codelineno-19-7" name="__codelineno-19-7"></a>        <span class="n">chat_id</span><span class="o">=</span><span class="s2">"chat_id"</span><span class="p">)</span>
+</span><span id="__span-19-8"><a href="#__codelineno-19-8" id="__codelineno-19-8" name="__codelineno-19-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="send_location"><a href="#send_location">send_location</a></h2>
+<p>این متد برای ارسال یک موقعیت مکانی جغرافیایی به یک گفتگو استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>latitude:</strong> عرض جغرافیایی (Latitude).</li>
+<li><strong>longitude:</strong> طول جغرافیایی (Longitude).</li>
+<li><strong>chat_keypad:</strong> کیبورد سفارشی. (پیش‌فرض: None)</li>
+<li><strong>inline_keypad:</strong> دکمه‌های شیشه‌ای. (پیش‌فرض: None)</li>
+<li><strong>reply_to_message_id:</strong> شناسه (مسیج آیدی) پیام برای ریپلای. (پیش‌فرض: None)</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان. (پیش‌فرض: False)</li>
+<li><strong>resize_keyboard:</strong> تراز بودن دکمه‌های کیبورد. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد پس از کلیک. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong> مشابه نکات مربوط به chat_id و ساختار کیبوردها در بخش send_message است.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-20-1"><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-20-2"><a href="#__codelineno-20-2" id="__codelineno-20-2" name="__codelineno-20-2"></a>
+</span><span id="__span-20-3"><a href="#__codelineno-20-3" id="__codelineno-20-3" name="__codelineno-20-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-20-4"><a href="#__codelineno-20-4" id="__codelineno-20-4" name="__codelineno-20-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_location</span><span class="p">(</span><span class="n">chat_id</span><span class="o">=</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">32.6546</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="mf">51.6680</span><span class="p">)</span>
+</span><span id="__span-20-5"><a href="#__codelineno-20-5" id="__codelineno-20-5" name="__codelineno-20-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="send_poll"><a href="#send_poll">send_poll</a></h2>
+<p>این متد برای ایجاد و ارسال یک نظرسنجی ساده به یک گفتگو استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>question:</strong> متن سؤال نظرسنجی.</li>
+<li><strong>options:</strong> لیستی از گزینه‌های نظرسنجی (بین ۲ تا ۱۰ گزینه).</li>
+<li><strong>is_anonymous:</strong> ناشناس بودن رأی‌ها. (پیش‌فرض: True)</li>
+<li><strong>multi_select:</strong> امکان انتخاب چند گزینه. (پیش‌فرض: False)</li>
+<li><strong>chat_keypad:</strong> کیبورد سفارشی. (پیش‌فرض: None)</li>
+<li><strong>inline_keypad:</strong> دکمه‌های شیشه‌ای. (پیش‌فرض: None)</li>
+<li><strong>reply_to_message_id:</strong> شناسه (مسیج آیدی) پیام برای ریپلای. (پیش‌فرض: None)</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان. (پیش‌فرض: False)</li>
+<li><strong>resize_keyboard:</strong> تراز بودن دکمه‌های کیبورد. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد پس از کلیک. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong> مشابه نکات مربوط به chat_id و ساختار کیبوردها در بخش send_message است.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-21-1"><a href="#__codelineno-21-1" id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-21-2"><a href="#__codelineno-21-2" id="__codelineno-21-2" name="__codelineno-21-2"></a>
+</span><span id="__span-21-3"><a href="#__codelineno-21-3" id="__codelineno-21-3" name="__codelineno-21-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-21-4"><a href="#__codelineno-21-4" id="__codelineno-21-4" name="__codelineno-21-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_poll</span><span class="p">(</span>
+</span><span id="__span-21-5"><a href="#__codelineno-21-5" id="__codelineno-21-5" name="__codelineno-21-5"></a>        <span class="n">chat_id</span><span class="o">=</span><span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span> <span class="s2">"شما کدام رنگ را بیشتر دوست دارید؟"</span><span class="p">,</span>
+</span><span id="__span-21-6"><a href="#__codelineno-21-6" id="__codelineno-21-6" name="__codelineno-21-6"></a>        <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="s2">"آبی"</span><span class="p">,</span> <span class="s2">"صورتی"</span><span class="p">,</span> <span class="s2">"زرد"</span><span class="p">,</span> <span class="s2">"سبز"</span><span class="p">,</span> <span class="s2">"نارنجی"</span><span class="p">,</span> <span class="s2">"قرمز"</span><span class="p">,</span> <span class="s2">"بنفش"</span><span class="p">],</span>
+</span><span id="__span-21-7"><a href="#__codelineno-21-7" id="__codelineno-21-7" name="__codelineno-21-7"></a>        <span class="n">is_anonymous</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">multi_select</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-21-8"><a href="#__codelineno-21-8" id="__codelineno-21-8" name="__codelineno-21-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="send_quiz"><a href="#send_quiz">send_quiz</a></h2>
+<p>این متد برای ایجاد و ارسال یک نظرسنجی به‌صورت آزمون که تنها یک پاسخ صحیح دارد، استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>question:</strong> متن سؤال آزمون.</li>
+<li><strong>options:</strong> لیست گزینه‌های آزمون (بین ۲ تا ۱۰ گزینه).</li>
+<li><strong>correct_option:</strong> ایندکس عددی (شروع از ۰) یا متن دقیق گزینه صحیح.</li>
+<li><strong>hint:</strong> متن راهنمایی برای آزمون. (پیش‌فرض: None)</li>
+<li><strong>is_anonymous:</strong> ناشناس بودن پاسخ‌ها. (پیش‌فرض: True)</li>
+<li><strong>chat_keypad:</strong> کیبورد سفارشی. (پیش‌فرض: None)</li>
+<li><strong>inline_keypad:</strong> دکمه‌های شیشه‌ای. (پیش‌فرض: None)</li>
+<li><strong>reply_to_message_id:</strong> شناسه (مسیج آیدی) پیام برای ریپلای. (پیش‌فرض: None)</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان. (پیش‌فرض: False)</li>
+<li><strong>resize_keyboard:</strong> تراز بودن دکمه‌های کیبورد. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد پس از کلیک. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong> مشابه نکات مربوط به chat_id و ساختار کیبوردها در بخش send_message است.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-22-1"><a href="#__codelineno-22-1" id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-22-2"><a href="#__codelineno-22-2" id="__codelineno-22-2" name="__codelineno-22-2"></a>
+</span><span id="__span-22-3"><a href="#__codelineno-22-3" id="__codelineno-22-3" name="__codelineno-22-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-22-4"><a href="#__codelineno-22-4" id="__codelineno-22-4" name="__codelineno-22-4"></a>    <span class="n">b</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_quiz</span><span class="p">(</span>
+</span><span id="__span-22-5"><a href="#__codelineno-22-5" id="__codelineno-22-5" name="__codelineno-22-5"></a>        <span class="n">chat_id</span><span class="o">=</span> <span class="s2">"chat_id"</span><span class="p">,</span>
+</span><span id="__span-22-6"><a href="#__codelineno-22-6" id="__codelineno-22-6" name="__codelineno-22-6"></a>        <span class="n">question</span><span class="o">=</span> <span class="s2">"پایتخت کشور کره جنوبی کدام گزینه است؟"</span><span class="p">,</span>
+</span><span id="__span-22-7"><a href="#__codelineno-22-7" id="__codelineno-22-7" name="__codelineno-22-7"></a>        <span class="n">options</span><span class="o">=</span> <span class="p">[</span><span class="s2">"بوسان"</span><span class="p">,</span> <span class="s2">"اینچئون"</span><span class="p">,</span> <span class="s2">"سئول"</span><span class="p">,</span> <span class="s2">"دائگو"</span><span class="p">],</span> <span class="n">correct_option</span><span class="o">=</span> <span class="s2">"سئول"</span><span class="p">,</span>
+</span><span id="__span-22-8"><a href="#__codelineno-22-8" id="__codelineno-22-8" name="__codelineno-22-8"></a>        <span class="n">hint</span><span class="o">=</span> <span class="s2">"پایتخت و بزرگترین شهر کره جنوبی سئول می‌باشد."</span><span class="p">,</span> <span class="n">is_anonymous</span><span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-22-9"><a href="#__codelineno-22-9" id="__codelineno-22-9" name="__codelineno-22-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="send_file"><a href="#send_file">send_file</a></h2>
+<p>این متد برای ارسال یک فایل (به‌صورت عمومی) به یک گفتگو استفاده می‌شود؛ برای ارسال فایل‌های خاص مانند عکس یا ویدئو، متدهای اختصاصی توصیه می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>file:</strong> نام و پسوند فایل برای ارسال. (در صورت استفاده از file_id، این پارامتر نیاز نیست.)</li>
+<li><strong>file_type:</strong> نوع فایل ('File', 'Image', 'Voice', 'Video', 'Music', 'Gif'). (پیش‌فرض: 'File')</li>
+<li><strong>text:</strong> کپشن یا توضیح فایل (حداکثر ۲۰۴۸ کاراکتر).</li>
+<li><strong>file_id:</strong> شناسه فایلی که از طریق متد upload_file دریافت شده است. (در صورت استفاده از file، این پارامتر نیاز نیست.)</li>
+<li><strong>base64:</strong> داده فایل به صورت Base64. (در صورت استفاده از file یا file_id نیاز نیست.)</li>
+<li><strong>file_name:</strong> نام سفارشی برای فایل. (اختیاری)</li>
+<li><strong>metadata:</strong> متادیتای کپشن. (اختیاری)</li>
+<li><strong>chat_keypad:</strong> کیبورد سفارشی. (پیش‌فرض: None)</li>
+<li><strong>inline_keypad:</strong> دکمه‌های شیشه‌ای. (پیش‌فرض: None)</li>
+<li><strong>reply_to_message_id:</strong> شناسه (مسیج آیدی) پیام برای ریپلای. (پیش‌فرض: None)</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان. (پیش‌فرض: False)</li>
+<li><strong>resize_keyboard:</strong> تراز بودن دکمه‌های کیبورد. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد پس از کلیک. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong> مشابه نکات مربوط به chat_id و ساختار کیبوردها در بخش send_message است.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-23-1"><a href="#__codelineno-23-1" id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-23-2"><a href="#__codelineno-23-2" id="__codelineno-23-2" name="__codelineno-23-2"></a>
+</span><span id="__span-23-3"><a href="#__codelineno-23-3" id="__codelineno-23-3" name="__codelineno-23-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-23-4"><a href="#__codelineno-23-4" id="__codelineno-23-4" name="__codelineno-23-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_file</span><span class="p">(</span><span class="n">chat_id</span><span class="o">=</span> <span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span> <span class="s2">"newfile.py"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span> <span class="s2">"فایل پایتونی تقدیم به شما"</span><span class="p">)</span>
+</span><span id="__span-23-5"><a href="#__codelineno-23-5" id="__codelineno-23-5" name="__codelineno-23-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="send_image"><a href="#send_image">send_image</a></h2>
+<p>این متد برای ارسال یک تصویر به یک گفتگو استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>image:</strong> نام و پسوند فایل تصویری (مانند .jpg یا .png). (در صورت استفاده از file_id نیاز نیست.)</li>
+<li><strong>file_id:</strong> شناسه تصویر دریافت‌شده از upload_file. (در صورت استفاده از image نیاز نیست.)</li>
+<li><strong>base64:</strong> داده تصویر به صورت Base64. (اختیاری)</li>
+<li><strong>file_name:</strong> نام سفارشی تصویر. (اختیاری)</li>
+<li><strong>text:</strong> کپشن یا توضیح تصویر (حداکثر ۲۰۴۸ کاراکتر).</li>
+<li><strong>chat_keypad:</strong> کیبورد سفارشی. (پیش‌فرض: None)</li>
+<li><strong>inline_keypad:</strong> دکمه‌های شیشه‌ای. (پیش‌فرض: None)</li>
+<li><strong>reply_to_message_id:</strong> شناسه (مسیج آیدی) پیام برای ریپلای. (پیش‌فرض: None)</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان. (پیش‌فرض: False)</li>
+<li><strong>resize_keyboard:</strong> تراز بودن دکمه‌های کیبورد. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد پس از کلیک. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong></p>
+<ol>
+<li>نکات مربوط به chat_id و ساختار کیبوردها مشابه متد send_message است.</li>
+<li>فایل واردشده باید حتماً یک تصویر با پسوندهای معتبر تصویری (.jpg ، .png و غیره) باشد، در غیر این صورت با خطا مواجه خواهید شد.</li>
+</ol>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-24-1"><a href="#__codelineno-24-1" id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-24-2"><a href="#__codelineno-24-2" id="__codelineno-24-2" name="__codelineno-24-2"></a>
+</span><span id="__span-24-3"><a href="#__codelineno-24-3" id="__codelineno-24-3" name="__codelineno-24-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-24-4"><a href="#__codelineno-24-4" id="__codelineno-24-4" name="__codelineno-24-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_image</span><span class="p">(</span><span class="n">chat_id</span><span class="o">=</span> <span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span> <span class="s2">"1.jpg"</span><span class="p">,</span> <span class="n">disable_notification</span><span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-24-5"><a href="#__codelineno-24-5" id="__codelineno-24-5" name="__codelineno-24-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="send_video"><a href="#send_video">send_video</a></h2>
+<p>این متد برای ارسال یک ویدئو به یک گفتگو استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>video:</strong> نام و پسوند فایل ویدئویی (مانند .mp4). (در صورت استفاده از file_id نیاز نیست.)</li>
+<li><strong>file_id:</strong> شناسه ویدئو دریافت‌شده از upload_file. (در صورت استفاده از video نیاز نیست.)</li>
+<li><strong>base64:</strong> داده ویدئو به صورت Base64. (اختیاری)</li>
+<li><strong>file_name:</strong> نام سفارشی ویدئو. (اختیاری)</li>
+<li><strong>text:</strong> کپشن یا توضیح ویدئو (حداکثر ۲۰۴۸ کاراکتر).</li>
+<li><strong>chat_keypad:</strong> کیبورد سفارشی. (پیش‌فرض: None)</li>
+<li><strong>inline_keypad:</strong> دکمه‌های شیشه‌ای. (پیش‌فرض: None)</li>
+<li><strong>reply_to_message_id:</strong> شناسه (مسیج آیدی) پیام برای ریپلای. (پیش‌فرض: None)</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان. (پیش‌فرض: False)</li>
+<li><strong>resize_keyboard:</strong> تراز بودن دکمه‌های کیبورد. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد پس از کلیک. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong></p>
+<ol>
+<li>نکات مربوط به chat_id و ساختار کیبوردها مشابه متد send_message است.</li>
+<li>فایل واردشده باید حتماً یک ویدئو با پسوندهای معتبر (.mp4 ، .mov و غیره) باشد.</li>
+</ol>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-25-1"><a href="#__codelineno-25-1" id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-25-2"><a href="#__codelineno-25-2" id="__codelineno-25-2" name="__codelineno-25-2"></a>
+</span><span id="__span-25-3"><a href="#__codelineno-25-3" id="__codelineno-25-3" name="__codelineno-25-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-25-4"><a href="#__codelineno-25-4" id="__codelineno-25-4" name="__codelineno-25-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_video</span><span class="p">(</span><span class="n">chat_id</span><span class="o">=</span> <span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">video</span><span class="o">=</span> <span class="s2">"20260531.mp4"</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span> <span class="s2">"این یک ویدئو است."</span><span class="p">)</span>
+</span><span id="__span-25-5"><a href="#__codelineno-25-5" id="__codelineno-25-5" name="__codelineno-25-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="send_voice"><a href="#send_voice">send_voice</a></h2>
+<p>این متد برای ارسال یک پیام صوتی (ویس) به یک گفتگو استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>voice:</strong> نام و پسوند فایل صوتی (فقط .mp3). (در صورت استفاده از file_id نیاز نیست.)</li>
+<li><strong>file_id:</strong> شناسه فایل صوتی دریافت‌شده از upload_file. (در صورت استفاده از voice نیاز نیست.)</li>
+<li><strong>base64:</strong> داده صوتی به صورت Base64. (اختیاری)</li>
+<li><strong>file_name:</strong> نام سفارشی فایل صوتی. (اختیاری)</li>
+<li><strong>text:</strong> کپشن یا توضیح پیام صوتی (حداکثر ۲۰۴۸ کاراکتر).</li>
+<li><strong>chat_keypad:</strong> کیبورد سفارشی. (پیش‌فرض: None)</li>
+<li><strong>inline_keypad:</strong> دکمه‌های شیشه‌ای. (پیش‌فرض: None)</li>
+<li><strong>reply_to_message_id:</strong> شناسه (مسیج آیدی) پیام برای ریپلای. (پیش‌فرض: None)</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان. (پیش‌فرض: False)</li>
+<li><strong>resize_keyboard:</strong> تراز بودن دکمه‌های کیبورد. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد پس از کلیک. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong></p>
+<ol>
+<li>نکات مربوط به chat_id و ساختار کیبوردها مشابه متد send_message است.</li>
+<li>پسوند فایل صوتی باید الزاماً .mp3 باشد، در غیر این صورت با خطا مواجه خواهید شد.</li>
+</ol>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-26-1"><a href="#__codelineno-26-1" id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-26-2"><a href="#__codelineno-26-2" id="__codelineno-26-2" name="__codelineno-26-2"></a>
+</span><span id="__span-26-3"><a href="#__codelineno-26-3" id="__codelineno-26-3" name="__codelineno-26-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-26-4"><a href="#__codelineno-26-4" id="__codelineno-26-4" name="__codelineno-26-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_voice</span><span class="p">(</span><span class="n">chat_id</span><span class="o">=</span> <span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">voice</span><span class="o">=</span> <span class="s2">"20260531.mp3"</span><span class="p">)</span>
+</span><span id="__span-26-5"><a href="#__codelineno-26-5" id="__codelineno-26-5" name="__codelineno-26-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="send_music"><a href="#send_music">send_music</a></h2>
+<p>این متد برای ارسال یک فایل موسیقی به یک گفتگو استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>music:</strong> نام و پسوند فایل موسیقی (مانند .mp3). (در صورت استفاده از file_id نیاز نیست.)</li>
+<li><strong>file_id:</strong> شناسه موسیقی دریافت‌شده از upload_file. (در صورت استفاده از music نیاز نیست.)</li>
+<li><strong>base64:</strong> داده موسیقی به صورت Base64. (اختیاری)</li>
+<li><strong>file_name:</strong> نام سفارشی فایل موسیقی. (اختیاری)</li>
+<li><strong>text:</strong> کپشن یا توضیح موسیقی (حداکثر ۲۰۴۸ کاراکتر).</li>
+<li><strong>chat_keypad:</strong> کیبورد سفارشی. (پیش‌فرض: None)</li>
+<li><strong>inline_keypad:</strong> دکمه‌های شیشه‌ای. (پیش‌فرض: None)</li>
+<li><strong>reply_to_message_id:</strong> شناسه (مسیج آیدی) پیام برای ریپلای. (پیش‌فرض: None)</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان. (پیش‌فرض: False)</li>
+<li><strong>resize_keyboard:</strong> تراز بودن دکمه‌های کیبورد. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد پس از کلیک. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong></p>
+<ol>
+<li>نکات مربوط به chat_id و ساختار کیبوردها مشابه متد send_message است.</li>
+<li>فایل واردشده باید دارای پسوندهای معتبر موسیقی (مانند .mp3) باشد.</li>
+</ol>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-27-1"><a href="#__codelineno-27-1" id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-27-2"><a href="#__codelineno-27-2" id="__codelineno-27-2" name="__codelineno-27-2"></a>
+</span><span id="__span-27-3"><a href="#__codelineno-27-3" id="__codelineno-27-3" name="__codelineno-27-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-27-4"><a href="#__codelineno-27-4" id="__codelineno-27-4" name="__codelineno-27-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_music</span><span class="p">(</span><span class="n">chat_id</span><span class="o">=</span> <span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">music</span><span class="o">=</span> <span class="s2">"Hamid Hiraad - Khaste Shodam (320).mp3"</span><span class="p">)</span>
+</span><span id="__span-27-5"><a href="#__codelineno-27-5" id="__codelineno-27-5" name="__codelineno-27-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="send_gif"><a href="#send_gif">send_gif</a></h2>
+<p>این متد برای ارسال یک گیف (تصویر متحرک بی‌صدا) به یک گفتگو استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گفتگوی مقصد.</li>
+<li><strong>gif:</strong> نام و پسوند فایل گیف (فقط .mp4 بی‌صدا). (در صورت استفاده از file_id نیاز نیست.)</li>
+<li><strong>file_id:</strong> شناسه گیف دریافت‌شده از upload_file. (در صورت استفاده از gif نیاز نیست.)</li>
+<li><strong>base64:</strong> داده گیف به صورت Base64. (اختیاری)</li>
+<li><strong>file_name:</strong> نام سفارشی فایل گیف. (اختیاری)</li>
+<li><strong>text:</strong> کپشن یا توضیح گیف (حداکثر ۲۰۴۸ کاراکتر).</li>
+<li><strong>chat_keypad:</strong> کیبورد سفارشی. (پیش‌فرض: None)</li>
+<li><strong>inline_keypad:</strong> دکمه‌های شیشه‌ای. (پیش‌فرض: None)</li>
+<li><strong>reply_to_message_id:</strong> شناسه (مسیج آیدی) پیام برای ریپلای. (پیش‌فرض: None)</li>
+<li><strong>disable_notification:</strong> غیرفعال‌سازی اعلان. (پیش‌فرض: False)</li>
+<li><strong>resize_keyboard:</strong> تراز بودن دکمه‌های کیبورد. (پیش‌فرض: True)</li>
+<li><strong>one_time_keyboard:</strong> محو شدن کیبورد پس از کلیک. (پیش‌فرض: False)</li>
+</ul>
+<p><strong>نکات:</strong></p>
+<ol>
+<li>نکات مربوط به chat_id و ساختار کیبوردها مشابه متد send_message است.</li>
+<li>گیف باید یک فایل ویدئویی .mp4 بی‌صدا باشد، در غیر این صورت با خطا مواجه می‌شوید.</li>
+</ol>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-28-1"><a href="#__codelineno-28-1" id="__codelineno-28-1" name="__codelineno-28-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-28-2"><a href="#__codelineno-28-2" id="__codelineno-28-2" name="__codelineno-28-2"></a>
+</span><span id="__span-28-3"><a href="#__codelineno-28-3" id="__codelineno-28-3" name="__codelineno-28-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-28-4"><a href="#__codelineno-28-4" id="__codelineno-28-4" name="__codelineno-28-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">send_gif</span><span class="p">(</span><span class="n">chat_id</span><span class="o">=</span> <span class="s2">"chat_id"</span><span class="p">,</span> <span class="n">gif</span><span class="o">=</span> <span class="s2">"2_5352595205864328454.mp4"</span><span class="p">)</span>
+</span><span id="__span-28-5"><a href="#__codelineno-28-5" id="__codelineno-28-5" name="__codelineno-28-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="request_send_file"><a href="#request_send_file">request_send_file</a></h2>
+<p>این متد برای درخواست یک URL آپلود از سرورهای روبیکا به منظور ارسال یک فایل استفاده می‌شود. این اولین گام در فرایند آپلود فایل است. پارامتر پذیرفته‌شده توسط این متد به شرح زیر است:</p>
+<ul>
+<li><strong>file_type:</strong> نوع فایل برای آپلود. مقادیر قابل قبول: ['File', 'Image', 'Voice', 'Video', 'Music', 'Gif'] (پیش‌فرض: File)</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-29-1"><a href="#__codelineno-29-1" id="__codelineno-29-1" name="__codelineno-29-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-29-2"><a href="#__codelineno-29-2" id="__codelineno-29-2" name="__codelineno-29-2"></a>
+</span><span id="__span-29-3"><a href="#__codelineno-29-3" id="__codelineno-29-3" name="__codelineno-29-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-29-4"><a href="#__codelineno-29-4" id="__codelineno-29-4" name="__codelineno-29-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">request_send_file</span><span class="p">(</span><span class="n">file_type</span><span class="o">=</span><span class="s2">"Image"</span><span class="p">)</span>
+</span><span id="__span-29-5"><a href="#__codelineno-29-5" id="__codelineno-29-5" name="__codelineno-29-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="upload_file"><a href="#upload_file">upload_file</a></h2>
+<p>این متد برای آپلود فایل روی سرورهای روبیکا با استفاده از URL دریافت‌شده از متد request_send_file به کار می‌رود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>url:</strong> آدرس آپلود دریافت‌شده از مرحله قبل.</li>
+<li><strong>file:</strong> مسیر فایل، URL یا بایت‌های خام. (اختیاری)</li>
+<li><strong>base64:</strong> داده فایل به صورت Base64. (اختیاری)</li>
+<li><strong>file_name:</strong> نام فایل. (اگر این پارامتر وارد نشود، نام فایل از file_path گرفته می‌شود.)</li>
+</ul>
+<p><strong>نکته:</strong> یکی از <code>file</code> یا <code>base64</code> الزامی است.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-30-1"><a href="#__codelineno-30-1" id="__codelineno-30-1" name="__codelineno-30-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-30-2"><a href="#__codelineno-30-2" id="__codelineno-30-2" name="__codelineno-30-2"></a>
+</span><span id="__span-30-3"><a href="#__codelineno-30-3" id="__codelineno-30-3" name="__codelineno-30-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-30-4"><a href="#__codelineno-30-4" id="__codelineno-30-4" name="__codelineno-30-4"></a>    <span class="c1"># مرحله اول: دریافت URL آپلود برای نوع فایل "Image"</span>
+</span><span id="__span-30-5"><a href="#__codelineno-30-5" id="__codelineno-30-5" name="__codelineno-30-5"></a>    <span class="n">upload_info</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">request_send_file</span><span class="p">(</span><span class="n">file_type</span><span class="o">=</span><span class="s2">"Image"</span><span class="p">)</span>
+</span><span id="__span-30-6"><a href="#__codelineno-30-6" id="__codelineno-30-6" name="__codelineno-30-6"></a>    <span class="c1"># مرحله دوم: آپلود فایل به سرور</span>
+</span><span id="__span-30-7"><a href="#__codelineno-30-7" id="__codelineno-30-7" name="__codelineno-30-7"></a>    <span class="n">b</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="n">url</span><span class="o">=</span> <span class="n">upload_info</span><span class="o">.</span><span class="n">upload_url</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span> <span class="s2">"IMG_20250911_220142_592.jpg"</span><span class="p">)</span>
+</span><span id="__span-30-8"><a href="#__codelineno-30-8" id="__codelineno-30-8" name="__codelineno-30-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="download_file"><a href="#download_file">download_file</a></h2>
+<p>این متد برای دانلود یک فایل از سرورهای روبیکا با استفاده از شناسه فایل (file_id) به کار می‌رود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>file_id:</strong> شناسه فایل برای دانلود.</li>
+<li><strong>name:</strong> نام سفارشی برای فایل ذخیره‌شده (بدون پسوند).</li>
+<li><strong>path:</strong> مسیر سفارشی برای ذخیره‌سازی.</li>
+<li><strong>save_as:</strong> در صورت True بودن، فایل روی دیسک ذخیره می‌شود. در صورت False بودن، محتوای فایل به صورت بایت (bytes) بازگردانده می‌شود. (پیش‌فرض: False)</li>
+<li><strong>as_base64:</strong> در صورت True بودن، فایل به صورت Base64 بازگردانده می‌شود. فقط وقتی save_as=False کار می‌کند. (پیش‌فرض: False)</li>
+<li><strong>callback:</strong> تابعی برای گزارش پیشرفت دانلود که سه آرگومان downloaded, total, percent دریافت می‌کند. (پیش‌فرض: None)</li>
+</ul>
+<p><strong>خروجی:</strong></p>
+<ul>
+<li>اگر save_as=True باشد: دیکشنری شامل وضعیت، file_path و size.</li>
+<li>اگر save_as=False و as_base64=False باشد: محتوای فایل به صورت bytes.</li>
+<li>اگر save_as=False و as_base64=True باشد: رشته Base64.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-31-1"><a href="#__codelineno-31-1" id="__codelineno-31-1" name="__codelineno-31-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-31-2"><a href="#__codelineno-31-2" id="__codelineno-31-2" name="__codelineno-31-2"></a>
+</span><span id="__span-31-3"><a href="#__codelineno-31-3" id="__codelineno-31-3" name="__codelineno-31-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-31-4"><a href="#__codelineno-31-4" id="__codelineno-31-4" name="__codelineno-31-4"></a>    <span class="n">b</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">download_file</span><span class="p">(</span><span class="s2">"file_id"</span><span class="p">,</span> <span class="n">save_as</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">"/home/user/downloads"</span><span class="p">)</span>
+</span><span id="__span-31-5"><a href="#__codelineno-31-5" id="__codelineno-31-5" name="__codelineno-31-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="get_file"><a href="#get_file">get_file</a></h2>
+<p>این متد برای دریافت اطلاعات یک فایل با استفاده از شناسه آن به کار می‌رود. پارامتر پذیرفته‌شده توسط این متد به شرح زیر است:</p>
+<ul>
+<li><strong>file_id:</strong> شناسه فایل.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-32-1"><a href="#__codelineno-32-1" id="__codelineno-32-1" name="__codelineno-32-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-32-2"><a href="#__codelineno-32-2" id="__codelineno-32-2" name="__codelineno-32-2"></a>
+</span><span id="__span-32-3"><a href="#__codelineno-32-3" id="__codelineno-32-3" name="__codelineno-32-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-32-4"><a href="#__codelineno-32-4" id="__codelineno-32-4" name="__codelineno-32-4"></a>    <span class="n">b</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span><span class="s2">"file_id"</span><span class="p">)</span>
+</span><span id="__span-32-5"><a href="#__codelineno-32-5" id="__codelineno-32-5" name="__codelineno-32-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="ban_member"><a href="#ban_member">ban_member</a></h2>
+<p>این متدها برای مسدود کردن (بن کردن) یک عضو از یک گروه یا کانال استفاده می‌شوند. (متد <code>remove_member</code> دقیقاً میانبری برای <code>ban_member</code> است). پارامترهای پذیرفته‌شده توسط این متدها به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گروه (با g0) یا کانال (با c0).</li>
+<li><strong>sender_id:</strong> شناسه (سندر آیدی) کاربری که باید مسدود شود (با u0).</li>
+</ul>
+<p><strong>نکته:</strong> مقدار chat_id نباید با b0 (چت خصوصی) شروع شود.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-33-1"><a href="#__codelineno-33-1" id="__codelineno-33-1" name="__codelineno-33-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-33-2"><a href="#__codelineno-33-2" id="__codelineno-33-2" name="__codelineno-33-2"></a>
+</span><span id="__span-33-3"><a href="#__codelineno-33-3" id="__codelineno-33-3" name="__codelineno-33-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-33-4"><a href="#__codelineno-33-4" id="__codelineno-33-4" name="__codelineno-33-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">ban_member</span><span class="p">(</span><span class="n">chat_id</span><span class="o">=</span><span class="s2">"g0xxxxxxxxxxxxxxx"</span><span class="p">,</span> <span class="n">sender_id</span><span class="o">=</span><span class="s2">"u0xxxxxxxxxxxxxxx"</span><span class="p">)</span>
+</span><span id="__span-33-5"><a href="#__codelineno-33-5" id="__codelineno-33-5" name="__codelineno-33-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="unban_member"><a href="#unban_member">unban_member</a></h2>
+<p>این متد برای رفع مسدودیت (آنبن کردن) یک عضو از یک گروه یا کانال استفاده می‌شود. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گروه (با g0) یا کانال (با c0).</li>
+<li><strong>sender_id:</strong> شناسه (سندر آیدی) کاربری که باید از مسدودیت خارج شود.</li>
+</ul>
+<p><strong>نکته:</strong> مقدار chat_id نباید با b0 شروع شود.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-34-1"><a href="#__codelineno-34-1" id="__codelineno-34-1" name="__codelineno-34-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-34-2"><a href="#__codelineno-34-2" id="__codelineno-34-2" name="__codelineno-34-2"></a>
+</span><span id="__span-34-3"><a href="#__codelineno-34-3" id="__codelineno-34-3" name="__codelineno-34-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-34-4"><a href="#__codelineno-34-4" id="__codelineno-34-4" name="__codelineno-34-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">unban_member</span><span class="p">(</span><span class="n">chat_id</span><span class="o">=</span><span class="s2">"g0xxxxxxxxxxxxxxx"</span><span class="p">,</span> <span class="n">sender_id</span><span class="o">=</span><span class="s2">"u0xxxxxxxxxxxxxxx"</span><span class="p">)</span>
+</span><span id="__span-34-5"><a href="#__codelineno-34-5" id="__codelineno-34-5" name="__codelineno-34-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="member_is_admin"><a href="#member_is_admin">member_is_admin</a></h2>
+<p>این متد برای بررسی ادمین یا مالک بودن یک عضو در یک گروه یا کانال استفاده می‌شود.</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گروه (با g0) یا کانال (با c0).</li>
+<li><strong>user_id:</strong> شناسه کاربر (با u0).</li>
+</ul>
+<p><strong>خروجی:</strong> مقدار <code>True</code> اگر وضعیت کاربر <code>Admin</code> یا <code>Creator</code> باشد، در غیر این صورت <code>False</code>.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-35-1"><a href="#__codelineno-35-1" id="__codelineno-35-1" name="__codelineno-35-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-35-2"><a href="#__codelineno-35-2" id="__codelineno-35-2" name="__codelineno-35-2"></a>
+</span><span id="__span-35-3"><a href="#__codelineno-35-3" id="__codelineno-35-3" name="__codelineno-35-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-35-4"><a href="#__codelineno-35-4" id="__codelineno-35-4" name="__codelineno-35-4"></a>    <span class="n">is_admin</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">member_is_admin</span><span class="p">(</span><span class="s2">"g0xxxxxxxxxxxxxxx"</span><span class="p">,</span> <span class="s2">"u0xxxxxxxxxxxxxxx"</span><span class="p">)</span>
+</span><span id="__span-35-5"><a href="#__codelineno-35-5" id="__codelineno-35-5" name="__codelineno-35-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">is_admin</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="member_is_owner"><a href="#member_is_owner">member_is_owner</a></h2>
+<p>این متد برای بررسی مالک بودن یک عضو در یک گروه یا کانال استفاده می‌شود.</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گروه (با g0) یا کانال (با c0).</li>
+<li><strong>user_id:</strong> شناسه کاربر (با u0).</li>
+</ul>
+<p><strong>خروجی:</strong> مقدار <code>True</code> اگر وضعیت کاربر <code>Creator</code> باشد، در غیر این صورت <code>False</code>.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-36-1"><a href="#__codelineno-36-1" id="__codelineno-36-1" name="__codelineno-36-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-36-2"><a href="#__codelineno-36-2" id="__codelineno-36-2" name="__codelineno-36-2"></a>
+</span><span id="__span-36-3"><a href="#__codelineno-36-3" id="__codelineno-36-3" name="__codelineno-36-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-36-4"><a href="#__codelineno-36-4" id="__codelineno-36-4" name="__codelineno-36-4"></a>    <span class="n">is_owner</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">member_is_owner</span><span class="p">(</span><span class="s2">"g0xxxxxxxxxxxxxxx"</span><span class="p">,</span> <span class="s2">"u0xxxxxxxxxxxxxxx"</span><span class="p">)</span>
+</span><span id="__span-36-5"><a href="#__codelineno-36-5" id="__codelineno-36-5" name="__codelineno-36-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">is_owner</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="member_is_joined"><a href="#member_is_joined">member_is_joined</a></h2>
+<p>این متد برای بررسی عضویت یک کاربر در یک گروه یا کانال استفاده می‌شود.</p>
+<ul>
+<li><strong>chat_id:</strong> شناسه (چت آیدی) گروه (با g0) یا کانال (با c0).</li>
+<li><strong>user_id:</strong> شناسه کاربر (با u0).</li>
+</ul>
+<p><strong>خروجی:</strong> مقدار <code>True</code> اگر کاربر عضو باشد، در غیر این صورت <code>False</code>.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-37-1"><a href="#__codelineno-37-1" id="__codelineno-37-1" name="__codelineno-37-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-37-2"><a href="#__codelineno-37-2" id="__codelineno-37-2" name="__codelineno-37-2"></a>
+</span><span id="__span-37-3"><a href="#__codelineno-37-3" id="__codelineno-37-3" name="__codelineno-37-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-37-4"><a href="#__codelineno-37-4" id="__codelineno-37-4" name="__codelineno-37-4"></a>    <span class="n">is_joined</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">member_is_joined</span><span class="p">(</span><span class="s2">"g0xxxxxxxxxxxxxxx"</span><span class="p">,</span> <span class="s2">"u0xxxxxxxxxxxxxxx"</span><span class="p">)</span>
+</span><span id="__span-37-5"><a href="#__codelineno-37-5" id="__codelineno-37-5" name="__codelineno-37-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">is_joined</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="check_join"><a href="#check_join">check_join</a></h2><p>این متد برای بررسی عضویت یک کاربر در گروه یا کانال استفاده می‌شود و در کنار member_is_joined در دسترس است.</p><p><strong>پارامترها:</strong></p><ul><li><strong>chat_id:</strong> شناسه (چت آیدی) گروه یا کانال.</li><li><strong>user_id:</strong> شناسه کاربر مورد بررسی.</li></ul><p><strong>نکته: </strong>خروجی، وضعیت عضویت کاربر را به‌صورت مقدار بولی نمایش می‌دهد.</p><p><strong>مثال:</strong></p><div class="language-python highlight"><span class="filename">Python</span><pre><code>from maxrubika import Bot
+
+with Bot("token") as bot:
+    joined = bot.check_join("chat_id", "user_id")
+    print(joined)</code></pre></div><hr/><h2 id="set_commands"><a href="#set_commands">set_commands</a></h2>
+<p>این متد برای تنظیم لیست کامندهای بات که در منوی آن نمایش داده می‌شود، استفاده می‌شود. پارامتر پذیرفته‌شده توسط این متد به شرح زیر است:</p>
+<ul>
+<li><strong>commands:</strong> تنظیم کامندها. می‌تواند یک لیست از دیکشنری‌ها یا یک دیکشنری ساده باشد. (اگر این پارامتر وارد نشود یا خالی باشد، تمام کامندهای قبلی حذف خواهند شد.)</li>
+</ul>
+<p><strong>نکته:</strong> نام دستور باید با حرف یا <code>_</code> شروع شود و حداکثر ۳۲ کاراکتر باشد. توضیحات حداکثر ۲۵۶ کاراکتر.</p>
+<p><strong>مثال‌ها:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-38-1"><a href="#__codelineno-38-1" id="__codelineno-38-1" name="__codelineno-38-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-38-2"><a href="#__codelineno-38-2" id="__codelineno-38-2" name="__codelineno-38-2"></a>
+</span><span id="__span-38-3"><a href="#__codelineno-38-3" id="__codelineno-38-3" name="__codelineno-38-3"></a><span class="c1"># روش اول: ارسال یک لیست از دیکشنری‌ها</span>
+</span><span id="__span-38-4"><a href="#__codelineno-38-4" id="__codelineno-38-4" name="__codelineno-38-4"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-38-5"><a href="#__codelineno-38-5" id="__codelineno-38-5" name="__codelineno-38-5"></a>    <span class="n">b</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">set_commands</span><span class="p">([{</span><span class="s2">"command"</span><span class="p">:</span> <span class="s2">"start"</span><span class="p">,</span> <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"Start the bot"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"command"</span><span class="p">:</span> <span class="s2">"help"</span><span class="p">,</span> <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"help of bot"</span><span class="p">}])</span>
+</span><span id="__span-38-6"><a href="#__codelineno-38-6" id="__codelineno-38-6" name="__codelineno-38-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-39-1"><a href="#__codelineno-39-1" id="__codelineno-39-1" name="__codelineno-39-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-39-2"><a href="#__codelineno-39-2" id="__codelineno-39-2" name="__codelineno-39-2"></a>
+</span><span id="__span-39-3"><a href="#__codelineno-39-3" id="__codelineno-39-3" name="__codelineno-39-3"></a><span class="c1"># روش دوم: ارسال یک دیکشنری ساده</span>
+</span><span id="__span-39-4"><a href="#__codelineno-39-4" id="__codelineno-39-4" name="__codelineno-39-4"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-39-5"><a href="#__codelineno-39-5" id="__codelineno-39-5" name="__codelineno-39-5"></a>    <span class="n">b</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">set_commands</span><span class="p">({</span><span class="s2">"start"</span><span class="p">:</span> <span class="s2">"Start the bot"</span><span class="p">,</span> <span class="s2">"help"</span><span class="p">:</span> <span class="s2">"Show help"</span><span class="p">})</span>
+</span><span id="__span-39-6"><a href="#__codelineno-39-6" id="__codelineno-39-6" name="__codelineno-39-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="update_bot_endpoints"><a href="#update_bot_endpoints">update_bot_endpoints</a></h2>
+<p>این متد برای ثبت یک یا چند URL وب‌هوک روی سرورهای روبیکا استفاده می‌شود. با این کار، رویدادهای مختلف بات به‌جای این که شما آن‌ها را دریافت (Pull) کنید، از سمت سرور به سمت URL شما ارسال (Push) می‌شوند. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>url:</strong> آدرس کامل و عمومی که سرور روبیکا باید رویدادها را به آن ارسال کند (توصیه می‌شود از HTTPS استفاده شود).</li>
+<li><strong>endpoint_type:</strong> نوع رویدادی که این URL مدیریت خواهد کرد. مقادیر قابل قبول:<ul>
+<li>"ReceiveUpdate": پیام‌های جدید، ویرایش‌ها و حذف‌ها.</li>
+<li>"ReceiveInlineMessage": فشردن دکمه‌های شیشه‌ای (Inline).</li>
+<li>"ReceiveQuery": نتایج جستجوی درون‌خطی (Inline Query).</li>
+<li>"GetSelectionItem": انتخاب آیتم‌های منو.</li>
+<li>"SearchSelectionItems": درخواست جستجو در آیتم‌های انتخابی.</li>
+</ul>
+</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-40-1"><a href="#__codelineno-40-1" id="__codelineno-40-1" name="__codelineno-40-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-40-2"><a href="#__codelineno-40-2" id="__codelineno-40-2" name="__codelineno-40-2"></a>
+</span><span id="__span-40-3"><a href="#__codelineno-40-3" id="__codelineno-40-3" name="__codelineno-40-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-40-4"><a href="#__codelineno-40-4" id="__codelineno-40-4" name="__codelineno-40-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">update_bot_endpoints</span><span class="p">(</span>
+</span><span id="__span-40-5"><a href="#__codelineno-40-5" id="__codelineno-40-5" name="__codelineno-40-5"></a>        <span class="n">url</span><span class="o">=</span><span class="s2">"https://myserver.com/wk"</span><span class="p">,</span>
+</span><span id="__span-40-6"><a href="#__codelineno-40-6" id="__codelineno-40-6" name="__codelineno-40-6"></a>        <span class="n">endpoint_type</span><span class="o">=</span><span class="s2">"ReceiveUpdate"</span>
+</span><span id="__span-40-7"><a href="#__codelineno-40-7" id="__codelineno-40-7" name="__codelineno-40-7"></a>    <span class="p">)</span>
+</span><span id="__span-40-8"><a href="#__codelineno-40-8" id="__codelineno-40-8" name="__codelineno-40-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="register_all_endpoints"><a href="#register_all_endpoints">register_all_endpoints</a></h2>
+<p>این متد یک میانبر برای ثبت تمامی وب‌هوک‌ها به‌طور هم‌زمان است و برای راه‌اندازی اولیه بات بسیار مفید است.</p>
+<ul>
+<li><strong>base_url:</strong> URL پایه سرور شما (مثلاً "https://myserver.com"). مسیر /wk به‌طور خودکار به آن اضافه خواهد شد.</li>
+<li><strong>endpoints:</strong> لیستی از انواع رویدادها برای ثبت. اگر None باشد، هر پنج نوع ثبت می‌شوند.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-41-1"><a href="#__codelineno-41-1" id="__codelineno-41-1" name="__codelineno-41-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-41-2"><a href="#__codelineno-41-2" id="__codelineno-41-2" name="__codelineno-41-2"></a>
+</span><span id="__span-41-3"><a href="#__codelineno-41-3" id="__codelineno-41-3" name="__codelineno-41-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-41-4"><a href="#__codelineno-41-4" id="__codelineno-41-4" name="__codelineno-41-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">register_all_endpoints</span><span class="p">(</span><span class="s2">"https://myserver.com"</span><span class="p">)</span>
+</span><span id="__span-41-5"><a href="#__codelineno-41-5" id="__codelineno-41-5" name="__codelineno-41-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="get_token_string"><a href="#get_token_string">get_token_string</a></h2>
+<p>این متد توکن فعلی بات را به صورت یک TokenString رمزنگاری‌شده برمی‌گرداند. با این کار می‌توانید توکن خود را در محیط‌های ناامن (مثل فایل‌های تنظیمات یا مخزن گیت) ذخیره کنید بدون اینکه توکن خام در معرض دید قرار گیرد.</p>
+<ul>
+<li><strong>password:</strong> رمز عبور اختیاری برای رمزنگاری. اگر ارائه شود، TokenString فقط با همین رمز باز می‌شود.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-42-1"><a href="#__codelineno-42-1" id="__codelineno-42-1" name="__codelineno-42-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-42-2"><a href="#__codelineno-42-2" id="__codelineno-42-2" name="__codelineno-42-2"></a>
+</span><span id="__span-42-3"><a href="#__codelineno-42-3" id="__codelineno-42-3" name="__codelineno-42-3"></a><span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+</span><span id="__span-42-4"><a href="#__codelineno-42-4" id="__codelineno-42-4" name="__codelineno-42-4"></a>    <span class="n">token_string</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">get_token_string</span><span class="p">(</span><span class="n">password</span><span class="o">=</span><span class="s2">"my_pass"</span><span class="p">)</span>
+</span><span id="__span-42-5"><a href="#__codelineno-42-5" id="__codelineno-42-5" name="__codelineno-42-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">token_string</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="start"><a href="#start">start</a></h2>
+<p>این متد (غیرهمگام - async) برای راه‌اندازی بات در یکی از دو حالت Polling (دریافت مداوم به‌روزرسانی‌ها) یا Webhook (دریافت رویدادها از طریق یک سرور وب) استفاده می‌شود. این متد تا زمانی که بات متوقف نشود، اجرا می‌ماند. پارامترهای پذیرفته‌شده توسط این متد به شرح زیر هستند:</p>
+<ul>
+<li><strong>poll_interval:</strong> فاصله زمانی (به ثانیه) بین هر درخواست دریافت به‌روزرسانی در حالت Polling. (پیش‌فرض: ۰.۰۰۵)</li>
+<li><strong>webhook_url:</strong> URL عمومی سرور شما برای فعال‌سازی حالت Webhook. در صورت تنظیم، حالت Polling غیرفعال می‌شود.</li>
+<li><strong>webhook_path:</strong> مسیر مدیریت درخواست‌های وب‌هوک روی سرور. (پیش‌فرض: /wk)</li>
+<li><strong>host:</strong> آدرس میزبان برای راه‌اندازی وب سرور. (پیش‌فرض: "0.0.0.0")</li>
+<li><strong>port:</strong> پورت برای راه‌اندازی وب سرور. (پیش‌فرض: ۸۰۸۰)</li>
+</ul>
+<p><strong>مثال (حالت Polling):</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-43-1"><a href="#__codelineno-43-1" id="__codelineno-43-1" name="__codelineno-43-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span id="__span-43-2"><a href="#__codelineno-43-2" id="__codelineno-43-2" name="__codelineno-43-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-43-3"><a href="#__codelineno-43-3" id="__codelineno-43-3" name="__codelineno-43-3"></a>
+</span><span id="__span-43-4"><a href="#__codelineno-43-4" id="__codelineno-43-4" name="__codelineno-43-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__span-43-5"><a href="#__codelineno-43-5" id="__codelineno-43-5" name="__codelineno-43-5"></a>    <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span>
+</span><span id="__span-43-6"><a href="#__codelineno-43-6" id="__codelineno-43-6" name="__codelineno-43-6"></a>    <span class="nd">@bot</span><span class="o">.</span><span class="n">on_message</span><span class="p">()</span>
+</span><span id="__span-43-7"><a href="#__codelineno-43-7" id="__codelineno-43-7" name="__codelineno-43-7"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_message</span><span class="p">(</span><span class="n">bot</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+</span><span id="__span-43-8"><a href="#__codelineno-43-8" id="__codelineno-43-8" name="__codelineno-43-8"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span id="__span-43-9"><a href="#__codelineno-43-9" id="__codelineno-43-9" name="__codelineno-43-9"></a>    <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span><span id="__span-43-10"><a href="#__codelineno-43-10" id="__codelineno-43-10" name="__codelineno-43-10"></a>
+</span><span id="__span-43-11"><a href="#__codelineno-43-11" id="__codelineno-43-11" name="__codelineno-43-11"></a><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="run"><a href="#run">run</a></h2>
+<p>این یک متد همگام (sync) است که به عنوان یک پوشش ساده برای متد start عمل می‌کند و اجرای برنامه را تا زمان فشردن Ctrl+C متوقف نگه می‌دارد. برای اسکریپت‌هایی که حلقه رویداد asyncio فعال ندارند، بسیار مناسب است.</p>
+<p>پارامترهای این متد دقیقاً مشابه متد start هستند.</p>
+<p><strong>مثال (حالت Polling):</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-44-1"><a href="#__codelineno-44-1" id="__codelineno-44-1" name="__codelineno-44-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-44-2"><a href="#__codelineno-44-2" id="__codelineno-44-2" name="__codelineno-44-2"></a>
+</span><span id="__span-44-3"><a href="#__codelineno-44-3" id="__codelineno-44-3" name="__codelineno-44-3"></a><span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span>
+</span><span id="__span-44-4"><a href="#__codelineno-44-4" id="__codelineno-44-4" name="__codelineno-44-4"></a>
+</span><span id="__span-44-5"><a href="#__codelineno-44-5" id="__codelineno-44-5" name="__codelineno-44-5"></a><span class="nd">@bot</span><span class="o">.</span><span class="n">on_message</span><span class="p">()</span>
+</span><span id="__span-44-6"><a href="#__codelineno-44-6" id="__codelineno-44-6" name="__codelineno-44-6"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_message</span><span class="p">(</span><span class="n">bot</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+</span><span id="__span-44-7"><a href="#__codelineno-44-7" id="__codelineno-44-7" name="__codelineno-44-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span id="__span-44-8"><a href="#__codelineno-44-8" id="__codelineno-44-8" name="__codelineno-44-8"></a>
+</span><span id="__span-44-9"><a href="#__codelineno-44-9" id="__codelineno-44-9" name="__codelineno-44-9"></a><span class="n">bot</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="request"><a href="#request">request</a></h2><p>این متد برای ارسال مستقیم درخواست به API ربات استفاده می‌شود. نام متد API را در پارامتر <code>method</code> و در صورت نیاز، داده‌های ورودی را در پارامتر <code>input</code> قرار دهید.</p>
+<ul><li><strong>method:</strong> نام متد API موردنظر (برای مثال "getMe" ).</li><li><strong>input:</strong> دیکشنری داده‌های ورودی موردنیاز متد API. مقدار پیش‌فرض <code>None</code> است.</li></ul>
+<p><strong>مثال:</strong></p><div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span class="kn">from</span> <span class="nn">maxrubika</span> <span class="kn">import</span> <span class="n">Bot</span>
+
+<span class="k">with</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span> <span class="k">as</span> <span class="n">bot</span><span class="p">:</span>
+    <span class="c1"># درخواست بدون داده ورودی</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s2">"getMe"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+    <span class="c1"># درخواست همراه با داده ورودی</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s2">"someMethod"</span><span class="p">,</span> <span class="n">input</span><span class="o">=</span><span class="p">{</span><span class="s2">"key"</span><span class="p">:</span> <span class="s2">"value"</span><span class="p">})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></code></pre></div><hr/>
+<h2 id="disconnect"><a href="#disconnect">disconnect</a></h2>
+<p>این متد برای قطع دستی اتصال از سرورهای روبیکا استفاده می‌شود. اگر از Context Manager (<code>with</code> یا <code>async with</code>) استفاده نکرده‌اید، باید در پایان کار ربات، این متد را فراخوانی کنید تا اتصال به درستی بسته شود و منابع آزاد شوند.</p>
+<p><strong>پارامترها:</strong> ندارد.</p>
+<p><strong>مثال (Sync):</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-46-1"><a href="#__codelineno-46-1" id="__codelineno-46-1" name="__codelineno-46-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-46-2"><a href="#__codelineno-46-2" id="__codelineno-46-2" name="__codelineno-46-2"></a>
+</span><span id="__span-46-3"><a href="#__codelineno-46-3" id="__codelineno-46-3" name="__codelineno-46-3"></a><span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span>
+</span><span id="__span-46-4"><a href="#__codelineno-46-4" id="__codelineno-46-4" name="__codelineno-46-4"></a>
+</span><span id="__span-46-5"><a href="#__codelineno-46-5" id="__codelineno-46-5" name="__codelineno-46-5"></a><span class="n">me</span> <span class="o">=</span> <span class="n">bot</span><span class="o">.</span><span class="n">get_me</span><span class="p">()</span>
+</span><span id="__span-46-6"><a href="#__codelineno-46-6" id="__codelineno-46-6" name="__codelineno-46-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">me</span><span class="p">)</span>
+</span><span id="__span-46-7"><a href="#__codelineno-46-7" id="__codelineno-46-7" name="__codelineno-46-7"></a>
+</span><span id="__span-46-8"><a href="#__codelineno-46-8" id="__codelineno-46-8" name="__codelineno-46-8"></a><span class="n">bot</span><span class="o">.</span><span class="n">disconnect</span><span class="p">()</span>  <span class="c1"># قطع اتصال</span>
+</span></code></pre></div>
+<hr/>
+<h2 id="close"><a href="#close">close</a></h2>
+<p>این متد نسخهٔ ناهمگام (Async) برای قطع اتصال است. در محیط‌های Async باید از این متد به همراه <code>await</code> استفاده کنید.</p>
+<p><strong>پارامترها:</strong> ندارد.</p>
+<p><strong>مثال (Async):</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-47-1"><a href="#__codelineno-47-1" id="__codelineno-47-1" name="__codelineno-47-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span id="__span-47-2"><a href="#__codelineno-47-2" id="__codelineno-47-2" name="__codelineno-47-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Bot</span>
+</span><span id="__span-47-3"><a href="#__codelineno-47-3" id="__codelineno-47-3" name="__codelineno-47-3"></a>
+</span><span id="__span-47-4"><a href="#__codelineno-47-4" id="__codelineno-47-4" name="__codelineno-47-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__span-47-5"><a href="#__codelineno-47-5" id="__codelineno-47-5" name="__codelineno-47-5"></a>    <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">(</span><span class="s2">"token"</span><span class="p">)</span>
+</span><span id="__span-47-6"><a href="#__codelineno-47-6" id="__codelineno-47-6" name="__codelineno-47-6"></a>    <span class="n">me</span> <span class="o">=</span> <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">get_me</span><span class="p">()</span>
+</span><span id="__span-47-7"><a href="#__codelineno-47-7" id="__codelineno-47-7" name="__codelineno-47-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">me</span><span class="p">)</span>
+</span><span id="__span-47-8"><a href="#__codelineno-47-8" id="__codelineno-47-8" name="__codelineno-47-8"></a>    <span class="k">await</span> <span class="n">bot</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># قطع اتصال در حالت Async</span>
+</span><span id="__span-47-9"><a href="#__codelineno-47-9" id="__codelineno-47-9" name="__codelineno-47-9"></a>
+</span><span id="__span-47-10"><a href="#__codelineno-47-10" id="__codelineno-47-10" name="__codelineno-47-10"></a><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</span></code></pre></div>
+<p><strong>نکته مهم:</strong> اگر از <code>bot.run()</code> یا <code>await bot.start()</code> استفاده می‌کنید، خود کتابخانه مدیریت اتصال را در طول اجرا به عهده دارد و نیازی به فراخوانی دستی <code>disconnect</code> یا <code>close</code> نیست.</p>
+<hr/>
+<div style="display: flex; justify-content: center; gap: 12px; margin-top: 32px; flex-wrap: wrap;">
+<a class="md-button" href="../bot-guide/" style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 10px 20px; font-weight: bold; color: #333;">بازگشت به مستندات ربات</a>
+<a class="md-button md-button--primary" href="../bot-decorators/" style="background: linear-gradient(135deg, #4CAF50, #388E3C); border: none; border-radius: 8px; padding: 10px 20px; font-weight: bold;">صفحه بعد ←</a>
+</div>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  برگشت به بالا
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["navigation.sections","navigation.indexes","navigation.top","content.code.copy","content.code.annotate","search.highlight"],"search":"../../assets/javascripts/workers/search.a7633da7.min.js","tags":null,"translations":{"clipboard.copied":"کپی شد","clipboard.copy":"کپی کردن","search.result.more.one":"1 مورد دیگر در این صفحه","search.result.more.other":"# مورد دیگر در این صفحه","search.result.none":"سندی یافت نشد","search.result.one":"1 سند یافت شد","search.result.other":"# سند یافت شد","search.result.placeholder":"برای شروع جستجو تایپ کنید","search.result.term.missing":"موجود نیست","select.version":"انتخاب ویرایش"},"version":null}</script>
+<script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+
+<script>
+(function () {
+  "use strict";
+
+  function normalizePath(value) {
+    try {
+      var url = new URL(value, window.location.href);
+      if (url.origin !== window.location.origin) return null;
+      var path = decodeURIComponent(url.pathname);
+      path = path.replace(/\/index\.html$/i, "/");
+      if (!path.endsWith("/")) path += "/";
+      return path.replace(/\/{2,}/g, "/");
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function isLocalCurrentPlaceholder(link) {
+    var href = (link.getAttribute("href") || "").trim();
+    var path = href.split(/[?#]/, 1)[0].trim();
+    return path === "" || path === "." || path === "./" ||
+      path === "index.html" || path === "./index.html";
+  }
+
+  function findCurrentLink(nav) {
+    var currentPath = normalizePath(window.location.href);
+    if (!currentPath) return null;
+
+    var candidates = Array.from(nav.querySelectorAll("a.md-nav__link[href]")).filter(function (link) {
+      var href = (link.getAttribute("href") || "").trim();
+      if (!href || href === "#" || href.charAt(0) === "#") return false;
+      if (/^(javascript:|mailto:|tel:)/i.test(href)) return false;
+      if (link.hasAttribute("aria-disabled") || link.getAttribute("tabindex") === "-1") return false;
+      return normalizePath(href) === currentPath;
+    });
+
+    if (!candidates.length) return null;
+
+    // Material for MkDocs can emit a generic "./" active-page placeholder
+    // inside a different section. If a real navigation URL for this page
+    // exists, it must win over that placeholder, regardless of stale
+    // aria-current or active classes in the generated HTML.
+    var explicitCandidates = candidates.filter(function (link) {
+      return !isLocalCurrentPlaceholder(link);
+    });
+    var preferred = explicitCandidates.length ? explicitCandidates : candidates;
+
+    preferred.sort(function (a, b) {
+      function score(link) {
+        var value = 0;
+        if (link.getAttribute("aria-current") === "page") value += 100;
+        if (link.classList.contains("md-nav__link--active")) value += 50;
+        return value;
+      }
+      var difference = score(b) - score(a);
+      if (difference) return difference;
+      return (a.getAttribute("href") || "").length - (b.getAttribute("href") || "").length;
+    });
+    return preferred[0];
+  }
+
+  function openActiveParents(nav, active) {
+    nav.querySelectorAll("a.md-nav__link[aria-current]").forEach(function (el) {
+      el.removeAttribute("aria-current");
+    });
+    nav.querySelectorAll(".md-nav__link--active").forEach(function (el) {
+      el.classList.remove("md-nav__link--active");
+    });
+    nav.querySelectorAll(".md-nav__item--active").forEach(function (el) {
+      el.classList.remove("md-nav__item--active");
+    });
+    nav.querySelectorAll("input.md-nav__toggle").forEach(function (toggle) {
+      toggle.checked = false;
+    });
+    nav.querySelectorAll("nav.md-nav[aria-expanded]").forEach(function (nested) {
+      nested.setAttribute("aria-expanded", "false");
+    });
+
+    active.classList.add("md-nav__link--active");
+    active.setAttribute("aria-current", "page");
+    var item = active.closest(".md-nav__item");
+    while (item) {
+      item.classList.add("md-nav__item--active");
+      var parentNav = item.parentElement && item.parentElement.closest("nav.md-nav");
+      if (!parentNav || parentNav === nav) break;
+      parentNav.setAttribute("aria-expanded", "true");
+      var parentItem = parentNav.closest(".md-nav__item");
+      if (!parentItem) break;
+      var toggle = Array.from(parentItem.children).find(function (child) {
+        return child.matches && child.matches("input.md-nav__toggle");
+      });
+      if (toggle) toggle.checked = true;
+      item = parentItem;
+    }
+  }
+
+  function findNavigationScroller(active, nav) {
+    // On mobile, Material scrolls the expanded navigation list. On desktop,
+    // the scroll container is .md-sidebar__scrollwrap, which is an ancestor
+    // OUTSIDE .md-nav--primary. Search the complete ancestor chain and select
+    // the nearest element that is actually scrollable at the current breakpoint.
+    var element = active ? active.parentElement : null;
+    while (element && element !== document.body && element !== document.documentElement) {
+      var style = window.getComputedStyle(element);
+      var overflowY = style.overflowY;
+      if ((overflowY === "auto" || overflowY === "scroll" || overflowY === "overlay") &&
+          element.scrollHeight > element.clientHeight + 1) {
+        return element;
+      }
+      element = element.parentElement;
+    }
+    return null;
+  }
+
+  function scrollToActive(active, nav) {
+    var drawer = document.getElementById("__drawer");
+    var isNarrow = window.matchMedia && window.matchMedia("(max-width: 76.234375em)").matches;
+    if (drawer && isNarrow && !drawer.checked) return;
+    if (!active || !active.isConnected || !nav) return;
+
+    var scroller = findNavigationScroller(active, nav);
+    if (!scroller) return;
+
+    var linkRect = active.getBoundingClientRect();
+    var scrollerRect = scroller.getBoundingClientRect();
+    var offset = linkRect.top - scrollerRect.top;
+    var desiredTop = scroller.scrollTop + offset - Math.max(24, (scroller.clientHeight - linkRect.height) * 0.35);
+    var maxScroll = Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+    desiredTop = Math.min(maxScroll, Math.max(0, desiredTop));
+    scroller.scrollTo({ top: desiredTop, behavior: "auto" });
+  }
+
+  function scheduleActiveScroll() {
+    [0, 80, 200, 400, 650].forEach(function (delay) {
+      window.setTimeout(function () {
+        var nav = document.querySelector(".md-nav--primary");
+        if (!nav) return;
+        var active = findCurrentLink(nav);
+        if (active) scrollToActive(active, nav);
+      }, delay);
+    });
+  }
+
+  function syncCurrentNavigation() {
+    var nav = document.querySelector(".md-nav--primary");
+    if (!nav) return;
+    var active = findCurrentLink(nav);
+    if (!active) return;
+    openActiveParents(nav, active);
+
+    var drawer = document.getElementById("__drawer");
+    if (drawer && !drawer.dataset.currentNavigationBound) {
+      drawer.dataset.currentNavigationBound = "1";
+      drawer.addEventListener("change", function () {
+        if (drawer.checked) scheduleActiveScroll();
+      });
+    }
+
+    var isNarrow = window.matchMedia && window.matchMedia("(max-width: 76.234375em)").matches;
+    if (!isNarrow || (drawer && drawer.checked)) scheduleActiveScroll();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", syncCurrentNavigation, { once: true });
+  } else {
+    syncCurrentNavigation();
+  }
+  window.addEventListener("pageshow", syncCurrentNavigation);
+  window.addEventListener("popstate", syncCurrentNavigation);
+  window.addEventListener("resize", scheduleActiveScroll, { passive: true });
+})();
+</script>
+
+</body>
+</html>

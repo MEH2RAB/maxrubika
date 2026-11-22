@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://MEH2RAB.github.io/maxrubika/sitemap.xml
+Sitemap: https://meh2rab.github.io/maxrubika/sitemap.xml

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="0; url=../bot/bot-guide/">
+<title>مستندات بات | MAXRubika</title>
+<link rel="canonical" href="../bot/bot-guide/">
+<script>location.replace("../bot/bot-guide/" + location.search + location.hash);</script>
+</head>
+<body><p>در حال انتقال به <a href="../bot/bot-guide/">مستندات بات</a>...</p>
+<script>
+(function () {
+  "use strict";
+
+  function normalizePath(value) {
+    try {
+      var url = new URL(value, window.location.href);
+      if (url.origin !== window.location.origin) return null;
+      var path = decodeURIComponent(url.pathname);
+      path = path.replace(/\/index\.html$/i, "/");
+      if (!path.endsWith("/")) path += "/";
+      return path.replace(/\/{2,}/g, "/");
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function isLocalCurrentPlaceholder(link) {
+    var href = (link.getAttribute("href") || "").trim();
+    var path = href.split(/[?#]/, 1)[0].trim();
+    return path === "" || path === "." || path === "./" ||
+      path === "index.html" || path === "./index.html";
+  }
+
+  function findCurrentLink(nav) {
+    var currentPath = normalizePath(window.location.href);
+    if (!currentPath) return null;
+
+    var candidates = Array.from(nav.querySelectorAll("a.md-nav__link[href]")).filter(function (link) {
+      var href = (link.getAttribute("href") || "").trim();
+      if (!href || href === "#" || href.charAt(0) === "#") return false;
+      if (/^(javascript:|mailto:|tel:)/i.test(href)) return false;
+      if (link.hasAttribute("aria-disabled") || link.getAttribute("tabindex") === "-1") return false;
+      return normalizePath(href) === currentPath;
+    });
+
+    if (!candidates.length) return null;
+
+    // Material for MkDocs can emit a generic "./" active-page placeholder
+    // inside a different section. If a real navigation URL for this page
+    // exists, it must win over that placeholder, regardless of stale
+    // aria-current or active classes in the generated HTML.
+    var explicitCandidates = candidates.filter(function (link) {
+      return !isLocalCurrentPlaceholder(link);
+    });
+    var preferred = explicitCandidates.length ? explicitCandidates : candidates;
+
+    preferred.sort(function (a, b) {
+      function score(link) {
+        var value = 0;
+        if (link.getAttribute("aria-current") === "page") value += 100;
+        if (link.classList.contains("md-nav__link--active")) value += 50;
+        return value;
+      }
+      var difference = score(b) - score(a);
+      if (difference) return difference;
+      return (a.getAttribute("href") || "").length - (b.getAttribute("href") || "").length;
+    });
+    return preferred[0];
+  }
+
+  function openActiveParents(nav, active) {
+    nav.querySelectorAll("a.md-nav__link[aria-current]").forEach(function (el) {
+      el.removeAttribute("aria-current");
+    });
+    nav.querySelectorAll(".md-nav__link--active").forEach(function (el) {
+      el.classList.remove("md-nav__link--active");
+    });
+    nav.querySelectorAll(".md-nav__item--active").forEach(function (el) {
+      el.classList.remove("md-nav__item--active");
+    });
+    nav.querySelectorAll("input.md-nav__toggle").forEach(function (toggle) {
+      toggle.checked = false;
+    });
+    nav.querySelectorAll("nav.md-nav[aria-expanded]").forEach(function (nested) {
+      nested.setAttribute("aria-expanded", "false");
+    });
+
+    active.classList.add("md-nav__link--active");
+    active.setAttribute("aria-current", "page");
+    var item = active.closest(".md-nav__item");
+    while (item) {
+      item.classList.add("md-nav__item--active");
+      var parentNav = item.parentElement && item.parentElement.closest("nav.md-nav");
+      if (!parentNav || parentNav === nav) break;
+      parentNav.setAttribute("aria-expanded", "true");
+      var parentItem = parentNav.closest(".md-nav__item");
+      if (!parentItem) break;
+      var toggle = Array.from(parentItem.children).find(function (child) {
+        return child.matches && child.matches("input.md-nav__toggle");
+      });
+      if (toggle) toggle.checked = true;
+      item = parentItem;
+    }
+  }
+
+  function findNavigationScroller(active, nav) {
+    // On mobile, Material scrolls the expanded navigation list. On desktop,
+    // the scroll container is .md-sidebar__scrollwrap, which is an ancestor
+    // OUTSIDE .md-nav--primary. Search the complete ancestor chain and select
+    // the nearest element that is actually scrollable at the current breakpoint.
+    var element = active ? active.parentElement : null;
+    while (element && element !== document.body && element !== document.documentElement) {
+      var style = window.getComputedStyle(element);
+      var overflowY = style.overflowY;
+      if ((overflowY === "auto" || overflowY === "scroll" || overflowY === "overlay") &&
+          element.scrollHeight > element.clientHeight + 1) {
+        return element;
+      }
+      element = element.parentElement;
+    }
+    return null;
+  }
+
+  function scrollToActive(active, nav) {
+    var drawer = document.getElementById("__drawer");
+    var isNarrow = window.matchMedia && window.matchMedia("(max-width: 76.234375em)").matches;
+    if (drawer && isNarrow && !drawer.checked) return;
+    if (!active || !active.isConnected || !nav) return;
+
+    var scroller = findNavigationScroller(active, nav);
+    if (!scroller) return;
+
+    var linkRect = active.getBoundingClientRect();
+    var scrollerRect = scroller.getBoundingClientRect();
+    var offset = linkRect.top - scrollerRect.top;
+    var desiredTop = scroller.scrollTop + offset - Math.max(24, (scroller.clientHeight - linkRect.height) * 0.35);
+    var maxScroll = Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+    desiredTop = Math.min(maxScroll, Math.max(0, desiredTop));
+    scroller.scrollTo({ top: desiredTop, behavior: "auto" });
+  }
+
+  function scheduleActiveScroll() {
+    [0, 80, 200, 400, 650].forEach(function (delay) {
+      window.setTimeout(function () {
+        var nav = document.querySelector(".md-nav--primary");
+        if (!nav) return;
+        var active = findCurrentLink(nav);
+        if (active) scrollToActive(active, nav);
+      }, delay);
+    });
+  }
+
+  function syncCurrentNavigation() {
+    var nav = document.querySelector(".md-nav--primary");
+    if (!nav) return;
+    var active = findCurrentLink(nav);
+    if (!active) return;
+    openActiveParents(nav, active);
+
+    var drawer = document.getElementById("__drawer");
+    if (drawer && !drawer.dataset.currentNavigationBound) {
+      drawer.dataset.currentNavigationBound = "1";
+      drawer.addEventListener("change", function () {
+        if (drawer.checked) scheduleActiveScroll();
+      });
+    }
+
+    var isNarrow = window.matchMedia && window.matchMedia("(max-width: 76.234375em)").matches;
+    if (!isNarrow || (drawer && drawer.checked)) scheduleActiveScroll();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", syncCurrentNavigation, { once: true });
+  } else {
+    syncCurrentNavigation();
+  }
+  window.addEventListener("pageshow", syncCurrentNavigation);
+  window.addEventListener("popstate", syncCurrentNavigation);
+  window.addEventListener("resize", scheduleActiveScroll, { passive: true });
+})();
+</script>
+
+</body>
+</html>

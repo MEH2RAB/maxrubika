@@ -1,0 +1,1754 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="کتابخانه کامل پایتون برای پیام‌رسان‌های روبیکا و شاد" name="description"/>
+<link href="https://meh2rab.github.io/maxrubika/client/client-methods-settings/" rel="canonical"/>
+<link href="../client-methods-users/" rel="prev"/>
+<link href="../client-methods-other/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.8.1" name="generator"/>
+<title>تنظیمات امنیت - مستندات کتابخانه MAXRubika</title>
+<link href="../../assets/stylesheets/main.57a0d79d.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.fb2fffe2.min.css" rel="stylesheet"/>
+<style>:root{--md-text-font:"Vazirmatn";--md-code-font:"Fira Code"}</style>
+<link href="../../assets/fonts/fonts.css" rel="stylesheet"/>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="indigo" data-md-color-scheme="default" dir="rtl">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#_1">
+          پرش به محتویات
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="سرتیتر" class="md-header__inner md-grid">
+<a aria-label="مستندات کتابخانه MAXRubika" class="md-header__button md-logo" data-md-component="logo" href="../.." title="مستندات کتابخانه MAXRubika">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            مستندات کتابخانه MAXRubika
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              تنظیمات
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="تغییر به حالت تاریک" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="indigo" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="تغییر به حالت تاریک">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+</label>
+<input aria-label="تغییر به حالت روشن" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="indigo" data-md-color-scheme="slate" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="تغییر به حالت روشن">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+</label>
+</form>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="جستجو" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="جستجو" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="جستجو" class="md-search__options">
+<button aria-label="بازنشانی" class="md-search__icon md-icon" tabindex="-1" title="بازنشانی" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            راه‌اندازی جستجو
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/MEH2RAB/maxrubika" title="رفتن به مخزن">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    MEH2RAB/maxrubika
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="هدایت" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="مستندات کتابخانه MAXRubika" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="مستندات کتابخانه MAXRubika">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    مستندات کتابخانه MAXRubika
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/MEH2RAB/maxrubika" title="رفتن به مخزن">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+</div>
+<div class="md-source__repository">
+    MEH2RAB/maxrubika
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../">
+<span class="md-ellipsis">
+    
+  
+    خانه
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../developers/">
+<span class="md-ellipsis">
+    
+  
+    توسعه‌دهندگان
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested md-nav__item--section">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    رباتِ روبیکا
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    رباتِ روبیکا
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-methods/">
+<span class="md-ellipsis">
+    
+  
+    متدها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-decorators/">
+<span class="md-ellipsis">
+    
+  
+    دکوراتورها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-filters/">
+<span class="md-ellipsis">
+    
+  
+    فیلترها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-properties/">
+<span class="md-ellipsis">
+    
+  
+    پراپرتی‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-plugins/">
+<span class="md-ellipsis">
+    
+  
+    پلاگین
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item md-nav__item--nested"><input class="md-nav__toggle md-toggle" id="__nav_bot_more" type="checkbox"/><label class="md-nav__link" for="__nav_bot_more" id="__nav_bot_more_label" tabindex="0"><span class="md-ellipsis">توضیحات بیشتر</span><span class="md-nav__icon md-icon"></span></label><nav aria-expanded="false" aria-labelledby="__nav_bot_more_label" class="md-nav" data-md-level="2"><label class="md-nav__title" for="__nav_bot_more"><span class="md-nav__icon md-icon"></span>توضیحات بیشتر</label><ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item"><a class="md-nav__link" href="../../bot/bot-more/">
+<span class="md-ellipsis">
+    
+  
+    توضیحات بیشتر
+  
+
+    
+  </span>
+</a></li><li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-init-params/">
+<span class="md-ellipsis">
+    
+  
+    ساخت و پیکربندی بات
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-connect-disconnect/">
+<span class="md-ellipsis">
+    
+  
+    اتصال و قطع اتصال
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-metadata/">
+<span class="md-ellipsis">
+    
+  
+    متادیتا در متن پیام
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-chat-id/">
+<span class="md-ellipsis">
+    
+  
+    شناسه‌های گفتگو
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_1" type="checkbox"/>
+<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    دکمه‌های کیپاد
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_1">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    دکمه‌های کیپاد
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-button-types/">
+<span class="md-ellipsis">
+    
+  
+    انواع دکمه‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-button-models/">
+<span class="md-ellipsis">
+    
+  
+    ساختار و مدل‌های کیپاد
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-button-examples/">
+<span class="md-ellipsis">
+    
+  
+    نمونه‌های عملی
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-token-string/">
+<span class="md-ellipsis">
+    
+  
+    توکن استرینگ و امنیت
+  
+
+    
+  </span>
+</a>
+</li></ul></nav></li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    مثال‌ها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    مثال‌ها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-examples/">
+<span class="md-ellipsis">
+    
+  
+    معرفی مثال‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item"><a class="md-nav__link" href="../../bot/bot-examples-selection-menu/"><span class="md-ellipsis">تنظیم منوی انتخابی</span></a></li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-examples-simple-message/">
+<span class="md-ellipsis">
+    
+  
+    دریافت پیام ساده
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-examples-echo/">
+<span class="md-ellipsis">
+    
+  
+    اکو کردن پیام‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-examples-get-info/">
+<span class="md-ellipsis">
+    
+  
+    دریافت چت آیدی و سندر آیدی
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-examples-mute-users/">
+<span class="md-ellipsis">
+    
+  
+    سکوت کردن کاربران
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-examples-tag-users/">
+<span class="md-ellipsis">
+    
+  
+    تگ کردن کاربران
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-examples-check-join/">
+<span class="md-ellipsis">
+    
+  
+    بررسی عضویت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-examples-dice-coin-random/">
+<span class="md-ellipsis">
+    
+  
+    تاس، سکه و عدد تصادفی
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../bot/bot-examples-self-bot-combined/">
+<span class="md-ellipsis">
+    
+  
+    ترکیب بات و سلف‌بات
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li></ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested md-nav__item--active md-nav__item--section">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    حساب کاربریِ روبیکا
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_9_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_9">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    حساب کاربریِ روبیکا
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item md-nav__item--nested"><input class="md-nav__toggle md-toggle" id="__nav_client_messenger" type="checkbox"/><label class="md-nav__link" for="__nav_client_messenger" id="__nav_client_messenger_label" tabindex="0"><span class="md-ellipsis">مستندات پیام‌رسان</span><span class="md-nav__icon md-icon"></span></label><nav aria-expanded="false" aria-labelledby="__nav_client_messenger_label" class="md-nav" data-md-level="2"><label class="md-nav__title" for="__nav_client_messenger"><span class="md-nav__icon md-icon"></span>مستندات پیام‌رسان</label><ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item md-nav__item--nested md-nav__item--active">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    متدها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    متدها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+
+
+
+
+
+
+<li class="md-nav__item">
+<a class="md-nav__link" href="../client-methods-bots/">
+<span class="md-ellipsis">
+    
+  
+    بات‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../client-methods-channels/">
+<span class="md-ellipsis">
+    
+  
+    کانال‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../client-methods-groups/">
+<span class="md-ellipsis">
+    
+  
+    گروه‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../client-methods-users/">
+<span class="md-ellipsis">
+    
+  
+    کاربران
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    چت‌ها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    چت‌ها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item">
+<a class="md-nav__link" href="../client-methods-chat/">
+<span class="md-ellipsis">متدهای چت</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../client-chats-info/">
+<span class="md-ellipsis">
+    
+  
+    اطلاعات و دریافت چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../client-chats-manage/">
+<span class="md-ellipsis">
+    
+  
+    مدیریت چت و لینک دعوت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../client-chats-members/">
+<span class="md-ellipsis">
+    
+  
+    اعضا و ادمین‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../client-chats-settings/">
+<span class="md-ellipsis">
+    
+  
+    تنظیمات چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../client-chats-utility/">
+<span class="md-ellipsis">
+    
+  
+    ابزارهای چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../client-chats-voice/">
+<span class="md-ellipsis">
+    
+  
+    ویس چت
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    پیام‌ها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    پیام‌ها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item">
+<a class="md-nav__link" href="../client-methods-messages/">
+<span class="md-ellipsis">متدهای پیام</span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../client-messages-send/">
+<span class="md-ellipsis">
+    
+  
+    ارسال پیام و مدیا
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../client-messages-fetch/">
+<span class="md-ellipsis">
+    
+  
+    دریافت و جستجوی پیام
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../client-messages-actions/">
+<span class="md-ellipsis">
+    
+  
+    عملیات روی پیام‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../client-messages-utility/">
+<span class="md-ellipsis">
+    
+  
+    ابزارهای پیام
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li><li class="md-nav__item md-nav__item--active">
+<a aria-current="page" class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    تنظیمات
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../client-methods-other/">
+<span class="md-ellipsis">
+    
+  
+    سایر متدها
+  
+
+    
+  </span>
+</a>
+</li></ul>
+</nav>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../client-decorators/">
+<span class="md-ellipsis">
+    
+  
+    دکوراتورها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../client-filters/">
+<span class="md-ellipsis">
+    
+  
+    فیلترها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../client-properties/">
+<span class="md-ellipsis">
+    
+  
+    پراپرتی‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../client-examples/">
+<span class="md-ellipsis">
+    
+  
+    مثال‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../client-more/">
+<span class="md-ellipsis">
+    
+  
+    توضیحات بیشتر
+  
+
+    
+  </span>
+</a>
+</li></ul></nav></li><li class="md-nav__item md-nav__item--nested"><input class="md-nav__toggle md-toggle" id="__nav_rubino" type="checkbox"/><label class="md-nav__link" for="__nav_rubino" id="__nav_rubino_label" tabindex=""><span class="md-ellipsis">مستندات روبینو</span><span class="md-nav__icon md-icon"></span></label><nav aria-expanded="false" aria-labelledby="__nav_rubino_label" class="md-nav" data-md-level="2"><label class="md-nav__title" for="__nav_rubino"><span class="md-nav__icon md-icon"></span>مستندات روبینو</label><ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item"><a class="md-nav__link" href="../../rubino/rubino-methods/"><span class="md-ellipsis">متدها</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="../../rubino/rubino-more/"><span class="md-ellipsis">توضیحات بیشتر</span></a></li><li class="md-nav__item"><a aria-disabled="true" class="md-nav__link" href="#" onclick="alert('این بخش در صورت افزودن مثال، قابل دسترس خواهد بود.'); return false;"><span class="md-ellipsis">مثال‌ها</span></a></li></ul></nav></li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+<span class="md-ellipsis">فیلم و سریال</span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7"><span class="md-nav__icon md-icon"></span>فیلم و سریال</label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item"><a class="md-nav__link" href="../../tv/tv-methods/"><span class="md-ellipsis">متدها</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="../../tv/tv-more/"><span class="md-ellipsis">توضیحات بیشتر</span></a></li> <li class="md-nav__item"><a aria-disabled="true" class="md-nav__link" href="#" onclick="alert('این بخش در صورت افزودن مثال، قابل دسترس خواهد بود.'); return false;"><span class="md-ellipsis">مثال‌ها</span></a></li>
+</ul>
+</nav>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+<span class="md-ellipsis">هوش مصنوعی روبی</span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8"><span class="md-nav__icon md-icon"></span>هوش مصنوعی روبی</label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item"><a class="md-nav__link" href="../../rubiai/rubiai-methods/"><span class="md-ellipsis">متدها</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="../../rubiai/rubiai-more/"><span class="md-ellipsis">توضیحات بیشتر</span></a></li> <li class="md-nav__item"><a aria-disabled="true" class="md-nav__link" href="#" onclick="alert('این بخش در صورت افزودن مثال، قابل دسترس خواهد بود.'); return false;"><span class="md-ellipsis">مثال‌ها</span></a></li>
+</ul>
+</nav>
+</li></ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested md-nav__item--section">
+<input class="md-nav__toggle md-toggle" id="__nav_13" type="checkbox"/>
+<label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+<span class="md-ellipsis">
+    
+  
+    حساب کاربریِ شاد
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_13_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_13">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    حساب کاربریِ شاد
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item md-nav__item--nested"><input class="md-nav__toggle md-toggle" id="__nav_shad_messenger" type="checkbox"/><label class="md-nav__link" for="__nav_shad_messenger" id="__nav_shad_messenger_label" tabindex="0"><span class="md-ellipsis">مستندات پیام‌رسان</span><span class="md-nav__icon md-icon"></span></label><nav aria-expanded="false" aria-labelledby="__nav_shad_messenger_label" class="md-nav" data-md-level="2"><label class="md-nav__title" for="__nav_shad_messenger"><span class="md-nav__icon md-icon"></span>مستندات پیام‌رسان</label><ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_12" type="checkbox"/>
+<label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    متدها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_12_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_12">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    متدها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+
+
+
+
+
+
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-bots/">
+<span class="md-ellipsis">
+    
+  
+    بات‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-channels/">
+<span class="md-ellipsis">
+    
+  
+    کانال‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-groups/">
+<span class="md-ellipsis">
+    
+  
+    گروه‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-users/">
+<span class="md-ellipsis">
+    
+  
+    کاربران
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_11" type="checkbox"/>
+<label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    چت‌ها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_11_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_11">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    چت‌ها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-info/">
+<span class="md-ellipsis">
+    
+  
+    اطلاعات و دریافت چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-manage/">
+<span class="md-ellipsis">
+    
+  
+    مدیریت چت و لینک دعوت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-members/">
+<span class="md-ellipsis">
+    
+  
+    اعضا و ادمین‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-settings/">
+<span class="md-ellipsis">
+    
+  
+    تنظیمات چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-utility/">
+<span class="md-ellipsis">
+    
+  
+    ابزارهای چت
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-chats-voice/">
+<span class="md-ellipsis">
+    
+  
+    ویس چت
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    پیام‌ها
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_10">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    پیام‌ها
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-messages-send/">
+<span class="md-ellipsis">
+    
+  
+    ارسال پیام و مدیا
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-messages-fetch/">
+<span class="md-ellipsis">
+    
+  
+    دریافت و جستجوی پیام
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-messages-actions/">
+<span class="md-ellipsis">
+    
+  
+    عملیات روی پیام‌ها
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-messages-utility/">
+<span class="md-ellipsis">
+    
+  
+    ابزارهای پیام
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li><li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_14" type="checkbox"/>
+<label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+<span class="md-ellipsis">تنظیمات</span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_14_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_14">
+<span class="md-nav__icon md-icon"></span>
+تنظیمات
+</label>
+<ul class="md-nav__list" data-md-scrollfix=""><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-settings-account/">
+<span class="md-ellipsis">تنظیمات اکانت</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-settings-privacy/">
+<span class="md-ellipsis">تنظیمات حریم خصوصی</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-settings-security/">
+<span class="md-ellipsis">تنظیمات امنیت</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-settings-folders/">
+<span class="md-ellipsis">تنظیمات پوشه‌ها</span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-settings-general/">
+<span class="md-ellipsis">تنظیمات عمومی</span>
+</a>
+</li></ul>
+</nav>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-methods-other/">
+<span class="md-ellipsis">
+    
+  
+    سایر متدها
+  
+
+    
+  </span>
+</a>
+</li></ul>
+</nav>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-decorators/">
+<span class="md-ellipsis">
+    
+  
+    دکوراتورها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-filters/">
+<span class="md-ellipsis">
+    
+  
+    فیلترها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-properties/">
+<span class="md-ellipsis">
+    
+  
+    پراپرتی‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-examples/">
+<span class="md-ellipsis">
+    
+  
+    مثال‌ها
+  
+
+    
+  </span>
+</a>
+</li><li class="md-nav__item">
+<a class="md-nav__link" href="../../shad/shad-more/">
+<span class="md-ellipsis">
+    
+  
+    توضیحات بیشتر
+  
+
+    
+  </span>
+</a>
+</li></ul></nav></li><li class="md-nav__item"><a aria-disabled="true" class="md-nav__link" href="#" onclick="alert('این بخش به زودی تکمیل می‌شود.'); return false;"><span class="md-ellipsis">مستندات شادینو</span></a></li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ai/">
+<span class="md-ellipsis">
+    
+  
+    راهنمای هوش مصنوعی
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="فهرست موضوعات" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      فهرست موضوعات
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix=""><li class="md-nav__item"><a class="md-nav__link" href="#get_two_passcode_status"><span class="md-ellipsis">get_two_passcode_status</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#set_two_step_verification"><span class="md-ellipsis">set_two_step_verification</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#check_two_step_passcode"><span class="md-ellipsis">check_two_step_passcode</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#turn_off_two_step"><span class="md-ellipsis">turn_off_two_step</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#abort_two_step_setup"><span class="md-ellipsis">abort_two_step_setup</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#change_password"><span class="md-ellipsis">change_password</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#request_forget_password"><span class="md-ellipsis">request_forget_password</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#login_two_step_forget_password"><span class="md-ellipsis">login_two_step_forget_password</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#login_disable_two_step"><span class="md-ellipsis">login_disable_two_step</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#disable_two_step_by_forget_password"><span class="md-ellipsis">disable_two_step_by_forget_password</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#request_recovery_email"><span class="md-ellipsis">request_recovery_email</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#verify_recovery_email"><span class="md-ellipsis">verify_recovery_email</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#resend_code_recovery_email"><span class="md-ellipsis">resend_code_recovery_email</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#abort_set_recovery_email"><span class="md-ellipsis">abort_set_recovery_email</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#get_my_sessions"><span class="md-ellipsis">get_my_sessions</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#get_unconfirmed_sessions"><span class="md-ellipsis">get_unconfirmed_sessions</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#confirm_unconfirmed_session"><span class="md-ellipsis">confirm_unconfirmed_session</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#deny_unconfirmed_session"><span class="md-ellipsis">deny_unconfirmed_session</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#terminate_session"><span class="md-ellipsis">terminate_session</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#terminate_other_sessions"><span class="md-ellipsis">terminate_other_sessions</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#register_device"><span class="md-ellipsis">register_device</span></a></li><li class="md-nav__item"><a class="md-nav__link" href="#upgrade_to_api6"><span class="md-ellipsis">upgrade_to_api6</span></a></li></ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset"><h1 id="_1">تنظیمات امنیت</h1><p>متدهای مربوط به رمز عبور، تأیید دومرحله‌ای، ایمیل بازیابی، مدیریت نشست‌ها و ثبت دستگاه در این بخش قرار دارند.</p><hr/><p><a id="messenger_get_two_passcode_status"></a></p>
+<h2 id="get_two_passcode_status"><span id="client_get_two_passcode_status"></span><a href="#client_get_two_passcode_status">get_two_passcode_status</a></h2>
+<p>این متد برای دریافت وضعیت تأیید دو مرحله‌ای حساب به کار می‌رود.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-17-1"><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-17-2"><a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a>
+</span><span id="__span-17-3"><a href="#__codelineno-17-3" id="__codelineno-17-3" name="__codelineno-17-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-17-4"><a href="#__codelineno-17-4" id="__codelineno-17-4" name="__codelineno-17-4"></a>    <span class="n">status</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get_two_passcode_status</span><span class="p">()</span>
+</span><span id="__span-17-5"><a href="#__codelineno-17-5" id="__codelineno-17-5" name="__codelineno-17-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_set_two_step_verification"></a></p>
+<h2 id="set_two_step_verification"><span id="client_set_two_step_verification"></span><a href="#client_set_two_step_verification">set_two_step_verification</a></h2>
+<p>این متد برای تنظیم تأیید دو مرحله‌ای به کار می‌رود.</p>
+<p><strong>پارامترها:</strong></p>
+<ul>
+<li><strong>password:</strong> رمز عبور فعلی.</li>
+<li><strong>hint:</strong> راهنمایی برای یادآوری رمز. (پیش‌فرض: None)</li>
+<li><strong>recovery_email:</strong> ایمیل بازیابی. (پیش‌فرض: None)</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-18-1"><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-18-2"><a href="#__codelineno-18-2" id="__codelineno-18-2" name="__codelineno-18-2"></a>
+</span><span id="__span-18-3"><a href="#__codelineno-18-3" id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-18-4"><a href="#__codelineno-18-4" id="__codelineno-18-4" name="__codelineno-18-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">set_two_step_verification</span><span class="p">(</span>
+</span><span id="__span-18-5"><a href="#__codelineno-18-5" id="__codelineno-18-5" name="__codelineno-18-5"></a>        <span class="n">password</span><span class="o">=</span><span class="s2">"current_password"</span><span class="p">,</span>
+</span><span id="__span-18-6"><a href="#__codelineno-18-6" id="__codelineno-18-6" name="__codelineno-18-6"></a>        <span class="n">hint</span><span class="o">=</span><span class="s2">"رمز من"</span>
+</span><span id="__span-18-7"><a href="#__codelineno-18-7" id="__codelineno-18-7" name="__codelineno-18-7"></a>    <span class="p">)</span>
+</span><span id="__span-18-8"><a href="#__codelineno-18-8" id="__codelineno-18-8" name="__codelineno-18-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_check_two_step_passcode"></a></p>
+<h2 id="check_two_step_passcode"><span id="client_check_two_step_passcode"></span><a href="#client_check_two_step_passcode">check_two_step_passcode</a></h2>
+<p>این متد برای بررسی صحت رمز تأیید دو مرحله‌ای به کار می‌رود.</p>
+<p><strong>پارامتر:</strong></p>
+<ul>
+<li><strong>password:</strong> رمز تأیید دو مرحله‌ای.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-19-1"><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-19-2"><a href="#__codelineno-19-2" id="__codelineno-19-2" name="__codelineno-19-2"></a>
+</span><span id="__span-19-3"><a href="#__codelineno-19-3" id="__codelineno-19-3" name="__codelineno-19-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-19-4"><a href="#__codelineno-19-4" id="__codelineno-19-4" name="__codelineno-19-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">check_two_step_passcode</span><span class="p">(</span><span class="s2">"my_password"</span><span class="p">)</span>
+</span><span id="__span-19-5"><a href="#__codelineno-19-5" id="__codelineno-19-5" name="__codelineno-19-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_turn_off_two_step"></a></p>
+<h2 id="turn_off_two_step"><span id="client_turn_off_two_step"></span><a href="#client_turn_off_two_step">turn_off_two_step</a></h2>
+<p>این متد برای غیرفعال کردن تأیید دو مرحله‌ای به کار می‌رود.</p>
+<p><strong>پارامتر:</strong></p>
+<ul>
+<li><strong>password:</strong> رمز تأیید دو مرحله‌ای فعلی.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-20-1"><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-20-2"><a href="#__codelineno-20-2" id="__codelineno-20-2" name="__codelineno-20-2"></a>
+</span><span id="__span-20-3"><a href="#__codelineno-20-3" id="__codelineno-20-3" name="__codelineno-20-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-20-4"><a href="#__codelineno-20-4" id="__codelineno-20-4" name="__codelineno-20-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">turn_off_two_step</span><span class="p">(</span><span class="s2">"my_password"</span><span class="p">)</span>
+</span><span id="__span-20-5"><a href="#__codelineno-20-5" id="__codelineno-20-5" name="__codelineno-20-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_abort_two_step_setup"></a></p>
+<h2 id="abort_two_step_setup"><span id="client_abort_two_step_setup"></span><a href="#client_abort_two_step_setup">abort_two_step_setup</a></h2>
+<p>این متد برای لغو فرایند راه‌اندازی تأیید دو مرحله‌ای به کار می‌رود.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-21-1"><a href="#__codelineno-21-1" id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-21-2"><a href="#__codelineno-21-2" id="__codelineno-21-2" name="__codelineno-21-2"></a>
+</span><span id="__span-21-3"><a href="#__codelineno-21-3" id="__codelineno-21-3" name="__codelineno-21-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-21-4"><a href="#__codelineno-21-4" id="__codelineno-21-4" name="__codelineno-21-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">abort_two_step_setup</span><span class="p">()</span>
+</span><span id="__span-21-5"><a href="#__codelineno-21-5" id="__codelineno-21-5" name="__codelineno-21-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_change_password"></a></p>
+<h2 id="change_password"><span id="client_change_password"></span><a href="#client_change_password">change_password</a></h2>
+<p>این متد برای تغییر رمز عبور حساب به کار می‌رود.</p>
+<p><strong>پارامترها:</strong></p>
+<ul>
+<li><strong>password:</strong> رمز عبور فعلی.</li>
+<li><strong>new_password:</strong> رمز عبور جدید.</li>
+<li><strong>new_hint:</strong> راهنمایی جدید برای رمز.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-22-1"><a href="#__codelineno-22-1" id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-22-2"><a href="#__codelineno-22-2" id="__codelineno-22-2" name="__codelineno-22-2"></a>
+</span><span id="__span-22-3"><a href="#__codelineno-22-3" id="__codelineno-22-3" name="__codelineno-22-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-22-4"><a href="#__codelineno-22-4" id="__codelineno-22-4" name="__codelineno-22-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">change_password</span><span class="p">(</span>
+</span><span id="__span-22-5"><a href="#__codelineno-22-5" id="__codelineno-22-5" name="__codelineno-22-5"></a>        <span class="n">password</span><span class="o">=</span><span class="s2">"old_pass"</span><span class="p">,</span>
+</span><span id="__span-22-6"><a href="#__codelineno-22-6" id="__codelineno-22-6" name="__codelineno-22-6"></a>        <span class="n">new_password</span><span class="o">=</span><span class="s2">"new_pass"</span><span class="p">,</span>
+</span><span id="__span-22-7"><a href="#__codelineno-22-7" id="__codelineno-22-7" name="__codelineno-22-7"></a>        <span class="n">new_hint</span><span class="o">=</span><span class="s2">"راهنمایی جدید"</span>
+</span><span id="__span-22-8"><a href="#__codelineno-22-8" id="__codelineno-22-8" name="__codelineno-22-8"></a>    <span class="p">)</span>
+</span><span id="__span-22-9"><a href="#__codelineno-22-9" id="__codelineno-22-9" name="__codelineno-22-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_request_forget_password"></a></p>
+<h2 id="request_forget_password"><span id="client_request_forget_password"></span><a href="#client_request_forget_password">request_forget_password</a></h2>
+<p>این متد برای درخواست بازنشانی رمز عبور فراموش‌شده به کار می‌رود.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-23-1"><a href="#__codelineno-23-1" id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-23-2"><a href="#__codelineno-23-2" id="__codelineno-23-2" name="__codelineno-23-2"></a>
+</span><span id="__span-23-3"><a href="#__codelineno-23-3" id="__codelineno-23-3" name="__codelineno-23-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-23-4"><a href="#__codelineno-23-4" id="__codelineno-23-4" name="__codelineno-23-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">request_forget_password</span><span class="p">()</span>
+</span><span id="__span-23-5"><a href="#__codelineno-23-5" id="__codelineno-23-5" name="__codelineno-23-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_login_two_step_forget_password"></a></p>
+<h2 id="login_two_step_forget_password"><span id="client_login_two_step_forget_password"></span><a href="#client_login_two_step_forget_password">login_two_step_forget_password</a></h2>
+<p>این متد برای شروع فرایند بازیابی رمز تأیید دو مرحله‌ای فراموش‌شده به کار می‌رود.</p>
+<p><strong>پارامتر:</strong></p>
+<ul>
+<li><strong>phone_number:</strong> شماره تلفن مرتبط با حساب.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-27-1"><a href="#__codelineno-27-1" id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-27-2"><a href="#__codelineno-27-2" id="__codelineno-27-2" name="__codelineno-27-2"></a>
+</span><span id="__span-27-3"><a href="#__codelineno-27-3" id="__codelineno-27-3" name="__codelineno-27-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-27-4"><a href="#__codelineno-27-4" id="__codelineno-27-4" name="__codelineno-27-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">login_two_step_forget_password</span><span class="p">(</span><span class="s2">"09123456789"</span><span class="p">)</span>
+</span><span id="__span-27-5"><a href="#__codelineno-27-5" id="__codelineno-27-5" name="__codelineno-27-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_login_disable_two_step"></a></p>
+<h2 id="login_disable_two_step"><span id="client_login_disable_two_step"></span><a href="#client_login_disable_two_step">login_disable_two_step</a></h2>
+<p>این متد برای غیرفعال کردن تأیید دو مرحله‌ای در فرایند ورود به حساب به کار می‌رود.</p>
+<p><strong>پارامترها:</strong></p>
+<ul>
+<li><strong>phone_number:</strong> شماره تلفن مرتبط با حساب.</li>
+<li><strong>email_code:</strong> کد تأیید ارسال‌شده به ایمیل.</li>
+<li><strong>forget_password_code_hash:</strong> هش کد بازیابی رمز عبور.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-26-1"><a href="#__codelineno-26-1" id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-26-2"><a href="#__codelineno-26-2" id="__codelineno-26-2" name="__codelineno-26-2"></a>
+</span><span id="__span-26-3"><a href="#__codelineno-26-3" id="__codelineno-26-3" name="__codelineno-26-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-26-4"><a href="#__codelineno-26-4" id="__codelineno-26-4" name="__codelineno-26-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">login_disable_two_step</span><span class="p">(</span>
+</span><span id="__span-26-5"><a href="#__codelineno-26-5" id="__codelineno-26-5" name="__codelineno-26-5"></a>        <span class="n">phone_number</span><span class="o">=</span><span class="s2">"09123456789"</span><span class="p">,</span>
+</span><span id="__span-26-6"><a href="#__codelineno-26-6" id="__codelineno-26-6" name="__codelineno-26-6"></a>        <span class="n">email_code</span><span class="o">=</span><span class="s2">"123456"</span><span class="p">,</span>
+</span><span id="__span-26-7"><a href="#__codelineno-26-7" id="__codelineno-26-7" name="__codelineno-26-7"></a>        <span class="n">forget_password_code_hash</span><span class="o">=</span><span class="s2">"hash_here"</span>
+</span><span id="__span-26-8"><a href="#__codelineno-26-8" id="__codelineno-26-8" name="__codelineno-26-8"></a>    <span class="p">)</span>
+</span><span id="__span-26-9"><a href="#__codelineno-26-9" id="__codelineno-26-9" name="__codelineno-26-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><hr/><h2 id="disable_two_step_by_forget_password"><span id="client_disable_two_step_by_forget_password"></span><a href="#client_disable_two_step_by_forget_password">disable_two_step_by_forget_password</a></h2><p>این متد تأیید دومرحله‌ای را با استفاده از کد بازیابی غیرفعال می‌کند.</p><p><strong>پارامترها:</strong></p><ul><li>پارامتر <code>code</code> کد تأییدی است که برای بازیابی دریافت کرده‌اید.</li></ul><p><strong>مثال:</strong></p><div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__sec-1"><a href="#__sec-1" id="__sec-1" name="__sec-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span></span>
+<span id="__sec-2"><a href="#__sec-2" id="__sec-2" name="__sec-2"></a></span>
+<span id="__sec-3"><a href="#__sec-3" id="__sec-3" name="__sec-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span></span>
+<span id="__sec-4"><a href="#__sec-4" id="__sec-4" name="__sec-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">disable_two_step_by_forget_password</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="s2">"123456"</span><span class="p">)</span></span>
+<span id="__sec-5"><a href="#__sec-5" id="__sec-5" name="__sec-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></span></code></pre></div><p><a id="messenger_request_recovery_email"></a></p>
+<h2 id="request_recovery_email"><span id="client_request_recovery_email"></span><a href="#client_request_recovery_email">request_recovery_email</a></h2>
+<p>این متد برای درخواست ارسال کد بازیابی به ایمیل بازیابی به کار می‌رود.</p>
+<p><strong>پارامترها:</strong></p>
+<ul>
+<li><strong>password:</strong> رمز عبور فعلی.</li>
+<li><strong>recovery_email:</strong> ایمیل بازیابی.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-24-1"><a href="#__codelineno-24-1" id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-24-2"><a href="#__codelineno-24-2" id="__codelineno-24-2" name="__codelineno-24-2"></a>
+</span><span id="__span-24-3"><a href="#__codelineno-24-3" id="__codelineno-24-3" name="__codelineno-24-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-24-4"><a href="#__codelineno-24-4" id="__codelineno-24-4" name="__codelineno-24-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">request_recovery_email</span><span class="p">(</span>
+</span><span id="__span-24-5"><a href="#__codelineno-24-5" id="__codelineno-24-5" name="__codelineno-24-5"></a>        <span class="n">password</span><span class="o">=</span><span class="s2">"my_password"</span><span class="p">,</span>
+</span><span id="__span-24-6"><a href="#__codelineno-24-6" id="__codelineno-24-6" name="__codelineno-24-6"></a>        <span class="n">recovery_email</span><span class="o">=</span><span class="s2">"example@email.com"</span>
+</span><span id="__span-24-7"><a href="#__codelineno-24-7" id="__codelineno-24-7" name="__codelineno-24-7"></a>    <span class="p">)</span>
+</span><span id="__span-24-8"><a href="#__codelineno-24-8" id="__codelineno-24-8" name="__codelineno-24-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_verify_recovery_email"></a></p>
+<h2 id="verify_recovery_email"><span id="client_verify_recovery_email"></span><a href="#client_verify_recovery_email">verify_recovery_email</a></h2>
+<p>این متد برای تأیید کد ارسال‌شده به ایمیل بازیابی به کار می‌رود.</p>
+<p><strong>پارامترها:</strong></p>
+<ul>
+<li><strong>password:</strong> رمز عبور فعلی.</li>
+<li><strong>code:</strong> کد تأیید دریافتی در ایمیل. (می‌تواند رشته یا عدد باشد)</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-25-1"><a href="#__codelineno-25-1" id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-25-2"><a href="#__codelineno-25-2" id="__codelineno-25-2" name="__codelineno-25-2"></a>
+</span><span id="__span-25-3"><a href="#__codelineno-25-3" id="__codelineno-25-3" name="__codelineno-25-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-25-4"><a href="#__codelineno-25-4" id="__codelineno-25-4" name="__codelineno-25-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">verify_recovery_email</span><span class="p">(</span>
+</span><span id="__span-25-5"><a href="#__codelineno-25-5" id="__codelineno-25-5" name="__codelineno-25-5"></a>        <span class="n">password</span><span class="o">=</span><span class="s2">"my_password"</span><span class="p">,</span>
+</span><span id="__span-25-6"><a href="#__codelineno-25-6" id="__codelineno-25-6" name="__codelineno-25-6"></a>        <span class="n">code</span><span class="o">=</span><span class="s2">"123456"</span>
+</span><span id="__span-25-7"><a href="#__codelineno-25-7" id="__codelineno-25-7" name="__codelineno-25-7"></a>    <span class="p">)</span>
+</span><span id="__span-25-8"><a href="#__codelineno-25-8" id="__codelineno-25-8" name="__codelineno-25-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><hr/><h2 id="resend_code_recovery_email"><span id="client_resend_code_recovery_email"></span><a href="#client_resend_code_recovery_email">resend_code_recovery_email</a></h2><p>این متد کد تأیید ایمیل بازیابی را دوباره ارسال می‌کند.</p><p><strong>پارامترها:</strong></p><ul><li>پارامتر <code>password</code> رمز تأیید دومرحله‌ای حساب است.</li></ul><p><strong>مثال:</strong></p><div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__sec-1"><a href="#__sec-1" id="__sec-1" name="__sec-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span></span>
+<span id="__sec-2"><a href="#__sec-2" id="__sec-2" name="__sec-2"></a></span>
+<span id="__sec-3"><a href="#__sec-3" id="__sec-3" name="__sec-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span></span>
+<span id="__sec-4"><a href="#__sec-4" id="__sec-4" name="__sec-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">resend_code_recovery_email</span><span class="p">(</span><span class="n">password</span><span class="o">=</span><span class="s2">"current_password"</span><span class="p">)</span></span>
+<span id="__sec-5"><a href="#__sec-5" id="__sec-5" name="__sec-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></span></code></pre></div><hr/><h2 id="abort_set_recovery_email"><span id="client_abort_set_recovery_email"></span><a href="#client_abort_set_recovery_email">abort_set_recovery_email</a></h2><p>این متد برای لغو فرایند تنظیم ایمیل بازیابی استفاده می‌شود.</p><p><strong>پارامترها:</strong></p><ul><li>پارامتر <code>password</code> رمز تأیید دومرحله‌ای حساب است.</li></ul><p><strong>مثال:</strong></p><div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__sec-1"><a href="#__sec-1" id="__sec-1" name="__sec-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span></span>
+<span id="__sec-2"><a href="#__sec-2" id="__sec-2" name="__sec-2"></a></span>
+<span id="__sec-3"><a href="#__sec-3" id="__sec-3" name="__sec-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span></span>
+<span id="__sec-4"><a href="#__sec-4" id="__sec-4" name="__sec-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">abort_set_recovery_email</span><span class="p">(</span><span class="n">password</span><span class="o">=</span><span class="s2">"current_password"</span><span class="p">)</span></span>
+<span id="__sec-5"><a href="#__sec-5" id="__sec-5" name="__sec-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></span></code></pre></div><p><a id="messenger_get_my_sessions"></a></p>
+<h2 id="get_my_sessions"><span id="client_get_my_sessions"></span><a href="#client_get_my_sessions">get_my_sessions</a></h2>
+<p>این متد برای دریافت اطلاعات نشست‌های فعال حساب کاربری به کار می‌رود.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-30-1"><a href="#__codelineno-30-1" id="__codelineno-30-1" name="__codelineno-30-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-30-2"><a href="#__codelineno-30-2" id="__codelineno-30-2" name="__codelineno-30-2"></a>
+</span><span id="__span-30-3"><a href="#__codelineno-30-3" id="__codelineno-30-3" name="__codelineno-30-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-30-4"><a href="#__codelineno-30-4" id="__codelineno-30-4" name="__codelineno-30-4"></a>    <span class="n">sessions</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get_my_sessions</span><span class="p">()</span>
+</span><span id="__span-30-5"><a href="#__codelineno-30-5" id="__codelineno-30-5" name="__codelineno-30-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">sessions</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_get_unconfirmed_sessions"></a></p>
+<h2 id="get_unconfirmed_sessions"><span id="client_get_unconfirmed_sessions"></span><a href="#client_get_unconfirmed_sessions">get_unconfirmed_sessions</a></h2>
+<p>این متد برای دریافت نشست‌های تأیید نشده (در انتظار تأیید) حساب کاربری به کار می‌رود.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-31-1"><a href="#__codelineno-31-1" id="__codelineno-31-1" name="__codelineno-31-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-31-2"><a href="#__codelineno-31-2" id="__codelineno-31-2" name="__codelineno-31-2"></a>
+</span><span id="__span-31-3"><a href="#__codelineno-31-3" id="__codelineno-31-3" name="__codelineno-31-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-31-4"><a href="#__codelineno-31-4" id="__codelineno-31-4" name="__codelineno-31-4"></a>    <span class="n">pending</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">get_unconfirmed_sessions</span><span class="p">()</span>
+</span><span id="__span-31-5"><a href="#__codelineno-31-5" id="__codelineno-31-5" name="__codelineno-31-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">pending</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_confirm_unconfirmed_session"></a></p>
+<h2 id="confirm_unconfirmed_session"><span id="client_confirm_unconfirmed_session"></span><a href="#client_confirm_unconfirmed_session">confirm_unconfirmed_session</a></h2>
+<p>این متد برای تأیید یک نشست در انتظار به کار می‌رود.</p>
+<p><strong>پارامتر:</strong></p>
+<ul>
+<li><strong>unconfirmed_session_key:</strong> کلید نشست تأیید نشده.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-32-1"><a href="#__codelineno-32-1" id="__codelineno-32-1" name="__codelineno-32-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-32-2"><a href="#__codelineno-32-2" id="__codelineno-32-2" name="__codelineno-32-2"></a>
+</span><span id="__span-32-3"><a href="#__codelineno-32-3" id="__codelineno-32-3" name="__codelineno-32-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-32-4"><a href="#__codelineno-32-4" id="__codelineno-32-4" name="__codelineno-32-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">confirm_unconfirmed_session</span><span class="p">(</span><span class="s2">"session_key_123"</span><span class="p">)</span>
+</span><span id="__span-32-5"><a href="#__codelineno-32-5" id="__codelineno-32-5" name="__codelineno-32-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_deny_unconfirmed_session"></a></p>
+<h2 id="deny_unconfirmed_session"><span id="client_deny_unconfirmed_session"></span><a href="#client_deny_unconfirmed_session">deny_unconfirmed_session</a></h2>
+<p>این متد برای رد یک نشست در انتظار به کار می‌رود.</p>
+<p><strong>پارامتر:</strong></p>
+<ul>
+<li><strong>unconfirmed_session_key:</strong> کلید نشست تأیید نشده.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-33-1"><a href="#__codelineno-33-1" id="__codelineno-33-1" name="__codelineno-33-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-33-2"><a href="#__codelineno-33-2" id="__codelineno-33-2" name="__codelineno-33-2"></a>
+</span><span id="__span-33-3"><a href="#__codelineno-33-3" id="__codelineno-33-3" name="__codelineno-33-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-33-4"><a href="#__codelineno-33-4" id="__codelineno-33-4" name="__codelineno-33-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">deny_unconfirmed_session</span><span class="p">(</span><span class="s2">"session_key_123"</span><span class="p">)</span>
+</span><span id="__span-33-5"><a href="#__codelineno-33-5" id="__codelineno-33-5" name="__codelineno-33-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_terminate_session"></a></p>
+<h2 id="terminate_session"><span id="client_terminate_session"></span><a href="#client_terminate_session">terminate_session</a></h2>
+<p>این متد برای پایان دادن به یک نشست خاص به کار می‌رود.</p>
+<p><strong>پارامتر:</strong></p>
+<ul>
+<li><strong>session_key:</strong> کلید نشست.</li>
+</ul>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-34-1"><a href="#__codelineno-34-1" id="__codelineno-34-1" name="__codelineno-34-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-34-2"><a href="#__codelineno-34-2" id="__codelineno-34-2" name="__codelineno-34-2"></a>
+</span><span id="__span-34-3"><a href="#__codelineno-34-3" id="__codelineno-34-3" name="__codelineno-34-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-34-4"><a href="#__codelineno-34-4" id="__codelineno-34-4" name="__codelineno-34-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">terminate_session</span><span class="p">(</span><span class="s2">"session_key_123"</span><span class="p">)</span>
+</span><span id="__span-34-5"><a href="#__codelineno-34-5" id="__codelineno-34-5" name="__codelineno-34-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><p><a id="messenger_terminate_other_sessions"></a></p>
+<h2 id="terminate_other_sessions"><span id="client_terminate_other_sessions"></span><a href="#client_terminate_other_sessions">terminate_other_sessions</a></h2>
+<p>این متد برای پایان دادن به تمام نشست‌های دیگر (به جز نشست فعلی) به کار می‌رود.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-35-1"><a href="#__codelineno-35-1" id="__codelineno-35-1" name="__codelineno-35-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-35-2"><a href="#__codelineno-35-2" id="__codelineno-35-2" name="__codelineno-35-2"></a>
+</span><span id="__span-35-3"><a href="#__codelineno-35-3" id="__codelineno-35-3" name="__codelineno-35-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-35-4"><a href="#__codelineno-35-4" id="__codelineno-35-4" name="__codelineno-35-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">terminate_other_sessions</span><span class="p">()</span>
+</span><span id="__span-35-5"><a href="#__codelineno-35-5" id="__codelineno-35-5" name="__codelineno-35-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div>
+<hr/><hr/><h2 id="register_device"><span id="client_register_device"></span><a href="#client_register_device">register_device</a></h2><p>این متد دستگاه فعلی را در سرور روبیکا ثبت می‌کند.</p><p><strong>پارامترها:</strong></p><ul><li>پارامتر <code>device_model</code> اختیاری است و برای تعیین نام سفارشی دستگاه استفاده می‌شود.</li></ul><p><strong>مثال:</strong></p><div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__sec-1"><a href="#__sec-1" id="__sec-1" name="__sec-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span></span>
+<span id="__sec-2"><a href="#__sec-2" id="__sec-2" name="__sec-2"></a></span>
+<span id="__sec-3"><a href="#__sec-3" id="__sec-3" name="__sec-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="s2">"mySession"</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span></span>
+<span id="__sec-4"><a href="#__sec-4" id="__sec-4" name="__sec-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">register_device</span><span class="p">(</span><span class="n">device_model</span><span class="o">=</span><span class="s2">"My Device"</span><span class="p">)</span></span>
+<span id="__sec-5"><a href="#__sec-5" id="__sec-5" name="__sec-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></span></code></pre></div><p><a id="messenger_upgrade_to_api6"></a></p>
+<h2 id="upgrade_to_api6"><span id="client_upgrade_to_api6"></span><a href="#client_upgrade_to_api6">upgrade_to_api6</a></h2>
+<p>این متد برای ارتقاء از API نسخه ۵ به نسخه ۶ با تنظیم کلید عمومی RSA به کار می‌رود.</p>
+<p><strong>پارامترها:</strong></p>
+<ul>
+<li><strong>save_as:</strong> در صورت True بودن، auth و private_key در فایل JSON ذخیره می‌شود. (پیش‌فرض: True)</li>
+<li><strong>file_name:</strong> نام فایل سفارشی برای ذخیره. (پیش‌فرض: <code>maxrubika_{auth[:10]}</code>)</li>
+</ul>
+<p><strong>نکته:</strong> این متد فقط با <code>api_version = 5</code> کار می‌کند.</p>
+<p><strong>مثال:</strong></p>
+<div class="language-python highlight"><span class="filename">Python</span><pre><span></span><code><span id="__span-48-1"><a href="#__codelineno-48-1" id="__codelineno-48-1" name="__codelineno-48-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">maxrubika</span><span class="w"> </span><span class="kn">import</span> <span class="n">Messenger</span>
+</span><span id="__span-48-2"><a href="#__codelineno-48-2" id="__codelineno-48-2" name="__codelineno-48-2"></a>
+</span><span id="__span-48-3"><a href="#__codelineno-48-3" id="__codelineno-48-3" name="__codelineno-48-3"></a><span class="k">with</span> <span class="n">Messenger</span><span class="p">(</span><span class="n">auth</span> <span class="o">=</span> <span class="s2">"ahkjbsawthnh..."</span><span class="p">,</span> <span class="n">api_version</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="k">as</span> <span class="n">app</span><span class="p">:</span>
+</span><span id="__span-48-4"><a href="#__codelineno-48-4" id="__codelineno-48-4" name="__codelineno-48-4"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">upgrade_to_api6</span><span class="p">()</span>
+</span><span id="__span-48-5"><a href="#__codelineno-48-5" id="__codelineno-48-5" name="__codelineno-48-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</span></code></pre></div><hr/>
+<div style="display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap;">
+<a class="md-button" href="../client-methods-settings/" style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; flex: 1; min-width: 140px; padding: 10px 20px; font-weight: bold; color: #333; text-align: center;min-height: 58px;display: flex;align-items: center;justify-content: center;box-sizing: border-box;">بازگشت به صفحه قبل</a></div></article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+<button class="md-top md-icon" data-md-component="top" hidden="" type="button">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  برگشت به بالا
+</button>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["navigation.sections","navigation.indexes","navigation.top","content.code.copy","content.code.annotate","search.highlight"],"search":"../../assets/javascripts/workers/search.a7633da7.min.js","tags":null,"translations":{"clipboard.copied":"کپی شد","clipboard.copy":"کپی کردن","search.result.more.one":"1 مورد دیگر در این صفحه","search.result.more.other":"# مورد دیگر در این صفحه","search.result.none":"سندی یافت نشد","search.result.one":"1 سند یافت شد","search.result.other":"# سند یافت شد","search.result.placeholder":"برای شروع جستجو تایپ کنید","search.result.term.missing":"موجود نیست","select.version":"انتخاب ویرایش"},"version":null}</script>
+<script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+
+<script>
+(function () {
+  "use strict";
+
+  function normalizePath(value) {
+    try {
+      var url = new URL(value, window.location.href);
+      if (url.origin !== window.location.origin) return null;
+      var path = decodeURIComponent(url.pathname);
+      path = path.replace(/\/index\.html$/i, "/");
+      if (!path.endsWith("/")) path += "/";
+      return path.replace(/\/{2,}/g, "/");
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function isLocalCurrentPlaceholder(link) {
+    var href = (link.getAttribute("href") || "").trim();
+    var path = href.split(/[?#]/, 1)[0].trim();
+    return path === "" || path === "." || path === "./" ||
+      path === "index.html" || path === "./index.html";
+  }
+
+  function findCurrentLink(nav) {
+    var currentPath = normalizePath(window.location.href);
+    if (!currentPath) return null;
+
+    var candidates = Array.from(nav.querySelectorAll("a.md-nav__link[href]")).filter(function (link) {
+      var href = (link.getAttribute("href") || "").trim();
+      if (!href || href === "#" || href.charAt(0) === "#") return false;
+      if (/^(javascript:|mailto:|tel:)/i.test(href)) return false;
+      if (link.hasAttribute("aria-disabled") || link.getAttribute("tabindex") === "-1") return false;
+      return normalizePath(href) === currentPath;
+    });
+
+    if (!candidates.length) return null;
+
+    // Material for MkDocs can emit a generic "./" active-page placeholder
+    // inside a different section. If a real navigation URL for this page
+    // exists, it must win over that placeholder, regardless of stale
+    // aria-current or active classes in the generated HTML.
+    var explicitCandidates = candidates.filter(function (link) {
+      return !isLocalCurrentPlaceholder(link);
+    });
+    var preferred = explicitCandidates.length ? explicitCandidates : candidates;
+
+    preferred.sort(function (a, b) {
+      function score(link) {
+        var value = 0;
+        if (link.getAttribute("aria-current") === "page") value += 100;
+        if (link.classList.contains("md-nav__link--active")) value += 50;
+        return value;
+      }
+      var difference = score(b) - score(a);
+      if (difference) return difference;
+      return (a.getAttribute("href") || "").length - (b.getAttribute("href") || "").length;
+    });
+    return preferred[0];
+  }
+
+  function openActiveParents(nav, active) {
+    nav.querySelectorAll("a.md-nav__link[aria-current]").forEach(function (el) {
+      el.removeAttribute("aria-current");
+    });
+    nav.querySelectorAll(".md-nav__link--active").forEach(function (el) {
+      el.classList.remove("md-nav__link--active");
+    });
+    nav.querySelectorAll(".md-nav__item--active").forEach(function (el) {
+      el.classList.remove("md-nav__item--active");
+    });
+    nav.querySelectorAll("input.md-nav__toggle").forEach(function (toggle) {
+      toggle.checked = false;
+    });
+    nav.querySelectorAll("nav.md-nav[aria-expanded]").forEach(function (nested) {
+      nested.setAttribute("aria-expanded", "false");
+    });
+
+    active.classList.add("md-nav__link--active");
+    active.setAttribute("aria-current", "page");
+    var item = active.closest(".md-nav__item");
+    while (item) {
+      item.classList.add("md-nav__item--active");
+      var parentNav = item.parentElement && item.parentElement.closest("nav.md-nav");
+      if (!parentNav || parentNav === nav) break;
+      parentNav.setAttribute("aria-expanded", "true");
+      var parentItem = parentNav.closest(".md-nav__item");
+      if (!parentItem) break;
+      var toggle = Array.from(parentItem.children).find(function (child) {
+        return child.matches && child.matches("input.md-nav__toggle");
+      });
+      if (toggle) toggle.checked = true;
+      item = parentItem;
+    }
+  }
+
+  function findNavigationScroller(active, nav) {
+    // On mobile, Material scrolls the expanded navigation list. On desktop,
+    // the scroll container is .md-sidebar__scrollwrap, which is an ancestor
+    // OUTSIDE .md-nav--primary. Search the complete ancestor chain and select
+    // the nearest element that is actually scrollable at the current breakpoint.
+    var element = active ? active.parentElement : null;
+    while (element && element !== document.body && element !== document.documentElement) {
+      var style = window.getComputedStyle(element);
+      var overflowY = style.overflowY;
+      if ((overflowY === "auto" || overflowY === "scroll" || overflowY === "overlay") &&
+          element.scrollHeight > element.clientHeight + 1) {
+        return element;
+      }
+      element = element.parentElement;
+    }
+    return null;
+  }
+
+  function scrollToActive(active, nav) {
+    var drawer = document.getElementById("__drawer");
+    var isNarrow = window.matchMedia && window.matchMedia("(max-width: 76.234375em)").matches;
+    if (drawer && isNarrow && !drawer.checked) return;
+    if (!active || !active.isConnected || !nav) return;
+
+    var scroller = findNavigationScroller(active, nav);
+    if (!scroller) return;
+
+    var linkRect = active.getBoundingClientRect();
+    var scrollerRect = scroller.getBoundingClientRect();
+    var offset = linkRect.top - scrollerRect.top;
+    var desiredTop = scroller.scrollTop + offset - Math.max(24, (scroller.clientHeight - linkRect.height) * 0.35);
+    var maxScroll = Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+    desiredTop = Math.min(maxScroll, Math.max(0, desiredTop));
+    scroller.scrollTo({ top: desiredTop, behavior: "auto" });
+  }
+
+  function scheduleActiveScroll() {
+    [0, 80, 200, 400, 650].forEach(function (delay) {
+      window.setTimeout(function () {
+        var nav = document.querySelector(".md-nav--primary");
+        if (!nav) return;
+        var active = findCurrentLink(nav);
+        if (active) scrollToActive(active, nav);
+      }, delay);
+    });
+  }
+
+  function syncCurrentNavigation() {
+    var nav = document.querySelector(".md-nav--primary");
+    if (!nav) return;
+    var active = findCurrentLink(nav);
+    if (!active) return;
+    openActiveParents(nav, active);
+
+    var drawer = document.getElementById("__drawer");
+    if (drawer && !drawer.dataset.currentNavigationBound) {
+      drawer.dataset.currentNavigationBound = "1";
+      drawer.addEventListener("change", function () {
+        if (drawer.checked) scheduleActiveScroll();
+      });
+    }
+
+    var isNarrow = window.matchMedia && window.matchMedia("(max-width: 76.234375em)").matches;
+    if (!isNarrow || (drawer && drawer.checked)) scheduleActiveScroll();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", syncCurrentNavigation, { once: true });
+  } else {
+    syncCurrentNavigation();
+  }
+  window.addEventListener("pageshow", syncCurrentNavigation);
+  window.addEventListener("popstate", syncCurrentNavigation);
+  window.addEventListener("resize", scheduleActiveScroll, { passive: true });
+})();
+</script>
+
+</body>
+</html>

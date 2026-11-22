@@ -633,3 +633,170 @@ code, pre, .highlight code, .highlight pre, .md-code__content {
         font-size: 1.4rem;
     }
 }
+
+/* Account landing pages: shared dimensions for document buttons. */
+.md-typeset .account-doc-buttons {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px !important;
+    width: 100%;
+    margin-bottom: 12px;
+    align-items: stretch;
+}
+
+.md-typeset .account-doc-buttons--two {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.md-typeset .account-doc-buttons > .account-doc-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 56px !important;
+    min-height: 56px !important;
+    max-height: 56px !important;
+    margin: 0 !important;
+    padding: 0 12px !important;
+    line-height: 1.2 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+}
+
+@media screen and (max-width: 767px) {
+    .md-typeset .account-doc-buttons {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+
+/* Bot examples: equal-sized, responsive navigation buttons. */
+.md-typeset .bot-example-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin: 0 0 16px !important;
+}
+
+.md-typeset .bot-example-grid > .md-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 64px !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 12px 14px !important;
+    line-height: 1.45 !important;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+    .md-typeset .bot-example-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .md-typeset .bot-example-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Readable search text in the light theme. */
+[data-md-color-scheme="default"] .md-search__input {
+    color: #111827 !important;
+    caret-color: #111827 !important;
+}
+
+[data-md-color-scheme="default"] .md-search__input::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+}
+
+
+/* Consistent, balanced navigation buttons on the Bot and Messenger guide pages. */
+.md-typeset .docs-button-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0 0 12px;
+    align-items: stretch;
+}
+
+.md-typeset .docs-button-grid > .md-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: 52px;
+    margin: 0;
+    padding: 12px 16px;
+    line-height: 1.5;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.md-typeset .docs-button-grid--single {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.md-typeset .docs-button-grid--single > .md-button {
+    grid-column: 2;
+}
+
+@media (max-width: 700px) {
+    .md-typeset .docs-button-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .md-typeset .docs-button-grid--single > .md-button {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 420px) {
+    .md-typeset .docs-button-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .md-typeset .docs-button-grid--single > .md-button {
+        grid-column: auto;
+    }
+}
+
+/* Clear vertical separators between every table column. */
+.md-typeset table th:not(:last-child),
+.md-typeset table td:not(:last-child) {
+    border-inline-end: 1px solid var(--m3-outline-variant) !important;
+}
+/* Keep parameter names and types as plain text in the TV and Rubino method lists. */
+.md-typeset ul.plain-parameters > li > strong,
+.md-typeset ul.plain-parameters > li > strong code {
+    color: inherit !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: 600;
+}
+
+.md-typeset ul.plain-parameters > li > strong code {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
