@@ -752,11 +752,11 @@ code, pre, .highlight code, .highlight pre, .md-code__content {
 }
 
 .md-typeset .docs-button-grid--single {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
 }
 
 .md-typeset .docs-button-grid--single > .md-button {
-    grid-column: 2;
+    grid-column: 1;
 }
 
 @media (max-width: 700px) {
