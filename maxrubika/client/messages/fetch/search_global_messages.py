@@ -8,7 +8,7 @@ class SearchGlobalMessages:
         self: "maxrubika.Messenger",
         search_text: str,
         all_pages: bool = True,
-        start_id: Optional[str] = None,
+        start_id: Optional[str] = None
     ):
         """
         Search for messages globally across all chats.
@@ -92,6 +92,6 @@ class SearchGlobalMessages:
         }
 
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
 
         return Data(result_dict)

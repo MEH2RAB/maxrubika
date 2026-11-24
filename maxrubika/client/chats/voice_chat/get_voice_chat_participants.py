@@ -106,4 +106,7 @@ class GetVoiceChatParticipants:
         if show_user_guids:
             result_dict["user_guids"] = list(user_guids)
 
+        if getattr(self, 'as_dict', False):
+            return Data.clean(result_dict)
+
         return Data(result_dict)

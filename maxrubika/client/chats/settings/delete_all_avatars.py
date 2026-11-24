@@ -46,7 +46,7 @@ class DeleteAllAvatars:
                 "deleted_count": 0
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         deleted_count = 0
@@ -65,5 +65,5 @@ class DeleteAllAvatars:
             "deleted_count": deleted_count
         }
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
         return Data(result_dict)

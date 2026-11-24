@@ -93,4 +93,7 @@ class GetJoinLinkUserJoined:
 
         result_dict = {"user_guids": all_user_guids, "total": total}
 
+        if getattr(self, 'as_dict', False):
+            return Data.clean(result_dict)
+
         return Data(result_dict)

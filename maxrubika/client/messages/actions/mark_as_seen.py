@@ -34,7 +34,7 @@ class MarkAsSeen:
             if message_id is None:
                 no_msg = {"status": "OK", "message": "No messages found to mark as seen."}
                 if getattr(self, 'as_dict', False):
-                    return no_msg
+                    return Data.clean(no_msg)
                 return Data(no_msg)
 
         return await self.seen_chats({chat_guid: str(message_id)})

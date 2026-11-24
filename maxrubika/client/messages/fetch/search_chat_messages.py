@@ -44,7 +44,7 @@ class SearchChatMessages:
         if not message_ids:
             no_msg = {"status": "OK", "message": "No messages found."}
             if getattr(self, 'as_dict', False):
-                return no_msg
+                return Data.clean(no_msg)
             return Data(no_msg)
 
         return await self.get_messages_by_id(chat_guid, message_ids)

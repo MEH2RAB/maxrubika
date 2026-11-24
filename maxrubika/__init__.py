@@ -2,28 +2,22 @@ from importlib import import_module
 from datetime import datetime
 
 __author__ = "MEHRAB Farahmand"
-__version__ = "1.18.1"
+__version__ = "1.19.0"
 
 _welcome_shown = False
 _update_checked = False
 
 IMPORTS = {
     "Bot": (".TheBot", "Bot"),
-    "bot": (".TheBot", "Bot"),
     "Client": (".TheClient", "Client"),
     "Messenger": (".TheClient", "Messenger"),
-    "messenger": (".TheClient", "Messenger"),
     "Rubino": (".TheRubino", "Rubino"),
-    "rubino": (".TheRubino", "Rubino"),
     "RubiAI": (".TheRubiAI", "RubiAI"),
     "RubiAi": (".TheRubiAI", "RubiAI"),
-    "rubiai": (".TheRubiAI", "RubiAI"),
     "RubikaAI": (".TheRubiAI", "RubiAI"),
     "RubikaAi": (".TheRubiAI", "RubiAI"),
     "Shad": (".TheShad", "Shad"),
-    "shad": (".TheShad", "Shad"),
-    "RubikaTV": (".TV", "RubikaTV"),
-    "rubikatv": (".TV", "RubikaTV"),
+    "RubikaTV": (".TV", "RubikaTV")
 }
 
 def __getattr__(name):
@@ -46,9 +40,9 @@ def __dir__():
     return sorted(set(globals()) | set(IMPORTS))
 
 __all__ = [
-    "Bot", "bot", "Client", "Messenger", "messenger",
-    "Rubino", "rubino", "RubiAI", "RubiAi", "rubiai", "RubikaAI", "RubikaAi",
-    "Shad", "shad", "RubikaTV", "rubikatv",
+    "Bot", "Client", "Messenger",
+    "Rubino", "RubiAI", "RubiAi", "RubikaAI", "RubikaAi",
+    "Shad", "RubikaTV",
     "show_welcome_message", "check_for_updates", "show_announcements",
     "__author__", "__version__"
 ]

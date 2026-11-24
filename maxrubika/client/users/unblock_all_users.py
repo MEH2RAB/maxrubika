@@ -30,7 +30,7 @@ class UnblockAllUsers:
         if not blocked_guids:
             no_blocked = {"status": "OK", "message": "No blocked users found."}
             if getattr(self, 'as_dict', False):
-                return no_blocked
+                return Data.clean(no_blocked)
             return Data(no_blocked)
 
         exclude_list = []
@@ -60,7 +60,7 @@ class UnblockAllUsers:
                 "message": "All blocked users are in exceptions list. No one to unblock."
             }
             if getattr(self, 'as_dict', False):
-                return all_excluded
+                return Data.clean(all_excluded)
             return Data(all_excluded)
 
         total = len(blocked_guids)
@@ -82,6 +82,6 @@ class UnblockAllUsers:
         }
 
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
 
         return Data(result_dict)

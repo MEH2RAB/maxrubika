@@ -43,7 +43,7 @@ class AcceptAllJoinRequests:
                 "total_requests": 0
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         exclude_guids = []
@@ -68,7 +68,7 @@ class AcceptAllJoinRequests:
                 "excluded_count": len(exclude_guids)
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         failed_count = 0
@@ -86,5 +86,5 @@ class AcceptAllJoinRequests:
             "excluded_count": len(exclude_guids)
         }
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
         return Data(result_dict)

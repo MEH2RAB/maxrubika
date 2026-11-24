@@ -7,17 +7,17 @@ requirements = ['aiohttp', 'aiofiles', 'mutagen', 'pycryptodome', 'rich']
 
 setup(
     name = 'maxrubika',
-    version = '1.18.1',
+    version = '1.19.0',
     author = 'MEHRAB Farahmand',
     author_email = 'MEH2RABx@gmail.com',
     description = 'All-in-One Python Library for the Rubika and Shad Platforms - Build bots and userbots effortlessly.',
     keywords = ['maxrubika', 'rubika', 'bot', 'robot', 'asyncio', 'client', 'shad', 'userbot', 'self-bot'],
     long_description = long_description,
-    python_requires = '>=3.8',
+    python_requires = '>=3.9',
     long_description_content_type = 'text/markdown',
     url = 'https://github.com/MEH2RAB/maxrubika',
     project_urls={
-        "Documentation": "https://MAXRubi.ir/documents",
+        "Documentation": "https://MEH2RAB.GitHub.io/maxrubika",
         "Source": "https://github.com/MEH2RAB/maxrubika",
         "Channel": "https://rubika.ir/TheMAXRubika",
     },
@@ -33,7 +33,6 @@ setup(
     },
     classifiers = [
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
@@ -44,6 +43,6 @@ setup(
         'Operating System :: OS Independent',
         'Topic :: Software Development :: Libraries',
         'Topic :: Communications :: Chat',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-    ],
+        'Topic :: Software Development :: Libraries :: Python Modules'
+    ]
 )

@@ -30,7 +30,7 @@ class GetLastOnline:
         if not online:
             no_online = {"status": "OK", "online_type": "Unknown"}
             if getattr(self, 'as_dict', False):
-                return no_online
+                return Data.clean(no_online)
             return Data(no_online)
 
         if isinstance(online, dict):
@@ -52,6 +52,6 @@ class GetLastOnline:
             result["period"] = period
 
         if getattr(self, 'as_dict', False):
-            return result
+            return Data.clean(result)
 
         return Data(result)

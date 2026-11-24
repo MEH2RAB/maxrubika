@@ -1,10 +1,12 @@
 import json
-from typing import Optional, Set, Any, List, Union
+from typing import Any, Iterator, List, Optional, Set, Union
 
 _MISSING = object()
 
 class Data:
     _EXCLUDED_KEYS: Set[str] = {'_client', '_memo', '_regex_match', 'client'}
+
+    __hash__ = None
 
     def __init__(self, data: Any):
         if isinstance(data, Data):
@@ -68,6 +70,8 @@ class Data:
                 if result is not _MISSING:
                     return result
 
+                raise KeyError(f"Key '{key}' not found in list data")
+
             try:
                 return self._convert_value(self._data[key])
             except (IndexError, TypeError):
@@ -80,6 +84,8 @@ class Data:
 
     def __setitem__(self, key, value):
         if isinstance(self._data, (dict, list)):
+            if isinstance(value, Data):
+                value = value._data
             self._data[key] = value
             return
 
@@ -87,12 +93,6 @@ class Data:
             f"Cannot set item on "
             f"'{type(self._data).__name__}' Data object"
         )
-
-    def __contains__(self, key):
-        if isinstance(self._data, (dict, list)):
-            return key in self._data
-
-        return False
 
     def __delitem__(self, key):
         if isinstance(self._data, (dict, list)):
@@ -104,12 +104,21 @@ class Data:
             f"'{type(self._data).__name__}' Data object"
         )
 
-    def __iter__(self):
-        if isinstance(self._data, list):
-            return (self._convert_value(item) for item in self._data)
+    def __contains__(self, key) -> bool:
+        if isinstance(key, Data):
+            key = key._data
 
+        if isinstance(self._data, (dict, list)):
+            return key in self._data
+
+        return False
+
+    def __iter__(self) -> Iterator:
         if isinstance(self._data, dict):
             return iter(self._data)
+
+        if isinstance(self._data, list):
+            return (self._convert_value(item) for item in self._data)
 
         raise TypeError(
             f"'{type(self._data).__name__}' object is not iterable"
@@ -120,6 +129,43 @@ class Data:
             return len(self._data)
 
         return 0
+
+    def __bool__(self) -> bool:
+        return bool(self._data)
+
+    def __eq__(self, other) -> bool:
+        if isinstance(other, Data):
+            return self._data == other._data
+
+        return self._data == other
+
+    def keys(self):
+        if isinstance(self._data, dict):
+            return self._data.keys()
+        return []
+
+    def values(self) -> list:
+        if isinstance(self._data, dict):
+            return [self._convert_value(v) for v in self._data.values()]
+        return []
+
+    def items(self) -> list:
+        if isinstance(self._data, dict):
+            return [
+                (k, self._convert_value(v)) for k, v in self._data.items()
+            ]
+        return []
+
+    def get(self, key: Any, default: Any = None) -> Any:
+        if not isinstance(self._data, dict):
+            return default
+
+        value = self._data.get(key, _MISSING)
+
+        if value is _MISSING:
+            return default
+
+        return self._convert_value(value)
 
     def _convert_value(self, value: Any) -> Any:
         if type(value) is dict:
@@ -168,7 +214,8 @@ class Data:
 
         return default
 
-    def _normalize_keys(self, keys: Union[str, List[Any]]) -> frozenset:
+    @staticmethod
+    def _normalize_keys(keys: Union[str, List[Any]]) -> frozenset:
         if isinstance(keys, str):
             return frozenset((keys,))
 
@@ -196,6 +243,12 @@ class Data:
 
         return data
 
+    @classmethod
+    def clean(cls, data: Any) -> Any:
+        if isinstance(data, cls):
+            data = data._data
+        return cls(data)._clean_data(data)
+
     def jsonify(self, indent: Optional[int] = None) -> str:
         return json.dumps(
             self._clean_data(self._data),
@@ -209,33 +262,13 @@ class Data:
         return self._data
 
     def to_dict(self):
-        if isinstance(self._data, dict):
-            return self._data.copy()
-
-        if isinstance(self._data, list):
-            return self._data.copy()
-
-        return self._data
-
-    def to_clean_dict(self):
         return self._clean_data(self._data)
 
-    def get(self, key: str, default: Any = None) -> Any:
-        if not isinstance(self._data, dict):
-            return default
+    def __json__(self):
+        return self.to_dict()
 
-        value = self._data.get(key, _MISSING)
-
-        if value is _MISSING:
-            return default
-
-        return self._convert_value(value)
-
-    def __bool__(self) -> bool:
-        return bool(self._data)
-
-    def __eq__(self, other):
-        if isinstance(other, Data):
-            return self._data == other._data
-
-        return self._data == other
+    @staticmethod
+    def json_default(obj: Any) -> Any:
+        if isinstance(obj, Data):
+            return obj.to_dict()
+        return str(obj)

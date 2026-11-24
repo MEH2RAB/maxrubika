@@ -531,9 +531,12 @@ Contributions are welcome! Please read our Contributing Guide.
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 
-## 👤 Authors
+## 👤 Author
 
 **MEHRAB Farahmand**
+
+## 👤 Developer
+
 **Yaser Ghaljaei**
 
 ## Get in Touch
@@ -543,7 +546,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 | Rubika Channel | [@TheMAXRubika](https://rubika.ir/TheMAXRubika) |
 | Rubika Profile | [@Online_User](https://rubika.ir/Online_User) |
 | Telegram | [@MEH2RAB](https://t.me/MEH2RAB) |
-| Documentation | [MAXRubi.ir](https://MAXRubi.ir/documents) |
+| Documentation | [MEH2RAB.GitHub.io/maxrubika](https://MEH2RAB.GitHub.io/maxrubika) |
 | GitHub | [@MEH2RAB](https://github.com/MEH2RAB) |
 | Email | [MEH2RABx@gmail.com](mailto:MEH2RABx@gmail.com) |
 

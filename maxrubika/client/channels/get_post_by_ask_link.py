@@ -104,6 +104,6 @@ class GetPostByAskLink:
         result_dict["timestamp"] = message_result.find_keys('timestamp')
 
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
 
         return Data(result_dict)

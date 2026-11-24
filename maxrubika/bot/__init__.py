@@ -11,12 +11,15 @@ from .edit_inline_keypad import EditInlineKeypad
 from .edit_message import EditMessage
 from .forward_message import ForwardMessage
 from .forward_messages import ForwardMessages
+from .get_channel_info import GetChannelInfo
 from .get_chat_info import GetChatInfo
 from .get_chat_member import GetChatMember
 from .get_file import GetFile
+from .get_group_info import GetGroupInfo
 from .get_me import GetMe
 from .get_token_string import GetTokenString
 from .get_updates import GetUpdates
+from .get_user_info import GetUserInfo
 from .member_is_admin import MemberIsAdmin
 from .member_is_joined import MemberIsJoined
 from .member_is_owner import MemberIsOwner
@@ -55,12 +58,15 @@ class Methods(
     EditMessage,
     ForwardMessage,
     ForwardMessages,
+    GetChannelInfo,
     GetChatInfo,
     GetChatMember,
     GetFile,
+    GetGroupInfo,
     GetMe,
     GetTokenString,
     GetUpdates,
+    GetUserInfo,
     MemberIsAdmin,
     MemberIsJoined,
     MemberIsOwner,

@@ -24,5 +24,5 @@ class GetMe:
             data['private_key'] = self.private_key
 
         if getattr(self, 'as_dict', False):
-            return data
+            return Data.clean(data)
         return Data(data)

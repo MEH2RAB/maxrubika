@@ -116,7 +116,7 @@ class Start:
                     result = await self.get_me()
                     if isinstance(result, dict):
                         result = Data(result)
-                    self.guid = result.user.user_guid
+                    self.guid = result.user_guid
                     self.logger.info('user', extra={'guid': result})
                     return self
 
@@ -267,11 +267,13 @@ class Start:
                 self.decode_auth = Cipher.decode_auth(self.auth)
                 self.import_key = pkcs1_15.new(RSA.import_key(self.private_key.encode()))
 
+                self.guid = result.user_guid
+
                 self.session.insert(
                     auth=self.auth,
-                    guid=result.user.user_guid,
+                    guid=result.user_guid,
                     user_agent=self.user_agent,
-                    phone_number=result.user.phone,
+                    phone_number=result.user_phone,
                     private_key=self.private_key
                 )
 
@@ -284,7 +286,6 @@ class Start:
 
                 device_model = os.path.basename(self.session_name)
                 await self.register_device(device_model)
-                await asyncio.sleep(2)
                 await self.get_me()
                 await self.get_chats(all_pages=False)
                 return self

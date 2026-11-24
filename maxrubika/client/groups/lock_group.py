@@ -39,7 +39,7 @@ class LockGroup:
                 "message": "Group is already locked (SendMessage access disabled)."
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         new_access = [access for access in access_list if access != "SendMessages"]
@@ -50,5 +50,5 @@ class LockGroup:
             "message": "Group locked successfully (SendMessage access disabled)."
         }
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
         return Data(result_dict)

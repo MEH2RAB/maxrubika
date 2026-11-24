@@ -61,7 +61,7 @@ class GetMessagesByID:
             }
 
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         input_data = {
@@ -69,7 +69,15 @@ class GetMessagesByID:
             'message_ids': message_ids
         }
 
-        return await self.request(
+        result = await self.request(
             method='getMessagesByID',
             input=input_data
         )
+
+        if isinstance(result, dict):
+            result = Data(result)
+
+        if getattr(self, 'as_dict', False):
+            return Data.clean(result.to_dict() if hasattr(result, 'to_dict') else result)
+
+        return result

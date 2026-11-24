@@ -38,7 +38,7 @@ class DeleteChatHistory:
                 "message": "No messages found to delete."
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         input_data = {

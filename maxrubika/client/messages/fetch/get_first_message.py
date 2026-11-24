@@ -36,7 +36,7 @@ class GetFirstMessage:
         if not first_message_id:
             no_msg = {"status": "OK", "message": "No messages found in this chat."}
             if getattr(self, 'as_dict', False):
-                return no_msg
+                return Data.clean(no_msg)
             return Data(no_msg)
 
         return await self.get_message_info(chat_guid, first_message_id)

@@ -39,7 +39,7 @@ class UnlockGroup:
                 "message": "Group is already unlocked (SendMessage access enabled)."
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         new_access = access_list + ["SendMessages"]
@@ -50,5 +50,5 @@ class UnlockGroup:
             "message": "Group unlocked successfully (SendMessage access enabled)."
         }
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
         return Data(result_dict)

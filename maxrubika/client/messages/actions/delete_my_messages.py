@@ -37,7 +37,7 @@ class DeleteMyMessages:
                 "message": "No messages found from you in this chat."
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         message_ids = []
@@ -54,7 +54,7 @@ class DeleteMyMessages:
                 "message": "No valid message IDs found."
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         exclude_set = set()
@@ -77,7 +77,7 @@ class DeleteMyMessages:
                 "total_my_messages": len(message_ids)
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         await self.delete_messages(chat, to_delete, type=type)
@@ -90,5 +90,5 @@ class DeleteMyMessages:
             "total_my_messages": len(message_ids)
         }
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
         return Data(result_dict)

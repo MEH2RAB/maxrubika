@@ -24,7 +24,7 @@ class GetChatMessages:
         filter_type: Optional[Literal[
             'Voice', 'File', 'Music', 'Gif', 'Media', 'Link'
         ]] = None,
-        all_pages: bool = False,
+        all_pages: bool = True,
         min_id: Optional[Union[str, int]] = None,
         max_id: Optional[Union[str, int]] = None,
         middle_message_id: Optional[Union[str, int]] = None,
@@ -38,7 +38,7 @@ class GetChatMessages:
             sort (Literal['FromMax', 'FromMin']): Sort direction. Default is 'FromMin'.
             filter_type (Literal, optional): Filter messages by type:
                 'Voice', 'File', 'Music', 'Gif', 'Media', 'Link'.
-            all_pages (bool): If True, fetch all pages (ignores `limit`). Default is False.
+            all_pages (bool): If True, fetch all pages (ignores `limit`). Default is True.
             min_id (Union[str, int], optional): Minimum message ID.
             max_id (Union[str, int], optional): Maximum message ID.
             middle_message_id (Union[str, int], optional): Start from this message ID.
@@ -148,11 +148,11 @@ class GetChatMessages:
             else:
                 result_dict["first_message_id"] = str(all_messages[0].get('message_id', ''))
                 result_dict["last_message_id"] = str(all_messages[-1].get('message_id', ''))
-
+                
         if filter_type is not None:
             result_dict["filter_type"] = filter_type
 
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
 
         return Data(result_dict)

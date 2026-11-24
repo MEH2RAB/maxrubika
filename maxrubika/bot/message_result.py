@@ -3,8 +3,8 @@ from ..data import Data
 class MessageResult(Data):
     """Wrapper for bot message results with action methods."""
     def __init__(self, bot, chat_id, message_id, result_data=None):
-        if hasattr(result_data, "_data"):
-            result_data = result_data._data
+        if isinstance(result_data, Data):
+            result_data = result_data.to_dict()
 
         super().__init__(result_data or {})
         self.bot = bot
@@ -34,7 +34,11 @@ class MessageResult(Data):
         )
 
     def forward(self, to_chat_id: str = None):
-        return self.bot.forward_message(self.chat_id, self.message_id, to_chat_id or self.chat_id)
+        return self.bot.forward_message(
+            self.chat_id,
+            self.message_id,
+            to_chat_id or self.chat_id
+        )
 
     def __repr__(self):
-        return f"<MessageResult message_id={self.message_id!r}>"
+        return f"<MessageResult chat_id={self.chat_id!r} message_id={self.message_id!r}>"

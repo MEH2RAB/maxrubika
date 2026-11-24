@@ -77,7 +77,7 @@ class GetChannelPostByLink:
                 result_dict["ask_spam_link"] = ask_spam_link
 
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
 
         return Data(result_dict)
 

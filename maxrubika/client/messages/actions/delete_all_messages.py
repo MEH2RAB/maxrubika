@@ -36,7 +36,7 @@ class DeleteAllMessages:
                 "message": "No messages to delete."
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         message_ids = result.find_keys('message_ids') or []
@@ -47,7 +47,7 @@ class DeleteAllMessages:
                 "message": "No messages to delete."
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         exclude_set = set()
@@ -93,7 +93,7 @@ class DeleteAllMessages:
                 "preserved_count": len(exclude_set)
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         await self.delete_messages(chat, filtered_ids, type=type)
@@ -106,5 +106,5 @@ class DeleteAllMessages:
             "preserved_event_id": preserved_event_id,
         }
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
         return Data(result_dict)

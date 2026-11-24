@@ -148,7 +148,7 @@ class DownloadProfilePicture:
         }
 
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
         return Data(result_dict)
 
     async def _download_and_save(
@@ -188,9 +188,9 @@ class DownloadProfilePicture:
                 }
 
                 if getattr(self, 'as_dict', False):
-                    return result_dict
+                    return Data.clean(result_dict)
                 return Data(result_dict)
 
             return bytes() if not save_dir else (
-                {} if getattr(self, 'as_dict', False) else Data({"saved_files": {}, "directory": os.path.abspath(save_dir)})
+                Data.clean({}) if getattr(self, 'as_dict', False) else Data({"saved_files": {}, "directory": os.path.abspath(save_dir)})
             )

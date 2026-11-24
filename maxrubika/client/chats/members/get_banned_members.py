@@ -101,6 +101,6 @@ class GetBannedMembers:
             result_dict["member_guids"] = list(member_guids)
 
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
 
         return Data(result_dict)

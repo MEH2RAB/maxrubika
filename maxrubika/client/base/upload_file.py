@@ -176,7 +176,7 @@ class UploadFile:
                 "access_hash_rec": None
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         index = 0
@@ -223,7 +223,7 @@ class UploadFile:
                 "access_hash_rec": upload_result["data"]["access_hash_rec"],
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         error_type = upload_result.get("status_det") or "UnknownError"

@@ -31,7 +31,7 @@ class GetPinnedMessages:
         if not pinned_ids:
             no_pinned = {"status": "OK", "message": "No pinned messages."}
             if getattr(self, 'as_dict', False):
-                return no_pinned
+                return Data.clean(no_pinned)
             return Data(no_pinned)
 
         messages_result = await self.get_messages_by_id(chat_guid, pinned_ids)
@@ -48,6 +48,6 @@ class GetPinnedMessages:
         }
 
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
 
         return Data(result_dict)

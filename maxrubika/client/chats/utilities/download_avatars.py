@@ -59,7 +59,7 @@ class DownloadAvatars:
             if save_dir:
                 result_dict = {"saved_files": {}, "directory": os.path.abspath(save_dir)}
                 if getattr(self, 'as_dict', False):
-                    return result_dict
+                    return Data.clean(result_dict)
                 return Data(result_dict)
             return []
 
@@ -115,5 +115,5 @@ class DownloadAvatars:
             "directory": os.path.abspath(save_dir)
         }
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
         return Data(result_dict)

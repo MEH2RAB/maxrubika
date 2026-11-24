@@ -42,7 +42,7 @@ class ClearBlackList:
                 "total_banned": 0
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         exclude_list = []
@@ -75,7 +75,7 @@ class ClearBlackList:
                 "unbanned": 0
             }
             if getattr(self, 'as_dict', False):
-                return result_dict
+                return Data.clean(result_dict)
             return Data(result_dict)
 
         await self.unban_members(chat_guid, final_guids)
@@ -87,5 +87,5 @@ class ClearBlackList:
             "unbanned": len(final_guids)
         }
         if getattr(self, 'as_dict', False):
-            return result_dict
+            return Data.clean(result_dict)
         return Data(result_dict)

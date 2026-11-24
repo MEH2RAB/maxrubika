@@ -50,7 +50,7 @@ class LikePost:
             normalized_posts = []
             for item in post_ids:
                 pid = await self.get_post_id(item.get('post'), my_profile=my_profile)
-                tpid = await self.get_profile_id(item.get('target_profile'), my_profile=my_profile)
+                tpid = await self.get_profile_id(item.get('target_profile'))
                 normalized_posts.append({
                     'post_id': pid,
                     'post_profile_id': tpid
