@@ -31,6 +31,7 @@ class UploadAvatar:
             If `chat` is 'me', 'cloud', or 'self', it will be replaced with the client's GUID.
             If `main_file_id` and `thumbnail_file_id` are provided, no file upload will be performed.
         """
+        from ....data import Data
         from ...exceptions import InvalidInput
 
         if chat.lower() in ('me', 'cloud', 'self', 'myself'):
@@ -55,6 +56,8 @@ class UploadAvatar:
                 kwargs['file_name'] = kwargs.get('file_name', 'maxrubika.jpg')
 
             upload = await self.upload_file(main_image, *args, **kwargs)
+            if isinstance(upload, dict):
+                upload = Data(upload)
             main_file_id = upload.file_id
 
         if not thumbnail_file_id:
@@ -68,6 +71,8 @@ class UploadAvatar:
                     kwargs['file_name'] = kwargs.get('file_name', 'maxrubika.jpg')
 
                 upload_thumb = await self.upload_file(thumbnail_image, *args, **kwargs)
+                if isinstance(upload_thumb, dict):
+                    upload_thumb = Data(upload_thumb)
                 thumbnail_file_id = upload_thumb.file_id
             else:
                 thumbnail_file_id = main_file_id

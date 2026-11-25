@@ -2,7 +2,7 @@ from importlib import import_module
 from datetime import datetime
 
 __author__ = "MEHRAB Farahmand"
-__version__ = "1.19.0"
+__version__ = "1.20.0"
 
 _welcome_shown = False
 _update_checked = False

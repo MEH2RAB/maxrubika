@@ -3,7 +3,7 @@ import asyncio
 import logging
 import mimetypes
 import base64 as b64
-from typing import Optional, Union, TYPE_CHECKING
+from typing import Optional, Union, Literal, TYPE_CHECKING
 
 if TYPE_CHECKING:
     import aiohttp
@@ -14,27 +14,32 @@ logger = logging.getLogger(__name__)
 class UploadFile:
     async def upload_file(
         self: "maxrubika.Bot",
-        url: str,
         file: Optional[Union[str, bytes]] = None,
         base64: Optional[str] = None,
-        file_name: Optional[str] = None
+        file_name: Optional[str] = None,
+        file_type: Optional[Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif']] = None
     ) -> Optional[str]:
         """
         Upload a file to the server and return file_id.
 
-        Supports local path, URL, raw bytes, and base64. The entire file is uploaded in a single request.
+        Automatically requests an upload URL via `request_send_file`, then uploads
+        the file in a single request.
+
+        Supports local path, URL, raw bytes, and base64.
 
         Parameters:
-            url (str): Upload URL from `request_send_file`.
             file (str | bytes, optional): Path, URL, or raw bytes.
             base64 (str, optional): Base64-encoded file data.
             file_name (str, optional): Name of the file. Auto-detected when possible.
+            file_type (Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif'], optional):
+                Type of file. If not provided, auto-detected from the file extension. Defaults to 'File'.
 
         Returns:
             Optional[str]: file_id or None if failed.
         """
         import aiohttp
         from .exceptions import APIException, BadGateway, ServerError, InvalidInput, Timeout
+        from .file_extensions import _get_file_type
 
         if base64:
             try:
@@ -60,6 +65,9 @@ class UploadFile:
         else:
             raise InvalidInput("Expected str (path/URL) or bytes.")
 
+        if file_type is None:
+            file_type = _get_file_type(file_name)
+
         if is_path:
             import aiofiles
             async with aiofiles.open(file, "rb") as f:
@@ -74,7 +82,9 @@ class UploadFile:
         content_type = mimetypes.guess_type(file_name)[0] or "application/octet-stream"
         session = await self._get_session()
 
-        logger.info(f"Uploading {file_name} ({file_size} bytes)...")
+        url = await self.request_send_file(file_type=file_type)
+
+        logger.info(f"Uploading {file_name} ({file_size} bytes) as {file_type}...")
 
         for attempt in range(self.max_retries):
             try:

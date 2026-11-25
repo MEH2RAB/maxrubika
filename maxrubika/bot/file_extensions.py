@@ -203,3 +203,29 @@ FILE_EXTENSIONS = {
     'application/x-msconfig': '.msc', 'application/x-powershell': '.ps1',
     'application/x-batch': '.bat', 'application/x-registry': '.reg',
 }
+
+
+_VOICE_EXTS = {'.ogg', '.opus', '.oga'}
+_GIF_EXTS = {'.gif'}
+
+_EXT_TO_TYPE = {}
+for _mime, _ext in FILE_EXTENSIONS.items():
+    _ext = _ext.lower()
+    if _ext in _GIF_EXTS:
+        _ft = 'Gif'
+    elif _ext in _VOICE_EXTS:
+        _ft = 'Voice'
+    elif _mime.startswith('image/'):
+        _ft = 'Image'
+    elif _mime.startswith('video/'):
+        _ft = 'Video'
+    elif _mime.startswith('audio/'):
+        _ft = 'Music'
+    else:
+        _ft = 'File'
+    _EXT_TO_TYPE.setdefault(_ext, _ft)
+
+def _get_file_type(file_name: str) -> str:
+    import os
+    ext = os.path.splitext(file_name)[1].lower()
+    return _EXT_TO_TYPE.get(ext, 'File')

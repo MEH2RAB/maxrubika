@@ -169,6 +169,8 @@ class Start:
 
             try:
                 result = await self.send_code(phone_number=phone_number)
+                if isinstance(result, dict):
+                    result = Data(result)
                 break
             except InvalidInput:
                 console.print("\nInvalid phone number! Please enter a valid number.\n", style="bright_red")
@@ -196,6 +198,8 @@ class Start:
                     continue
 
                 result = await self.send_code(phone_number=phone_number, pass_key=pass_key)
+                if isinstance(result, dict):
+                    result = Data(result)
 
                 if result.status == 'InvalidPassKey':
                     console.print("\nIncorrect password! Try again.", style="bright_red")
@@ -259,6 +263,8 @@ class Start:
                 phone_code_hash=saved_phone_code_hash,
                 public_key=public_key
             )
+            if isinstance(result, dict):
+                result = Data(result)
 
             if result.status == 'OK':
                 result.auth = Cipher.decrypt_RSA_OAEP(self.private_key, result.auth)
@@ -273,7 +279,7 @@ class Start:
                     auth=self.auth,
                     guid=result.user_guid,
                     user_agent=self.user_agent,
-                    phone_number=result.user_phone,
+                    phone_number=result.phone,
                     private_key=self.private_key
                 )
 

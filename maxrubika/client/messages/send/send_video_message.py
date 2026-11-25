@@ -11,7 +11,6 @@ class SendVideoMessage:
         self: "maxrubika.Messenger",
         chat: str,
         video_message: Optional[Union[Path, str, bytes]] = None,
-        text: Optional[str] = None,
         reply_to_message_id: Optional[Union[str, int]] = None,
         is_spoil: bool = False,
         via_bot: Optional[str] = None,
@@ -20,7 +19,6 @@ class SendVideoMessage:
         height: Optional[int] = None,
         time: Optional[int] = None,
         is_mute: bool = False,
-        metadata: Optional[dict] = None,
         schedule_time: Optional[Union[int, float, timedelta, datetime]] = None,
         schedule_type: Optional[Literal['Default', 'WhenOnline']] = None,
         base64: Optional[str] = None,
@@ -33,7 +31,6 @@ class SendVideoMessage:
         Parameters:
             chat (str): The GUID, link, or username of the chat.
             video_message (Union[Path, str, bytes], optional): The video message data (path, URL, or bytes).
-            text (str, optional): Caption for the video message (Max: 2048 chars, 64 lines).
             reply_to_message_id (Union[str, int], optional): ID of the message to reply to.
             is_spoil (bool): Whether the video message should be marked as a spoiler. Defaults to False.
             via_bot (str, optional): Bot GUID or username to send the message via.
@@ -42,7 +39,6 @@ class SendVideoMessage:
             height (int, optional): Custom height for the video message.
             time (int, optional): Custom duration for the video message in seconds.
             is_mute (bool): If True, the message will be sent silently. Defaults to False.
-            metadata (dict, optional): Pre-formatted metadata for the caption.
             schedule_time (Union[int, float, timedelta, datetime], optional): When to send the message.
             schedule_type (str, optional): 'Default' or 'WhenOnline'.
             base64 (str, optional): Base64 encoded video message data.
@@ -60,8 +56,7 @@ class SendVideoMessage:
         return await self.send_file(
             chat=chat,
             file=video_message,
-            text=text,
-            type='VideoMessage',
+            file_type='VideoMessage',
             reply_to_message_id=reply_to_message_id,
             is_spoil=is_spoil,
             via_bot=via_bot,
@@ -70,7 +65,6 @@ class SendVideoMessage:
             height=height,
             time=time,
             is_mute=is_mute,
-            metadata=metadata,
             schedule_time=schedule_time,
             schedule_type=schedule_type,
             base64=base64,

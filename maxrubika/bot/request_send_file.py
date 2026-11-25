@@ -12,17 +12,15 @@ class RequestSendFile:
         Request an upload URL for sending a file to the server.
 
         Parameters:
-            file_type (Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif']): Type of file to upload. Case-insensitive. Default is 'File'.
+            file_type (Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif']):
+                Type of file to upload. Case-insensitive. Default is 'File'.
 
         Returns:
             str: Upload URL for the file.
 
-        Examples:
-            # Get upload URL for an image
-            upload_url = await bot.request_send_file(file_type="Image")
-
-            # Then upload file using that URL
-            file_id = await bot.upload_file(upload_url, "photo.jpg")
+        Raises:
+            InvalidInput: If 'file_type' is not one of the allowed values.
+            ServerError: If the server does not return an upload URL.
         """
         from ..data import Data
         from .exceptions import InvalidInput, ServerError
@@ -51,7 +49,6 @@ class RequestSendFile:
             result = Data(result)
 
         data = result.find_keys('data')
-
         if isinstance(data, dict):
             data = Data(data)
 

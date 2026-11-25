@@ -53,7 +53,7 @@ class SendVoice:
             chat=chat,
             file=voice,
             text=text,
-            type='Voice',
+            file_type='Voice',
             reply_to_message_id=reply_to_message_id,
             via_bot=via_bot,
             time=time,

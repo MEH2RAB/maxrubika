@@ -37,24 +37,28 @@ class SendFile(KeypadMixin):
         """
         Sends a file to a chat.
 
+        Uploads the file (or uses a pre-uploaded `file_id`), builds the message
+        payload, and dispatches a `sendFile` request.
+
         Parameters:
-            chat_id (str): Target chat ID.
-            file (str | bytes, optional): Path to file, URL, or raw bytes.
+            chat_id (str): Target chat ID. Must match a user/bot/group/channel GUID or a username.
+            file (str | bytes, optional): Path to file, URL, or raw bytes. Ignored if `file_id` or `base64` is provided.
             file_type (Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif']): Type of file. Default is 'File'.
             text (str, optional): Caption text.
             file_id (str, optional): Already uploaded file_id (skips upload).
             base64 (str, optional): Base64 encoded file data.
-            file_name (str, optional): Custom file name. If not provided, auto-generated.
-            metadata (dict, optional): Pre-formatted metadata (Bold, Italic, etc.).
+            file_name (str, optional): Custom file name. If not provided, auto-generated based on `file` path or `file_type`.
+            metadata (dict, optional): Pre-formatted metadata (Bold, Italic, etc.). Auto-generated from `text` if omitted.
             chat_keypad (Dict, optional): Custom keyboard attached to the message.
             inline_keypad (Dict, optional): Custom inline keyboard attached to the message.
             reply_to_message_id (Union[int, str], optional): Message ID to reply to.
-            disable_notification (bool): Disable notification.
-            resize_keyboard (bool): Resize keyboard vertically.
-            one_time_keyboard (bool): Hide keyboard after use.
+            disable_notification (bool): Disable notification. Default is False.
+            resize_keyboard (bool): Resize keyboard vertically. Default is True.
+            one_time_keyboard (bool): Hide keyboard after use. Default is False.
 
         Returns:
-            API response with message information.
+            Wrapper for the API response with message info and action methods
+            (edit, delete, reply, forward).
         """
         from ..data import Data
         from .metadata import to_metadata
@@ -64,25 +68,22 @@ class SendFile(KeypadMixin):
             raise InvalidInput("Invalid 'chat_id' format.")
 
         if not file_id:
-            if file_name is None:
-                if isinstance(file, str) and not file.startswith(("http://", "https://")):
-                    path = Path(file)
-                    if file_type == "Voice":
-                        file_name = path.stem + ".ogg"
-                    elif file_type == "Music":
-                        file_name = path.stem + ".mp3"
-                    else:
-                        file_name = path.name
+            if file_name is None and isinstance(file, str) and not file.startswith(("http://", "https://")):
+                path = Path(file)
+                if file_type == "Voice":
+                    file_name = path.stem + ".ogg"
+                elif file_type == "Music":
+                    file_name = path.stem + ".mp3"
                 else:
-                    file_name = _DEFAULT_NAMES.get(file_type, "file.bin")
-
-            upload_url = await self.request_send_file(file_type)
+                    file_name = path.name
+            elif file_name is None:
+                file_name = _DEFAULT_NAMES.get(file_type, "file.bin")
 
             file_id = await self.upload_file(
-                url=upload_url,
                 file=file,
                 base64=base64,
-                file_name=file_name
+                file_name=file_name,
+                file_type=file_type
             )
 
         if not file_id:
@@ -105,7 +106,8 @@ class SendFile(KeypadMixin):
             'chat_id': chat_id,
             'file_id': file_id,
             'text': processed_text,
-            'disable_notification': disable_notification
+            'disable_notification': disable_notification,
+            'file_type': file_type
         }
 
         if normalized_chat_keypad:

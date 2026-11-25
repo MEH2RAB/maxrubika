@@ -61,7 +61,7 @@ class SendVideo:
             chat=chat,
             file=video,
             text=text,
-            type='Video',
+            file_type='Video',
             reply_to_message_id=reply_to_message_id,
             is_spoil=is_spoil,
             via_bot=via_bot,

@@ -55,7 +55,7 @@ class SendMusic:
             chat=chat,
             file=music,
             text=text,
-            type='Music',
+            file_type='Music',
             reply_to_message_id=reply_to_message_id,
             via_bot=via_bot,
             performer=performer,

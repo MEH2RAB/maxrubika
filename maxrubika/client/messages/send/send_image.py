@@ -59,7 +59,7 @@ class SendImage:
             chat=chat,
             file=image,
             text=text,
-            type='Image',
+            file_type='Image',
             is_spoil=is_spoil,
             reply_to_message_id=reply_to_message_id,
             via_bot=via_bot,

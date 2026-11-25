@@ -23,7 +23,7 @@ class SendFile:
         chat: str,
         file: Optional[Union[Path, str, bytes, "Data"]] = None,
         text: Optional[str] = None,
-        type: str = 'File',
+        file_type: str = 'File',
         is_spoil: bool = False,
         thumb: Optional[Union[bool, str, Path, bytes]] = None,
         audio_info: bool = True,
@@ -45,7 +45,7 @@ class SendFile:
             chat (str): The GUID, link, or username of the chat. Use 'me', 'cloud', 'self', or 'myself' for saved messages.
             file (Union[Path, str, bytes, Data], optional): The file data (path, URL, bytes, or Data object).
             text (str, optional): The caption for the file (Max: 2048 chars, 64 lines).
-            type (str): The type of the file ('File', 'Image', 'Video', 'Voice', 'Music', 'Gif', 'VideoMessage'). Defaults to 'File'.
+            file_type (str): The type of the file ('File', 'Image', 'Video', 'Voice', 'Music', 'Gif', 'VideoMessage'). Defaults to 'File'.
             is_spoil (bool): If True, the file will be marked as spoil.
             thumb (Union[bool, str, Path, bytes], optional): Thumbnail for the file.
             audio_info (bool): If True, extracts audio info for Music/Voice.
@@ -183,7 +183,7 @@ class SendFile:
                 if str(file).startswith(('http://', 'https://')):
                     async with aiohttp.ClientSession(headers={'user-agent': self.user_agent}) as cs:
                         mime = await get_mime_from_url(session=cs, url=str(file))
-                        kwargs['file_name'] = kwargs.get('file_name', ''.join([str(input_data['rnd']), mime or f'.{type}']))
+                        kwargs['file_name'] = kwargs.get('file_name', ''.join([str(input_data['rnd']), mime or f'.{file_type}']))
                         async with cs.get(str(file)) as result:
                             file = await result.read()
                 elif path.exists(str(file)):
@@ -204,20 +204,20 @@ class SendFile:
                         custom_time = custom_time / 1000
 
                 audio_info_result = None
-                if type in ('Music', 'Voice') and audio_info is True:
+                if file_type in ('Music', 'Voice') and audio_info is True:
                     audio_info_result = media.Audio.get_audio_info(file)
                     if isinstance(audio_info_result, media.AudioResult):
-                        if custom_performer is None and type == 'Music':
+                        if custom_performer is None and file_type == 'Music':
                             custom_performer = audio_info_result.performer
 
                 thumb_obj = None
-                if type == 'Image':
+                if file_type == 'Image':
                     thumb_obj = media.MediaThumbnail.from_image(file)
-                elif type in ('Video', 'Gif', 'VideoMessage'):
+                elif file_type in ('Video', 'Gif', 'VideoMessage'):
                     thumb_obj = media.MediaThumbnail.from_video(file)
 
                 NEEDS_THUMBNAIL = ('Image', 'Gif', 'Video', 'VideoMessage')
-                use_thumb = True if (thumb is None and type in NEEDS_THUMBNAIL) else (False if thumb is None else thumb)
+                use_thumb = True if (thumb is None and file_type in NEEDS_THUMBNAIL) else (False if thumb is None else thumb)
 
                 thumb_inline = None
 
@@ -260,31 +260,31 @@ class SendFile:
                     file_name=kwargs.get('file_name'),
                     callback=kwargs.get('callback'))
 
-                if type == 'VideoMessage':
+                if file_type == 'VideoMessage':
                     file_inline_data['is_round'] = True
-                file_inline_data['type'] = 'Video' if type == 'VideoMessage' else type
+                file_inline_data['type'] = 'Video' if file_type == 'VideoMessage' else file_type
 
                 if thumb_inline is not None:
                     file_inline_data['thumb_inline'] = thumb_inline
 
                 if custom_time is not None:
                     custom_time = int(custom_time)
-                    file_inline_data['time'] = custom_time if type == 'Music' else custom_time * 1000
-                elif type == 'Music' and audio_info_result is not None:
+                    file_inline_data['time'] = custom_time if file_type == 'Music' else custom_time * 1000
+                elif file_type == 'Music' and audio_info_result is not None:
                     file_inline_data['time'] = audio_info_result.duration
                 elif isinstance(thumb_obj, media.ResultMedia):
                     file_inline_data['time'] = thumb_obj.seconds
                 elif audio_info_result is not None:
                     file_inline_data['time'] = audio_info_result.duration * 1000
                 else:
-                    file_inline_data['time'] = 1 if type == 'Music' else 1000
+                    file_inline_data['time'] = 1 if file_type == 'Music' else 1000
 
                 file_inline_data['width'] = custom_width or (thumb_obj.width if isinstance(thumb_obj, media.ResultMedia) else 200)
                 file_inline_data['height'] = custom_height or (thumb_obj.height if isinstance(thumb_obj, media.ResultMedia) else 200)
 
                 file_inline_data['music_performer'] = (
                     custom_performer or
-                    (audio_info_result.performer if audio_info_result else '') if type == 'Music' else ''
+                    (audio_info_result.performer if audio_info_result else '') if file_type == 'Music' else ''
                 )
 
                 file_inline_data['is_spoil'] = bool(is_spoil)

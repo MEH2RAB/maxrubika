@@ -58,7 +58,7 @@ class SendGif:
             chat=chat,
             file=gif,
             text=text,
-            type='Gif',
+            file_type='Gif',
             reply_to_message_id=reply_to_message_id,
             via_bot=via_bot,
             thumb=thumb,
