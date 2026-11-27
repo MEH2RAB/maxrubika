@@ -19,13 +19,13 @@ class SendMessage(KeypadMixin):
         disable_notification: bool = False,
         resize_keyboard: bool = True,
         one_time_keyboard: bool = False
-    ):
+    ) -> MessageResult:
         """
         Sends a text message to a chat.
 
         Parameters:
             chat_id (str): chat_id for the target chat.
-            text (str): The text of the message to be sent.
+            text (str): The text of the message to be sent (Max: 4096 chars, 128 lines).
             metadata (dict, optional): Pre-formatted metadata (Bold, Italic, etc.).
             chat_keypad (Dict[str, Any], optional): Custom keyboard attached to the message.
             inline_keypad (Dict[str, Any], optional): Custom inline keyboard attached to the message.
@@ -39,10 +39,21 @@ class SendMessage(KeypadMixin):
         """
         from ..data import Data
         from .metadata import to_metadata
-        from .exceptions import InvalidInput
+        from .exceptions import InvalidInput, MessageTooLong
 
         if not re.match(r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$", chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
+
+        if not isinstance(text, str) or not text.strip():
+            raise InvalidInput("'text' must be a non-empty string.")
+
+        if len(text) > 4096:
+            message = f"Text is too long ({len(text)} characters). Maximum allowed is 4096."
+            raise MessageTooLong(message)
+
+        if text.count('\n') > 128:
+            message = f"Text has too many lines ({text.count(chr(10))}). Maximum allowed is 128."
+            raise MessageTooLong(message)
 
         normalized_chat_keypad = self._normalize_keypad(chat_keypad, is_inline=False)
         normalized_inline_keypad = self._normalize_keypad(inline_keypad, is_inline=True)
@@ -89,8 +100,7 @@ class SendMessage(KeypadMixin):
             result = Data(result)
 
         message_id = result.find_keys("message_id")
-        if message_id is not None:
-            message_id = str(message_id)
+        message_id = str(message_id)
 
         return MessageResult(
             bot=self,

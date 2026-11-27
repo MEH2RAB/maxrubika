@@ -17,8 +17,8 @@ class UpdateBotEndpoints:
             "ReceiveInlineMessage",
             "ReceiveQuery",
             "GetSelectionItem",
-            "SearchSelectionItems",
-        ] = "ReceiveUpdate",
+            "SearchSelectionItems"
+        ] = "ReceiveUpdate"
     ):
         """
         Register a single webhook endpoint on the Rubika server.
@@ -38,7 +38,7 @@ class UpdateBotEndpoints:
             'ReceiveInlineMessage',
             'ReceiveQuery',
             'GetSelectionItem',
-            'SearchSelectionItems',
+            'SearchSelectionItems'
         ]
 
         if endpoint_type not in allowed_types:
@@ -46,7 +46,7 @@ class UpdateBotEndpoints:
             raise InvalidInput(message)
 
         if not url.startswith(("http://", "https://")):
-            raise InvalidInput("url must start with 'http://' or 'https://'")
+            raise InvalidURL("url must start with 'http://' or 'https://'")
 
         input_data = {
             'url': url,

@@ -13,7 +13,7 @@ class EditMessage:
         message_id: Union[str, int],
         text: str,
         metadata: Optional[Dict[str, Any]] = None
-    ):
+    ) -> MessageResult:
         """
         Edits an existing message in a chat.
 
@@ -55,7 +55,7 @@ class EditMessage:
 
         input_data = {
             'chat_id': chat_id,
-            'message_id': message_id,
+            'message_id': str(message_id),
             'text': processed_text
         }
         if metadata:
@@ -74,6 +74,6 @@ class EditMessage:
         return MessageResult(
             bot=self,
             chat_id=chat_id,
-            message_id=message_id,
+            message_id=str(message_id),
             result_data=result
         )

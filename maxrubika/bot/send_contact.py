@@ -20,7 +20,7 @@ class SendContact(KeypadMixin):
         disable_notification: bool = False,
         resize_keyboard: bool = True,
         one_time_keyboard: bool = False
-    ) -> Dict[str, Any]:
+    ) -> MessageResult:
         """
         Sends a contact message to a chat.
 
@@ -72,7 +72,7 @@ class SendContact(KeypadMixin):
             input_data['inline_keypad'] = normalized_inline_keypad
 
         if reply_to_message_id is not None:
-            input_data['reply_to_message_id'] = reply_to_message_id
+            input_data['reply_to_message_id'] = str(reply_to_message_id)
 
         input_data = {k: v for k, v in input_data.items() if v is not None}
 
@@ -85,8 +85,7 @@ class SendContact(KeypadMixin):
             result = Data(result)
 
         message_id = result.find_keys("message_id")
-        if message_id is not None:
-            message_id = str(message_id)
+        message_id = str(message_id)
 
         return MessageResult(
             bot=self,

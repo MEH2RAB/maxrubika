@@ -34,7 +34,8 @@ class Request:
             Timeout, BadGateway,
             JSONDecode, ServerError,
             InvalidInput, InvalidAccess,
-            TooRequests,
+            TooRequests, InvalidToken,
+            InvalidMethod, NotChatMember,
         )
 
         url = f"{self.base_url}/{method}"
@@ -65,6 +66,9 @@ class Request:
                             dev_message=f"Failed to parse JSON response. Raw: {text[:200]}"
                         ) from e
 
+                    if data is None:
+                        data = {}
+
                     if isinstance(data, dict):
                         api_status = data.get('status', '')
                         error_message = data.get('dev_message')
@@ -73,8 +77,14 @@ class Request:
                             if api_status == 'SERVER_ERROR':
                                 raise ServerError(dev_message=error_message)
                             elif api_status == 'INVALID_INPUT':
+                                if error_message == 'Invalid Method':
+                                    raise InvalidMethod()
                                 raise InvalidInput(dev_message=error_message)
                             elif api_status == 'INVALID_ACCESS':
+                                if error_message == 'token is not valid.':
+                                    raise InvalidToken()
+                                elif error_message == 'This user_id is not a member of the chat.':
+                                    raise NotChatMember()
                                 raise InvalidAccess(dev_message=error_message)
                             elif api_status == 'TOO_REQUESTS':
                                 raise TooRequests(dev_message=error_message)
@@ -97,7 +107,7 @@ class Request:
                     continue
                 raise e from None
 
-            except (JSONDecode, InvalidInput, InvalidAccess, TooRequests, APIException):
+            except (JSONDecode, InvalidInput, InvalidAccess, InvalidToken, InvalidMethod, NotChatMember, TooRequests, APIException):
                 raise
 
             except Exception as e:

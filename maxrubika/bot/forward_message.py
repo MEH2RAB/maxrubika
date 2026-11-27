@@ -13,7 +13,7 @@ class ForwardMessage:
         message_id: Union[str, int],
         to_chat_id: str,
         disable_notification: bool = False
-    ):
+    ) -> MessageResult:
         """
         Forward a message from one chat to another.
 
@@ -46,7 +46,7 @@ class ForwardMessage:
 
         input_data = {
             'from_chat_id': from_chat_id,
-            'message_id': message_id,
+            'message_id': str(message_id),
             'to_chat_id': to_chat_id,
             'disable_notification': disable_notification
         }
@@ -60,8 +60,7 @@ class ForwardMessage:
             result = Data(result)
 
         message_id = result.find_keys("new_message_id")
-        if message_id is not None:
-            message_id = str(message_id)
+        message_id = str(message_id)
 
         return MessageResult(
             bot=self,

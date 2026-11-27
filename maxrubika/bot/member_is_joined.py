@@ -19,10 +19,10 @@ class MemberIsJoined:
         Returns:
             bool: True if the user is a member, else False.
         """
-        from .exceptions import InvalidAccess
+        from .exceptions import NotChatMember
 
         try:
             await self.get_chat_member(chat_id, user_id)
             return True
-        except InvalidAccess:
+        except NotChatMember:
             return False

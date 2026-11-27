@@ -2,6 +2,12 @@ from ..data import Data
 
 class MessageResult(Data):
     """Wrapper for bot message results with action methods."""
+    def __new__(cls, bot, chat_id, message_id, result_data=None):
+        if getattr(bot, 'as_dict', False):
+            data = result_data.to_dict() if isinstance(result_data, Data) else (result_data or {})
+            return Data.clean(dict(data))
+        return super().__new__(cls)
+
     def __init__(self, bot, chat_id, message_id, result_data=None):
         if isinstance(result_data, Data):
             result_data = result_data.to_dict()
@@ -11,30 +17,30 @@ class MessageResult(Data):
         self.chat_id = chat_id
         self.message_id = message_id
 
-    def edit(self, text: str, **extras):
-        return self.bot.edit_message(
+    async def edit(self, text: str, **extras):
+        return await self.bot.edit_message(
             self.chat_id,
             self.message_id,
             text=text,
             **extras
         )
 
-    def delete(self):
-        return self.bot.delete_message(
+    async def delete(self):
+        return await self.bot.delete_message(
             self.chat_id,
             self.message_id
         )
 
-    def reply(self, text: str, **extras):
-        return self.bot.send_message(
+    async def reply(self, text: str, **extras):
+        return await self.bot.send_message(
             self.chat_id,
             text=text,
             reply_to_message_id=self.message_id,
             **extras
         )
 
-    def forward(self, to_chat_id: str = None):
-        return self.bot.forward_message(
+    async def forward(self, to_chat_id: str = None):
+        return await self.bot.forward_message(
             self.chat_id,
             self.message_id,
             to_chat_id or self.chat_id

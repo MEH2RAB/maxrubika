@@ -19,13 +19,15 @@ class RegisterAllEndpoints:
         Returns:
             list: Responses for each registration call.
         """
+        from ..data import Data
+
         if endpoints is None:
             endpoints = [
                 'ReceiveUpdate',
                 'ReceiveInlineMessage',
                 'ReceiveQuery',
                 'GetSelectionItem',
-                'SearchSelectionItems',
+                'SearchSelectionItems'
             ]
 
         base_url = base_url.rstrip("/")
@@ -39,4 +41,7 @@ class RegisterAllEndpoints:
             )
             responses.append(resp)
 
-        return responses
+        if getattr(self, 'as_dict', False):
+            return Data.clean(responses)
+
+        return Data(responses)

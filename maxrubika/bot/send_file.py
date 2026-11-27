@@ -33,7 +33,7 @@ class SendFile(KeypadMixin):
         disable_notification: bool = False,
         resize_keyboard: bool = True,
         one_time_keyboard: bool = False
-    ) -> Dict[str, Any]:
+    ) -> MessageResult:
         """
         Sends a file to a chat.
 
@@ -44,7 +44,7 @@ class SendFile(KeypadMixin):
             chat_id (str): Target chat ID. Must match a user/bot/group/channel GUID or a username.
             file (str | bytes, optional): Path to file, URL, or raw bytes. Ignored if `file_id` or `base64` is provided.
             file_type (Literal['File', 'Image', 'Voice', 'Video', 'Music', 'Gif']): Type of file. Default is 'File'.
-            text (str, optional): Caption text.
+            text (str, optional): Caption text (Max: 2048 chars, 64 lines).
             file_id (str, optional): Already uploaded file_id (skips upload).
             base64 (str, optional): Base64 encoded file data.
             file_name (str, optional): Custom file name. If not provided, auto-generated based on `file` path or `file_type`.
@@ -62,10 +62,20 @@ class SendFile(KeypadMixin):
         """
         from ..data import Data
         from .metadata import to_metadata
-        from .exceptions import InvalidInput
+        from .exceptions import InvalidInput, MessageTooLong
 
         if not re.match(r"^(@[a-zA-Z0-9_]{3,32}|(c0|g0|b0)[a-zA-Z0-9]{30})$", chat_id):
             raise InvalidInput("Invalid 'chat_id' format.")
+
+        if text is not None:
+            if not isinstance(text, str):
+                raise InvalidInput("'text' must be a string.")
+            if len(text) > 2048:
+                message = f"Caption is too long ({len(text)} characters). Maximum allowed is 2048."
+                raise MessageTooLong(message)
+            if text.count('\n') > 64:
+                message = f"Caption has too many lines ({text.count(chr(10))}). Maximum allowed is 64."
+                raise MessageTooLong(message)
 
         if not file_id:
             if file_name is None and isinstance(file, str) and not file.startswith(("http://", "https://")):
@@ -136,8 +146,7 @@ class SendFile(KeypadMixin):
             result = Data(result)
 
         message_id = result.find_keys("message_id")
-        if message_id is not None:
-            message_id = str(message_id)
+        message_id = str(message_id)
 
         return MessageResult(
             bot=self,

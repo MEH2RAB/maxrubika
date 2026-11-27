@@ -1,8 +1,9 @@
+import sys
 from importlib import import_module
 from datetime import datetime
 
 __author__ = "MEHRAB Farahmand"
-__version__ = "1.20.0"
+__version__ = "1.21.0"
 
 _welcome_shown = False
 _update_checked = False
@@ -64,7 +65,7 @@ def show_welcome_message(show_welcome=True):
         text.append("\nChannel: ", style="white")
         text.append("https://Rubika.ir/TheMAXRubika", style="bright_blue underline")
         text.append("\nDocument: ", style="white")
-        text.append("https://MEH2RAB.GitHub.io/maxrubika\n", style="yellow underline")
+        text.append("https://MAXRubika.MAX-Server.ir\n", style="yellow underline")
         console.print(text)
 
     if not _update_checked:
@@ -92,24 +93,43 @@ def check_for_updates(current_version_str):
             from rich.console import Console
             from rich.text import Text
 
+            is_forced = data.get("force_update") is True
+
             update_console = Console(stderr=True)
             update_msg = Text()
 
-            update_msg.append(
-                f"A new version of MAXRubika is available! (v{current_version_str} → v{latest_version_str})\n",
-                style="bold bright_red",
-            )
+            if is_forced:
+                update_msg.append(
+                    f"MAXRubika requires an update! (v{current_version_str} → v{latest_version_str})\n",
+                    style="bold bright_red",
+                )
+            else:
+                update_msg.append(
+                    f"A new version of MAXRubika is available! (v{current_version_str} → v{latest_version_str})\n",
+                    style="bold bright_red",
+                )
 
-            if (data.get("has_changes") and data.get("changelog") and not data.get("is_changelog_long")):
+            if (data.get("has_changes") and data.get("changelog") and not data.get("is_changelog_long")) or (is_forced and data.get("changelog")):
                 update_msg.append("\nRelease Notes: ", style="bold bright_cyan")
                 update_msg.append(data["changelog"] + "\n")
+
+            if is_forced:
+                update_msg.append(
+                    "\nPlease update the library first.\n",
+                    style="bold blue",
+                )
 
             update_msg.append("\nRun: ", style="white")
             update_msg.append("pip install maxrubika --upgrade\n", style="gold1")
             update_console.print(update_msg)
 
+            if is_forced:
+                sys.exit(1)
+
         show_announcements(data.get("announcements"))
 
+    except SystemExit:
+        raise
     except Exception:
         pass
 

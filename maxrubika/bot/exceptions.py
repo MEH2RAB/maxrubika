@@ -37,6 +37,10 @@ class APIException(Exception):
             "TOO_REQUESTS": "Too many requests. Please slow down and try again later.",
             "TOKEN_ERROR": "Invalid token or token string.",
             "INVALID_URL": "The provided URL is invalid or not properly formatted.",
+            "INVALID_TOKEN": "Token is not valid. Please check your bot token.",
+            "INVALID_METHOD": "The requested API method is invalid or not supported.",
+            "NOT_CHAT_MEMBER": "The user is not a member of the chat.",
+            "MESSAGE_TOO_LONG": "The message content is too long."
         }
 
         if status in default_messages:
@@ -96,3 +100,19 @@ class TokenError(APIException):
 class InvalidURL(APIException):
     def __init__(self, dev_message: any = None):
         super().__init__(status="INVALID_URL", dev_message=dev_message)
+
+class InvalidToken(APIException):
+    def __init__(self, dev_message: any = None):
+        super().__init__(status="INVALID_TOKEN", dev_message=dev_message)
+
+class InvalidMethod(APIException):
+    def __init__(self, dev_message: any = None):
+        super().__init__(status="INVALID_METHOD", dev_message=dev_message)
+
+class NotChatMember(APIException):
+    def __init__(self, dev_message: any = None):
+        super().__init__(status="NOT_CHAT_MEMBER", dev_message=dev_message)
+
+class MessageTooLong(APIException):
+    def __init__(self, dev_message: any = None):
+        super().__init__(status="MESSAGE_TOO_LONG", dev_message=dev_message)

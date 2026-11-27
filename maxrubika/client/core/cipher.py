@@ -9,6 +9,14 @@ class Cipher:
     AES_IV = b"\x00" * 16
 
     @staticmethod
+    def _b64decode(data: str) -> bytes:
+        data = data.replace("-", "+").replace("_", "/")
+        padding = 4 - (len(data) % 4)
+        if padding != 4:
+            data += "=" * padding
+        return base64.b64decode(data)
+
+    @staticmethod
     def decode_auth(auth: str) -> str:
         result_list, digits = [], "0123456789"
         translation_table_lower = str.maketrans(
@@ -72,7 +80,7 @@ class Cipher:
         from Crypto.Util.Padding import unpad
 
         aes = AES.new(key.encode(), AES.MODE_CBC, cls.AES_IV)
-        dec = aes.decrypt(base64.urlsafe_b64decode(data.encode("UTF-8")))
+        dec = aes.decrypt(cls._b64decode(data))
         dec_res = unpad(dec, AES.block_size).decode("UTF-8")
 
         dec_res = re.sub(r'"time":,', '"time":0,', dec_res)
@@ -87,7 +95,7 @@ class Cipher:
 
         key_bytes = key.encode() if isinstance(key, str) else key
         aes = AES.new(key_bytes, AES.MODE_CBC, cls.AES_IV)
-        dec = aes.decrypt(base64.urlsafe_b64decode(data.encode("UTF-8")))
+        dec = aes.decrypt(cls._b64decode(data))
         dec_res = unpad(dec, AES.block_size).decode("UTF-8")
         return json.loads(dec_res)
 
@@ -135,4 +143,4 @@ class Cipher:
         from Crypto.PublicKey import RSA
         from Crypto.Cipher import PKCS1_OAEP
         key = RSA.import_key(private_key.encode("utf-8"))
-        return PKCS1_OAEP.new(key).decrypt(base64.b64decode(data)).decode("utf-8")
+        return PKCS1_OAEP.new(key).decrypt(Cipher._b64decode(data)).decode("utf-8")

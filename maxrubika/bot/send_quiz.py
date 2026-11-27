@@ -22,7 +22,7 @@ class SendQuiz(KeypadMixin):
         disable_notification: bool = False,
         resize_keyboard: bool = True,
         one_time_keyboard: bool = False
-    ) -> Dict[str, Any]:
+    ) -> MessageResult:
         """
         Send a quiz-type poll message with the specified parameters.
 
@@ -111,7 +111,7 @@ class SendQuiz(KeypadMixin):
             input_data['explanation'] = hint
 
         if reply_to_message_id is not None:
-            input_data['reply_to_message_id'] = reply_to_message_id
+            input_data['reply_to_message_id'] = str(reply_to_message_id)
 
         if normalized_chat_keypad:
             normalized_chat_keypad['resize_keyboard'] = resize_keyboard
@@ -133,8 +133,7 @@ class SendQuiz(KeypadMixin):
             result = Data(result)
 
         message_id = result.find_keys("message_id")
-        if message_id is not None:
-            message_id = str(message_id)
+        message_id = str(message_id)
 
         return MessageResult(
             bot=self,

@@ -26,8 +26,6 @@ class MemberIsAdmin:
         if isinstance(result, dict):
             result = Data(result)
 
-        data = result.find_keys('data')
-        chat_member = data.find_keys('chat_member')
-        status = chat_member.find_keys('status') if chat_member else None
+        status = result.data.find_keys('status')
 
         return status in ("Admin", "Creator")

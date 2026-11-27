@@ -14,7 +14,7 @@ _ENDPOINT_TYPES = (
     "ReceiveInlineMessage",
     "ReceiveQuery",
     "GetSelectionItem",
-    "SearchSelectionItems",
+    "SearchSelectionItems"
 )
 
 _SUBPATHS = (
@@ -23,7 +23,7 @@ _SUBPATHS = (
     "/receiveInlineMessage",
     "/receiveQuery",
     "/getSelectionItem",
-    "/searchSelectionItems",
+    "/searchSelectionItems"
 )
 
 class Start:
@@ -31,6 +31,8 @@ class Start:
         return f"{int(time.time()):08x}" + secrets.token_hex(8)
 
     async def _poll_loop(self: "maxrubika.Bot", interval: float = 0.05) -> None:
+        from .exceptions import InvalidToken
+
         last_offset = await self._clear_old_updates()
 
         while True:
@@ -55,6 +57,8 @@ class Start:
 
             except asyncio.CancelledError:
                 raise
+            except InvalidToken:
+                raise
             except Exception:
                 logger.error("Poll loop error.", exc_info=True)
                 await asyncio.sleep(1)
@@ -70,6 +74,7 @@ class Start:
         port: int,
     ):
         from aiohttp import web
+        from .exceptions import InvalidToken, InvalidURL
 
         base = webhook_path.rstrip("/")
 
@@ -83,6 +88,8 @@ class Start:
             try:
                 await self.update_bot_endpoints(full_url, endpoint_type)
                 console.print(f"Webhook registered: {endpoint_type} → {full_url}", style="cyan")
+            except (InvalidToken, InvalidURL):
+                raise
             except Exception as e:
                 console.print(f"Failed to register {endpoint_type}: {e}", style="red")
 

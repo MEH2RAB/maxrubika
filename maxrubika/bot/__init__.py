@@ -13,7 +13,9 @@ from .forward_message import ForwardMessage
 from .forward_messages import ForwardMessages
 from .get_channel_info import GetChannelInfo
 from .get_chat_info import GetChatInfo
+from .get_chat_admin_access import GetChatAdminAccess
 from .get_chat_member import GetChatMember
+from .get_chat_member_access import GetChatMemberAccess
 from .get_file import GetFile
 from .get_group_info import GetGroupInfo
 from .get_me import GetMe
@@ -59,8 +61,10 @@ class Methods(
     ForwardMessage,
     ForwardMessages,
     GetChannelInfo,
+    GetChatAdminAccess,
     GetChatInfo,
     GetChatMember,
+    GetChatMemberAccess,
     GetFile,
     GetGroupInfo,
     GetMe,
